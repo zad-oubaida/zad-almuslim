@@ -261,23 +261,16 @@ document.querySelectorAll('.install-tab').forEach(tab => {
   });
 });
 
-// الترجمة
+// الترجمة (طريقة بسيطة ومضمونة)
 function doTranslate(lang) {
   const warning = document.getElementById('translationWarning');
   if (warning) warning.style.display = (lang !== 'ar') ? 'block' : 'none';
   if (lang === 'ar') { window.location.reload(); return; }
-  if (typeof translate !== 'undefined') { translate.language.setLocal(lang); translate.execute(); }
-  else { alert('مكتبة الترجمة لم يتم تحميلها. يرجى تحديث الصفحة.'); }
+  
+  // فتح الموقع في نافذة ترجمة جوجل
+  const url = window.location.href;
+  window.open('https://translate.google.com/translate?sl=ar&tl=' + lang + '&u=' + encodeURIComponent(url), '_blank');
 }
-</script>
-<script src="https://cdn.staticfile.net/translate.js/3.18.75/translate.js"></script>
-<script>
-  if (typeof translate !== 'undefined') {
-    translate.language.setLocal('ar');
-    translate.service.use('client.edge');
-    translate.language.setLanguages(['ar', 'en', 'fr', 'es', 'de', 'tr', 'it']);
-    translate.listener.start();
-  }
 </script>
 </body>
 </html>

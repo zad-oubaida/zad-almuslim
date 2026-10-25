@@ -55,6 +55,59 @@
     }
     .notif-btn:hover { background: var(--accent-light); }
     .notif-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+    /* زر تثبيت التطبيق */
+    .install-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin: 10px auto; padding: 10px 20px;
+      background: var(--primary); color: #fff; border: none;
+      border-radius: var(--radius-sm); font-weight: bold; cursor: pointer; font-family: inherit;
+      font-size: 0.95rem;
+    }
+    .install-btn:hover { background: var(--primary-dark); }
+
+    /* نافذة التثبيت المنبثقة */
+    .install-modal {
+      position: fixed; inset: 0; z-index: 10000;
+      background: rgba(0,0,0,0.7);
+      display: flex; align-items: center; justify-content: center;
+      padding: 16px;
+    }
+    .install-modal[hidden] { display: none !important; }
+    .install-dialog {
+      background: var(--card); color: var(--text);
+      width: min(500px, 100%); max-height: 85vh; overflow-y: auto;
+      border-radius: var(--radius); padding: 24px;
+      box-shadow: 0 20px 70px rgba(0,0,0,0.3);
+    }
+    .install-dialog h3 {
+      color: var(--primary); margin-bottom: 16px; font-family: 'Cairo', sans-serif;
+      text-align: center;
+    }
+    .install-step {
+      display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start;
+    }
+    .install-step .num {
+      width: 32px; height: 32px; border-radius: 50%; background: var(--primary);
+      color: #fff; display: flex; align-items: center; justify-content: center;
+      font-weight: bold; flex-shrink: 0;
+    }
+    .install-step .text { font-size: 0.95rem; line-height: 1.7; }
+    .install-tabs {
+      display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;
+    }
+    .install-tab {
+      padding: 8px 16px; border-radius: 8px; border: 1px solid var(--line);
+      background: var(--bg); color: var(--primary); cursor: pointer;
+      font-family: inherit; font-weight: bold;
+    }
+    .install-tab.active { background: var(--primary); color: #fff; }
+    .install-close {
+      display: block; width: 100%; margin-top: 16px; padding: 12px;
+      background: var(--accent); color: #1a1a1a; border: none;
+      border-radius: var(--radius-sm); font-weight: bold; cursor: pointer;
+      font-family: inherit;
+    }
   </style>
 </head>
 <body>
@@ -71,7 +124,7 @@
       <a href="./adhkar.html">الأذكار</a>
       <a href="./azkar-morning.html">الصباح</a>
       <a href="./azkar-evening.html">المساء</a>
-      <a href="./azkar-sleep.html">النوم</a> <!-- تمت الإضافة -->
+      <a href="./azkar-sleep.html">النوم</a>
       <a href="./nawawi.html">الأحاديث</a>
       <a href="./quran.html">القرآن</a>
       <a href="./duas.html">🤲 أدعية</a>
@@ -94,7 +147,10 @@
       <a href="./adhkar.html" class="btn-primary">ابدأ بالأذكار ←</a>
       <a href="./quran.html" class="btn-secondary">تصفّح القرآن</a>
     </div>
-    <button class="notif-btn" id="enableNotifBtn">🔔 فعّل تذكير وردك اليومي</button>
+    <div style="text-align: center; margin-top: 16px;">
+      <button class="install-btn" id="installAppBtn">📲 ثبّت التطبيق على جهازك</button>
+      <button class="notif-btn" id="enableNotifBtn">🔔 فعّل تذكير وردك اليومي</button>
+    </div>
   </div>
 </section>
 
@@ -141,7 +197,7 @@
       <a href="./adhkar.html" class="nav-card"><div class="emoji">📿</div><h3>الأذكار</h3><p>أذكار مختارة بمصادرها</p></a>
       <a href="./azkar-morning.html" class="nav-card"><div class="emoji">🌅</div><h3>أذكار الصباح</h3><p>تبدأ يومك بذكر الله</p></a>
       <a href="./azkar-evening.html" class="nav-card"><div class="emoji">🌙</div><h3>أذكار المساء</h3><p>اختم يومك بذكر الله</p></a>
-      <a href="./azkar-sleep.html" class="nav-card"><div class="emoji">💤</div><h3>أذكار النوم</h3><p>أذكار تُقال قبل النوم</p></a> <!-- تمت الإضافة -->
+      <a href="./azkar-sleep.html" class="nav-card"><div class="emoji">💤</div><h3>أذكار النوم</h3><p>أذكار تُقال قبل النوم</p></a>
       <a href="./nawawi.html" class="nav-card"><div class="emoji">📜</div><h3>الأربعون النووية</h3><p>40 حديثاً في متناول يدك</p></a>
       <a href="./quran.html" class="nav-card"><div class="emoji">📖</div><h3>القرآن الكريم</h3><p>قارئ مصغّر لكل السور</p></a>
       <a href="./duas.html" class="nav-card"><div class="emoji">🤲</div><h3>أدعية مستجابة</h3><p>أدعية صحيحة من القرآن والسنة</p></a>
@@ -164,6 +220,42 @@
 <button class="share-fab" id="shareAppBtn" title="شارك التطبيق">📤</button>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 <button class="back-to-top" id="backToTop" type="button" aria-label="العودة للأعلى">↑</button>
+
+<!-- نافذة تثبيت التطبيق -->
+<div class="install-modal" id="installModal" hidden role="dialog" aria-modal="true">
+  <div class="install-dialog">
+    <h3>📲 ثبّت تطبيق زاد عبيدة</h3>
+    
+    <div class="install-tabs">
+      <button class="install-tab active" data-tab="android">أندرويد</button>
+      <button class="install-tab" data-tab="ios">آيفون</button>
+      <button class="install-tab" data-tab="desktop">حاسوب</button>
+    </div>
+
+    <div id="tab-android" class="install-tab-content">
+      <div class="install-step"><div class="num">1</div><div class="text">افتح الموقع في متصفح <strong>Google Chrome</strong>.</div></div>
+      <div class="install-step"><div class="num">2</div><div class="text">اضغط على القائمة (⋮) في أعلى يمين الشاشة.</div></div>
+      <div class="install-step"><div class="num">3</div><div class="text">اختر <strong>"إضافة إلى الشاشة الرئيسية"</strong> أو <strong>"تثبيت التطبيق"</strong>.</div></div>
+      <div class="install-step"><div class="num">4</div><div class="text">اضغط <strong>"إضافة"</strong>، وستظهر أيقونة التطبيق على شاشتك.</div></div>
+    </div>
+
+    <div id="tab-ios" class="install-tab-content" style="display:none;">
+      <div class="install-step"><div class="num">1</div><div class="text">افتح الموقع في متصفح <strong>Safari</strong>.</div></div>
+      <div class="install-step"><div class="num">2</div><div class="text">اضغط على زر <strong>المشاركة</strong> (مربع فيه سهم للأعلى) في أسفل الشاشة.</div></div>
+      <div class="install-step"><div class="num">3</div><div class="text">مرر لأسفل واختر <strong>"إضافة إلى الشاشة الرئيسية"</strong>.</div></div>
+      <div class="install-step"><div class="num">4</div><div class="text">اضغط <strong>"إضافة"</strong> في أعلى اليمين.</div></div>
+    </div>
+
+    <div id="tab-desktop" class="install-tab-content" style="display:none;">
+      <div class="install-step"><div class="num">1</div><div class="text">افتح الموقع في متصفح <strong>Google Chrome</strong> أو <strong>Microsoft Edge</strong>.</div></div>
+      <div class="install-step"><div class="num">2</div><div class="text">ابحث عن أيقونة <strong>التثبيت (⊕)</strong> في شريط العنوان (بجانب النجمة).</div></div>
+      <div class="install-step"><div class="num">3</div><div class="text">أو اضغط على القائمة (⋮) واختر <strong>"تثبيت زاد عبيدة"</strong>.</div></div>
+      <div class="install-step"><div class="num">4</div><div class="text">اضغط <strong>"تثبيت"</strong>، وسيظهر التطبيق في قائمة ابدأ أو على سطح المكتب.</div></div>
+    </div>
+
+    <button class="install-close" id="installClose">إغلاق</button>
+  </div>
+</div>
 
 <script src="./assets/data.js"></script>
 <script src="./assets/app.js"></script>
@@ -203,7 +295,6 @@ document.getElementById('enableNotifBtn').addEventListener('click', async () => 
       document.getElementById('enableNotifBtn').textContent = '✅ الإشعارات مفعلة';
       document.getElementById('enableNotifBtn').disabled = true;
       
-      // إرسال إشعار تجريبي فوري
       if (navigator.serviceWorker.controller) {
         navigator.serviceWorker.controller.postMessage({
           type: 'SCHEDULE_REMINDER',
@@ -212,7 +303,6 @@ document.getElementById('enableNotifBtn').addEventListener('click', async () => 
         });
       }
       
-      // إعادة جدولة الإشعارات إذا كانت المواقيت متوفرة
       if (window.prayerTimings) {
         schedulePrayerNotifications(window.prayerTimings);
       }
@@ -224,6 +314,44 @@ document.getElementById('enableNotifBtn').addEventListener('click', async () => 
     alert('حدث خطأ. تأكد من أن الموقع يعمل على HTTPS.');
   }
 });
+
+// ============ نافذة تثبيت التطبيق ============
+const installModal = document.getElementById('installModal');
+const installAppBtn = document.getElementById('installAppBtn');
+const installClose = document.getElementById('installClose');
+
+installAppBtn.addEventListener('click', () => {
+  installModal.hidden = false;
+  document.body.style.overflow = 'hidden';
+});
+
+installClose.addEventListener('click', () => {
+  installModal.hidden = true;
+  document.body.style.overflow = '';
+});
+
+installModal.addEventListener('click', (e) => {
+  if (e.target === installModal) {
+    installModal.hidden = true;
+    document.body.style.overflow = '';
+  }
+});
+
+// التبديل بين التبويبات
+document.querySelectorAll('.install-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.install-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    
+    document.querySelectorAll('.install-tab-content').forEach(c => c.style.display = 'none');
+    document.getElementById('tab-' + tab.dataset.tab).style.display = 'block';
+  });
+});
+
+// إخفاء زر التثبيت إذا كان التطبيق مثبتاً بالفعل (اختياري)
+if (window.matchMedia('(display-mode: standalone)').matches) {
+  installAppBtn.style.display = 'none';
+}
 </script>
 </body>
 </html>

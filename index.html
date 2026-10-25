@@ -41,6 +41,15 @@
     .install-btn { display: block; margin: 10px auto; padding: 10px 20px; background: var(--primary); color: #fff; border: none; border-radius: var(--radius-sm); font-weight: bold; cursor: pointer; font-family: inherit; font-size: 0.9rem; }
     .install-btn:hover { background: var(--primary-dark); }
     .translation-warning { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; padding: 10px 16px; border-radius: 8px; font-size: 0.9rem; text-align: center; margin: 10px auto; max-width: 800px; display: none; }
+    /* تنسيق نافذة التثبيت */
+    .install-modal { position: fixed; inset: 0; z-index: 10000; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; padding: 16px; }
+    .install-modal[hidden] { display: none !important; }
+    .install-dialog { background: var(--card); color: var(--text); width: min(500px, 100%); max-height: 85vh; overflow-y: auto; border-radius: var(--radius); padding: 24px; box-shadow: 0 20px 70px rgba(0,0,0,0.3); }
+    .install-dialog h3 { color: var(--primary); margin-bottom: 16px; text-align: center; }
+    .install-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .install-tab { padding: 8px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--primary); cursor: pointer; font-family: inherit; font-weight: bold; }
+    .install-tab.active { background: var(--primary); color: #fff; }
+    .install-close { display: block; width: 100%; margin-top: 16px; padding: 12px; background: var(--accent); color: #1a1a1a; border: none; border-radius: var(--radius-sm); font-weight: bold; cursor: pointer; font-family: inherit; }
   </style>
 </head>
 <body>
@@ -162,20 +171,20 @@
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 <button class="back-to-top" id="backToTop" type="button" aria-label="العودة للأعلى">↑</button>
 
-<!-- نافذة تثبيت التطبيق -->
-<div class="install-modal" id="installModal" hidden role="dialog" aria-modal="true" style="position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;padding:16px;">
-  <div class="install-dialog" style="background:var(--card);color:var(--text);width:min(500px,100%);max-height:85vh;overflow-y:auto;border-radius:var(--radius);padding:24px;">
-    <h3 style="color:var(--primary);margin-bottom:16px;text-align:center;">📲 ثبّت تطبيق زاد عبيدة</h3>
-    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
-      <button class="install-tab active" data-tab="android" style="padding:8px 16px;border-radius:8px;border:1px solid var(--line);background:var(--primary);color:#fff;cursor:pointer;">أندرويد</button>
-      <button class="install-tab" data-tab="ios" style="padding:8px 16px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--primary);cursor:pointer;">آيفون</button>
-      <button class="install-tab" data-tab="desktop" style="padding:8px 16px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--primary);cursor:pointer;">حاسوب</button>
+<!-- نافذة تثبيت التطبيق (مخفية افتراضياً) -->
+<div class="install-modal" id="installModal" hidden>
+  <div class="install-dialog">
+    <h3>📲 ثبّت تطبيق زاد عبيدة</h3>
+    <div class="install-tabs">
+      <button class="install-tab active" data-tab="android">أندرويد</button>
+      <button class="install-tab" data-tab="ios">آيفون</button>
+      <button class="install-tab" data-tab="desktop">حاسوب</button>
     </div>
     <div id="tab-android" class="install-tab-content">
       <p>1. افتح الموقع في متصفح <strong>Google Chrome</strong>.</p>
       <p>2. اضغط على القائمة (⋮) في أعلى يمين الشاشة.</p>
       <p>3. اختر <strong>"إضافة إلى الشاشة الرئيسية"</strong>.</p>
-      <p>4. اضغط <strong>"إضافة"</strong>، وستظهر أيقونة التطبيق.</p>
+      <p>4. اضغط <strong>"إضافة"</strong>.</p>
     </div>
     <div id="tab-ios" class="install-tab-content" style="display:none;">
       <p>1. افتح الموقع في متصفح <strong>Safari</strong>.</p>
@@ -189,7 +198,7 @@
       <p>3. أو اضغط على القائمة (⋮) واختر <strong>"تثبيت زاد عبيدة"</strong>.</p>
       <p>4. اضغط <strong>"تثبيت"</strong>.</p>
     </div>
-    <button class="install-close" id="installClose" style="display:block;width:100%;margin-top:16px;padding:12px;background:var(--accent);color:#1a1a1a;border:none;border-radius:var(--radius-sm);font-weight:bold;cursor:pointer;">إغلاق</button>
+    <button class="install-close" id="installClose">إغلاق</button>
   </div>
 </div>
 
@@ -222,17 +231,31 @@ document.getElementById('enableNotifBtn').addEventListener('click', async () => 
   } catch (err) { console.error(err); alert('حدث خطأ.'); }
 });
 
-// نافذة التثبيت
+// نافذة التثبيت (اختيارية)
 const installModal = document.getElementById('installModal');
 const installAppBtn = document.getElementById('installAppBtn');
 const installClose = document.getElementById('installClose');
-installAppBtn.addEventListener('click', () => { installModal.hidden = false; document.body.style.overflow = 'hidden'; });
-installClose.addEventListener('click', () => { installModal.hidden = true; document.body.style.overflow = ''; });
-installModal.addEventListener('click', (e) => { if (e.target === installModal) { installModal.hidden = true; document.body.style.overflow = ''; } });
+
+installAppBtn.addEventListener('click', () => {
+  installModal.hidden = false; // إظهار النافذة فقط عند الضغط
+  document.body.style.overflow = 'hidden';
+});
+installClose.addEventListener('click', () => {
+  installModal.hidden = true; // إخفاء النافذة
+  document.body.style.overflow = '';
+});
+installModal.addEventListener('click', (e) => {
+  if (e.target === installModal) { // إغلاق عند الضغط خارج النافذة
+    installModal.hidden = true;
+    document.body.style.overflow = '';
+  }
+});
+
+// تبديل التبويبات في نافذة التثبيت
 document.querySelectorAll('.install-tab').forEach(tab => {
   tab.addEventListener('click', () => {
-    document.querySelectorAll('.install-tab').forEach(t => { t.style.background = 'var(--bg)'; t.style.color = 'var(--primary)'; });
-    tab.style.background = 'var(--primary)'; tab.style.color = '#fff';
+    document.querySelectorAll('.install-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
     document.querySelectorAll('.install-tab-content').forEach(c => c.style.display = 'none');
     document.getElementById('tab-' + tab.dataset.tab).style.display = 'block';
   });

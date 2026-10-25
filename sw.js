@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE_NAME = 'zad-obaidah-v16';
+const CACHE_NAME = 'zad-obaidah-v17';
 const ASSETS = [
   './',
   './index.html',
@@ -8,6 +8,7 @@ const ASSETS = [
   './adhkar.html',
   './azkar-morning.html',
   './azkar-evening.html',
+  './azkar-sleep.html',   // تمت الإضافة
   './nawawi.html',
   './quran.html',
   './duas.html',

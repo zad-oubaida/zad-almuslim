@@ -36,7 +36,45 @@
   </script>
 
   <style>
-    /* زر المشاركة العائم */
+    /* ===== تنسيقات الشريط المنسدل ===== */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: var(--card);
+      min-width: 160px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      z-index: 1000;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      top: 100%;
+      right: 0;
+    }
+    .dropdown-content a {
+      color: var(--text);
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+    .dropdown-content a:hover {
+      background-color: var(--primary-light);
+      color: var(--primary);
+    }
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+    .dropdown > a::after {
+      content: " ▼";
+      font-size: 0.7rem;
+      margin-right: 4px;
+    }
+
+    /* ===== زر المشاركة العائم ===== */
     .share-fab {
       position: fixed; bottom: 80px; left: 20px; z-index: 999;
       width: 56px; height: 56px; border-radius: 50%;
@@ -47,7 +85,7 @@
     }
     .share-fab:hover { transform: scale(1.1); background: var(--primary-dark); }
 
-    /* زر تفعيل الإشعارات */
+    /* ===== زر تفعيل الإشعارات ===== */
     .notif-btn {
       display: block; margin: 20px auto; padding: 12px 24px;
       background: var(--accent); color: #1a1a1a; border: none;
@@ -56,57 +94,18 @@
     .notif-btn:hover { background: var(--accent-light); }
     .notif-btn:disabled { opacity: 0.7; cursor: not-allowed; }
 
-    /* زر تثبيت التطبيق */
-    .install-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      margin: 10px auto; padding: 10px 20px;
-      background: var(--primary); color: #fff; border: none;
-      border-radius: var(--radius-sm); font-weight: bold; cursor: pointer; font-family: inherit;
-      font-size: 0.95rem;
-    }
-    .install-btn:hover { background: var(--primary-dark); }
-
-    /* نافذة التثبيت المنبثقة */
-    .install-modal {
-      position: fixed; inset: 0; z-index: 10000;
-      background: rgba(0,0,0,0.7);
-      display: flex; align-items: center; justify-content: center;
-      padding: 16px;
-    }
-    .install-modal[hidden] { display: none !important; }
-    .install-dialog {
-      background: var(--card); color: var(--text);
-      width: min(500px, 100%); max-height: 85vh; overflow-y: auto;
-      border-radius: var(--radius); padding: 24px;
-      box-shadow: 0 20px 70px rgba(0,0,0,0.3);
-    }
-    .install-dialog h3 {
-      color: var(--primary); margin-bottom: 16px; font-family: 'Cairo', sans-serif;
+    /* ===== تنبيه الترجمة ===== */
+    .translation-warning {
+      background: #ffebee;
+      color: #c62828;
+      border: 1px solid #ef9a9a;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
       text-align: center;
-    }
-    .install-step {
-      display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start;
-    }
-    .install-step .num {
-      width: 32px; height: 32px; border-radius: 50%; background: var(--primary);
-      color: #fff; display: flex; align-items: center; justify-content: center;
-      font-weight: bold; flex-shrink: 0;
-    }
-    .install-step .text { font-size: 0.95rem; line-height: 1.7; }
-    .install-tabs {
-      display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;
-    }
-    .install-tab {
-      padding: 8px 16px; border-radius: 8px; border: 1px solid var(--line);
-      background: var(--bg); color: var(--primary); cursor: pointer;
-      font-family: inherit; font-weight: bold;
-    }
-    .install-tab.active { background: var(--primary); color: #fff; }
-    .install-close {
-      display: block; width: 100%; margin-top: 16px; padding: 12px;
-      background: var(--accent); color: #1a1a1a; border: none;
-      border-radius: var(--radius-sm); font-weight: bold; cursor: pointer;
-      font-family: inherit;
+      margin: 10px auto;
+      max-width: 800px;
+      display: none; /* يظهر فقط عند تفعيل الترجمة */
     }
   </style>
 </head>
@@ -121,10 +120,18 @@
     <div class="nav-links" id="navLinks">
       <a href="./index.html" class="active">الرئيسية</a>
       <a href="./wird.html">🌿 وردك اليومي</a>
-      <a href="./adhkar.html">الأذكار</a>
-      <a href="./azkar-morning.html">الصباح</a>
-      <a href="./azkar-evening.html">المساء</a>
-      <a href="./azkar-sleep.html">النوم</a>
+      
+      <!-- القائمة المنسدلة للأذكار -->
+      <div class="dropdown">
+        <a href="./adhkar.html">📿 أذكار المسلم</a>
+        <div class="dropdown-content">
+          <a href="./adhkar.html">الأذكار المختارة</a>
+          <a href="./azkar-morning.html">🌅 أذكار الصباح</a>
+          <a href="./azkar-evening.html">🌙 أذكار المساء</a>
+          <a href="./azkar-sleep.html">💤 أذكار النوم</a>
+        </div>
+      </div>
+
       <a href="./nawawi.html">الأحاديث</a>
       <a href="./quran.html">القرآن</a>
       <a href="./duas.html">🤲 أدعية</a>
@@ -132,11 +139,30 @@
       <a href="./about.html">عن الموقع</a>
     </div>
     <div class="nav-tools">
+      <!-- زر الترجمة المنسدل -->
+      <div class="dropdown" style="margin-left: 10px;">
+        <button class="icon-btn" style="font-size: 0.9rem; padding: 8px 12px;">🌐</button>
+        <div class="dropdown-content" id="translateMenu" style="min-width: 120px; left: 0; right: auto;">
+          <a href="#" onclick="doTranslate('ar')">العربية</a>
+          <a href="#" onclick="doTranslate('en')">English</a>
+          <a href="#" onclick="doTranslate('fr')">Français</a>
+          <a href="#" onclick="doTranslate('es')">Español</a>
+          <a href="#" onclick="doTranslate('de')">Deutsch</a>
+          <a href="#" onclick="doTranslate('tr')">Türkçe</a>
+          <a href="#" onclick="doTranslate('it')">Italiano</a>
+        </div>
+      </div>
+      
       <button class="icon-btn" id="themeToggle" type="button" aria-label="الوضع الليلي">🌙</button>
       <button class="icon-btn mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="القائمة">☰</button>
     </div>
   </div>
 </nav>
+
+<!-- تنبيه الترجمة -->
+<div class="translation-warning" id="translationWarning">
+  ⚠️ تنبيه: الترجمة الآلية قد لا تكون دقيقة في النصوص الشرعية (الآيات والأحاديث). يُرجى الرجوع إلى النص العربي الأصلي أو التفاسير المعتمدة.
+</div>
 
 <section class="hero">
   <div class="wrap">
@@ -147,10 +173,7 @@
       <a href="./adhkar.html" class="btn-primary">ابدأ بالأذكار ←</a>
       <a href="./quran.html" class="btn-secondary">تصفّح القرآن</a>
     </div>
-    <div style="text-align: center; margin-top: 16px;">
-      <button class="install-btn" id="installAppBtn">📲 ثبّت التطبيق على جهازك</button>
-      <button class="notif-btn" id="enableNotifBtn">🔔 فعّل تذكير وردك اليومي</button>
-    </div>
+    <button class="notif-btn" id="enableNotifBtn">🔔 فعّل تذكير وردك اليومي</button>
   </div>
 </section>
 
@@ -166,6 +189,7 @@
       </div>
       <div id="prayerTimes" style="text-align:center;color:var(--text-muted);padding:20px 0;font-style:italic">جارٍ تحديد موقعك…</div>
       <div class="countdown" id="prayerCountdown"></div>
+      <p style="font-size:0.75rem;color:var(--text-muted);text-align:center;margin-top:10px;">* في أوروبا، قد تختلف طريقة الحساب. يمكنك تغيير المدينة يدوياً.</p>
     </div>
 
     <div class="dash-card">
@@ -220,42 +244,6 @@
 <button class="share-fab" id="shareAppBtn" title="شارك التطبيق">📤</button>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 <button class="back-to-top" id="backToTop" type="button" aria-label="العودة للأعلى">↑</button>
-
-<!-- نافذة تثبيت التطبيق -->
-<div class="install-modal" id="installModal" hidden role="dialog" aria-modal="true">
-  <div class="install-dialog">
-    <h3>📲 ثبّت تطبيق زاد عبيدة</h3>
-    
-    <div class="install-tabs">
-      <button class="install-tab active" data-tab="android">أندرويد</button>
-      <button class="install-tab" data-tab="ios">آيفون</button>
-      <button class="install-tab" data-tab="desktop">حاسوب</button>
-    </div>
-
-    <div id="tab-android" class="install-tab-content">
-      <div class="install-step"><div class="num">1</div><div class="text">افتح الموقع في متصفح <strong>Google Chrome</strong>.</div></div>
-      <div class="install-step"><div class="num">2</div><div class="text">اضغط على القائمة (⋮) في أعلى يمين الشاشة.</div></div>
-      <div class="install-step"><div class="num">3</div><div class="text">اختر <strong>"إضافة إلى الشاشة الرئيسية"</strong> أو <strong>"تثبيت التطبيق"</strong>.</div></div>
-      <div class="install-step"><div class="num">4</div><div class="text">اضغط <strong>"إضافة"</strong>، وستظهر أيقونة التطبيق على شاشتك.</div></div>
-    </div>
-
-    <div id="tab-ios" class="install-tab-content" style="display:none;">
-      <div class="install-step"><div class="num">1</div><div class="text">افتح الموقع في متصفح <strong>Safari</strong>.</div></div>
-      <div class="install-step"><div class="num">2</div><div class="text">اضغط على زر <strong>المشاركة</strong> (مربع فيه سهم للأعلى) في أسفل الشاشة.</div></div>
-      <div class="install-step"><div class="num">3</div><div class="text">مرر لأسفل واختر <strong>"إضافة إلى الشاشة الرئيسية"</strong>.</div></div>
-      <div class="install-step"><div class="num">4</div><div class="text">اضغط <strong>"إضافة"</strong> في أعلى اليمين.</div></div>
-    </div>
-
-    <div id="tab-desktop" class="install-tab-content" style="display:none;">
-      <div class="install-step"><div class="num">1</div><div class="text">افتح الموقع في متصفح <strong>Google Chrome</strong> أو <strong>Microsoft Edge</strong>.</div></div>
-      <div class="install-step"><div class="num">2</div><div class="text">ابحث عن أيقونة <strong>التثبيت (⊕)</strong> في شريط العنوان (بجانب النجمة).</div></div>
-      <div class="install-step"><div class="num">3</div><div class="text">أو اضغط على القائمة (⋮) واختر <strong>"تثبيت زاد عبيدة"</strong>.</div></div>
-      <div class="install-step"><div class="num">4</div><div class="text">اضغط <strong>"تثبيت"</strong>، وسيظهر التطبيق في قائمة ابدأ أو على سطح المكتب.</div></div>
-    </div>
-
-    <button class="install-close" id="installClose">إغلاق</button>
-  </div>
-</div>
 
 <script src="./assets/data.js"></script>
 <script src="./assets/app.js"></script>
@@ -315,43 +303,46 @@ document.getElementById('enableNotifBtn').addEventListener('click', async () => 
   }
 });
 
-// ============ نافذة تثبيت التطبيق ============
-const installModal = document.getElementById('installModal');
-const installAppBtn = document.getElementById('installAppBtn');
-const installClose = document.getElementById('installClose');
-
-installAppBtn.addEventListener('click', () => {
-  installModal.hidden = false;
-  document.body.style.overflow = 'hidden';
-});
-
-installClose.addEventListener('click', () => {
-  installModal.hidden = true;
-  document.body.style.overflow = '';
-});
-
-installModal.addEventListener('click', (e) => {
-  if (e.target === installModal) {
-    installModal.hidden = true;
-    document.body.style.overflow = '';
+// ============ إعداد الترجمة ============
+// دالة يتم استدعاؤها عند اختيار لغة
+function doTranslate(lang) {
+  // إظهار التنبيه عند تفعيل الترجمة (لأي لغة غير العربية)
+  const warning = document.getElementById('translationWarning');
+  if (warning) {
+    warning.style.display = (lang !== 'ar') ? 'block' : 'none';
   }
-});
-
-// التبديل بين التبويبات
-document.querySelectorAll('.install-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.install-tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    
-    document.querySelectorAll('.install-tab-content').forEach(c => c.style.display = 'none');
-    document.getElementById('tab-' + tab.dataset.tab).style.display = 'block';
-  });
-});
-
-// إخفاء زر التثبيت إذا كان التطبيق مثبتاً بالفعل (اختياري)
-if (window.matchMedia('(display-mode: standalone)').matches) {
-  installAppBtn.style.display = 'none';
+  
+  // استدعاء مكتبة الترجمة
+  if (typeof translate !== 'undefined') {
+    // إذا تم اختيار العربية، أعد الترجمة إلى العربية (أو أعد تحميل الصفحة)
+    if (lang === 'ar') {
+      window.location.reload(); // أسهل طريقة للعودة للعربية
+      return;
+    }
+    // ترجمة الصفحة إلى اللغة المختارة
+    translate.language.setLocal(lang);
+    translate.execute();
+  } else {
+    alert('مكتبة الترجمة لم يتم تحميلها بعد. يرجى تحديث الصفحة.');
+  }
 }
+</script>
+
+<!-- مكتبة الترجمة (يتم تحميلها في النهاية لتسريع الموقع) -->
+<script src="https://cdn.staticfile.net/translate.js/3.18.75/translate.js"></script>
+<script>
+  // إعداد الترجمة (يتم استدعاؤها بعد تحميل المكتبة)
+  if (typeof translate !== 'undefined') {
+    translate.language.setLocal('ar'); // اللغة الأصلية
+    translate.service.use('client.edge'); // خدمة الترجمة المجانية
+    
+    // اللغات المتاحة
+    translate.language.setLanguages(['ar', 'en', 'fr', 'es', 'de', 'tr', 'it']);
+    
+    // بدء الترجمة (بدون ترجمة تلقائية، فقط عند الطلب)
+    translate.listener.start();
+    translate.execute();
+  }
 </script>
 </body>
 </html>

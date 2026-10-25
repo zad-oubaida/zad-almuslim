@@ -321,10 +321,10 @@ async function fetchPrayerTimes(lat, lng, city){
   container.className = 'loading';
   container.textContent = 'جارٍ تحميل المواقيت…';
   try {
-    // استخدام الإحداثيات إذا كانت متوفرة (يعمل لأي دولة)، وإلا استخدام المدينة الافتراضية
+    // تعديل: استخدام method=2 (طريقة ISNA) المناسبة لأوروبا وأمريكا الشمالية
     const url = (lat != null && lng != null)
-      ? 'https://api.aladhan.com/v1/timings?latitude=' + lat + '&longitude=' + lng + '&method=3'
-      : 'https://api.aladhan.com/v1/timingsByCity?city=' + encodeURIComponent(city || 'Algiers') + '&country=Algeria&method=3';
+      ? 'https://api.aladhan.com/v1/timings?latitude=' + lat + '&longitude=' + lng + '&method=2'
+      : 'https://api.aladhan.com/v1/timingsByCity?city=' + encodeURIComponent(city || 'Algiers') + '&country=Algeria&method=2';
       
     const res = await fetch(url);
     if(!res.ok) throw new Error('HTTP ' + res.status);
@@ -507,8 +507,7 @@ if('serviceWorker' in navigator){
   });
 }
 
-/* ============ الترجمة (7 لغات) ============ */
-// دالة تُستدعى عند اختيار لغة من القائمة
+/* ============ الترجمة (طريقة بسيطة ومضمونة) ============ */
 window.doTranslate = function(lang) {
   // إظهار/إخفاء التنبيه الأحمر
   const warning = document.getElementById('translationWarning');
@@ -517,28 +516,13 @@ window.doTranslate = function(lang) {
   }
 
   if (lang === 'ar') {
-    // للعودة للعربية: إعادة تحميل الصفحة
     window.location.reload();
     return;
   }
 
-  // إذا كانت مكتبة الترجمة محملة
-  if (typeof translate !== 'undefined') {
-    translate.language.setLocal(lang);
-    translate.execute();
-  } else {
-    alert('مكتبة الترجمة لم يتم تحميلها. يرجى تحديث الصفحة.');
-  }
-};
-
-// إعداد الترجمة (يتم استدعاؤها تلقائياً عند تحميل المكتبة)
-window.initTranslation = function() {
-  if (typeof translate !== 'undefined') {
-    translate.language.setLocal('ar');
-    translate.service.use('client.edge');
-    translate.language.setLanguages(['ar', 'en', 'fr', 'es', 'de', 'tr', 'it']);
-    translate.listener.start();
-  }
+  // فتح الموقع في نافذة ترجمة جوجل
+  const url = window.location.href;
+  window.open('https://translate.google.com/translate?sl=ar&tl=' + lang + '&u=' + encodeURIComponent(url), '_blank');
 };
 
 /* ============ تصدير للصفحات ============ */

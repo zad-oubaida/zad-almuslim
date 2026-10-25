@@ -202,6 +202,19 @@
   </div>
 </div>
 
+<!-- أداة ترجمة جوجل المدمجة (مخفية) -->
+<div id="google_translate_element" style="display:none;"></div>
+<script>
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'ar',
+      includedLanguages: 'en,fr,es,de,tr,it',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
+  }
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 <script src="./assets/data.js"></script>
 <script src="./assets/app.js"></script>
 <script>
@@ -261,15 +274,37 @@ document.querySelectorAll('.install-tab').forEach(tab => {
   });
 });
 
-// الترجمة (طريقة بسيطة ومضمونة)
+// الترجمة (باستخدام أداة جوجل المدمجة)
 function doTranslate(lang) {
+  // إظهار/إخفاء التنبيه الأحمر
   const warning = document.getElementById('translationWarning');
-  if (warning) warning.style.display = (lang !== 'ar') ? 'block' : 'none';
-  if (lang === 'ar') { window.location.reload(); return; }
-  
-  // فتح الموقع في نافذة ترجمة جوجل
-  const url = window.location.href;
-  window.open('https://translate.google.com/translate?sl=ar&tl=' + lang + '&u=' + encodeURIComponent(url), '_blank');
+  if (warning) {
+    warning.style.display = (lang !== 'ar') ? 'block' : 'none';
+  }
+
+  if (lang === 'ar') {
+    // للعودة للعربية: إعادة تحميل الصفحة
+    window.location.reload();
+    return;
+  }
+
+  // البحث عن قائمة الترجمة المدمجة وتغيير قيمتها
+  const select = document.querySelector('.goog-te-combo');
+  if (select) {
+    select.value = lang;
+    select.dispatchEvent(new Event('change'));
+  } else {
+    // إذا لم تكن الأداة جاهزة بعد، انتظر قليلاً
+    setTimeout(() => {
+      const select2 = document.querySelector('.goog-te-combo');
+      if (select2) {
+        select2.value = lang;
+        select2.dispatchEvent(new Event('change'));
+      } else {
+        alert('أداة الترجمة لم يتم تحميلها بعد. يرجى تحديث الصفحة.');
+      }
+    }, 2000);
+  }
 }
 </script>
 </body>

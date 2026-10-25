@@ -177,7 +177,7 @@ function saveCounts(c){
 /* ============ مواقيت الصلاة (مع التاريخ الهجري والميلادي) ============ */
 const PRAYER_LABELS = { Fajr:'الفجر', Dhuhr:'الظهر', Asr:'العصر', Maghrib:'المغرب', Isha:'العشاء' };
 let countdownInterval = null;
-let prayerNotificationTimeouts = []; // لتخزين مؤقتات إشعارات الصلوات
+let prayerNotificationTimeouts = [];
 
 function formatPrayerTime(t){
   const clean = String(t).split(' ')[0];
@@ -277,7 +277,6 @@ function sendPrayerNotification(title, body) {
 }
 
 function schedulePrayerNotifications(timings) {
-  // مسح أي مؤقتات سابقة
   prayerNotificationTimeouts.forEach(t => clearTimeout(t));
   prayerNotificationTimeouts = [];
 
@@ -297,10 +296,8 @@ function schedulePrayerNotifications(timings) {
     const prayerTime = new Date();
     prayerTime.setHours(h, m, 0, 0);
 
-    // إضافة 10 دقائق بعد الأذان (وقت كافٍ للصلاة)
     const notifyTime = new Date(prayerTime.getTime() + 10 * 60000);
 
-    // إذا كان الوقت قد مضى اليوم، جدوله لليوم التالي
     if (notifyTime <= now) {
       notifyTime.setDate(notifyTime.getDate() + 1);
     }
@@ -315,7 +312,6 @@ function schedulePrayerNotifications(timings) {
     }, delay);
     
     prayerNotificationTimeouts.push(timeout);
-    console.log(`⏰ تم جدولة إشعار لصلاة ${prayer.name} بعد ${Math.round(delay/60000)} دقيقة`);
   });
 }
 
@@ -325,16 +321,17 @@ async function fetchPrayerTimes(lat, lng, city){
   container.className = 'loading';
   container.textContent = 'جارٍ تحميل المواقيت…';
   try {
+    // استخدام الإحداثيات إذا كانت متوفرة (يعمل لأي دولة)، وإلا استخدام المدينة الافتراضية
     const url = (lat != null && lng != null)
       ? 'https://api.aladhan.com/v1/timings?latitude=' + lat + '&longitude=' + lng + '&method=3'
       : 'https://api.aladhan.com/v1/timingsByCity?city=' + encodeURIComponent(city || 'Algiers') + '&country=Algeria&method=3';
+      
     const res = await fetch(url);
     if(!res.ok) throw new Error('HTTP ' + res.status);
     const j = await res.json();
     renderPrayerTimes(j.data.timings);
     startPrayerCountdown(j.data.timings);
     
-    // جدولة إشعارات الصلوات (إذا كانت الإشعارات مفعلة)
     if (Notification.permission === 'granted') {
       schedulePrayerNotifications(j.data.timings);
     }
@@ -362,7 +359,6 @@ function locateUserForPrayer(){
   );
 }
 
-// تشغيل تلقائي إذا كانت العناصر موجودة (في الصفحة الرئيسية)
 if(document.getElementById('prayerTimes')){
   const cityBtn = document.getElementById('cityBtn');
   const geoBtn = document.getElementById('geoBtn');
@@ -428,18 +424,12 @@ function initGlobalSearch(){
     const idx = [];
     if(typeof ADHKAR !== 'undefined'){
       ADHKAR.forEach(z => {
-        idx.push({
-          type:'ذكر', title: z.title, text: z.text,
-          url: 'adhkar.html#' + z.id
-        });
+        idx.push({ type:'ذكر', title: z.title, text: z.text, url: 'adhkar.html#' + z.id });
       });
     }
     if(typeof NAWAWI_HADITHS !== 'undefined'){
       NAWAWI_HADITHS.forEach((h,i) => {
-        idx.push({
-          type:'حديث', title: h.title, text: h.text,
-          url: 'nawawi.html#' + (i+1)
-        });
+        idx.push({ type:'حديث', title: h.title, text: h.text, url: 'nawawi.html#' + (i+1) });
       });
     }
     if(typeof ARTICLES !== 'undefined'){
@@ -472,9 +462,7 @@ function initGlobalSearch(){
       const q = norm(input.value);
       results.replaceChildren();
       if(q.length < 2) return;
-      const matches = index.filter(it =>
-        norm(it.title).includes(q) || norm(it.text).includes(q)
-      ).slice(0, 10);
+      const matches = index.filter(it => norm(it.title).includes(q) || norm(it.text).includes(q)).slice(0, 10);
       if(!matches.length){
         const em = document.createElement('div');
         em.className = 'search-no-results';
@@ -495,9 +483,7 @@ function initGlobalSearch(){
           + '<div style="color:var(--text-muted);font-size:.9rem;margin-top:4px">'
           + (m.text.length > 100 ? m.text.slice(0,100) + '…' : m.text)
           + '</div>';
-        div.addEventListener('click', ()=>{
-          window.location.href = m.url;
-        });
+        div.addEventListener('click', ()=>{ window.location.href = m.url; });
         results.appendChild(div);
       });
     }, 200);
@@ -511,7 +497,7 @@ function initGlobalSearch(){
 }
 initGlobalSearch();
 
-/* ============ Service Worker ============ */
+/* ============ خدمة العمل (Service Worker) ============ */
 if('serviceWorker' in navigator){
   window.addEventListener('load', ()=>{
     const sw = new URL('./sw.js', location.href).href;
@@ -520,6 +506,40 @@ if('serviceWorker' in navigator){
       .catch(e => console.warn('⚠️ SW failed:', e.message));
   });
 }
+
+/* ============ الترجمة (7 لغات) ============ */
+// دالة تُستدعى عند اختيار لغة من القائمة
+window.doTranslate = function(lang) {
+  // إظهار/إخفاء التنبيه الأحمر
+  const warning = document.getElementById('translationWarning');
+  if (warning) {
+    warning.style.display = (lang !== 'ar') ? 'block' : 'none';
+  }
+
+  if (lang === 'ar') {
+    // للعودة للعربية: إعادة تحميل الصفحة
+    window.location.reload();
+    return;
+  }
+
+  // إذا كانت مكتبة الترجمة محملة
+  if (typeof translate !== 'undefined') {
+    translate.language.setLocal(lang);
+    translate.execute();
+  } else {
+    alert('مكتبة الترجمة لم يتم تحميلها. يرجى تحديث الصفحة.');
+  }
+};
+
+// إعداد الترجمة (يتم استدعاؤها تلقائياً عند تحميل المكتبة)
+window.initTranslation = function() {
+  if (typeof translate !== 'undefined') {
+    translate.language.setLocal('ar');
+    translate.service.use('client.edge');
+    translate.language.setLanguages(['ar', 'en', 'fr', 'es', 'de', 'tr', 'it']);
+    translate.listener.start();
+  }
+};
 
 /* ============ تصدير للصفحات ============ */
 window.ZadApp = {

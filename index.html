@@ -41,7 +41,6 @@
     .install-btn { display: block; margin: 10px auto; padding: 10px 20px; background: var(--primary); color: #fff; border: none; border-radius: var(--radius-sm); font-weight: bold; cursor: pointer; font-family: inherit; font-size: 0.9rem; }
     .install-btn:hover { background: var(--primary-dark); }
     .translation-warning { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; padding: 10px 16px; border-radius: 8px; font-size: 0.9rem; text-align: center; margin: 10px auto; max-width: 800px; display: none; }
-    /* تنسيق نافذة التثبيت */
     .install-modal { position: fixed; inset: 0; z-index: 10000; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; padding: 16px; }
     .install-modal[hidden] { display: none !important; }
     .install-dialog { background: var(--card); color: var(--text); width: min(500px, 100%); max-height: 85vh; overflow-y: auto; border-radius: var(--radius); padding: 24px; box-shadow: 0 20px 70px rgba(0,0,0,0.3); }
@@ -250,15 +249,15 @@ const installAppBtn = document.getElementById('installAppBtn');
 const installClose = document.getElementById('installClose');
 
 installAppBtn.addEventListener('click', () => {
-  installModal.hidden = false; // إظهار النافذة فقط عند الضغط
+  installModal.hidden = false;
   document.body.style.overflow = 'hidden';
 });
 installClose.addEventListener('click', () => {
-  installModal.hidden = true; // إخفاء النافذة
+  installModal.hidden = true;
   document.body.style.overflow = '';
 });
 installModal.addEventListener('click', (e) => {
-  if (e.target === installModal) { // إغلاق عند الضغط خارج النافذة
+  if (e.target === installModal) {
     installModal.hidden = true;
     document.body.style.overflow = '';
   }
@@ -276,25 +275,21 @@ document.querySelectorAll('.install-tab').forEach(tab => {
 
 // الترجمة (باستخدام أداة جوجل المدمجة)
 function doTranslate(lang) {
-  // إظهار/إخفاء التنبيه الأحمر
   const warning = document.getElementById('translationWarning');
   if (warning) {
     warning.style.display = (lang !== 'ar') ? 'block' : 'none';
   }
 
   if (lang === 'ar') {
-    // للعودة للعربية: إعادة تحميل الصفحة
     window.location.reload();
     return;
   }
 
-  // البحث عن قائمة الترجمة المدمجة وتغيير قيمتها
   const select = document.querySelector('.goog-te-combo');
   if (select) {
     select.value = lang;
     select.dispatchEvent(new Event('change'));
   } else {
-    // إذا لم تكن الأداة جاهزة بعد، انتظر قليلاً
     setTimeout(() => {
       const select2 = document.querySelector('.goog-te-combo');
       if (select2) {
@@ -307,5 +302,21 @@ function doTranslate(lang) {
   }
 }
 </script>
+
+<!-- start webpushr code -->
+<script>
+  (function(w,d, s, id) {
+    if(typeof(w.webpushr)!=='undefined') return;
+    w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};
+    var js, fjs = d.getElementsByTagName(s)[0];
+    js = d.createElement(s); js.id = id;
+    js.async=1;
+    js.src = "https://cdn.webpushr.com/app.min.js";
+    fjs.parentNode.appendChild(js);
+  }(window,document, 'script', 'webpushr-jssdk'));
+  webpushr('setup',{'key':'BFvRzs9ZHTdJ-9XImWg_HX3EWdipxLaCK33czROqJ6L37d3Z4H926PP4N-K-NCmrkFBd18eWwY_jO9BtBSZAL7o' });
+</script>
+<!-- end webpushr code -->
+
 </body>
 </html>

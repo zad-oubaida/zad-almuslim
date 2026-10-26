@@ -1,6 +1,9 @@
 'use strict';
 
-const CACHE_NAME = 'zad-obaidah-v27';
+// استيراد كود Webpushr (ضروري لعمل الإشعارات في الخلفية)
+importScripts('https://cdn.webpushr.com/sw-server.min.js');
+
+const CACHE_NAME = 'zad-obaidah-v28';
 const ASSETS = [
   './',
   './index.html',
@@ -47,9 +50,6 @@ self.addEventListener('fetch', event => {
   const req = event.request;
   if (req.method !== 'GET') return;
   if (!req.url.startsWith('http')) return;
-
-  // تجاهل ملف webpushr-sw.js (لأنه يعمل بشكل مستقل)
-  if (req.url.includes('webpushr-sw.js')) return;
 
   event.respondWith(
     caches.match(req).then(cached => {

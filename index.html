@@ -314,7 +314,8 @@ function doTranslate(lang) {
     js.src = "https://cdn.webpushr.com/app.min.js";
     fjs.parentNode.appendChild(js);
   }(window,document, 'script', 'webpushr-jssdk'));
-  webpushr('setup',{'key':'BFvRzs9ZHTdJ-9XImWg_HX3EWdipxLaCK33czROqJ6L37d3Z4H926PP4N-K-NCmrkFBd18eWwY_jO9BtBSZAL7o' });
+  // تم إضافة 'sw':'none' لمنع تعارض Service Worker
+  webpushr('setup',{'key':'BFvRzs9ZHTdJ-9XImWg_HX3EWdipxLaCK33czROqJ6L37d3Z4H926PP4N-K-NCmrkFBd18eWwY_jO9BtBSZAL7o', 'sw':'none' });
 </script>
 <!-- end webpushr code -->
 

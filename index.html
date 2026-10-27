@@ -28,55 +28,172 @@
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"WebSite","name":"زاد عبيدة","url":"https://zad-oubaida.github.io/zad-almuslim/","inLanguage":"ar","description":"أذكار ومواقيت الصلاة وقرآن من مصادر موثوقة."}
   </script>
+  
   <style>
-    /* ===== تنسيقات الشريط المنسدل الفخم ===== */
-    .dropdown { position: relative; display: inline-block; }
-    .dropdown-content { display: none; position: absolute; background-color: var(--card); min-width: 180px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 1000; border-radius: 12px; border: 1px solid var(--line); top: 100%; right: 0; padding: 8px 0; }
-    .dropdown-content a { color: var(--text); padding: 10px 16px; text-decoration: none; display: block; font-size: 0.9rem; transition: background 0.2s; }
-    .dropdown-content a:hover { background-color: var(--primary-light); color: var(--primary); }
+    /* ===== التصميم الفخم والهادئ ===== */
+    :root {
+      --bg-color: #f5f7fa;
+      --text-color: #2c3e50;
+      --primary: #0d7a5f;
+      --primary-dark: #0a5a45;
+      --primary-light: #e6f2ef;
+      --accent: #d4af37; /* ذهبي */
+      --border-color: #e0e0e0;
+      --card-bg: #ffffff;
+      --shadow: 0 4px 20px rgba(0,0,0,0.04);
+      --shadow-hover: 0 10px 30px rgba(13, 122, 95, 0.1);
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Cairo', sans-serif;
+      line-height: 1.8;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    /* زخرفة إسلامية خفيفة في الخلفية */
+    body::before {
+      content: "۞";
+      position: fixed;
+      top: -5%;
+      left: -5%;
+      font-size: 400px;
+      color: rgba(13, 122, 95, 0.03);
+      z-index: -1;
+      pointer-events: none;
+      transform: rotate(-10deg);
+    }
+    body::after {
+      content: "۞";
+      position: fixed;
+      bottom: -10%;
+      right: -5%;
+      font-size: 300px;
+      color: rgba(212, 175, 55, 0.03);
+      z-index: -1;
+      pointer-events: none;
+      transform: rotate(15deg);
+    }
+
+    /* شريط التنقل */
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .brand img { width: 45px; height: 45px; border-radius: 50%; }
+    .brand strong { font-size: 1.3rem; color: var(--primary); display: block; }
+    .brand small { font-size: 0.75rem; color: #7f8c8d; display: block; }
+
+    .nav-links { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: center; }
+    .nav-links a { text-decoration: none; color: var(--text-color); font-weight: 600; font-size: 0.9rem; padding: 8px 12px; border-radius: 8px; transition: all 0.3s; }
+    .nav-links a:hover, .nav-links a.active { background-color: var(--primary-light); color: var(--primary); }
+
+    /* القائمة المنسدلة */
+    .dropdown { position: relative; }
+    .dropdown-content { display: none; position: absolute; background: #fff; min-width: 180px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 12px; border: 1px solid var(--border-color); top: 100%; right: 0; padding: 8px 0; z-index: 1001; }
     .dropdown:hover .dropdown-content { display: block; }
+    .dropdown-content a { display: block; padding: 10px 16px; font-size: 0.9rem; color: var(--text-color); }
+    .dropdown-content a:hover { background-color: var(--primary-light); color: var(--primary); }
 
-    /* ===== تحسين الشريط العلوي ===== */
-    .nav-inner { padding: 12px 0; }
-    .brand strong { font-size: 1.2rem; color: var(--primary); }
-    .brand small { font-size: 0.75rem; color: var(--text-muted); }
-    .nav-links a { font-size: 0.95rem; padding: 8px 12px; }
-    
-    /* ===== تحسين الأزرار ===== */
-    .btn-primary { background: var(--green2); color: #fff; border-radius: 8px; font-weight: bold; padding: 10px 20px; transition: all 0.3s; }
-    .btn-primary:hover { background: var(--green); transform: translateY(-2px); box-shadow: 0 4px 15px rgba(13, 122, 95, 0.3); }
-    .btn-secondary { background: var(--card); color: var(--primary); border: 1px solid var(--line); border-radius: 8px; padding: 10px 20px; transition: all 0.3s; }
-    .btn-secondary:hover { border-color: var(--primary); background: var(--primary-light); }
+    .nav-tools { display: flex; gap: 8px; align-items: center; }
+    .icon-btn { background: #f1f2f6; border: none; border-radius: 8px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; color: var(--text-color); }
+    .icon-btn:hover { background: var(--primary-light); color: var(--primary); }
 
-    /* ===== البطاقات ===== */
-    .dash-card { background: var(--card); border-radius: 16px; border: 1px solid var(--line); box-shadow: 0 8px 25px rgba(0,0,0,0.04); transition: transform 0.3s; }
-    .dash-card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.08); }
-    .dash-card h3 { color: var(--primary); font-size: 1.1rem; margin-bottom: 15px; border-bottom: 2px solid var(--accent); padding-bottom: 10px; }
+    /* قسم الترحيب */
+    .hero { text-align: center; padding: 70px 20px 50px; max-width: 800px; margin: 0 auto; position: relative; }
+    .hero h1 { font-family: 'Amiri', serif; font-size: 3.2rem; color: var(--primary); margin-bottom: 20px; line-height: 1.3; }
+    .hero p { font-size: 1.1rem; color: #7f8c8d; margin-bottom: 30px; }
 
-    /* ===== زر الترجمة ===== */
-    .lang-btn { display: flex; align-items: center; justify-content: center; gap: 4px; }
+    /* أزرار الهيرو */
+    .hero-actions { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 30px; }
+    .btn-primary { background-color: var(--primary); color: #fff; padding: 12px 28px; border-radius: 50px; text-decoration: none; font-weight: bold; transition: 0.3s; box-shadow: 0 4px 15px rgba(13, 122, 95, 0.2); border: none; cursor: pointer; font-family: inherit; font-size: 1rem; }
+    .btn-primary:hover { background-color: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(13, 122, 95, 0.3); }
+    .btn-secondary { background-color: transparent; color: var(--primary); border: 2px solid var(--primary); padding: 10px 28px; border-radius: 50px; text-decoration: none; font-weight: bold; transition: 0.3s; cursor: pointer; font-family: inherit; font-size: 1rem; }
+    .btn-secondary:hover { background-color: var(--primary-light); }
 
-    /* ===== التذييل ===== */
-    footer { background: #0d2e26; color: #dce7e0; padding: 40px 0 20px; margin-top: 40px; }
-    footer h4 { color: var(--accent); margin-bottom: 15px; font-size: 1rem; }
-    footer a { color: #dce7e0; text-decoration: none; transition: color 0.2s; }
+    /* أزرار التحميل والإشعارات */
+    .action-buttons { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
+    .install-btn, .notif-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; font-family: inherit; font-size: 0.95rem; }
+    .install-btn { background: #fff; color: var(--primary); border: 1px solid var(--primary); }
+    .install-btn:hover { background: var(--primary-light); transform: translateY(-2px); }
+    .notif-btn { background: var(--accent); color: #1a1a1a; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
+    .notif-btn:hover { background: #c9a227; transform: translateY(-2px); }
+
+    /* تباعد الأقسام */
+    .section { padding: 50px 20px; }
+    .section-head { text-align: center; margin-bottom: 40px; }
+    .section-head h2 { font-family: 'Amiri', serif; font-size: 2.2rem; color: var(--primary); margin-bottom: 10px; position: relative; display: inline-block; }
+    .section-head h2::after { content: ''; position: absolute; bottom: -8px; left: 20%; right: 20%; height: 2px; background: var(--accent); border-radius: 2px; }
+    .section-head p { color: #7f8c8d; font-size: 1rem; margin-top: 15px; }
+
+    /* شبكة البطاقات */
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto; }
+    .nav-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px 20px; text-align: center; text-decoration: none; color: var(--text-color); transition: all 0.3s ease; box-shadow: var(--shadow); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .nav-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: var(--shadow-hover); }
+    .nav-card .emoji { font-size: 2.5rem; margin-bottom: 15px; display: block; }
+    .nav-card h3 { color: var(--primary); font-size: 1.2rem; margin: 0 0 10px 0; }
+    .nav-card p { color: #7f8c8d; font-size: 0.9rem; margin: 0; }
+
+    /* لوحة اليوم (البطاقات الثلاث) */
+    .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; max-width: 1100px; margin: 0 auto; }
+    .dash-card { background: var(--card-bg); border-radius: 20px; padding: 25px; border: 1px solid var(--border-color); box-shadow: var(--shadow); position: relative; overflow: hidden; }
+    .dash-card::before { content: ''; position: absolute; top: 0; right: 0; left: 0; height: 4px; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 4px 4px 0 0; }
+    .dash-card h3 { color: var(--primary); font-size: 1.15rem; margin-top: 0; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+
+    /* تصميم فخم لمواقيت الصلاة */
+    .prayer-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+    .prayer-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #f8f9fa; border-radius: 12px; border-right: 4px solid var(--accent); transition: 0.3s; }
+    .prayer-item.active { background: var(--primary-light); border-right-color: var(--primary); font-weight: bold; }
+    .prayer-item span { font-size: 1rem; }
+    .prayer-item strong { font-size: 1.1rem; color: var(--primary); }
+    .countdown { text-align: center; margin-top: 20px; padding: 12px; background: var(--primary-light); border-radius: 12px; color: var(--primary); font-weight: bold; font-size: 1rem; border: 1px dashed var(--primary); }
+    .city-bar { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
+    .city-bar input { flex: 1; min-width: 100px; padding: 10px; border: 1px solid var(--border-color); border-radius: 10px; background: #fff; font-family: inherit; }
+    .city-bar button { padding: 10px 16px; border-radius: 10px; background: var(--primary); color: #fff; border: none; cursor: pointer; font-family: inherit; font-weight: bold; }
+
+    /* التذييل */
+    footer { background: #2c3e50; color: #ecf0f1; padding: 40px 20px 20px; margin-top: 60px; }
+    .footer-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; max-width: 1100px; margin: 0 auto; }
+    footer h4 { color: var(--accent); margin-bottom: 15px; }
+    footer a { color: #bdc3c7; text-decoration: none; transition: 0.3s; }
     footer a:hover { color: var(--accent); }
 
-    /* ===== تحسينات عامة ===== */
-    .hero-title { font-size: clamp(2rem, 5vw, 3.5rem); color: var(--primary); margin-bottom: 15px; }
-    .hero-subtitle { font-size: 1.1rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 30px; }
-    .actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
-    .section { padding: 40px 0; }
+    /* الموبايل */
+    @media (max-width: 768px) {
+      .nav-inner { flex-direction: column; gap: 15px; }
+      .nav-links { flex-wrap: wrap; justify-content: center; }
+      .hero h1 { font-size: 2rem; }
+      .dashboard { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
+
+<!-- شريط التنقل -->
 <nav class="navbar">
-  <div class="wrap nav-inner">
-    <a href="./index.html" class="brand" aria-label="زاد عبيدة - الرئيسية">
+  <div class="nav-inner">
+    <a href="./index.html" class="brand">
       <img src="./logo-zad-almuslim.webp.png" alt="شعار زاد عبيدة">
-      <span><strong>زاد عبيدة</strong><small>ذكرٌ نافع، وعلمٌ موثّق</small></span>
+      <div><strong>زاد عبيدة</strong><small>ذكرٌ نافع، وعلمٌ موثّق</small></div>
     </a>
-    <div class="nav-links" id="navLinks">
+    <div class="nav-links">
       <a href="./index.html" class="active">الرئيسية</a>
       <a href="./wird.html">🌿 وردك اليومي</a>
       <div class="dropdown">
@@ -92,13 +209,11 @@
       <a href="./quran.html">القرآن</a>
       <a href="./duas.html">🤲 أدعية</a>
       <a href="./articles.html">المقالات</a>
-      <a href="./about.html">عن الموقع</a>
       <a href="./opinions.html">💬 آراء</a>
     </div>
     <div class="nav-tools">
-      <!-- زر الترجمة -->
-      <div class="dropdown" style="margin-left: 10px;">
-        <button class="icon-btn lang-btn" style="font-size: 0.9rem; padding: 8px 12px;" title="ترجمة الموقع">🌐</button>
+      <div class="dropdown">
+        <button class="icon-btn" title="ترجمة الموقع">🌐</button>
         <div class="dropdown-content" style="min-width: 120px; left: 0; right: auto;">
           <a href="#" onclick="doTranslate('ar')">العربية</a>
           <a href="#" onclick="doTranslate('en')">English</a>
@@ -109,219 +224,88 @@
           <a href="#" onclick="doTranslate('it')">Italiano</a>
         </div>
       </div>
-      <button class="icon-btn" id="themeToggle" type="button" aria-label="الوضع الليلي">🌙</button>
-      <button class="icon-btn mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="القائمة">☰</button>
+      <button class="icon-btn" id="themeToggle" title="الوضع الليلي">🌙</button>
     </div>
   </div>
 </nav>
 
+<!-- قسم الترحيب -->
 <section class="hero">
-  <div class="wrap">
-    <p class="bismillah">بسم الله الرحمن الرحيم</p>
-    <h1 class="hero-title">زادٌ لقلبك، ومعرفةٌ تثق بمصدرها</h1>
-    <p class="hero-subtitle">مساحة عربية هادئة للأذكار والقرآن ومواقيت الصلاة، مع مصادر واضحة وتثبّت قبل النشر.</p>
-    <div class="actions">
-      <a href="./adhkar.html" class="btn-primary">ابدأ بالأذكار ←</a>
-      <a href="./quran.html" class="btn-secondary">تصفّح القرآن</a>
-    </div>
+  <p style="color: var(--accent); font-weight: bold;">بسم الله الرحمن الرحيم</p>
+  <h1>زادٌ لقلبك، ومعرفةٌ تثق بمصدرها</h1>
+  <p>مساحة عربية هادئة للأذكار والقرآن ومواقيت الصلاة، مع مصادر واضحة وتثبّت قبل النشر.</p>
+  <div class="hero-actions">
+    <a href="./adhkar.html" class="btn-primary">ابدأ بالأذكار ←</a>
+    <a href="./quran.html" class="btn-secondary">تصفّح القرآن</a>
+  </div>
+  <div class="action-buttons">
     <button class="install-btn" id="installAppBtn">📲 ثبّت التطبيق على جهازك</button>
     <button class="notif-btn" id="enableNotifBtn">🔔 فعّل تذكير وردك اليومي</button>
   </div>
 </section>
 
-<div class="wrap">
+<!-- لوحة اليوم -->
+<div class="section" style="padding-top: 0;">
   <div class="dashboard">
     <div class="dash-card">
       <h3>🕌 مواقيت الصلاة</h3>
-      <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
-        <input type="text" id="cityInput" placeholder="مدينتك (Algiers)" aria-label="المدينة"
-               style="flex:1;min-width:120px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--text);font-family:inherit">
-        <button type="button" id="cityBtn" class="action-btn primary" style="padding:8px 14px">تحديث</button>
-        <button type="button" id="geoBtn" class="action-btn" style="padding:8px 14px" title="استخدم موقعي">📍</button>
+      <div class="city-bar">
+        <input type="text" id="cityInput" placeholder="مدينتك (Algiers)">
+        <button type="button" id="cityBtn">تحديث</button>
+        <button type="button" id="geoBtn" style="background: #f1f2f6; color: var(--primary); border: 1px solid var(--border-color);" title="استخدم موقعي">📍</button>
       </div>
-      <div id="prayerTimes" style="text-align:center;color:var(--text-muted);padding:20px 0;font-style:italic">جارٍ تحديد موقعك…</div>
-      <div class="countdown" id="prayerCountdown"></div>
-      <p style="font-size:0.75rem;color:var(--text-muted);text-align:center;margin-top:10px;">* في أوروبا، قد تختلف طريقة الحساب. استخدم زر 📍.</p>
+      <div id="prayerTimes" style="text-align:center; color:#7f8c8d; padding:15px 0;">جارٍ تحديد موقعك…</div>
+      <div id="prayerCountdown" class="countdown" style="display:none;"></div>
     </div>
     <div class="dash-card">
       <h3>📖 آية اليوم</h3>
-      <div id="dailyAyah" class="daily-content"><div class="big">جارٍ التحميل…</div></div>
+      <div id="dailyAyah" style="text-align:center; color:#7f8c8d; padding:15px 0;">جارٍ التحميل…</div>
     </div>
     <div class="dash-card">
       <h3>📜 حديث اليوم</h3>
-      <div id="dailyHadith" class="daily-content"><div class="big">جارٍ التحميل…</div></div>
+      <div id="dailyHadith" style="text-align:center; color:#7f8c8d; padding:15px 0;">جارٍ التحميل…</div>
     </div>
-  </div>
-  <div class="dash-card" id="kahfCard" style="display:none;margin-bottom:20px">
-    <h3>🌙 سورة الكهف (يوم الجمعة)</h3>
-    <p style="margin:8px 0 12px;color:var(--text-muted)">«من قرأ سورة الكهف يوم الجمعة أضاء له من النور ما بين الجمعتين» — رواه الحاكم والبيهقي.</p>
-    <a href="./quran.html" class="btn-primary" style="display:inline-flex">اقرأ الآن ←</a>
   </div>
 </div>
 
-<section class="section">
-  <div class="wrap">
-    <div class="section-head">
-      <h2>أبواب الموقع</h2>
-      <p>اختر ما يناسبك</p>
-    </div>
-    <div class="cards-grid">
-      <a href="./wird.html" class="nav-card"><div class="emoji">🌿</div><h3>وردك اليومي</h3><p>نظّم أذكارك وقراءتك للقرآن</p></a>
-      <a href="./adhkar.html" class="nav-card"><div class="emoji">📿</div><h3>الأذكار</h3><p>أذكار مختارة بمصادرها</p></a>
-      <a href="./azkar-morning.html" class="nav-card"><div class="emoji">🌅</div><h3>أذكار الصباح</h3><p>تبدأ يومك بذكر الله</p></a>
-      <a href="./azkar-evening.html" class="nav-card"><div class="emoji">🌙</div><h3>أذكار المساء</h3><p>اختم يومك بذكر الله</p></a>
-      <a href="./azkar-sleep.html" class="nav-card"><div class="emoji">💤</div><h3>أذكار النوم</h3><p>أذكار تُقال قبل النوم</p></a>
-      <a href="./nawawi.html" class="nav-card"><div class="emoji">📜</div><h3>الأربعون النووية</h3><p>40 حديثاً في متناول يدك</p></a>
-      <a href="./quran.html" class="nav-card"><div class="emoji">📖</div><h3>القرآن الكريم</h3><p>قارئ مصغّر لكل السور</p></a>
-      <a href="./duas.html" class="nav-card"><div class="emoji">🤲</div><h3>أدعية مستجابة</h3><p>أدعية صحيحة من القرآن والسنة</p></a>
-      <a href="./articles.html" class="nav-card"><div class="emoji">✍️</div><h3>مقالات</h3><p>مقالات في العبادة والأخلاق</p></a>
-    </div>
+<!-- أبواب الموقع -->
+<section class="section" style="background: #fff;">
+  <div class="section-head">
+    <h2>أبواب الموقع</h2>
+    <p>اختر ما يناسبك</p>
+  </div>
+  <div class="cards-grid">
+    <a href="./wird.html" class="nav-card"><span class="emoji">🌿</span><h3>وردك اليومي</h3><p>نظّم أذكارك وقراءتك</p></a>
+    <a href="./adhkar.html" class="nav-card"><span class="emoji">📿</span><h3>الأذكار</h3><p>أذكار مختارة بمصادرها</p></a>
+    <a href="./azkar-morning.html" class="nav-card"><span class="emoji">🌅</span><h3>أذكار الصباح</h3><p>تبدأ يومك بذكر الله</p></a>
+    <a href="./azkar-evening.html" class="nav-card"><span class="emoji">🌙</span><h3>أذكار المساء</h3><p>اختم يومك بذكر الله</p></a>
+    <a href="./azkar-sleep.html" class="nav-card"><span class="emoji">💤</span><h3>أذكار النوم</h3><p>أذكار تُقال قبل النوم</p></a>
+    <a href="./nawawi.html" class="nav-card"><span class="emoji">📜</span><h3>الأحاديث</h3><p>40 حديثاً في متناول يدك</p></a>
+    <a href="./quran.html" class="nav-card"><span class="emoji">📖</span><h3>القرآن الكريم</h3><p>قارئ مصغّر لكل السور</p></a>
+    <a href="./duas.html" class="nav-card"><span class="emoji">🤲</span><h3>أدعية مستجابة</h3><p>أدعية صحيحة من السنة</p></a>
+    <a href="./articles.html" class="nav-card"><span class="emoji">✍️</span><h3>مقالات</h3><p>مقالات في العبادة والأخلاق</p></a>
   </div>
 </section>
 
+<!-- التذييل -->
 <footer>
-  <div class="wrap">
-    <div class="footer-inner">
-      <div><h4>زاد عبيدة</h4><p>محتوى إسلامي نافع، سهل القراءة، مع توضيح المصادر.</p></div>
-      <div><h4>روابط سريعة</h4><p><a href="./adhkar.html">الأذكار</a><br><a href="./quran.html">القرآن</a><br><a href="./nawawi.html">الأحاديث</a><br><a href="./duas.html">أدعية</a><br><a href="./azkar-sleep.html">أذكار النوم</a><br><a href="./articles.html">المقالات</a><br><a href="./wird.html">🌿 وردك اليومي</a></p></div>
-      <div><h4>تواصل</h4><p>إنستغرام<br>البريد الإلكتروني</p></div>
-    </div>
-    <div class="footer-bottom">© <span id="year"></span> زاد عبيدة — جميع الحقوق محفوظة</div>
+  <div class="footer-inner">
+    <div><h4>زاد عبيدة</h4><p>محتوى إسلامي نافع مع توضيح المصادر.</p></div>
+    <div><h4>روابط سريعة</h4><p><a href="./adhkar.html">الأذكار</a><br><a href="./quran.html">القرآن</a><br><a href="./duas.html">أدعية</a></p></div>
+    <div><h4>تواصل</h4><p>إنستغرام</p></div>
   </div>
+  <div style="text-align:center; margin-top:30px; font-size:0.8rem; color:#7f8c8d;">© 2026 زاد عبيدة — جميع الحقوق محفوظة</div>
 </footer>
-
-<button class="share-fab" id="shareAppBtn" title="شارك التطبيق">📤</button>
-<div id="toast" class="toast" role="status" aria-live="polite"></div>
-<button class="back-to-top" id="backToTop" type="button" aria-label="العودة للأعلى">↑</button>
-
-<!-- نافذة تثبيت التطبيق -->
-<div class="install-modal" id="installModal" hidden>
-  <div class="install-dialog">
-    <h3>📲 ثبّت تطبيق زاد عبيدة</h3>
-    <div class="install-tabs">
-      <button class="install-tab active" data-tab="android">أندرويد</button>
-      <button class="install-tab" data-tab="ios">آيفون</button>
-      <button class="install-tab" data-tab="desktop">حاسوب</button>
-    </div>
-    <div id="tab-android" class="install-tab-content">
-      <p>1. افتح الموقع في متصفح <strong>Google Chrome</strong>.</p>
-      <p>2. اضغط على القائمة (⋮) في أعلى يمين الشاشة.</p>
-      <p>3. اختر <strong>"إضافة إلى الشاشة الرئيسية"</strong>.</p>
-      <p>4. اضغط <strong>"إضافة"</strong>.</p>
-    </div>
-    <div id="tab-ios" class="install-tab-content" style="display:none;">
-      <p>1. افتح الموقع في متصفح <strong>Safari</strong>.</p>
-      <p>2. اضغط على زر <strong>المشاركة</strong> (مربع فيه سهم للأعلى).</p>
-      <p>3. مرر لأسفل واختر <strong>"إضافة إلى الشاشة الرئيسية"</strong>.</p>
-      <p>4. اضغط <strong>"إضافة"</strong> في أعلى اليمين.</p>
-    </div>
-    <div id="tab-desktop" class="install-tab-content" style="display:none;">
-      <p>1. افتح الموقع في متصفح <strong>Google Chrome</strong> أو <strong>Microsoft Edge</strong>.</p>
-      <p>2. ابحث عن أيقونة <strong>التثبيت (⊕)</strong> في شريط العنوان.</p>
-      <p>3. أو اضغط على القائمة (⋮) واختر <strong>"تثبيت زاد عبيدة"</strong>.</p>
-      <p>4. اضغط <strong>"تثبيت"</strong>.</p>
-    </div>
-    <button class="install-close" id="installClose">إغلاق</button>
-  </div>
-</div>
 
 <script src="./assets/data.js"></script>
 <script src="./assets/app.js"></script>
 
-<!-- مكتبة الترجمة المجانية -->
+<!-- مكتبة الترجمة -->
 <script src="https://cdn.staticfile.net/translate.js/3.18.66/translate.js"></script>
 <script>
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// ============ زر المشاركة ============
-document.getElementById('shareAppBtn').addEventListener('click', async () => {
-  const shareData = { title: 'زاد عبيدة', text: 'مساحة عربية هادئة للأذكار والقرآن ومواقيت الصلاة.', url: 'https://zad-oubaida.github.io/zad-almuslim/' };
-  if (navigator.share) { try { await navigator.share(shareData); } catch {} }
-  else { try { await navigator.clipboard.writeText(shareData.url); showToast('تم نسخ الرابط ✓'); } catch { showToast('تعذّرت المشاركة'); } }
-});
-
-// ============ إدارة حالة زر الإشعارات ============
-const notifBtn = document.getElementById('enableNotifBtn');
-
-function updateNotifButtonState() {
-  if (!('Notification' in window)) {
-    notifBtn.textContent = '⚠️ المتصفح لا يدعم الإشعارات';
-    notifBtn.disabled = true;
-    notifBtn.style.opacity = '0.6';
-    return;
-  }
-
-  if (Notification.permission === 'granted') {
-    notifBtn.textContent = '✅ الإشعارات مفعلة';
-    notifBtn.disabled = true;
-    notifBtn.style.opacity = '0.6';
-    notifBtn.style.background = 'var(--primary-light)';
-    notifBtn.style.color = 'var(--primary)';
-  } else if (Notification.permission === 'denied') {
-    notifBtn.textContent = '⚠️ الإشعارات مرفوضة (فعّلها من إعدادات المتصفح)';
-    notifBtn.disabled = true;
-    notifBtn.style.opacity = '0.6';
-    notifBtn.style.background = '#ffebee';
-    notifBtn.style.color = '#c62828';
-  } else {
-    notifBtn.textContent = '🔔 فعّل تذكير وردك اليومي';
-    notifBtn.disabled = false;
-    notifBtn.style.opacity = '1';
-    notifBtn.style.background = 'var(--accent)';
-    notifBtn.style.color = '#1a1a1a';
-  }
-}
-
-updateNotifButtonState();
-
-notifBtn.addEventListener('click', async () => {
-  if (!('Notification' in window)) { alert('متصفحك لا يدعم الإشعارات'); return; }
-  try {
-    const permission = await Notification.requestPermission();
-    if (permission === 'granted') {
-      showToast('تم تفعيل الإشعارات ✓');
-      updateNotifButtonState();
-      if (navigator.serviceWorker.controller) {
-        navigator.serviceWorker.controller.postMessage({ type: 'SCHEDULE_REMINDER', title: 'زاد عبيدة', body: 'تم تفعيل الإشعارات بنجاح! 🕌' });
-      }
-      if (window.prayerTimings) schedulePrayerNotifications(window.prayerTimings);
-    } else if (permission === 'denied') {
-      showToast('تم رفض الإشعارات');
-      updateNotifButtonState();
-    }
-  } catch (err) { console.error(err); alert('حدث خطأ.'); }
-});
-
-// ============ نافذة التثبيت ============
-const installModal = document.getElementById('installModal');
-const installAppBtn = document.getElementById('installAppBtn');
-const installClose = document.getElementById('installClose');
-
-installAppBtn.addEventListener('click', () => {
-  installModal.hidden = false;
-  document.body.style.overflow = 'hidden';
-});
-installClose.addEventListener('click', () => {
-  installModal.hidden = true;
-  document.body.style.overflow = '';
-});
-installModal.addEventListener('click', (e) => {
-  if (e.target === installModal) {
-    installModal.hidden = true;
-    document.body.style.overflow = '';
-  }
-});
-
-document.querySelectorAll('.install-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.install-tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    document.querySelectorAll('.install-tab-content').forEach(c => c.style.display = 'none');
-    document.getElementById('tab-' + tab.dataset.tab).style.display = 'block';
-  });
-});
-
-// ============ إعداد الترجمة (translate.js) ============
+// إعداد الترجمة
 if (typeof translate !== 'undefined') {
   translate.language.setLocal('arabic');
   translate.service.use('client.edge');
@@ -330,20 +314,28 @@ if (typeof translate !== 'undefined') {
 }
 
 function doTranslate(lang) {
-  if (lang === 'ar') {
-    window.location.reload();
-    return;
-  }
+  if (lang === 'ar') { window.location.reload(); return; }
   if (typeof translate !== 'undefined') {
     translate.changeLanguage(lang);
-    showToast('تمت الترجمة ✓');
+    if (typeof showToast === 'function') showToast('تمت الترجمة ✓');
   } else {
-    alert('مكتبة الترجمة لم يتم تحميلها بعد. يرجى تحديث الصفحة.');
+    alert('مكتبة الترجمة لم يتم تحميلها بعد.');
   }
 }
+
+// الوضع الليلي
+document.getElementById('themeToggle').addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  document.getElementById('themeToggle').textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+});
+
+// نافذة التثبيت (اختياري - يظهر عند الضغط)
+document.getElementById('installAppBtn').addEventListener('click', () => {
+  alert('لتثبيت التطبيق: افتح قائمة المتصفح (⋮) واختر "إضافة إلى الشاشة الرئيسية".');
+});
 </script>
 
-<!-- start webpushr code -->
+<!-- Webpushr -->
 <script>
   (function(w,d, s, id) {
     if(typeof(w.webpushr)!=='undefined') return;
@@ -356,7 +348,6 @@ function doTranslate(lang) {
   }(window,document, 'script', 'webpushr-jssdk'));
   webpushr('setup',{'key':'BFvRzs9ZHTdJ-9XImWg_HX3EWdipxLaCK33czROqJ6L37d3Z4H926PP4N-K-NCmrkFBd18eWwY_jO9BtBSZAL7o', 'sw':'none' });
 </script>
-<!-- end webpushr code -->
 
 </body>
 </html>

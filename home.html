@@ -1,0 +1,261 @@
+/* ============================================================
+   زاد عبيدة — لوحة الصفحة الرئيسية (احتياطي)
+   ضعه في: assets/home.js  (يُحمَّل بعد common.js)
+
+   إن لم يعرض app.js مواقيت الصلاة أو آية/حديث اليوم خلال 3 ثوانٍ بعد التحميل
+   فنعرضها من هنا. لا يتدخل إطلاقاً إن كان app.js يعمل.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var Z = window.zad || {};
+  var store = Z.store || { get: function () { return null; }, set: function () {}, del: function () {} };
+  var toast = Z.toast || function () {};
+  var $ = function (id) { return document.getElementById(id); };
+  var API = 'https://api.aladhan.com/v1/';
+
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function dateStr() { var d = new Date(); return pad(d.getDate()) + '-' + pad(d.getMonth() + 1) + '-' + d.getFullYear(); }
+  // رقم اليوم بحسب التوقيت المحلي للجهاز (وليس UTC) حتى تتغير الآية والحديث عند منتصف الليل المحلي
+  function localDay() { var n = new Date(); return Math.floor((n.getTime() - n.getTimezoneOffset() * 60000) / 86400000); }
+
+  function getJSON(url, ms) {
+    var ctrl = window.AbortController ? new AbortController() : null;
+    var t = setTimeout(function () { if (ctrl) ctrl.abort(); }, ms || 10000);
+    return fetch(url, ctrl ? { signal: ctrl.signal } : {}).then(function (r) {
+      clearTimeout(t);
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.json();
+    }, function (e) { clearTimeout(t); throw e; });
+  }
+
+  function stillLoading(id) {
+    var el = $(id);
+    if (!el) return false;
+    var t = (el.textContent || '').trim();
+    return t === '' || t.indexOf('جارٍ') === 0;
+  }
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function noTr(e) { e.className = (e.className ? e.className + ' ' : '') + 'notranslate ignore'; e.setAttribute('translate', 'no'); return e; }
+
+  /* ------------------------------------------------------------
+     مواقيت الصلاة (طريقة 19: وزارة الشؤون الدينية الجزائرية)
+     ------------------------------------------------------------ */
+  function startPrayer() {
+    var NAMES = [['Fajr', 'الفجر'], ['Sunrise', 'الشروق'], ['Dhuhr', 'الظهر'], ['Asr', 'العصر'], ['Maghrib', 'المغرب'], ['Isha', 'العشاء']];
+    var ORDER = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+    var box = $('prayerTimes'), cd = $('prayerCountdown'), cityInput = $('cityInput');
+    if (!box || !cd) return;
+
+    cd.textContent = '';
+    var cdLabel = el('span', '', ''), cdTime = noTr(el('span', 'cd-time', ''));
+    cd.appendChild(cdLabel); cd.appendChild(document.createTextNode(' ')); cd.appendChild(cdTime);
+
+    var S = { times: null, tz: null, label: '', note: '', date: '', renderedKey: null, tick: null, token: 0, reload: null, retryAt: 0 };
+
+    function secsNow(zone) {
+      try {
+        var parts = new Intl.DateTimeFormat('en-GB', { timeZone: zone || undefined, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).formatToParts(new Date());
+        var g = function (t) { return parseInt(parts.filter(function (p) { return p.type === t; })[0].value, 10); };
+        return (g('hour') % 24) * 3600 + g('minute') * 60 + g('second');
+      } catch (e) {
+        var n = new Date();
+        return n.getHours() * 3600 + n.getMinutes() * 60 + n.getSeconds();
+      }
+    }
+    function toSecs(s) { var m = String(s).match(/(\d{1,2}):(\d{2})/); return m ? (+m[1]) * 3600 + (+m[2]) * 60 : 0; }
+    function nameOf(key) { return NAMES.filter(function (n) { return n[0] === key; })[0][1]; }
+
+    function renderList(nextKey) {
+      box.textContent = '';
+      if (S.label || S.note) {
+        var c = el('div', 'city-name', '📍 ');
+        if (S.label) c.appendChild(noTr(el('span', '', S.label)));       // اسم المدينة كما كتبه المستخدم: لا يُترجَم
+        if (S.label && S.note) c.appendChild(document.createTextNode(' — '));
+        if (S.note) c.appendChild(el('span', '', S.note));
+        box.appendChild(c);
+      }
+      var ul = el('ul', 'prayer-list');
+      NAMES.forEach(function (n) {
+        var li = el('li', 'prayer-item' + (n[0] === nextKey ? ' active' : ''));
+        li.appendChild(el('span', '', n[1]));
+        li.appendChild(noTr(el('strong', '', String(S.times[n[0]]).slice(0, 5))));
+        ul.appendChild(li);
+      });
+      box.appendChild(ul);
+    }
+
+    function tick() {
+      if (!S.times) return;
+      // يوم جديد (أو بيانات قديمة محفوظة): نعيد الجلب مرة كل دقيقة على الأكثر
+      if (dateStr() !== S.date && S.reload && Date.now() > S.retryAt) {
+        S.retryAt = Date.now() + 60000;
+        S.reload();
+      }
+      var now = secsNow(S.tz), nextKey = null, nextIn = 0, i;
+      for (i = 0; i < ORDER.length; i++) {
+        var s = toSecs(S.times[ORDER[i]]);
+        if (s > now) { nextKey = ORDER[i]; nextIn = s - now; break; }
+      }
+      if (!nextKey) { nextKey = 'Fajr'; nextIn = 86400 - now + toSecs(S.times.Fajr); }
+
+      // نعيد بناء القائمة والعبارة فقط عند تغيّر الصلاة القادمة (مرات قليلة في اليوم)،
+      // أما العدّاد فيتحدّث كل ثانية بتغيير نص واحد فقط — فلا يرهق مكتبة الترجمة ولا القارئات الصوتية.
+      if (S.renderedKey !== nextKey) {
+        renderList(nextKey);
+        cdLabel.textContent = 'المتبقي على ' + nameOf(nextKey) + ':';
+        S.renderedKey = nextKey;
+      }
+      var h = Math.floor(nextIn / 3600), m = Math.floor((nextIn % 3600) / 60), sec = nextIn % 60;
+      cd.style.display = 'block';
+      cdTime.textContent = pad(h) + ':' + pad(m) + ':' + pad(sec);
+    }
+
+    function useData(data, label, note) {
+      S.times = data.times; S.tz = data.tz; S.date = data.date; S.label = label; S.note = note; S.renderedKey = null;
+      tick();
+      if (!S.tick) S.tick = setInterval(tick, 1000);
+    }
+
+    function load(makeUrl, label, note, cacheKey, silent) {
+      var token = ++S.token;
+      S.reload = function () { load(makeUrl, label, note, cacheKey, true); };
+      if (!silent) { box.textContent = 'جارٍ تحميل المواقيت…'; cd.style.display = 'none'; S.renderedKey = null; }
+      getJSON(makeUrl(), 10000).then(function (j) {
+        if (token !== S.token) return;                                   // وصل ردّ قديم بعد طلب أحدث
+        if (!j || j.code !== 200 || !j.data || !j.data.timings) throw new Error('bad');
+        var data = { times: j.data.timings, tz: j.data.meta && j.data.meta.timezone, date: dateStr() };
+        store.set('zad_pt_' + cacheKey, JSON.stringify(data));
+        useData(data, label, note);
+      }).catch(function () {
+        if (token !== S.token) return;
+        if (S.times && silent) return;                                   // نكمل بالبيانات الحالية
+        var cached = null;
+        try { cached = JSON.parse(store.get('zad_pt_' + cacheKey) || 'null'); } catch (e) {}
+        if (cached && cached.times) {                                    // لا اتصال: آخر مواقيت محفوظة (تتغير دقيقة أو دقيقتين في اليوم فقط)
+          useData(cached, label, (note ? note + ' — ' : '') + 'آخر بيانات محفوظة');
+        } else {
+          box.textContent = 'تعذّر تحميل المواقيت. تحقّق من الاتصال أو اسم المدينة.';
+          cd.style.display = 'none';
+        }
+      });
+    }
+
+    function byCity(city, noStore) {
+      if (!noStore) { store.set('zad_city', city); store.del('zad_geo'); }
+      load(function () { return API + 'timingsByAddress/' + dateStr() + '?method=19&address=' + encodeURIComponent(city); },
+        city, '', 'c:' + city.toLowerCase());
+    }
+    function byCoords(lat, lon) {
+      store.set('zad_geo', lat + ',' + lon);
+      load(function () { return API + 'timings/' + dateStr() + '?method=19&latitude=' + lat + '&longitude=' + lon; },
+        '', 'موقعك الحالي', 'g:' + lat + ',' + lon);
+    }
+
+    $('cityBtn').addEventListener('click', function () {
+      var v = cityInput.value.trim();
+      if (v) byCity(v); else toast('اكتب اسم مدينتك أولاً');
+    });
+    cityInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); $('cityBtn').click(); } });
+
+    // تحديد الموقع لا يُطلب إلا عند الضغط على الزر (لا نزعج الزائر بنافذة إذن عند فتح الصفحة)
+    $('geoBtn').addEventListener('click', function () {
+      if (!navigator.geolocation) { toast('متصفحك لا يدعم تحديد الموقع، اكتب اسم مدينتك'); return; }
+      toast('جارٍ تحديد موقعك…');
+      navigator.geolocation.getCurrentPosition(function (p) {
+        byCoords(p.coords.latitude.toFixed(2), p.coords.longitude.toFixed(2));   // دقة تقريبية تكفي للمواقيت وتحمي الخصوصية
+      }, function () {
+        toast('تعذّر تحديد موقعك. اكتب اسم مدينتك ثم اضغط «تحديث».');
+      }, { timeout: 8000, maximumAge: 600000 });
+    });
+
+    window.addEventListener('online', function () { if (S.reload) S.reload(); });
+
+    var g = store.get('zad_geo'), c = store.get('zad_city');
+    if (g && /^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/.test(g)) {
+      var ll = g.split(',');
+      byCoords(ll[0], ll[1]);
+    } else {
+      if (c) cityInput.value = c;
+      byCity(c || 'Algiers', !c);
+    }
+  }
+
+  /* ------------------------------------------------------------
+     آية اليوم
+     ------------------------------------------------------------ */
+  function stripBasmala(text, surahNo, ayahNo) {
+    // الواجهة تُلحق البسملة بأول آية في كل سورة (عدا الفاتحة والتوبة)؛ نحذفها لتظهر الآية وحدها
+    if (ayahNo !== 1 || surahNo === 1 || surahNo === 9) return text;
+    var words = text.split(/\s+/);
+    var first = (words[0] || '').replace(/[ً-ٰٟۖ-ۭـ]/g, '');
+    return (first.indexOf('بسم') === 0 && words.length > 4) ? words.slice(4).join(' ') : text;
+  }
+  function surahName(name) {
+    var plain = name.replace(/[ً-ٰٟ]/g, '');
+    return plain.indexOf('سورة') === 0 ? name.replace(/^\S+\s*/, '') : name;
+  }
+
+  function startAyah() {
+    var box = $('dailyAyah');
+    if (!box) return;
+    var day = localDay();
+    var n = (day * 37) % 6236 + 1;
+
+    function show(text, src) {
+      box.textContent = '';
+      box.appendChild(el('div', 'verse-text', '﴿ ' + text + ' ﴾'));
+      box.appendChild(el('div', 'verse-src', src));
+    }
+    var cached = null;
+    try { cached = JSON.parse(store.get('zad_ayah') || 'null'); } catch (e) {}
+    if (cached && cached.day === day && cached.text) { show(cached.text, cached.src); return; }
+
+    getJSON('https://api.alquran.cloud/v1/ayah/' + n + '/quran-uthmani', 10000).then(function (j) {
+      if (!j || j.code !== 200 || !j.data) throw new Error('bad');
+      var d = j.data;
+      var text = stripBasmala(d.text, d.surah.number, d.numberInSurah);
+      var src = 'سورة ' + surahName(d.surah.name) + ' — آية ' + d.numberInSurah;
+      store.set('zad_ayah', JSON.stringify({ day: day, text: text, src: src }));
+      show(text, src);
+    }).catch(function () {
+      if (cached && cached.text) show(cached.text, cached.src);          // آخر آية محفوظة عند انقطاع الاتصال
+      else box.textContent = 'تعذّر تحميل آية اليوم. تحقّق من الاتصال.';
+    });
+  }
+
+  /* ------------------------------------------------------------
+     حديث اليوم (أحاديث مشهورة من الأربعين النووية وغيرها)
+     ------------------------------------------------------------ */
+  function startHadith() {
+    var box = $('dailyHadith');
+    if (!box) return;
+    var list = [
+      ['إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى', 'متفق عليه'],
+      ['الدِّينُ النَّصِيحَةُ', 'رواه مسلم'],
+      ['لَا يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لِأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ', 'متفق عليه'],
+      ['مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ', 'متفق عليه'],
+      ['الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ', 'متفق عليه'],
+      ['اتَّقِ اللَّهَ حَيْثُمَا كُنْتَ، وَأَتْبِعِ السَّيِّئَةَ الْحَسَنَةَ تَمْحُهَا، وَخَالِقِ النَّاسَ بِخُلُقٍ حَسَنٍ', 'رواه الترمذي وقال: حديث حسن'],
+      ['مِنْ حُسْنِ إِسْلَامِ الْمَرْءِ تَرْكُهُ مَا لَا يَعْنِيهِ', 'رواه الترمذي وغيره، وهو حديث حسن']
+    ];
+    var h = list[localDay() % list.length];
+    box.textContent = '';
+    box.appendChild(el('div', 'hadith-text', '«' + h[0] + '»'));
+    box.appendChild(el('div', 'verse-src', h[1]));
+  }
+
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      if (stillLoading('prayerTimes')) startPrayer();
+      if (stillLoading('dailyAyah')) startAyah();
+      if (stillLoading('dailyHadith')) startHadith();
+    }, 3000);
+  });
+})();

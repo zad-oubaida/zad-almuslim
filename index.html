@@ -41,7 +41,6 @@
     .notif-btn:disabled { opacity: 0.7; cursor: not-allowed; }
     .install-btn { display: block; margin: 10px auto; padding: 10px 20px; background: var(--primary); color: #fff; border: none; border-radius: var(--radius-sm); font-weight: bold; cursor: pointer; font-family: inherit; font-size: 0.9rem; }
     .install-btn:hover { background: var(--primary-dark); }
-    .translation-warning { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; padding: 10px 16px; border-radius: 8px; font-size: 0.9rem; text-align: center; margin: 10px auto; max-width: 800px; display: none; }
     .install-modal { position: fixed; inset: 0; z-index: 10000; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; padding: 16px; }
     .install-modal[hidden] { display: none !important; }
     .install-dialog { background: var(--card); color: var(--text); width: min(500px, 100%); max-height: 85vh; overflow-y: auto; border-radius: var(--radius); padding: 24px; box-shadow: 0 20px 70px rgba(0,0,0,0.3); }
@@ -79,24 +78,11 @@
       <a href="./opinions.html">💬 آراء واقتراحات</a>
     </div>
     <div class="nav-tools">
-      <div class="dropdown" style="margin-left: 10px;">
-        <button class="icon-btn" style="font-size: 0.9rem; padding: 8px 12px;">🌐</button>
-        <div class="dropdown-content" style="min-width: 120px; left: 0; right: auto;">
-          <a href="#" onclick="doTranslate('ar')">العربية</a>
-          <a href="#" onclick="doTranslate('en')">English</a>
-          <a href="#" onclick="doTranslate('fr')">Français</a>
-          <a href="#" onclick="doTranslate('es')">Español</a>
-          <a href="#" onclick="doTranslate('de')">Deutsch</a>
-          <a href="#" onclick="doTranslate('tr')">Türkçe</a>
-          <a href="#" onclick="doTranslate('it')">Italiano</a>
-        </div>
-      </div>
       <button class="icon-btn" id="themeToggle" type="button" aria-label="الوضع الليلي">🌙</button>
       <button class="icon-btn mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="القائمة">☰</button>
     </div>
   </div>
 </nav>
-<div class="translation-warning" id="translationWarning">⚠️ تنبيه: الترجمة الآلية قد لا تكون دقيقة في النصوص الشرعية. يُرجى الرجوع إلى النص العربي الأصلي.</div>
 <section class="hero">
   <div class="wrap">
     <p class="bismillah">بسم الله الرحمن الرحيم</p>
@@ -203,19 +189,6 @@
   </div>
 </div>
 
-<!-- أداة ترجمة جوجل المدمجة (مخفية) -->
-<div id="google_translate_element" style="display:none;"></div>
-<script>
-  function googleTranslateElementInit() {
-    new google.translate.TranslateElement({
-      pageLanguage: 'ar',
-      includedLanguages: 'en,fr,es,de,tr,it',
-      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-    }, 'google_translate_element');
-  }
-</script>
-<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
 <script src="./assets/data.js"></script>
 <script src="./assets/app.js"></script>
 <script>
@@ -231,7 +204,6 @@ document.getElementById('shareAppBtn').addEventListener('click', async () => {
 // ============ إدارة حالة زر الإشعارات ============
 const notifBtn = document.getElementById('enableNotifBtn');
 
-// دالة لتحديث شكل الزر بناءً على حالة الإذن الحالية
 function updateNotifButtonState() {
   if (!('Notification' in window)) {
     notifBtn.textContent = '⚠️ المتصفح لا يدعم الإشعارات';
@@ -309,36 +281,6 @@ document.querySelectorAll('.install-tab').forEach(tab => {
     document.getElementById('tab-' + tab.dataset.tab).style.display = 'block';
   });
 });
-
-// ============ الترجمة (تحسين الأداة) ============
-function doTranslate(lang) {
-  const warning = document.getElementById('translationWarning');
-  if (warning) {
-    warning.style.display = (lang !== 'ar') ? 'block' : 'none';
-  }
-
-  if (lang === 'ar') {
-    window.location.reload();
-    return;
-  }
-
-  // محاولة العثور على القائمة عدة مرات
-  let attempts = 0;
-  const maxAttempts = 10;
-  const tryTranslate = () => {
-    const select = document.querySelector('.goog-te-combo');
-    if (select) {
-      select.value = lang;
-      select.dispatchEvent(new Event('change'));
-    } else if (attempts < maxAttempts) {
-      attempts++;
-      setTimeout(tryTranslate, 500);
-    } else {
-      alert('أداة الترجمة لم يتم تحميلها بعد. يرجى تحديث الصفحة والمحاولة مجدداً.');
-    }
-  };
-  tryTranslate();
-}
 </script>
 
 <!-- start webpushr code -->

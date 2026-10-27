@@ -8,7 +8,6 @@
   <title>الأذكار — زاد عبيدة</title>
   <link rel="canonical" href="https://zad-oubaida.github.io/zad-almuslim/adhkar.html">
   <link rel="icon" type="image/png" href="./logo-zad-almuslim.webp.png">
-  <link rel="manifest" href="./manifest.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
@@ -24,20 +23,18 @@
     </a>
     <div class="nav-links" id="navLinks">
       <a href="./index.html">الرئيسية</a>
+      <a href="./wird.html">🌿 وردك اليومي</a>
       <a href="./adhkar.html" class="active">الأذكار</a>
       <a href="./azkar-morning.html">الصباح</a>
       <a href="./azkar-evening.html">المساء</a>
+      <a href="./azkar-sleep.html">النوم</a>
       <a href="./nawawi.html">الأحاديث</a>
       <a href="./quran.html">القرآن</a>
+      <a href="./duas.html">🤲 أدعية</a>
       <a href="./articles.html">المقالات</a>
       <a href="./about.html">عن الموقع</a>
     </div>
     <div class="nav-tools">
-      <select id="siteLanguage" class="lang-select" aria-label="اللغة">
-        <option value="ar">العربية</option>
-        <option value="en">English</option>
-        <option value="fr">Français</option>
-      </select>
       <button class="icon-btn" id="themeToggle" type="button" aria-label="الوضع الليلي">🌙</button>
       <button class="icon-btn mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="القائمة">☰</button>
     </div>
@@ -47,7 +44,7 @@
 <main class="wrap" style="padding:40px 0">
   <div class="section-head">
     <h2>📿 الأذكار المختارة</h2>
-    <p>أذكار مع نصوصها ومصادرها</p>
+    <p>أكثر من 30 ذكراً مع نصوصها ومصادرها</p>
   </div>
 
   <div class="search-box">
@@ -60,6 +57,7 @@
     <button class="filter-btn" type="button" data-filter="morning">الصباح والمساء</button>
     <button class="filter-btn" type="button" data-filter="prayer">بعد الصلاة</button>
     <button class="filter-btn" type="button" data-filter="daily">أذكار يومية</button>
+    <button class="filter-btn" type="button" data-filter="general">أذكار عامة</button>
   </div>
 
   <div class="azkar-list" id="azkarList"></div>
@@ -69,123 +67,158 @@
   <div class="wrap">
     <div class="footer-inner">
       <div><h4>زاد عبيدة</h4><p>محتوى إسلامي نافع مع توضيح المصادر.</p></div>
-      <div><h4>روابط</h4><p><a href="./index.html">الرئيسية</a><br><a href="./quran.html">القرآن</a><br><a href="./nawawi.html">الأحاديث</a></p></div>
-      <div><h4>تواصل</h4><p>إنستغرام</p></div>
+      <div><h4>روابط</h4><p><a href="./index.html">الرئيسية</a><br><a href="./quran.html">القرآن</a><br><a href="./wird.html">وردك اليومي</a></p></div>
+      <div><h4>تواصل</h4><p><a href="https://www.instagram.com/oubaida.muslim/" target="_blank" rel="noopener noreferrer">إنستغرام</a></p></div>
     </div>
     <div class="footer-bottom">© <span id="year"></span> زاد عبيدة</div>
   </div>
 </footer>
 
-<div id="google_translate_element" style="position:fixed;left:-10000px;top:0;width:1px;height:1px;overflow:hidden" aria-hidden="true"></div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
-<button class="back-to-top" id="backToTop" type="button" aria-label="العودة للأعلى">↑</button>
+<button class="back-to-top" id="backToTop" type="button" aria-label="العودة إلى الأعلى">↑</button>
 
 <script src="./assets/data.js"></script>
 <script src="./assets/app.js"></script>
 <script>
-  document.getElementById('year').textContent = new Date().getFullYear();
+document.getElementById('year').textContent = new Date().getFullYear();
 
-  /* بناء قائمة الأذكار */
-  (function renderAzkar(){
-    const list = document.getElementById('azkarList');
-    if(!list || typeof ADHKAR === 'undefined') return;
-    const counts = loadCounts();
+(function(){
+  const AZKAR = [
+    // ===== أذكار من القرآن =====
+    { id:'ilm', category:'quran', title:'دعاء طلب العلم', text:'رَبِّ زِدْنِي عِلْمًا', ref:'القرآن الكريم: سورة طه، الآية 114', target:1 },
+    { id:'hidaya', category:'quran', title:'دعاء الهداية والثبات', text:'رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِنْ لَدُنْكَ رَحْمَةً إِنَّكَ أَنْتَ الْوَهَّابُ', ref:'سورة آل عمران، الآية 8', target:1 },
+    { id:'hasana', category:'quran', title:'دعاء الحسنة في الدنيا والآخرة', text:'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ', ref:'سورة البقرة، الآية 201', target:1 },
+    { id:'sabr', category:'quran', title:'دعاء الصبر والثبات', text:'يَا أَيُّهَا الَّذِينَ آمَنُوا اسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ ۚ إِنَّ اللَّهَ مَعَ الصَّابِرِينَ', ref:'سورة البقرة، الآية 153', target:1 },
+    { id:'tawakkul', category:'quran', title:'دعاء التوكل', text:'حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ', ref:'سورة آل عمران، الآية 173', target:1 },
+    { id:'afw', category:'quran', title:'دعاء العفو', text:'رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ', ref:'سورة الأعراف، الآية 23', target:1 },
 
-    ADHKAR.forEach(z => {
-      const card = document.createElement('article');
-      card.className = 'azkar-item';
-      card.dataset.id = z.id;
-      card.dataset.category = z.category;
-      card.dataset.target = z.target;
-      card.id = 'dhikr-' + z.id;
+    // ===== أذكار الصباح والمساء =====
+    { id:'istighfar', category:'morning', title:'سيد الاستغفار', text:'اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي، فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ.', ref:'صحيح البخاري، حديث 6306', target:3 },
+    { id:'subhan100', category:'morning', title:'ذكر عظيم الأجر', text:'سُبْحَانَ اللَّهِ وَبِحَمْدِهِ', ref:'صحيح البخاري (6405) وصحيح مسلم (2691) — مئة مرة', target:100 },
+    { id:'afiya', category:'morning', title:'دعاء العافية', text:'اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي، لَا إِلَهَ إِلَّا أَنْتَ', ref:'سنن أبي داود، حديث 5090', target:3 },
+    { id:'kifaya', category:'morning', title:'دعاء الكفاية', text:'بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ', ref:'سنن أبي داود، حديث 5088', target:3 },
+    { id:'rida', category:'morning', title:'دعاء الرضا', text:'رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ ﷺ نَبِيًّا', ref:'سنن أبي داود، حديث 5072', target:3 },
+    { id:'afw_afiya', category:'morning', title:'دعاء العفو والعافية', text:'اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ...', ref:'سنن ابن ماجه، حديث 3871', target:1 },
 
-      card.innerHTML = `
-        <h3>${z.title}</h3>
-        <div class="azkar-text">${z.text}</div>
-        <div class="azkar-ref">${z.ref}</div>
-        <div class="azkar-actions">
-          <button class="action-btn" data-action="copy">📋 نسخ</button>
-          <button class="action-btn" data-action="speak">🔊 استماع</button>
-          <button class="action-btn" data-action="share">📤 مشاركة</button>
-          <button class="action-btn primary" data-action="count">+ عدّ</button>
-          <span class="count-badge">${(counts[z.id]||0)} / ${z.target}</span>
-          <button class="action-btn" data-action="reset">إعادة</button>
-        </div>
-      `;
+    // ===== أذكار بعد الصلاة =====
+    { id:'tasbih33', category:'prayer', title:'التسبيح بعد الصلاة', text:'سُبْحَانَ اللَّهِ (33 مرة)', ref:'صحيح مسلم، حديث 597', target:33 },
+    { id:'tahmid33', category:'prayer', title:'التحميد بعد الصلاة', text:'الْحَمْدُ لِلَّهِ (33 مرة)', ref:'صحيح مسلم، حديث 597', target:33 },
+    { id:'takbir33', category:'prayer', title:'التكبير بعد الصلاة', text:'اللَّهُ أَكْبَرُ (33 مرة)', ref:'صحيح مسلم، حديث 597', target:33 },
+    { id:'tahlil', category:'prayer', title:'التهليل بعد الصلاة', text:'لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ', ref:'صحيح مسلم، حديث 597', target:1 },
 
-      const badge = card.querySelector('.count-badge');
-      const paint = ()=>{
-        const c = counts[z.id] || 0;
-        badge.textContent = c + ' / ' + z.target;
-        if(c >= z.target) badge.classList.add('done');
-        else badge.classList.remove('done');
-      };
+    // ===== أذكار يومية =====
+    { id:'istiana', category:'daily', title:'دعاء الاستعانة', text:'اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ', ref:'سنن أبي داود، حديث 1522', target:1 },
+    { id:'karb', category:'daily', title:'دعاء الكرب', text:'لَا إِلَهَ إِلَّا اللَّهُ الْعَظِيمُ الْحَلِيمُ، لَا إِلَهَ إِلَّا اللَّهُ رَبُّ الْعَرْشِ الْعَظِيمِ، لَا إِلَهَ إِلَّا اللَّهُ رَبُّ السَّمَاوَاتِ وَرَبُّ الْأَرْضِ وَرَبُّ الْعَرْشِ الْكَرِيمِ', ref:'صحيح البخاري (6346)، صحيح مسلم (2730)', target:1 },
+    { id:'huda', category:'daily', title:'دعاء نافع', text:'اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى', ref:'صحيح مسلم، حديث 2721', target:1 },
+    { id:'hawla', category:'daily', title:'ذكر جامع', text:'لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ', ref:'صحيح البخاري (6384)، صحيح مسلم (2694)', target:1 },
+    { id:'salat', category:'daily', title:'الصلاة على النبي ﷺ', text:'اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ', ref:'صيغة دعاء بالصلاة والسلام', target:10 },
+    { id:'hasbi', category:'daily', title:'دعاء الكفاية', text:'حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ', ref:'سنن أبي داود', target:7 },
 
-      card.addEventListener('click', async (e)=>{
-        const btn = e.target.closest('[data-action]');
-        if(!btn) return;
-        const action = btn.dataset.action;
-        if(action === 'copy'){
-          try { await copyText(z.text); showToast('تم النسخ ✓'); } catch { showToast('تعذّر النسخ'); }
-        } else if(action === 'speak'){
-          speak(z.text);
-        } else if(action === 'share'){
-          const url = location.origin + '/adhkar.html#dhikr-' + z.id;
-          shareContent({ title: z.title, text: z.text, url });
-        } else if(action === 'count'){
-          if((counts[z.id]||0) >= z.target) return;
-          counts[z.id] = (counts[z.id]||0) + 1;
-          saveCounts(counts);
-          paint();
-          if(counts[z.id] >= z.target) showToast('اكتمل ✓');
-        } else if(action === 'reset'){
-          delete counts[z.id];
-          saveCounts(counts);
-          paint();
-        }
-      });
+    // ===== أذكار عامة (جديدة) =====
+    { id:'general1', category:'general', title:'دعاء دخول المسجد', text:'اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ', ref:'صحيح مسلم', target:1 },
+    { id:'general2', category:'general', title:'دعاء الخروج من المسجد', text:'اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ', ref:'صحيح مسلم', target:1 },
+    { id:'general3', category:'general', title:'دعاء دخول الخلاء', text:'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ', ref:'صحيح البخاري ومسلم', target:1 },
+    { id:'general4', category:'general', title:'دعاء الخروج من الخلاء', text:'غُفْرَانَكَ', ref:'سنن أبي داود والترمذي', target:1 },
+    { id:'general5', category:'general', title:'دعاء السفر', text:'سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ، وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ', ref:'صحيح مسلم', target:1 },
+    { id:'general6', category:'general', title:'دعاء الطعام', text:'بِسْمِ اللَّهِ', ref:'متفق عليه', target:1 },
+    { id:'general7', category:'general', title:'دعاء بعد الطعام', text:'الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِينَ', ref:'سنن أبي داود والترمذي', target:1 },
+    { id:'general8', category:'general', title:'دعاء لبس الثوب', text:'الْحَمْدُ لِلَّهِ الَّذِي كَسَانِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ', ref:'سنن أبي داود والترمذي', target:1 },
+    { id:'general9', category:'general', title:'دعاء الاستخارة', text:'اللَّهُمَّ إِنِّي أَسْتَخِيرُكَ بِعِلْمِكَ، وَأَسْتَقْدِرُكَ بِقُدْرَتِكَ...', ref:'صحيح البخاري', target:1 },
+    { id:'general10', category:'general', title:'دعاء القنوت', text:'اللَّهُمَّ اهْدِنِي فِيمَنْ هَدَيْتَ، وَعَافِنِي فِيمَنْ عَافَيْتَ...', ref:'سنن الترمذي', target:1 },
+    { id:'general11', category:'general', title:'دعاء الهم والحزن', text:'اللَّهُمَّ إِنِّي عَبْدُكَ، ابْنُ عَبْدِكَ، ابْنُ أَمَتِكَ...', ref:'رواه أحمد', target:1 },
+    { id:'general12', category:'general', title:'دعاء الاستغفار', text:'أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ', ref:'صحيح البخاري ومسلم', target:100 },
+    { id:'general13', category:'general', title:'دعاء الرزق', text:'اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ', ref:'سنن الترمذي', target:1 },
+    { id:'general14', category:'general', title:'دعاء الشفاء', text:'أَسْأَلُ اللَّهَ الْعَظِيمَ رَبَّ الْعَرْشِ الْعَظِيمِ أَنْ يَشْفِيَكَ', ref:'سنن أبي داود والترمذي', target:7 },
+    { id:'general15', category:'general', title:'دعاء دخول المنزل', text:'بِسْمِ اللَّهِ وَلَجْنَا، وَبِسْمِ اللَّهِ خَرَجْنَا، وَعَلَى اللَّهِ رَبِّنَا تَوَكَّلْنَا', ref:'سنن أبي داود', target:1 },
+  ];
 
-      paint();
-      list.appendChild(card);
+  const KEY = 'zad_counts_v2';
+  function loadC(){ try { return JSON.parse(localStorage.getItem(KEY)||'{}'); } catch { return {}; } }
+  function saveC(c){ try { localStorage.setItem(KEY, JSON.stringify(c)); } catch {} }
+  const counts = loadC();
+
+  const container = document.getElementById('azkarList');
+  if(!container) return;
+
+  AZKAR.forEach(z => {
+    const card = document.createElement('article');
+    card.className = 'azkar-item';
+    card.id = 'dhikr-' + z.id;
+    card.dataset.category = z.category;
+
+    const h3 = document.createElement('h3');
+    h3.textContent = z.title;
+
+    const text = document.createElement('div');
+    text.className = 'azkar-text';
+    text.textContent = z.text;
+
+    const ref = document.createElement('div');
+    ref.className = 'azkar-ref';
+    ref.textContent = z.ref;
+
+    const actions = document.createElement('div');
+    actions.className = 'azkar-actions';
+
+    const bCopy = document.createElement('button');
+    bCopy.type='button'; bCopy.className='action-btn'; bCopy.textContent='📋 نسخ';
+    const bSpeak = document.createElement('button');
+    bSpeak.type='button'; bSpeak.className='action-btn'; bSpeak.textContent='🔊 استماع';
+    const bShare = document.createElement('button');
+    bShare.type='button'; bShare.className='action-btn'; bShare.textContent='📤 مشاركة';
+    const bCount = document.createElement('button');
+    bCount.type='button'; bCount.className='action-btn primary'; bCount.textContent='+ عدّ';
+    const badge = document.createElement('span');
+    badge.className='count-badge'; badge.textContent = (counts[z.id]||0) + ' / ' + z.target;
+    const bReset = document.createElement('button');
+    bReset.type='button'; bReset.className='action-btn'; bReset.textContent='إعادة';
+
+    actions.append(bCopy, bSpeak, bShare, bCount, badge, bReset);
+    card.append(h3, text, ref, actions);
+    container.appendChild(card);
+
+    bCopy.addEventListener('click', async ()=>{ try { await copyText(z.text); showToast('تم النسخ ✓'); } catch { showToast('تعذّر النسخ'); } });
+    bSpeak.addEventListener('click', ()=> speak(z.text));
+    bShare.addEventListener('click', ()=> shareContent({ title: z.title, text: z.text, url: location.origin + '/adhkar.html#dhikr-' + z.id }));
+    bCount.addEventListener('click', ()=>{
+      const cur = counts[z.id] || 0;
+      if(cur >= z.target) return;
+      counts[z.id] = cur + 1; saveC(counts);
+      badge.textContent = counts[z.id] + ' / ' + z.target;
+      if(counts[z.id] >= z.target){ badge.style.background = 'var(--primary)'; badge.style.color = '#fff'; showToast('اكتمل ✓'); }
     });
+    bReset.addEventListener('click', ()=>{
+      delete counts[z.id]; saveC(counts);
+      badge.textContent = '0 / ' + z.target;
+      badge.style.background = 'var(--accent-light)';
+      badge.style.color = 'var(--primary)';
+    });
+  });
 
-    /* الفلترة */
-    document.querySelectorAll('#dhikrFilters .filter-btn').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        document.querySelectorAll('#dhikrFilters .filter-btn').forEach(b=>b.classList.remove('active'));
-        btn.classList.add('active');
-        const f = btn.dataset.filter;
-        document.querySelectorAll('.azkar-item').forEach(card=>{
-          card.style.display = (f === 'all' || card.dataset.category === f) ? '' : 'none';
-        });
+  // الفلترة
+  document.querySelectorAll('#dhikrFilters .filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#dhikrFilters .filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter;
+      document.querySelectorAll('.azkar-item').forEach(card => {
+        card.style.display = (f === 'all' || card.dataset.category === f) ? '' : 'none';
       });
     });
+  });
 
-    /* البحث */
-    const search = document.getElementById('azkarSearch');
-    if(search){
-      search.addEventListener('input', ()=>{
-        const q = search.value.trim().toLowerCase();
-        document.querySelectorAll('.azkar-item').forEach(card=>{
-          const txt = card.textContent.toLowerCase();
-          card.style.display = (!q || txt.includes(q)) ? '' : 'none';
-        });
+  // البحث
+  const search = document.getElementById('azkarSearch');
+  if(search){
+    search.addEventListener('input', () => {
+      const q = search.value.trim().toLowerCase();
+      document.querySelectorAll('.azkar-item').forEach(card => {
+        const txt = card.textContent.toLowerCase();
+        card.style.display = (!q || txt.includes(q)) ? '' : 'none';
       });
-    }
-
-    /* إذا كان هناك hash، انتقل إليه */
-    if(location.hash){
-      setTimeout(()=>{
-        const target = document.querySelector(location.hash);
-        if(target){
-          target.scrollIntoView({behavior:'smooth', block:'center'});
-          target.style.boxShadow = '0 0 0 3px var(--accent)';
-          setTimeout(()=>target.style.boxShadow = '', 2600);
-        }
-      }, 300);
-    }
-  })();
+    });
+  }
+})();
 </script>
-
 </body>
 </html>

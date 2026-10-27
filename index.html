@@ -36,8 +36,9 @@
     .dropdown:hover .dropdown-content { display: block; }
     .share-fab { position: fixed; bottom: 80px; left: 20px; z-index: 999; width: 56px; height: 56px; border-radius: 50%; background: var(--primary); color: #fff; border: none; box-shadow: 0 4px 15px rgba(13, 122, 95, 0.4); font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; }
     .share-fab:hover { transform: scale(1.1); background: var(--primary-dark); }
-    .notif-btn { display: block; margin: 10px auto; padding: 10px 20px; background: var(--accent); color: #1a1a1a; border: none; border-radius: var(--radius-sm); font-weight: bold; cursor: pointer; font-family: inherit; font-size: 0.9rem; }
-    .notif-btn:hover { background: var(--accent-light); }
+    .notif-btn { display: block; margin: 10px auto; padding: 10px 20px; background: var(--accent); color: #1a1a1a; border: none; border-radius: var(--radius-sm); font-weight: bold; cursor: pointer; font-family: inherit; font-size: 0.9rem; transition: all 0.3s; }
+    .notif-btn:hover:not(:disabled) { background: var(--accent-light); }
+    .notif-btn:disabled { opacity: 0.7; cursor: not-allowed; }
     .install-btn { display: block; margin: 10px auto; padding: 10px 20px; background: var(--primary); color: #fff; border: none; border-radius: var(--radius-sm); font-weight: bold; cursor: pointer; font-family: inherit; font-size: 0.9rem; }
     .install-btn:hover { background: var(--primary-dark); }
     .translation-warning { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; padding: 10px 16px; border-radius: 8px; font-size: 0.9rem; text-align: center; margin: 10px auto; max-width: 800px; display: none; }
@@ -219,31 +220,72 @@
 <script>
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// زر المشاركة
+// ============ زر المشاركة ============
 document.getElementById('shareAppBtn').addEventListener('click', async () => {
   const shareData = { title: 'زاد عبيدة', text: 'مساحة عربية هادئة للأذكار والقرآن ومواقيت الصلاة.', url: 'https://zad-oubaida.github.io/zad-almuslim/' };
   if (navigator.share) { try { await navigator.share(shareData); } catch {} }
   else { try { await navigator.clipboard.writeText(shareData.url); showToast('تم نسخ الرابط ✓'); } catch { showToast('تعذّرت المشاركة'); } }
 });
 
-// الإشعارات
-document.getElementById('enableNotifBtn').addEventListener('click', async () => {
+// ============ إدارة حالة زر الإشعارات ============
+const notifBtn = document.getElementById('enableNotifBtn');
+
+// دالة لتحديث شكل الزر بناءً على حالة الإذن الحالية
+function updateNotifButtonState() {
+  if (!('Notification' in window)) {
+    notifBtn.textContent = '⚠️ المتصفح لا يدعم الإشعارات';
+    notifBtn.disabled = true;
+    notifBtn.style.opacity = '0.6';
+    return;
+  }
+
+  if (Notification.permission === 'granted') {
+    // المستخدم مفعل الإشعارات بالفعل
+    notifBtn.textContent = '✅ الإشعارات مفعلة';
+    notifBtn.disabled = true;
+    notifBtn.style.opacity = '0.6';
+    notifBtn.style.background = 'var(--primary-light)';
+    notifBtn.style.color = 'var(--primary)';
+  } else if (Notification.permission === 'denied') {
+    // المستخدم رفض الإشعارات
+    notifBtn.textContent = '⚠️ الإشعارات مرفوضة (فعّلها من إعدادات المتصفح)';
+    notifBtn.disabled = true;
+    notifBtn.style.opacity = '0.6';
+    notifBtn.style.background = '#ffebee';
+    notifBtn.style.color = '#c62828';
+  } else {
+    // الحالة الافتراضية: لم يقرر بعد
+    notifBtn.textContent = '🔔 فعّل تذكير وردك اليومي';
+    notifBtn.disabled = false;
+    notifBtn.style.opacity = '1';
+    notifBtn.style.background = 'var(--accent)';
+    notifBtn.style.color = '#1a1a1a';
+  }
+}
+
+// استدعاء الدالة عند تحميل الصفحة
+updateNotifButtonState();
+
+// معالج النقر على الزر
+notifBtn.addEventListener('click', async () => {
   if (!('Notification' in window)) { alert('متصفحك لا يدعم الإشعارات'); return; }
   try {
     const permission = await Notification.requestPermission();
     if (permission === 'granted') {
       showToast('تم تفعيل الإشعارات ✓');
-      document.getElementById('enableNotifBtn').textContent = '✅ الإشعارات مفعلة';
-      document.getElementById('enableNotifBtn').disabled = true;
+      updateNotifButtonState(); // تحديث الزر فوراً
       if (navigator.serviceWorker.controller) {
         navigator.serviceWorker.controller.postMessage({ type: 'SCHEDULE_REMINDER', title: 'زاد عبيدة', body: 'تم تفعيل الإشعارات بنجاح! 🕌' });
       }
       if (window.prayerTimings) schedulePrayerNotifications(window.prayerTimings);
-    } else { showToast('تم رفض الإشعارات'); }
+    } else if (permission === 'denied') {
+      showToast('تم رفض الإشعارات');
+      updateNotifButtonState();
+    }
   } catch (err) { console.error(err); alert('حدث خطأ.'); }
 });
 
-// نافذة التثبيت (اختيارية)
+// ============ نافذة التثبيت (اختيارية) ============
 const installModal = document.getElementById('installModal');
 const installAppBtn = document.getElementById('installAppBtn');
 const installClose = document.getElementById('installClose');
@@ -273,7 +315,7 @@ document.querySelectorAll('.install-tab').forEach(tab => {
   });
 });
 
-// الترجمة (باستخدام أداة جوجل المدمجة)
+// ============ الترجمة (باستخدام أداة جوجل المدمجة) ============
 function doTranslate(lang) {
   const warning = document.getElementById('translationWarning');
   if (warning) {
@@ -314,7 +356,6 @@ function doTranslate(lang) {
     js.src = "https://cdn.webpushr.com/app.min.js";
     fjs.parentNode.appendChild(js);
   }(window,document, 'script', 'webpushr-jssdk'));
-  // تم إضافة 'sw':'none' لمنع تعارض Service Worker
   webpushr('setup',{'key':'BFvRzs9ZHTdJ-9XImWg_HX3EWdipxLaCK33czROqJ6L37d3Z4H926PP4N-K-NCmrkFBd18eWwY_jO9BtBSZAL7o', 'sw':'none' });
 </script>
 <!-- end webpushr code -->

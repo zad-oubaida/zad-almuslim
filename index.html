@@ -37,11 +37,20 @@
       --primary: #0d7a5f;
       --primary-dark: #0a5a45;
       --primary-light: #e6f2ef;
-      --accent: #d4af37; /* ذهبي */
+      --accent: #d4af37;
       --border-color: #e0e0e0;
       --card-bg: #ffffff;
       --shadow: 0 4px 20px rgba(0,0,0,0.04);
       --shadow-hover: 0 10px 30px rgba(13, 122, 95, 0.1);
+    }
+
+    body.dark {
+      --bg-color: #121212;
+      --text-color: #e0e0e0;
+      --border-color: #333;
+      --card-bg: #1e1e1e;
+      --primary-light: #1a3d33;
+      --shadow: 0 4px 20px rgba(0,0,0,0.3);
     }
 
     body {
@@ -52,9 +61,10 @@
       margin: 0;
       padding: 0;
       overflow-x: hidden;
+      transition: background 0.3s, color 0.3s;
     }
 
-    /* زخرفة إسلامية خفيفة في الخلفية */
+    /* زخرفة إسلامية خفيفة */
     body::before {
       content: "۞";
       position: fixed;
@@ -88,14 +98,8 @@
       top: 0;
       z-index: 1000;
     }
-    .nav-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
+    body.dark .navbar { background: rgba(18, 18, 18, 0.95); }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
     .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
     .brand img { width: 45px; height: 45px; border-radius: 50%; }
     .brand strong { font-size: 1.3rem; color: var(--primary); display: block; }
@@ -105,33 +109,33 @@
     .nav-links a { text-decoration: none; color: var(--text-color); font-weight: 600; font-size: 0.9rem; padding: 8px 12px; border-radius: 8px; transition: all 0.3s; }
     .nav-links a:hover, .nav-links a.active { background-color: var(--primary-light); color: var(--primary); }
 
-    /* القائمة المنسدلة */
     .dropdown { position: relative; }
-    .dropdown-content { display: none; position: absolute; background: #fff; min-width: 180px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 12px; border: 1px solid var(--border-color); top: 100%; right: 0; padding: 8px 0; z-index: 1001; }
+    .dropdown-content { display: none; position: absolute; background: var(--card-bg); min-width: 180px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 12px; border: 1px solid var(--border-color); top: 100%; right: 0; padding: 8px 0; z-index: 1001; }
     .dropdown:hover .dropdown-content { display: block; }
     .dropdown-content a { display: block; padding: 10px 16px; font-size: 0.9rem; color: var(--text-color); }
     .dropdown-content a:hover { background-color: var(--primary-light); color: var(--primary); }
 
     .nav-tools { display: flex; gap: 8px; align-items: center; }
     .icon-btn { background: #f1f2f6; border: none; border-radius: 8px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; color: var(--text-color); }
+    body.dark .icon-btn { background: #2a2a2a; }
     .icon-btn:hover { background: var(--primary-light); color: var(--primary); }
 
     /* قسم الترحيب */
     .hero { text-align: center; padding: 70px 20px 50px; max-width: 800px; margin: 0 auto; position: relative; }
+    .hero .bismillah { font-family: 'Amiri', serif; font-size: 1.6rem; color: var(--accent); margin-bottom: 20px; }
     .hero h1 { font-family: 'Amiri', serif; font-size: 3.2rem; color: var(--primary); margin-bottom: 20px; line-height: 1.3; }
     .hero p { font-size: 1.1rem; color: #7f8c8d; margin-bottom: 30px; }
 
-    /* أزرار الهيرو */
     .hero-actions { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 30px; }
     .btn-primary { background-color: var(--primary); color: #fff; padding: 12px 28px; border-radius: 50px; text-decoration: none; font-weight: bold; transition: 0.3s; box-shadow: 0 4px 15px rgba(13, 122, 95, 0.2); border: none; cursor: pointer; font-family: inherit; font-size: 1rem; }
-    .btn-primary:hover { background-color: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(13, 122, 95, 0.3); }
+    .btn-primary:hover { background-color: var(--primary-dark); transform: translateY(-2px); }
     .btn-secondary { background-color: transparent; color: var(--primary); border: 2px solid var(--primary); padding: 10px 28px; border-radius: 50px; text-decoration: none; font-weight: bold; transition: 0.3s; cursor: pointer; font-family: inherit; font-size: 1rem; }
     .btn-secondary:hover { background-color: var(--primary-light); }
 
-    /* أزرار التحميل والإشعارات */
     .action-buttons { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
     .install-btn, .notif-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; font-family: inherit; font-size: 0.95rem; }
     .install-btn { background: #fff; color: var(--primary); border: 1px solid var(--primary); }
+    body.dark .install-btn { background: #1e1e1e; }
     .install-btn:hover { background: var(--primary-light); transform: translateY(-2px); }
     .notif-btn { background: var(--accent); color: #1a1a1a; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
     .notif-btn:hover { background: #c9a227; transform: translateY(-2px); }
@@ -143,7 +147,6 @@
     .section-head h2::after { content: ''; position: absolute; bottom: -8px; left: 20%; right: 20%; height: 2px; background: var(--accent); border-radius: 2px; }
     .section-head p { color: #7f8c8d; font-size: 1rem; margin-top: 15px; }
 
-    /* شبكة البطاقات */
     .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto; }
     .nav-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px 20px; text-align: center; text-decoration: none; color: var(--text-color); transition: all 0.3s ease; box-shadow: var(--shadow); display: flex; flex-direction: column; align-items: center; justify-content: center; }
     .nav-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: var(--shadow-hover); }
@@ -151,21 +154,21 @@
     .nav-card h3 { color: var(--primary); font-size: 1.2rem; margin: 0 0 10px 0; }
     .nav-card p { color: #7f8c8d; font-size: 0.9rem; margin: 0; }
 
-    /* لوحة اليوم (البطاقات الثلاث) */
+    /* لوحة اليوم */
     .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; max-width: 1100px; margin: 0 auto; }
     .dash-card { background: var(--card-bg); border-radius: 20px; padding: 25px; border: 1px solid var(--border-color); box-shadow: var(--shadow); position: relative; overflow: hidden; }
     .dash-card::before { content: ''; position: absolute; top: 0; right: 0; left: 0; height: 4px; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 4px 4px 0 0; }
     .dash-card h3 { color: var(--primary); font-size: 1.15rem; margin-top: 0; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; display: flex; align-items: center; gap: 8px; }
 
-    /* تصميم فخم لمواقيت الصلاة */
+    /* مواقيت الصلاة */
     .prayer-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
-    .prayer-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #f8f9fa; border-radius: 12px; border-right: 4px solid var(--accent); transition: 0.3s; }
+    .prayer-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: var(--bg-color); border-radius: 12px; border-right: 4px solid var(--accent); transition: 0.3s; }
     .prayer-item.active { background: var(--primary-light); border-right-color: var(--primary); font-weight: bold; }
     .prayer-item span { font-size: 1rem; }
     .prayer-item strong { font-size: 1.1rem; color: var(--primary); }
     .countdown { text-align: center; margin-top: 20px; padding: 12px; background: var(--primary-light); border-radius: 12px; color: var(--primary); font-weight: bold; font-size: 1rem; border: 1px dashed var(--primary); }
     .city-bar { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
-    .city-bar input { flex: 1; min-width: 100px; padding: 10px; border: 1px solid var(--border-color); border-radius: 10px; background: #fff; font-family: inherit; }
+    .city-bar input { flex: 1; min-width: 100px; padding: 10px; border: 1px solid var(--border-color); border-radius: 10px; background: var(--bg-color); color: var(--text-color); font-family: inherit; }
     .city-bar button { padding: 10px 16px; border-radius: 10px; background: var(--primary); color: #fff; border: none; cursor: pointer; font-family: inherit; font-weight: bold; }
 
     /* التذييل */
@@ -231,7 +234,7 @@
 
 <!-- قسم الترحيب -->
 <section class="hero">
-  <p style="color: var(--accent); font-weight: bold;">بسم الله الرحمن الرحيم</p>
+  <p class="bismillah">بسم الله الرحمن الرحيم</p>
   <h1>زادٌ لقلبك، ومعرفةٌ تثق بمصدرها</h1>
   <p>مساحة عربية هادئة للأذكار والقرآن ومواقيت الصلاة، مع مصادر واضحة وتثبّت قبل النشر.</p>
   <div class="hero-actions">
@@ -269,7 +272,7 @@
 </div>
 
 <!-- أبواب الموقع -->
-<section class="section" style="background: #fff;">
+<section class="section" style="background: var(--card-bg);">
   <div class="section-head">
     <h2>أبواب الموقع</h2>
     <p>اختر ما يناسبك</p>
@@ -329,10 +332,29 @@ document.getElementById('themeToggle').addEventListener('click', () => {
   document.getElementById('themeToggle').textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
 });
 
-// نافذة التثبيت (اختياري - يظهر عند الضغط)
+// نافذة تثبيت التطبيق
 document.getElementById('installAppBtn').addEventListener('click', () => {
-  alert('لتثبيت التطبيق: افتح قائمة المتصفح (⋮) واختر "إضافة إلى الشاشة الرئيسية".');
+  alert('لتثبيت التطبيق:\n1. افتح قائمة المتصفح (⋮).\n2. اختر "إضافة إلى الشاشة الرئيسية".\n3. اضغط "إضافة".');
 });
+
+// إدارة الإشعارات
+const notifBtn = document.getElementById('enableNotifBtn');
+if (notifBtn) {
+  if (Notification.permission === 'granted') {
+    notifBtn.textContent = '✅ الإشعارات مفعلة';
+    notifBtn.disabled = true;
+  } else {
+    notifBtn.addEventListener('click', async () => {
+      if (!('Notification' in window)) { alert('متصفحك لا يدعم الإشعارات'); return; }
+      const permission = await Notification.requestPermission();
+      if (permission === 'granted') {
+        notifBtn.textContent = '✅ الإشعارات مفعلة';
+        notifBtn.disabled = true;
+        if (typeof showToast === 'function') showToast('تم تفعيل الإشعارات ✓');
+      }
+    });
+  }
+}
 </script>
 
 <!-- Webpushr -->

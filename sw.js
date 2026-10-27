@@ -3,7 +3,7 @@
 // استيراد كود Webpushr (ضروري لعمل الإشعارات في الخلفية)
 importScripts('https://cdn.webpushr.com/sw-server.min.js');
 
-const CACHE_NAME = 'zad-obaidah-v29';
+const CACHE_NAME = 'zad-obaidah-v30';
 const ASSETS = [
   './',
   './index.html',

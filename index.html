@@ -363,7 +363,7 @@
             toast('تم تفعيل الإشعارات ✓');
             if ('serviceWorker' in navigator) {
               navigator.serviceWorker.ready.then(function (reg) {
-                reg.showNotification('زاد عبيدة', { body: 'سيصلك تذكير وردك اليومي بإذن الله', icon: './logo-zad-almuslim.webp.png' });
+                reg.showNotification('زاد عبيدة', { body: 'سيصلك تذكير وردك اليومي بإذن الله', icon: './logo-zad-almuslim.webp.png', lang: 'ar', dir: 'rtl', tag: 'zad-local-reminder', data: { local: true, url: './' } });
               }).catch(function () {});
             }
           }

@@ -5,7 +5,7 @@
    ضعه في جذر الموقع بجانب index.html (وليس داخل assets).
    ============================================================ */
 
-const VERSION = 'v40';                       // غيّره عند أي نشر يتضمن ملفات ثابتة جديدة
+const VERSION = 'v41';                       // غيّره عند أي نشر يتضمن ملفات ثابتة جديدة
 const STATIC_CACHE = 'zad-static-' + VERSION; // الصفحات والملفات المحلية
 const FONT_CACHE = 'zad-fonts-v1';            // خطوط Google (لا تتغير غالباً)
 const KEEP = [STATIC_CACHE, FONT_CACHE];
@@ -28,20 +28,28 @@ const CORE_ASSETS = [
   './assets/style.css',
   './assets/data.js',
   './assets/app.js',
+  './assets/common.js',
+  './assets/home.js',
   './logo-zad-almuslim.webp.png',
   './manifest.json'
-  // quran.json كبير: يُخزَّن عند أول فتح لصفحة القرآن (انظر الجلب أدناه) فلا يبطئ التثبيت
+  // quran.json كبير: يُخزَّن عند أول فتح لصفحة القرآن (عبر معالج الجلب أدناه) فلا يبطئ التثبيت
 ];
 
 const NAV_TIMEOUT_MS = 4000;
 
 const OFFLINE_HTML = `<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1"><title>لا يوجد اتصال — زاد عبيدة</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light dark">
+<title>لا يوجد اتصال — زاد عبيدة</title>
 <style>body{font-family:Tahoma,sans-serif;background:#fafaf7;color:#1a1a1a;display:grid;place-items:center;min-height:100vh;margin:0;text-align:center;padding:24px}
-.c{max-width:420px}h1{color:#0d7a5f;font-size:1.6rem}a{display:inline-block;margin-top:16px;background:#0d7a5f;color:#fff;padding:12px 24px;border-radius:50px;text-decoration:none;font-weight:700}</style></head>
+.c{max-width:420px}h1{color:#0d7a5f;font-size:1.6rem}a{display:inline-block;margin-top:16px;background:#0d7a5f;color:#fff;padding:12px 24px;border-radius:50px;text-decoration:none;font-weight:700}
+@media(prefers-color-scheme:dark){body{background:#121212;color:#e8e8e8}h1{color:#4fd1ab}}</style></head>
 <body><div class="c"><div style="font-size:3rem">📡</div><h1>لا يوجد اتصال بالإنترنت</h1>
 <p>هذه الصفحة لم تُحفظ بعد على جهازك. افتحها مرة واحدة وأنت متصل لتعمل بعدها دون إنترنت.</p>
 <a href="./index.html">العودة للرئيسية</a></div></body></html>`;
+
+function offlineResponse() {
+  return new Response(OFFLINE_HTML, { status: 503, headers: { 'Content-Type': 'text/html; charset=utf-8' } });
+}
 
 /* ---------------- التثبيت ---------------- */
 self.addEventListener('install', event => {
@@ -65,37 +73,56 @@ self.addEventListener('activate', event => {
     await Promise.all(
       keys.filter(k => k.startsWith('zad') && !KEEP.includes(k)).map(k => caches.delete(k))
     );
+    // يبدأ طلب الصفحة بالتوازي مع إقلاع الـ Service Worker (أسرع على الجوال)
+    if (self.registration.navigationPreload) {
+      try { await self.registration.navigationPreload.enable(); } catch (e) {}
+    }
     await self.clients.claim();
   })());
 });
 
 /* ---------------- استراتيجيات الجلب ---------------- */
 function isCacheable(res) {
-  return res && res.status === 200 && (res.type === 'basic' || res.type === 'cors');
+  // لا نخزّن الردود المعاد توجيهها: المتصفح يرفض تقديمها لطلبات التنقل
+  return res && res.status === 200 && !res.redirected && (res.type === 'basic' || res.type === 'cors');
+}
+
+// مفتاح الصفحة في الكاش بدون ?query حتى لا تمتلئ الذاكرة بنسخ ?utm_... وغيرها
+function pageKey(url) {
+  const u = new URL(url);
+  u.search = '';
+  u.hash = '';
+  return u.href;
 }
 
 // الصفحات: الشبكة أولاً (محتوى حديث دائماً) مع الرجوع للكاش عند الانقطاع أو البطء
 async function handleNavigation(event) {
   const req = event.request;
   const cache = await caches.open(STATIC_CACHE);
-  const netPromise = fetch(req).then(res => {
-    if (isCacheable(res)) cache.put(req, res.clone()).catch(() => {});
-    return res;
-  });
-  const cachedLookup = () => cache.match(req, { ignoreSearch: true });
+  const key = pageKey(req.url);
 
+  const netPromise = (async () => {
+    const pre = await event.preloadResponse;       // undefined إن لم يكن التفعيل مدعوماً
+    const res = pre || await fetch(req);
+    if (isCacheable(res)) cache.put(key, res.clone()).catch(() => {});
+    return res;
+  })();
+  netPromise.catch(() => {});                       // يمنع تحذير "unhandled rejection" إن فاز المؤقّت
+
+  let timer;
   try {
-    const timeout = new Promise(resolve => setTimeout(() => resolve(null), NAV_TIMEOUT_MS));
+    const timeout = new Promise(resolve => { timer = setTimeout(() => resolve(null), NAV_TIMEOUT_MS); });
     const first = await Promise.race([netPromise, timeout]);
     if (first) return first;
     // الشبكة بطيئة: قدّم النسخة المخزنة إن وُجدت، وأكمل التحديث في الخلفية
-    const cached = await cachedLookup();
+    const cached = await cache.match(key);
     if (cached) { event.waitUntil(netPromise.catch(() => {})); return cached; }
     return await netPromise;
   } catch (err) {
-    const cached = await cachedLookup();
-    if (cached) return cached;
-    return new Response(OFFLINE_HTML, { status: 503, headers: { 'Content-Type': 'text/html; charset=utf-8' } });
+    const cached = await cache.match(key);
+    return cached || offlineResponse();
+  } finally {
+    clearTimeout(timer);
   }
 }
 
@@ -140,7 +167,7 @@ self.addEventListener('fetch', event => {
 
 /* ---------------- الإشعارات ----------------
    إشعارات الدفع (push) والنقر عليها يتولاها Webpushr عبر sw-server.min.js في آخر الملف،
-   لذلك حُذف معالج push القديم حتى لا يظهر الإشعار مرتين.
+   لذلك لا يوجد هنا معالج push حتى لا يظهر الإشعار مرتين.
    أدناه فقط: الإشعارات المحلية التي تطلقها الصفحة (مثل التجربة) ونقرها. */
 
 self.addEventListener('message', event => {

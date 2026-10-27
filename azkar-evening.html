@@ -4,13 +4,39 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0d7a5f">
-  <meta name="description" content="أذكار المساء كاملة — زاد عبيدة">
+  <meta name="description" content="أذكار المساء كاملة مع العدّادات — زاد عبيدة">
   <title>أذكار المساء — زاد عبيدة</title>
   <link rel="icon" type="image/png" href="./logo-zad-almuslim.webp.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/style.css">
+  <style>
+    .azkar-container { max-width: 800px; margin: 0 auto; }
+    .azkar-card {
+      background: var(--card); border-radius: var(--radius); padding: 24px;
+      box-shadow: var(--shadow); border: 1px solid var(--line); margin-bottom: 20px;
+    }
+    .azkar-item {
+      padding: 14px 0; border-bottom: 1px solid var(--line);
+    }
+    .azkar-item:last-child { border-bottom: none; }
+    .azkar-text {
+      font-size: 1.15rem; line-height: 2.2; color: var(--text); margin-bottom: 8px;
+      background: var(--primary-light); padding: 12px 16px; border-radius: 8px;
+      border-right: 3px solid var(--accent);
+      white-space: pre-line;
+    }
+    .azkar-ref { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; }
+    .azkar-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .azkar-actions button {
+      padding: 6px 12px; border-radius: 6px; border: 1px solid var(--line);
+      background: var(--bg); color: var(--primary); font-size: 0.8rem; cursor: pointer;
+      font-family: inherit;
+    }
+    .azkar-actions button:hover { background: var(--primary); color: #fff; }
+    .count-badge { padding: 6px 12px; background: var(--accent-light); color: var(--primary); border-radius: 6px; font-weight: bold; font-size: 0.85rem; }
+  </style>
 </head>
 <body>
 
@@ -22,20 +48,18 @@
     </a>
     <div class="nav-links" id="navLinks">
       <a href="./index.html">الرئيسية</a>
+      <a href="./wird.html">🌿 وردك اليومي</a>
       <a href="./adhkar.html">الأذكار</a>
       <a href="./azkar-morning.html">الصباح</a>
       <a href="./azkar-evening.html" class="active">المساء</a>
+      <a href="./azkar-sleep.html">النوم</a>
       <a href="./nawawi.html">الأحاديث</a>
       <a href="./quran.html">القرآن</a>
+      <a href="./duas.html">🤲 أدعية</a>
       <a href="./articles.html">المقالات</a>
       <a href="./about.html">عن الموقع</a>
     </div>
     <div class="nav-tools">
-      <select id="siteLanguage" class="lang-select" aria-label="اللغة">
-        <option value="ar">العربية</option>
-        <option value="en">English</option>
-        <option value="fr">Français</option>
-      </select>
       <button class="icon-btn" id="themeToggle" type="button" aria-label="الوضع الليلي">🌙</button>
       <button class="icon-btn mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="القائمة">☰</button>
     </div>
@@ -43,32 +67,33 @@
 </nav>
 
 <main class="wrap" style="padding:40px 0">
-  <div class="section-head">
-    <h2>🌙 أذكار المساء</h2>
-    <p>اختم يومك بذكر الله — تُقال بعد العصر إلى المغرب</p>
-  </div>
+  <div class="azkar-container">
+    <div class="section-head">
+      <h2>🌙 أذكار المساء</h2>
+      <p>تُقال بعد العصر إلى المغرب — أكثر من 25 ذكراً</p>
+    </div>
 
-  <div class="search-box">
-    <input type="search" id="azkarSearch" placeholder="ابحث..." aria-label="بحث">
-  </div>
+    <div class="search-box">
+      <input type="search" id="azkarSearch" placeholder="ابحث في الأذكار..." aria-label="بحث">
+    </div>
 
-  <div class="azkar-list" id="azkarList"></div>
+    <div class="azkar-card" id="azkarList"></div>
+  </div>
 </main>
 
 <footer>
   <div class="wrap">
     <div class="footer-inner">
       <div><h4>زاد عبيدة</h4><p>محتوى إسلامي نافع مع توضيح المصادر.</p></div>
-      <div><h4>روابط</h4><p><a href="./index.html">الرئيسية</a><br><a href="./adhkar.html">الأذكار</a><br><a href="./azkar-morning.html">أذكار الصباح</a></p></div>
-      <div><h4>تواصل</h4><p>إنستغرام</p></div>
+      <div><h4>روابط</h4><p><a href="./index.html">الرئيسية</a><br><a href="./adhkar.html">الأذكار</a><br><a href="./wird.html">وردك اليومي</a></p></div>
+      <div><h4>تواصل</h4><p><a href="https://www.instagram.com/oubaida.muslim/" target="_blank" rel="noopener noreferrer">إنستغرام</a></p></div>
     </div>
     <div class="footer-bottom">© <span id="year"></span> زاد عبيدة</div>
   </div>
 </footer>
 
-<div id="google_translate_element" style="position:fixed;left:-10000px;top:0;width:1px;height:1px;overflow:hidden" aria-hidden="true"></div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
-<button class="back-to-top" id="backToTop" type="button" aria-label="العودة للأعلى">↑</button>
+<button class="back-to-top" id="backToTop" type="button" aria-label="العودة إلى الأعلى">↑</button>
 
 <script src="./assets/data.js"></script>
 <script src="./assets/app.js"></script>
@@ -76,18 +101,46 @@
 document.getElementById('year').textContent = new Date().getFullYear();
 
 (function(){
-  const list = document.getElementById('azkarList');
-  if(!list || typeof AZKAR_EVENING === 'undefined') return;
+  const AZKAR_EVENING = [
+    { id:'e1', title:'آية الكرسي', text:'اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ', ref:'البقرة 255 — من قرأها حين يمسي أُجير من الجن حتى يصبح (الحاكم)', target:1 },
+    { id:'e2', title:'المعوذتان والإخلاص', text:'قُلْ هُوَ اللَّهُ أَحَدٌ... (ثلاث مرات)', ref:'ثلاث مرات — من قالها حين يمسي وحين يصبح كفته من كل شيء (أبو داود والترمذي)', target:3 },
+    { id:'e3', title:'سيد الاستغفار', text:'اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي، فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ.', ref:'صحيح البخاري، حديث 6306 — من قالها موقناً بها حين يمسي فمات من ليلته دخل الجنة', target:1 },
+    { id:'e4', title:'دعاء العافية', text:'اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي، لَا إِلَهَ إِلَّا أَنْتَ', ref:'سنن أبي داود، حديث 5090', target:3 },
+    { id:'e5', title:'دعاء الكفاية', text:'بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ', ref:'سنن أبي داود، حديث 5088 — من قالها ثلاثاً لم يضره شيء', target:3 },
+    { id:'e6', title:'دعاء الرضا', text:'رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ ﷺ نَبِيًّا', ref:'سنن أبي داود، حديث 5072', target:3 },
+    { id:'e7', title:'دعاء العفو والعافية', text:'اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ، اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي دِينِي وَدُنْيَايَ وَأَهْلِي وَمَالِي', ref:'سنن ابن ماجه، حديث 3871', target:1 },
+    { id:'e8', title:'دعاء الثبات', text:'يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ', ref:'سنن النسائي، حديث 1028', target:1 },
+    { id:'e9', title:'التسبيح والتحميد', text:'سُبْحَانَ اللَّهِ وَبِحَمْدِهِ', ref:'صحيح مسلم، حديث 2691 — مئة مرة', target:100 },
+    { id:'e10', title:'التوحيد', text:'لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ', ref:'صحيح البخاري، حديث 3293 — عشر مرات', target:10 },
+    { id:'e11', title:'دعاء الحفظ', text:'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْبُخْلِ وَالْجُبْنِ، وَضَلَعِ الدَّيْنِ وَغَلَبَةِ الرِّجَالِ', ref:'صحيح البخاري', target:1 },
+    { id:'e12', title:'دعاء البركة', text:'اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا، وَقِنَا عَذَابَ النَّارِ', ref:'سنن ابن ماجه', target:1 },
+    { id:'e13', title:'دعاء الهداية', text:'اللَّهُمَّ اهْدِنِي فِيمَنْ هَدَيْتَ، وَعَافِنِي فِيمَنْ عَافَيْتَ، وَتَوَلَّنِي فِيمَنْ تَوَلَّيْتَ، وَبَارِكْ لِي فِيمَا أَعْطَيْتَ، وَقِنِي شَرَّ مَا قَضَيْتَ', ref:'سنن الترمذي', target:1 },
+    { id:'e14', title:'دعاء النور', text:'اللَّهُمَّ اجْعَلْ فِي قَلْبِي نُورًا، وَفِي بَصَرِي نُورًا، وَفِي سَمْعِي نُورًا، وَعَنْ يَمِينِي نُورًا، وَعَنْ شِمَالِي نُورًا، وَفَوْقِي نُورًا، وَتَحْتِي نُورًا، وَأَمَامِي نُورًا، وَخَلْفِي نُورًا', ref:'متفق عليه', target:1 },
+    { id:'e15', title:'دعاء المغفرة', text:'رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ، إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ', ref:'سنن أبي داود والترمذي', target:3 },
+    { id:'e16', title:'دعاء السلامة', text:'اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ', ref:'سنن ابن ماجه', target:1 },
+    { id:'e17', title:'دعاء اليقين', text:'اللَّهُمَّ إِنِّي أَسْأَلُكَ الْيَقِينَ فِي الْإِيمَانِ، وَالْعَافِيَةَ فِي الْأَبْدَانِ، وَالْأَمَانَةَ فِي الْقُلُوبِ', ref:'رواه الطبراني', target:1 },
+    { id:'e18', title:'دعاء الحفظ من الشيطان', text:'أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ', ref:'من قالها حين يمسي لم يقربه الشيطان', target:3 },
+    { id:'e19', title:'الصلاة على النبي', text:'اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ', ref:'من صلى علي صلاة صلى الله عليه بها عشراً (مسلم)', target:10 },
+    { id:'e20', title:'دعاء البر', text:'اللَّهُمَّ إِنِّي أَسْأَلُكَ الْبِرَّ وَالتَّقْوَى، وَالْعَفَافَ وَالْغِنَى', ref:'صحيح مسلم', target:1 },
+    { id:'e21', title:'دعاء الخير كله', text:'اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنَ الْخَيْرِ كُلِّهِ عَاجِلِهِ وَآجِلِهِ، مَا عَلِمْتُ مِنْهُ وَمَا لَمْ أَعْلَمْ', ref:'رواه أحمد', target:1 },
+    { id:'e22', title:'دعاء الشكر', text:'اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ', ref:'سنن أبي داود والنسائي', target:1 },
+    { id:'e23', title:'دعاء العفو', text:'اللَّهُمَّ إِنَّكَ عَفُوٌّ كَرِيمٌ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي', ref:'سنن الترمذي', target:1 },
+    { id:'e24', title:'دعاء القنوت', text:'اللَّهُمَّ اهْدِنِي فِيمَنْ هَدَيْتَ، وَعَافِنِي فِيمَنْ عَافَيْتَ، وَتَوَلَّنِي فِيمَنْ تَوَلَّيْتَ', ref:'سنن الترمذي', target:1 },
+    { id:'e25', title:'دعاء الاستعاذة', text:'أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ', ref:'صحيح مسلم — ثلاث مرات', target:3 },
+  ];
 
-  const KEY = 'zad_counts_v2';
+  const KEY = 'zad_counts_evening_v2';
   function loadC(){ try { return JSON.parse(localStorage.getItem(KEY)||'{}'); } catch { return {}; } }
   function saveC(c){ try { localStorage.setItem(KEY, JSON.stringify(c)); } catch {} }
   const counts = loadC();
 
+  const container = document.getElementById('azkarList');
+  if(!container) return;
+
   AZKAR_EVENING.forEach(z => {
-    const card = document.createElement('article');
-    card.className = 'azkar-item';
-    card.id = 'dhikr-' + z.id;
+    const item = document.createElement('div');
+    item.className = 'azkar-item';
+    item.id = 'dhikr-' + z.id;
 
     const h3 = document.createElement('h3');
     h3.textContent = z.title;
@@ -98,27 +151,27 @@ document.getElementById('year').textContent = new Date().getFullYear();
 
     const ref = document.createElement('div');
     ref.className = 'azkar-ref';
-    ref.textContent = z.ref || '';
+    ref.textContent = z.ref;
 
     const actions = document.createElement('div');
     actions.className = 'azkar-actions';
 
     const bCopy = document.createElement('button');
-    bCopy.type='button'; bCopy.className='action-btn'; bCopy.textContent='📋 نسخ';
+    bCopy.type='button'; bCopy.textContent='📋 نسخ';
     const bSpeak = document.createElement('button');
-    bSpeak.type='button'; bSpeak.className='action-btn'; bSpeak.textContent='🔊 استماع';
+    bSpeak.type='button'; bSpeak.textContent='🔊 استماع';
     const bShare = document.createElement('button');
-    bShare.type='button'; bShare.className='action-btn'; bShare.textContent='📤 مشاركة';
+    bShare.type='button'; bShare.textContent='📤 مشاركة';
     const bCount = document.createElement('button');
-    bCount.type='button'; bCount.className='action-btn primary'; bCount.textContent='+ عدّ';
+    bCount.type='button'; bCount.textContent='+ عدّ';
     const badge = document.createElement('span');
     badge.className='count-badge'; badge.textContent = (counts[z.id]||0) + ' / ' + z.target;
     const bReset = document.createElement('button');
-    bReset.type='button'; bReset.className='action-btn'; bReset.textContent='إعادة';
+    bReset.type='button'; bReset.textContent='إعادة';
 
     actions.append(bCopy, bSpeak, bShare, bCount, badge, bReset);
-    card.append(h3, text, ref, actions);
-    list.appendChild(card);
+    item.append(h3, text, ref, actions);
+    container.appendChild(item);
 
     bCopy.addEventListener('click', async ()=>{ try { await copyText(z.text); showToast('تم النسخ ✓'); } catch { showToast('تعذّر النسخ'); } });
     bSpeak.addEventListener('click', ()=> speak(z.text));
@@ -128,24 +181,24 @@ document.getElementById('year').textContent = new Date().getFullYear();
       if(cur >= z.target) return;
       counts[z.id] = cur + 1; saveC(counts);
       badge.textContent = counts[z.id] + ' / ' + z.target;
-      if(counts[z.id] >= z.target){ badge.classList.add('done'); showToast('اكتمل ✓'); }
+      if(counts[z.id] >= z.target){ badge.style.background = 'var(--primary)'; badge.style.color = '#fff'; showToast('اكتمل ✓'); }
     });
     bReset.addEventListener('click', ()=>{
       delete counts[z.id]; saveC(counts);
       badge.textContent = '0 / ' + z.target;
-      badge.classList.remove('done');
+      badge.style.background = 'var(--accent-light)';
+      badge.style.color = 'var(--primary)';
     });
-
-    if((counts[z.id]||0) >= z.target) badge.classList.add('done');
   });
 
+  // البحث
   const search = document.getElementById('azkarSearch');
   if(search){
-    search.addEventListener('input', ()=>{
+    search.addEventListener('input', () => {
       const q = search.value.trim().toLowerCase();
-      document.querySelectorAll('.azkar-item').forEach(c=>{
-        const txt = c.textContent.toLowerCase();
-        c.style.display = (!q || txt.includes(q)) ? '' : 'none';
+      document.querySelectorAll('.azkar-item').forEach(item => {
+        const txt = item.textContent.toLowerCase();
+        item.style.display = (!q || txt.includes(q)) ? '' : 'none';
       });
     });
   }

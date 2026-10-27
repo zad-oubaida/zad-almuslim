@@ -4,55 +4,85 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0d7a5f">
-  <meta name="description" content="الأربعون النووية — زاد عبيدة">
+  <meta name="description" content="الأربعون النووية — نصوص الأحاديث مع البحث السريع والمصدر — زاد عبيدة">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="زاد عبيدة">
+  <meta property="og:title" content="الأربعون النووية — زاد عبيدة">
+  <meta property="og:description" content="الأربعون النووية: اقرأ نص كل حديث وابحث فيها بسرعة.">
+  <meta property="og:image" content="https://zad-oubaida.github.io/zad-almuslim/logo-zad-almuslim.webp.png">
+  <meta property="og:locale" content="ar_AR">
   <title>الأربعون النووية — زاد عبيدة</title>
   <link rel="icon" type="image/png" href="./logo-zad-almuslim.webp.png">
+  <link rel="apple-touch-icon" href="./logo-zad-almuslim.webp.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/style.css">
+  <style>
+    .nawawi-main { padding: 40px 0; }
+    .result-count { text-align: center; color: var(--text-muted); font-size: .9rem; margin: -14px 0 20px; min-height: 1.6em; }
+    .empty-state { grid-column: 1 / -1; text-align: center; padding: 40px 16px; color: var(--text-muted); }
+    .error-box { text-align: center; padding: 30px; color: #b3261e; font-weight: 600; }
+    body.dark .error-box { color: #ff8a80; }
+    .modal-hadith-text { font-family: 'Amiri', 'Noto Naskh Arabic', serif; font-size: 1.35rem; line-height: 2.2; }
+    .modal-ref { margin-top: 14px; padding: 10px 14px; background: var(--primary-light); border-radius: var(--radius-sm); color: var(--text); font-size: .95rem; border-right: 3px solid var(--accent); }
+    .modal-explain { margin-top: 14px; font-size: 1rem; color: var(--text-muted); line-height: 2; }
+    .modal-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; border-top: 1px solid var(--line); padding-top: 14px; margin-top: 8px; }
+    .modal-actions .spacer { flex: 1; }
+    .modal-actions button { padding: 8px 14px; border-radius: 8px; background: var(--primary-light); color: var(--ink); font-weight: 700; font-size: .88rem; transition: background .2s, color .2s; }
+    .modal-actions button:hover:not(:disabled) { background: var(--primary); color: #fff; }
+    .modal-actions button:disabled { opacity: .4; cursor: default; }
+    .modal-source { display: inline-block; margin-top: 6px; font-size: .9rem; }
+    .hadith-card[hidden] { display: none !important; }
+  </style>
 </head>
 <body>
+<a href="#main" class="skip-link">تخطَّ إلى المحتوى</a>
 
-<nav class="navbar">
+<nav class="navbar" aria-label="التنقل الرئيسي">
   <div class="wrap nav-inner">
     <a href="./index.html" class="brand" aria-label="زاد عبيدة">
-      <img src="./logo-zad-almuslim.webp.png" alt="شعار زاد عبيدة">
+      <img src="./logo-zad-almuslim.webp.png" alt="شعار زاد عبيدة" width="45" height="45">
       <span>زاد عبيدة</span>
     </a>
     <div class="nav-links" id="navLinks">
       <a href="./index.html">الرئيسية</a>
+      <a href="./wird.html">🌿 وردك اليومي</a>
       <a href="./adhkar.html">الأذكار</a>
       <a href="./azkar-morning.html">الصباح</a>
       <a href="./azkar-evening.html">المساء</a>
-      <a href="./nawawi.html" class="active">الأحاديث</a>
+      <a href="./nawawi.html" class="active" aria-current="page">الأحاديث</a>
       <a href="./quran.html">القرآن</a>
+      <a href="./duas.html">🤲 أدعية</a>
       <a href="./articles.html">المقالات</a>
       <a href="./about.html">عن الموقع</a>
     </div>
     <div class="nav-tools">
-      <select id="siteLanguage" class="lang-select" aria-label="اللغة">
+      <select id="siteLanguage" class="lang-select" aria-label="لغة الموقع">
         <option value="ar">العربية</option>
         <option value="en">English</option>
         <option value="fr">Français</option>
       </select>
-      <button class="icon-btn" id="themeToggle" type="button" aria-label="الوضع الليلي">🌙</button>
-      <button class="icon-btn mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="القائمة">☰</button>
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="تبديل الوضع الليلي">🌙</button>
+      <button class="icon-btn mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="القائمة" aria-expanded="false" aria-controls="navLinks">☰</button>
     </div>
   </div>
 </nav>
 
-<main class="wrap" style="padding:40px 0">
+<main class="wrap nawawi-main" id="main">
   <div class="section-head">
-    <h2>📜 الأربعون النووية</h2>
+    <h1 style="font-family:'Amiri',serif;font-size:2.1rem;color:var(--ink);margin-bottom:8px">📜 الأربعون النووية</h1>
     <p>اضغط على أي حديث لقراءة نصه كاملاً</p>
   </div>
 
   <div class="search-box">
-    <input type="search" id="hadithSearch" placeholder="ابحث في الأحاديث..." aria-label="بحث">
+    <input type="search" id="hadithSearch" placeholder="ابحث في الأحاديث بالكلمة أو برقم الحديث..." aria-label="بحث في الأحاديث" autocomplete="off">
   </div>
+  <div class="result-count" id="resultCount" aria-live="polite"></div>
 
-  <div class="hadith-grid" id="hadithGrid"></div>
+  <div class="hadith-grid" id="hadithGrid">
+    <div class="empty-state">جارٍ تحميل الأحاديث…</div>
+  </div>
 </main>
 
 <footer>
@@ -60,21 +90,28 @@
     <div class="footer-inner">
       <div><h4>زاد عبيدة</h4><p>محتوى إسلامي نافع مع توضيح المصادر.</p></div>
       <div><h4>روابط</h4><p><a href="./index.html">الرئيسية</a><br><a href="./adhkar.html">الأذكار</a><br><a href="./quran.html">القرآن</a></p></div>
-      <div><h4>تواصل</h4><p>إنستغرام</p></div>
+      <div><h4>تواصل</h4><p><a href="https://www.instagram.com/oubaida.muslim/" target="_blank" rel="noopener noreferrer">إنستغرام</a></p></div>
     </div>
-    <div class="footer-bottom">© <span id="year"></span> زاد عبيدة</div>
+    <div class="footer-bottom">© <span id="year">2026</span> زاد عبيدة</div>
   </div>
 </footer>
 
 <!-- مودال الحديث -->
-<div class="modal" id="hadithModal" hidden role="dialog" aria-modal="true">
+<div class="modal" id="hadithModal" hidden role="dialog" aria-modal="true" aria-labelledby="hadithModalTitle">
   <div class="modal-dialog">
     <div class="modal-head">
       <h2 id="hadithModalTitle">نص الحديث</h2>
       <button class="modal-close" id="hadithClose" type="button">إغلاق ✕</button>
     </div>
-    <div id="hadithModalText" class="modal-body" dir="rtl"></div>
+    <div id="hadithModalText" class="modal-body notranslate" translate="no" dir="rtl"></div>
     <a id="hadithSource" class="modal-source" href="https://sunnah.com/nawawi40" target="_blank" rel="noopener noreferrer">المصدر ↗</a>
+    <div class="modal-actions">
+      <button type="button" id="hPrev">→ السابق</button>
+      <button type="button" id="hNext">التالي ←</button>
+      <span class="spacer"></span>
+      <button type="button" id="hCopy">📋 نسخ</button>
+      <button type="button" id="hShare" hidden>🔗 مشاركة</button>
+    </div>
   </div>
 </div>
 
@@ -85,68 +122,270 @@
 <script src="./assets/data.js"></script>
 <script src="./assets/app.js"></script>
 <script>
-document.getElementById('year').textContent = new Date().getFullYear();
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var store = {
+    get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  };
+  function toast(msg) {
+    if (typeof window.showToast === 'function') { window.showToast(msg); return; }
+    var t = $('toast'); if (!t) return;
+    t.textContent = msg; t.classList.add('show');
+    clearTimeout(toast._t); toast._t = setTimeout(function () { t.classList.remove('show'); }, 2500);
+  }
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+  function arNum(n) { try { return Number(n).toLocaleString('ar-EG', { useGrouping: false }); } catch (e) { return String(n); } }
+  function norm(s) {
+    return String(s || '')
+      .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g, '')
+      .replace(/[أإآٱ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه')
+      .replace(/[٠-٩]/g, function (d) { return '٠١٢٣٤٥٦٧٨٩'.indexOf(d); })
+      .toLowerCase().replace(/\s+/g, ' ').trim();
+  }
+  var yEl = $('year'); if (yEl) yEl.textContent = new Date().getFullYear();
 
-(function(){
-  const grid = document.getElementById('hadithGrid');
-  if(!grid || typeof NAWAWI_HADITHS === 'undefined') return;
-
-  const modal = document.getElementById('hadithModal');
-  const modalTitle = document.getElementById('hadithModalTitle');
-  const modalText = document.getElementById('hadithModalText');
-  const modalSource = document.getElementById('hadithSource');
-  const modalClose = document.getElementById('hadithClose');
-
-  NAWAWI_HADITHS.forEach((item, i) => {
-    const card = document.createElement('article');
-    card.className = 'hadith-card';
-
-    const badge = document.createElement('span');
-    badge.className = 'hadith-badge';
-    badge.textContent = 'الحديث ' + (i + 1);
-
-    const h3 = document.createElement('h3');
-    h3.textContent = item.title;
-
-    const p = document.createElement('p');
-    p.textContent = item.text;
-
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'hadith-open';
-    btn.textContent = 'اقرأ كاملاً';
-
-    btn.addEventListener('click', () => {
-      modalTitle.textContent = item.title;
-      modalText.textContent = item.text;
-      modalSource.href = 'https://sunnah.com/nawawi40/' + (i + 1);
-      modal.hidden = false;
-      document.body.style.overflow = 'hidden';
-      modalClose.focus();
+  /* ---------- البيانات ---------- */
+  var raw = (typeof NAWAWI_HADITHS !== 'undefined' && Array.isArray(NAWAWI_HADITHS)) ? NAWAWI_HADITHS : null;
+  var grid = $('hadithGrid');
+  var items = [];
+  if (raw && raw.length) {
+    items = raw.map(function (it, i) {
+      return {
+        n: i + 1,
+        title: it.title || it.name || ('الحديث ' + (i + 1)),
+        text: it.text || it.hadith || it.content || '',
+        source: it.source || it.ref || it.reference || '',
+        narrator: it.narrator || it.rawi || '',
+        explain: it.explanation || it.sharh || it.benefit || '',
+        url: it.url || it.link || ('https://sunnah.com/nawawi40:' + (i + 1))
+      };
     });
+    items.forEach(function (h) { h.key = norm(h.n + ' ' + h.title + ' ' + h.text + ' ' + h.narrator); });
+  }
 
-    card.append(badge, h3, p, btn);
-    grid.appendChild(card);
-  });
+  /* ---------- بطاقات الأحاديث ---------- */
+  var cards = [];
+  var modal = $('hadithModal'), modalTitle = $('hadithModalTitle'), modalText = $('hadithModalText');
+  var modalSource = $('hadithSource'), modalClose = $('hadithClose');
+  var lastFocus = null, currentIdx = -1;
 
-  function closeModal(){
+  function buildCards() {
+    if (!items.length) {
+      var box = el('div', 'error-box', 'تعذّر تحميل الأحاديث. تأكد أن ملف assets/data.js يحتوي المتغير NAWAWI_HADITHS.');
+      grid.replaceChildren(box);
+      $('resultCount').textContent = '';
+      return;
+    }
+    var frag = document.createDocumentFragment();
+    items.forEach(function (h, i) {
+      var card = el('article', 'hadith-card');
+      card.appendChild(el('span', 'hadith-badge', 'الحديث ' + arNum(h.n)));
+      card.appendChild(el('h3', '', h.title));
+      var p = el('p', 'notranslate', h.text); p.setAttribute('translate', 'no');
+      card.appendChild(p);
+      var btn = el('button', 'hadith-open', 'اقرأ كاملاً');
+      btn.type = 'button';
+      btn.setAttribute('aria-label', 'اقرأ ' + h.title + ' كاملاً');
+      btn.addEventListener('click', function () { openHadith(i, btn); });
+      card.appendChild(btn);
+      cards.push(card);
+      frag.appendChild(card);
+    });
+    grid.replaceChildren(frag);
+    $('resultCount').textContent = 'عدد الأحاديث: ' + arNum(items.length);
+  }
+
+  /* ---------- المودال ---------- */
+  function setHash(h) {
+    try { history.replaceState(null, '', h ? '#hadith-' + h : location.pathname + location.search); } catch (e) {}
+  }
+  function openHadith(i, opener) {
+    if (i < 0 || i >= items.length) return;
+    var h = items[i];
+    currentIdx = i;
+    if (opener) lastFocus = opener;
+    modalTitle.textContent = h.title;
+
+    var body = [];
+    var t = el('div', 'modal-hadith-text', h.text);
+    body.push(t);
+    if (h.narrator) body.push(el('div', 'modal-ref', 'الراوي: ' + h.narrator));
+    if (h.source) body.push(el('div', 'modal-ref', 'التخريج: ' + h.source));
+    if (h.explain) body.push(el('div', 'modal-explain', h.explain));
+    modalText.replaceChildren.apply(modalText, body);
+
+    modalSource.href = h.url;
+    $('hPrev').disabled = i === 0;
+    $('hNext').disabled = i === items.length - 1;
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-dialog').scrollTop = 0;
+    setHash(h.n);
+    (opener ? modalClose : $('hadithClose')).focus();
+  }
+  function closeModal() {
+    if (modal.hidden) return;
     modal.hidden = true;
     document.body.style.overflow = '';
+    currentIdx = -1;
+    setHash(null);
+    if (lastFocus && document.contains(lastFocus)) lastFocus.focus();
   }
-  modalClose.addEventListener('click', closeModal);
-  modal.addEventListener('click', e => { if(e.target === modal) closeModal(); });
-  document.addEventListener('keydown', e => { if(e.key === 'Escape' && !modal.hidden) closeModal(); });
-
-  const search = document.getElementById('hadithSearch');
-  if(search){
-    search.addEventListener('input', () => {
-      const q = search.value.trim().toLowerCase();
-      document.querySelectorAll('.hadith-card').forEach(c => {
-        const txt = c.textContent.toLowerCase();
-        c.style.display = (!q || txt.includes(q)) ? '' : 'none';
-      });
+  function plainText(h) {
+    return h.title + '\n\n' + h.text + (h.source ? '\n\n' + h.source : '') +
+      '\n\n— الأربعون النووية، الحديث ' + h.n + ' — زاد عبيدة\n' + location.origin + location.pathname + '#hadith-' + h.n;
+  }
+  function copyText(str) {
+    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(str);
+    return new Promise(function (resolve, reject) {
+      var ta = document.createElement('textarea');
+      ta.value = str; ta.style.cssText = 'position:fixed;opacity:0;top:0'; ta.setAttribute('readonly', '');
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy') ? resolve() : reject(); } catch (e) { reject(e); }
+      ta.remove();
     });
   }
+
+  modalClose.addEventListener('click', closeModal);
+  modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+  $('hPrev').addEventListener('click', function () { openHadith(currentIdx - 1); });
+  $('hNext').addEventListener('click', function () { openHadith(currentIdx + 1); });
+  $('hCopy').addEventListener('click', function () {
+    if (currentIdx < 0) return;
+    copyText(plainText(items[currentIdx])).then(function () { toast('تم نسخ الحديث ✓'); }, function () { toast('تعذّر النسخ'); });
+  });
+  if (navigator.share) {
+    $('hShare').hidden = false;
+    $('hShare').addEventListener('click', function () {
+      if (currentIdx < 0) return;
+      var h = items[currentIdx];
+      navigator.share({ title: h.title, text: h.title + '\n\n' + h.text, url: location.origin + location.pathname + '#hadith-' + h.n }).catch(function () {});
+    });
+  }
+  document.addEventListener('keydown', function (e) {
+    if (modal.hidden) return;
+    if (e.key === 'Escape') { closeModal(); return; }
+    if (e.key === 'ArrowLeft') openHadith(currentIdx + 1);      // في الاتجاه RTL: اليسار = التالي
+    if (e.key === 'ArrowRight') openHadith(currentIdx - 1);
+    if (e.key === 'Tab') {                                       // حبس التركيز داخل النافذة
+      var f = Array.prototype.slice.call(modal.querySelectorAll('button:not([disabled]):not([hidden]),a[href]'));
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+
+  /* ---------- البحث (يتجاهل التشكيل والهمزات ويدعم رقم الحديث) ---------- */
+  var search = $('hadithSearch'), timer;
+  function runSearch() {
+    if (!items.length) return;
+    var q = norm(search.value), shown = 0;
+    var isNum = /^\d+$/.test(q);
+    items.forEach(function (h, i) {
+      var ok = !q || (isNum ? String(h.n) === q || h.key.indexOf(q) !== -1 : h.key.indexOf(q) !== -1);
+      cards[i].hidden = !ok;
+      if (ok) shown++;
+    });
+    var old = grid.querySelector('.empty-state'); if (old) old.remove();
+    if (!shown) grid.appendChild(el('div', 'empty-state', 'لا توجد نتائج مطابقة. جرّب كلمة أخرى أو رقم الحديث.'));
+    $('resultCount').textContent = q ? ('النتائج: ' + arNum(shown) + ' من ' + arNum(items.length)) : ('عدد الأحاديث: ' + arNum(items.length));
+  }
+  search.addEventListener('input', function () { clearTimeout(timer); timer = setTimeout(runSearch, 150); });
+
+  buildCards();
+  var m = /^#hadith-(\d+)$/.exec(location.hash);
+  if (m && items.length) openHadith(parseInt(m[1], 10) - 1, null);
+
+  /* ---------- الوضع الليلي / القائمة / الأعلى / اللغة ----------
+     نستبدل الأزرار بنسخ نظيفة عند اكتمال التحميل لتفادي تكرار المستمعات
+     إن كان app.js يربطها أيضاً، وتُستخدم نفس مفاتيح الحفظ في بقية الصفحات. */
+  if (store.get('zad_theme') === 'dark') document.body.classList.add('dark');
+  function fresh(id) { var o = $(id); if (!o) return null; var c = o.cloneNode(true); o.replaceWith(c); return c; }
+
+  var translateReady = false, translateLoading = false, waiting = [];
+  var LANGS = { en: 'english', fr: 'french', es: 'spanish', de: 'german', tr: 'turkish', it: 'italian' };
+  function initTranslate() {
+    if (typeof translate === 'undefined') return false;
+    try {
+      translate.language.setLocal('arabic');
+      translate.service.use('client.edge');
+      translate.language.setLanguages(['arabic', 'english', 'french', 'spanish', 'german', 'turkish', 'italian']);
+      if (translate.selectLanguageTag) translate.selectLanguageTag.show = false;
+      translate.listener.start();
+      translateReady = true;
+    } catch (e) { console.warn(e); }
+    return translateReady;
+  }
+  function loadTranslate(cb) {
+    if (translateReady) { cb(true); return; }
+    waiting.push(cb);
+    if (translateLoading) return;
+    translateLoading = true;
+    var s = document.createElement('script');
+    s.src = 'https://cdn.staticfile.net/translate.js/3.18.66/translate.js';
+    s.onload = function () { translateLoading = false; var ok = initTranslate(); waiting.splice(0).forEach(function (f) { f(ok); }); };
+    s.onerror = function () { translateLoading = false; waiting.splice(0).forEach(function (f) { f(false); }); };
+    document.head.appendChild(s);
+  }
+  function setLang(code, quiet) {
+    store.set('zad_lang', code);
+    if (code === 'ar') {
+      try { if (typeof translate !== 'undefined' && translate.reset) translate.reset(); } catch (e) {}
+      location.reload(); return;
+    }
+    if (!quiet) toast('جارٍ الترجمة…');
+    loadTranslate(function (ok) {
+      if (!ok) { toast('تعذّر تحميل مكتبة الترجمة، تحقّق من اتصالك'); return; }
+      try { translate.changeLanguage(LANGS[code]); if (!quiet) toast('تمت الترجمة ✓'); }
+      catch (e) { toast('تعذّرت الترجمة'); }
+    });
+  }
+
+  window.addEventListener('load', function () {
+    var theme = fresh('themeToggle'), meta = document.querySelector('meta[name="theme-color"]');
+    function paintTheme() {
+      var dark = document.body.classList.contains('dark');
+      theme.textContent = dark ? '☀️' : '🌙';
+      theme.setAttribute('aria-pressed', dark ? 'true' : 'false');
+      if (meta) meta.setAttribute('content', dark ? '#121212' : '#0d7a5f');
+    }
+    paintTheme();
+    theme.addEventListener('click', function () {
+      var dark = document.body.classList.toggle('dark');
+      store.set('zad_theme', dark ? 'dark' : 'light');
+      paintTheme();
+    });
+
+    var menu = fresh('mobileMenuBtn'), links = $('navLinks');
+    function closeMenu() { links.classList.remove('open'); menu.setAttribute('aria-expanded', 'false'); menu.textContent = '☰'; }
+    menu.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var open = links.classList.toggle('open');
+      menu.setAttribute('aria-expanded', open ? 'true' : 'false');
+      menu.textContent = open ? '✕' : '☰';
+    });
+    links.addEventListener('click', function (e) { if (e.target.closest('a')) closeMenu(); });
+    document.addEventListener('click', function (e) { if (!links.contains(e.target) && e.target !== menu) closeMenu(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
+
+    var top = fresh('backToTop');
+    top.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+    window.addEventListener('scroll', function () { top.classList.toggle('show', window.scrollY > 400); }, { passive: true });
+
+    var sel = fresh('siteLanguage');
+    var saved = store.get('zad_lang') || 'ar';
+    if (sel.querySelector('option[value="' + saved + '"]')) sel.value = saved;
+    sel.addEventListener('change', function () { setLang(sel.value); });
+    if (saved !== 'ar' && LANGS[saved]) setLang(saved, true);
+  });
 })();
 </script>
 </body>

@@ -33,193 +33,9 @@
   {"@context":"https://schema.org","@type":"WebSite","name":"زاد عبيدة","url":"https://zad-oubaida.github.io/zad-almuslim/","inLanguage":"ar","description":"أذكار ومواقيت الصلاة وقرآن من مصادر موثوقة."}
   </script>
 
-  <style>
-    /* ===== التصميم الفخم والهادئ ===== */
-    :root {
-      --bg-color: #f5f7fa;
-      --text-color: #2c3e50;
-      --muted: #5f6f7a;
-      --primary: #0d7a5f;
-      --primary-dark: #0a5a45;
-      --primary-light: #e6f2ef;
-      --accent: #d4af37;
-      --border-color: #e0e0e0;
-      --card-bg: #ffffff;
-      --nav-bg: rgba(255, 255, 255, 0.95);
-      --btn-bg: #f1f2f6;
-      --shadow: 0 4px 20px rgba(0,0,0,0.04);
-      --shadow-hover: 0 10px 30px rgba(13, 122, 95, 0.1);
-    }
-
-    body.dark {
-      --bg-color: #121212;
-      --text-color: #e0e0e0;
-      --muted: #a3acb3;
-      --primary: #2fb892;
-      --primary-dark: #249376;
-      --border-color: #333;
-      --card-bg: #1e1e1e;
-      --nav-bg: rgba(18, 18, 18, 0.95);
-      --btn-bg: #2a2a2a;
-      --primary-light: #1a3d33;
-      --shadow: 0 4px 20px rgba(0,0,0,0.3);
-    }
-
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      font-family: 'Cairo', sans-serif;
-      line-height: 1.8;
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-      transition: background 0.3s, color 0.3s;
-    }
-
-    /* زخرفة إسلامية خفيفة */
-    body::before {
-      content: "۞";
-      position: fixed;
-      top: -5%;
-      left: -5%;
-      font-size: 400px;
-      color: rgba(13, 122, 95, 0.03);
-      z-index: -1;
-      pointer-events: none;
-      transform: rotate(-10deg);
-    }
-    body::after {
-      content: "۞";
-      position: fixed;
-      bottom: -10%;
-      right: -5%;
-      font-size: 300px;
-      color: rgba(212, 175, 55, 0.03);
-      z-index: -1;
-      pointer-events: none;
-      transform: rotate(15deg);
-    }
-
-    /* شريط التنقل */
-    .navbar {
-      background: var(--nav-bg);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border-color);
-      padding: 15px 0;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    .nav-inner { display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-    .brand img { width: 45px; height: 45px; border-radius: 50%; }
-    .brand strong { font-size: 1.3rem; color: var(--primary); display: block; }
-    .brand small { font-size: 0.75rem; color: var(--muted); display: block; }
-
-    .nav-links { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: center; }
-    .nav-links a { text-decoration: none; color: var(--text-color); font-weight: 600; font-size: 0.9rem; padding: 8px 12px; border-radius: 8px; transition: all 0.3s; }
-    .nav-links a:hover, .nav-links a.active { background-color: var(--primary-light); color: var(--primary); }
-
-    .dropdown { position: relative; }
-    .dropdown-content { display: none; position: absolute; background: var(--card-bg); min-width: 180px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 12px; border: 1px solid var(--border-color); top: 100%; right: 0; padding: 8px 0; z-index: 1001; }
-    .dropdown:hover .dropdown-content,
-    .dropdown:focus-within .dropdown-content,
-    .dropdown.open .dropdown-content { display: block; }
-    .dropdown-content a { display: block; padding: 10px 16px; font-size: 0.9rem; color: var(--text-color); }
-    .dropdown-content a:hover { background-color: var(--primary-light); color: var(--primary); }
-
-    .nav-tools { display: flex; gap: 8px; align-items: center; }
-    .icon-btn { background: var(--btn-bg); border: none; border-radius: 8px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; color: var(--text-color); font-size: 1rem; }
-    .icon-btn:hover { background: var(--primary-light); color: var(--primary); }
-
-    /* قسم الترحيب */
-    .hero { text-align: center; padding: 70px 20px 50px; max-width: 800px; margin: 0 auto; position: relative; }
-    .hero .bismillah { font-family: 'Amiri', serif; font-size: 1.6rem; color: var(--accent); margin-bottom: 20px; }
-    .hero h1 { font-family: 'Amiri', serif; font-size: 3.2rem; color: var(--primary); margin-bottom: 20px; line-height: 1.3; }
-    .hero p { font-size: 1.1rem; color: var(--muted); margin-bottom: 30px; }
-    .hero p.bismillah { color: #9a7b10; }
-    body.dark .hero p.bismillah { color: var(--accent); }
-
-    .hero-actions { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 30px; }
-    .btn-primary { background-color: var(--primary); color: #fff; padding: 12px 28px; border-radius: 50px; text-decoration: none; font-weight: bold; transition: 0.3s; box-shadow: 0 4px 15px rgba(13, 122, 95, 0.2); border: none; cursor: pointer; font-family: inherit; font-size: 1rem; }
-    .btn-primary:hover { background-color: var(--primary-dark); transform: translateY(-2px); }
-    .btn-secondary { background-color: transparent; color: var(--primary); border: 2px solid var(--primary); padding: 10px 28px; border-radius: 50px; text-decoration: none; font-weight: bold; transition: 0.3s; cursor: pointer; font-family: inherit; font-size: 1rem; }
-    .btn-secondary:hover { background-color: var(--primary-light); }
-
-    .action-buttons { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
-    .install-btn, .notif-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; font-family: inherit; font-size: 0.95rem; }
-    .install-btn { background: var(--card-bg); color: var(--primary); border: 1px solid var(--primary); }
-    .install-btn:hover { background: var(--primary-light); transform: translateY(-2px); }
-    .notif-btn { background: var(--accent); color: #1a1a1a; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
-    .notif-btn:hover { background: #c9a227; transform: translateY(-2px); }
-    .notif-btn:disabled { opacity: .85; cursor: default; transform: none; }
-
-    /* تباعد الأقسام */
-    .section { padding: 50px 20px; }
-    .section-head { text-align: center; margin-bottom: 40px; }
-    .section-head h2 { font-family: 'Amiri', serif; font-size: 2.2rem; color: var(--primary); margin-bottom: 10px; position: relative; display: inline-block; }
-    .section-head h2::after { content: ''; position: absolute; bottom: -8px; left: 20%; right: 20%; height: 2px; background: var(--accent); border-radius: 2px; }
-    .section-head p { color: var(--muted); font-size: 1rem; margin-top: 15px; }
-
-    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto; }
-    .nav-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px 20px; text-align: center; text-decoration: none; color: var(--text-color); transition: all 0.3s ease; box-shadow: var(--shadow); display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .nav-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: var(--shadow-hover); }
-    .nav-card .emoji { font-size: 2.5rem; margin-bottom: 15px; display: block; }
-    .nav-card h3 { color: var(--primary); font-size: 1.2rem; margin: 0 0 10px 0; }
-    .nav-card p { color: var(--muted); font-size: 0.9rem; margin: 0; }
-
-    /* لوحة اليوم */
-    .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; max-width: 1100px; margin: 0 auto; }
-    .dash-card { background: var(--card-bg); border-radius: 20px; padding: 25px; border: 1px solid var(--border-color); box-shadow: var(--shadow); position: relative; overflow: hidden; }
-    .dash-card::before { content: ''; position: absolute; top: 0; right: 0; left: 0; height: 4px; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 4px 4px 0 0; }
-    .dash-card h3 { color: var(--primary); font-size: 1.15rem; margin-top: 0; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-    .dash-body { text-align: center; color: var(--muted); padding: 15px 0; }
-
-    /* مواقيت الصلاة */
-    .prayer-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
-    .prayer-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: var(--bg-color); border-radius: 12px; border-right: 4px solid var(--accent); transition: 0.3s; color: var(--text-color); }
-    .prayer-item.active { background: var(--primary-light); border-right-color: var(--primary); font-weight: bold; }
-    .prayer-item span { font-size: 1rem; }
-    .prayer-item strong { font-size: 1.1rem; color: var(--primary); }
-    .countdown { text-align: center; margin-top: 20px; padding: 12px; background: var(--primary-light); border-radius: 12px; color: var(--primary); font-weight: bold; font-size: 1rem; border: 1px dashed var(--primary); }
-    .city-bar { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
-    .city-bar input { flex: 1; min-width: 100px; padding: 10px; border: 1px solid var(--border-color); border-radius: 10px; background: var(--bg-color); color: var(--text-color); font-family: inherit; }
-    .city-bar button { padding: 10px 16px; border-radius: 10px; background: var(--primary); color: #fff; border: none; cursor: pointer; font-family: inherit; font-weight: bold; }
-    .city-bar button.geo { background: var(--btn-bg); color: var(--primary); border: 1px solid var(--border-color); }
-    .city-name { font-size: .85rem; color: var(--muted); margin-bottom: 10px; text-align: center; }
-
-    /* آية وحديث اليوم (احتياطي) */
-    .verse-text { font-family: 'Amiri', serif; font-size: 1.5rem; line-height: 2.1; color: var(--text-color); }
-    .verse-src { margin-top: 10px; font-size: .9rem; color: var(--muted); }
-    .hadith-text { font-family: 'Amiri', serif; font-size: 1.35rem; line-height: 2; color: var(--text-color); }
-
-    /* التذييل */
-    footer { background: #2c3e50; color: #ecf0f1; padding: 40px 20px 20px; margin-top: 60px; }
-    .footer-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; max-width: 1100px; margin: 0 auto; }
-    footer h4 { color: var(--accent); margin-bottom: 15px; }
-    footer a { color: #cfd6db; text-decoration: none; transition: 0.3s; }
-    footer a:hover { color: var(--accent); }
-    .copyright { text-align: center; margin-top: 30px; font-size: 0.8rem; color: #b7c0c6; }
-
-    /* إشعار صغير */
-    .zad-toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 30px; font-weight: 600; z-index: 3000; box-shadow: 0 6px 20px rgba(0,0,0,.25); }
-
-    /* إمكانية الوصول */
-    :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-    @media (prefers-reduced-motion: reduce) {
-      * { transition: none !important; animation: none !important; }
-    }
-
-    /* الموبايل */
-    @media (max-width: 768px) {
-      .nav-inner { flex-direction: column; gap: 15px; }
-      .nav-links { flex-wrap: wrap; justify-content: center; }
-      .hero h1 { font-size: 2rem; }
-      .dashboard { grid-template-columns: 1fr; }
-    }
-  </style>
 </head>
 <body>
+<a href="#main" class="skip-link">تخطَّ إلى المحتوى</a>
 
 <!-- شريط التنقل -->
 <nav class="navbar" aria-label="التنقل الرئيسي">
@@ -228,7 +44,7 @@
       <img src="./logo-zad-almuslim.webp.png" alt="شعار زاد عبيدة" width="45" height="45">
       <div><strong>زاد عبيدة</strong><small>ذكرٌ نافع، وعلمٌ موثّق</small></div>
     </a>
-    <div class="nav-links">
+    <div class="nav-links" id="navLinks">
       <a href="./index.html" class="active" aria-current="page">الرئيسية</a>
       <a href="./wird.html">🌿 وردك اليومي</a>
       <div class="dropdown">
@@ -249,7 +65,7 @@
     <div class="nav-tools">
       <div class="dropdown" id="langDropdown">
         <button class="icon-btn dd-trigger" type="button" title="ترجمة الموقع" aria-label="ترجمة الموقع" aria-haspopup="true" aria-expanded="false">🌐</button>
-        <div class="dropdown-content notranslate" translate="no" style="min-width: 120px; left: 0; right: auto;">
+        <div class="dropdown-content dd-left notranslate" translate="no">
           <a href="#" data-lang="ar">العربية</a>
           <a href="#" data-lang="en">English</a>
           <a href="#" data-lang="fr">Français</a>
@@ -260,16 +76,17 @@
         </div>
       </div>
       <button class="icon-btn" id="themeToggle" type="button" title="الوضع الليلي" aria-label="تبديل الوضع الليلي">🌙</button>
+      <button class="icon-btn mobile-menu-btn" id="menuBtn" type="button" aria-label="القائمة" aria-expanded="false" aria-controls="navLinks">☰</button>
     </div>
   </div>
 </nav>
 
-<main>
+<main id="main">
 <!-- قسم الترحيب -->
-<section class="hero">
+<section class="hero"><div class="wrap">
   <p class="bismillah">بسم الله الرحمن الرحيم</p>
-  <h1>زادٌ لقلبك، ومعرفةٌ تثق بمصدرها</h1>
-  <p>مساحة عربية هادئة للأذكار والقرآن ومواقيت الصلاة، مع مصادر واضحة وتثبّت قبل النشر.</p>
+  <h1 class="hero-title">زادٌ لقلبك، ومعرفةٌ تثق بمصدرها</h1>
+  <p class="hero-subtitle">مساحة عربية هادئة للأذكار والقرآن ومواقيت الصلاة، مع مصادر واضحة وتثبّت قبل النشر.</p>
   <div class="hero-actions">
     <a href="./adhkar.html" class="btn-primary">ابدأ بالأذكار ←</a>
     <a href="./quran.html" class="btn-secondary">تصفّح القرآن</a>
@@ -278,10 +95,10 @@
     <button class="install-btn" id="installAppBtn" type="button">📲 ثبّت التطبيق على جهازك</button>
     <button class="notif-btn" id="enableNotifBtn" type="button">🔔 فعّل تذكير وردك اليومي</button>
   </div>
-</section>
+</div></section>
 
 <!-- لوحة اليوم -->
-<div class="section" style="padding-top: 0;">
+<div class="section dash-section"><div class="wrap">
   <div class="dashboard">
     <div class="dash-card">
       <h3>🕌 مواقيت الصلاة</h3>
@@ -302,10 +119,10 @@
       <div id="dailyHadith" class="dash-body notranslate" translate="no">جارٍ التحميل…</div>
     </div>
   </div>
-</div>
+</div></div>
 
 <!-- أبواب الموقع -->
-<section class="section" style="background: var(--card-bg);">
+<section class="section section-alt"><div class="wrap">
   <div class="section-head">
     <h2>أبواب الموقع</h2>
     <p>اختر ما يناسبك</p>
@@ -321,18 +138,18 @@
     <a href="./duas.html" class="nav-card"><span class="emoji">🤲</span><h3>أدعية مستجابة</h3><p>أدعية صحيحة من السنة</p></a>
     <a href="./articles.html" class="nav-card"><span class="emoji">✍️</span><h3>مقالات</h3><p>مقالات في العبادة والأخلاق</p></a>
   </div>
-</section>
+</div></section>
 </main>
 
 <!-- التذييل -->
-<footer>
+<footer><div class="wrap">
   <div class="footer-inner">
     <div><h4>زاد عبيدة</h4><p>محتوى إسلامي نافع مع توضيح المصادر.</p></div>
     <div><h4>روابط سريعة</h4><p><a href="./adhkar.html">الأذكار</a><br><a href="./quran.html">القرآن</a><br><a href="./duas.html">أدعية</a><br><a href="./about.html">عن الموقع</a></p></div>
     <div><h4>تواصل</h4><p>إنستغرام</p></div>
   </div>
-  <div class="copyright">© <span id="year">2026</span> زاد عبيدة — جميع الحقوق محفوظة</div>
-</footer>
+  <div class="footer-bottom">© <span id="year">2026</span> زاد عبيدة — جميع الحقوق محفوظة</div>
+</div></footer>
 
 <script src="./assets/data.js"></script>
 <script src="./assets/app.js"></script>
@@ -350,11 +167,12 @@
   function toast(msg) {
     if (typeof window.showToast === 'function') { window.showToast(msg); return; }
     var t = document.createElement('div');
-    t.className = 'zad-toast';
+    t.className = 'toast';
     t.textContent = msg;
     t.setAttribute('role', 'status');
     document.body.appendChild(t);
-    setTimeout(function () { t.remove(); }, 2500);
+    requestAnimationFrame(function () { requestAnimationFrame(function () { t.classList.add('show'); }); });
+    setTimeout(function () { t.classList.remove('show'); setTimeout(function () { t.remove(); }, 400); }, 2500);
   }
 
   /* ---------- السنة في التذييل (آمن) ---------- */
@@ -388,13 +206,13 @@
   });
 
   /* ---------- القوائم المنسدلة (لمس + لوحة مفاتيح) ---------- */
-  var touchLike = window.matchMedia && window.matchMedia('(hover: none)').matches;
+  var mqTouch = window.matchMedia('(hover: none)'), mqNarrow = window.matchMedia('(max-width: 768px)');
   document.querySelectorAll('.dropdown').forEach(function (dd) {
     var trigger = dd.querySelector('.dd-trigger');
     if (!trigger) return;
     trigger.addEventListener('click', function (e) {
       var isLink = trigger.tagName === 'A';
-      if (isLink && !touchLike) return;     // على الحاسوب: الرابط يعمل عادياً والقائمة بالـ hover
+      if (isLink && !(mqTouch.matches || mqNarrow.matches)) return;     // على الحاسوب: الرابط يعمل عادياً والقائمة بالـ hover
       e.preventDefault();
       var open = dd.classList.toggle('open');
       trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
@@ -411,6 +229,44 @@
   });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') document.querySelectorAll('.dropdown.open').forEach(function (dd) { dd.classList.remove('open'); });
+  });
+
+  /* ---------- قائمة الموبايل ---------- */
+  var menuBtn = $('menuBtn'), navLinks = $('navLinks');
+  function closeMenu() {
+    navLinks.classList.remove('open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.textContent = '☰';
+  }
+  menuBtn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    var open = navLinks.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    menuBtn.textContent = open ? '✕' : '☰';
+  });
+  navLinks.addEventListener('click', function (e) {
+    var a = e.target.closest('a');
+    if (a && !a.classList.contains('dd-trigger')) closeMenu();
+  });
+  document.addEventListener('click', function (e) {
+    if (!navLinks.contains(e.target) && e.target !== menuBtn) closeMenu();
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
+  if (mqNarrow.addEventListener) mqNarrow.addEventListener('change', closeMenu);
+
+  /* ---------- زر العودة للأعلى (إن لم ينشئه app.js) ---------- */
+  window.addEventListener('load', function () {
+    var b = document.querySelector('.back-to-top');
+    if (!b) {
+      b = document.createElement('button');
+      b.className = 'back-to-top';
+      b.type = 'button';
+      b.setAttribute('aria-label', 'العودة للأعلى');
+      b.textContent = '↑';
+      b.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+      document.body.appendChild(b);
+      window.addEventListener('scroll', function () { b.classList.toggle('show', window.scrollY > 400); }, { passive: true });
+    }
   });
 
   /* ---------- الترجمة (تُحمَّل مرة واحدة دون تعطيل الصفحة) ---------- */
@@ -437,16 +293,18 @@
     s.onerror = function () { translateLoading = false; cb(false); };
     document.head.appendChild(s);
   }
-  function doTranslate(lang) {
+  var LANG_NAMES = { en: 'english', fr: 'french', es: 'spanish', de: 'german', tr: 'turkish', it: 'italian' };
+  function doTranslate(lang, quiet) {
+    store.set('zad_lang', lang);
     if (lang === 'ar') {
       try { if (typeof translate !== 'undefined' && translate.reset) translate.reset(); } catch (e) {}
       window.location.reload();
       return;
     }
-    toast('جارٍ الترجمة…');
+    if (!quiet) toast('جارٍ الترجمة…');
     loadTranslate(function (ok) {
       if (!ok) { toast('تعذّر تحميل مكتبة الترجمة، تحقّق من اتصالك'); return; }
-      try { translate.changeLanguage(lang); toast('تمت الترجمة ✓'); }
+      try { translate.changeLanguage(LANG_NAMES[lang] || lang); if (!quiet) toast('تمت الترجمة ✓'); }
       catch (e) { toast('تعذّرت الترجمة'); }
     });
   }
@@ -458,11 +316,11 @@
       var dd = $('langDropdown'); dd.classList.remove('open');
     });
   });
-  // إن كان المستخدم قد اختار لغة سابقاً، حمّل المكتبة ليعود للغته
-  try {
-    var stored = localStorage.getItem('to_language') || '';
-    if (stored && stored !== 'chinese_simplified' && stored !== 'arabic') loadTranslate(function () {});
-  } catch (e) {}
+  // استعادة اللغة التي اختارها المستخدم سابقاً
+  (function () {
+    var l = store.get('zad_lang');
+    if (l && l !== 'ar' && LANG_NAMES[l]) window.addEventListener('load', function () { doTranslate(l, true); });
+  })();
 
   /* ---------- تثبيت التطبيق (PWA) ---------- */
   var installBtn = $('installAppBtn');

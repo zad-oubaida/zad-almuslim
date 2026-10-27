@@ -14,9 +14,13 @@
   <meta property="og:title" content="زاد عبيدة | أذكار ومواقيت الصلاة وقرآن">
   <meta property="og:description" content="مساحة عربية هادئة: أذكار، مواقيت الصلاة، قرآن، آية وحديث اليوم.">
   <meta property="og:image" content="https://zad-oubaida.github.io/zad-almuslim/logo-zad-almuslim.webp.png">
+  <meta property="og:image:alt" content="شعار زاد عبيدة">
   <meta property="og:url" content="https://zad-oubaida.github.io/zad-almuslim/">
   <meta property="og:locale" content="ar_AR">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="زاد عبيدة | أذكار ومواقيت الصلاة وقرآن">
+  <meta name="twitter:description" content="مساحة عربية هادئة: أذكار، مواقيت الصلاة، قرآن، آية وحديث اليوم.">
+  <meta name="twitter:image" content="https://zad-oubaida.github.io/zad-almuslim/logo-zad-almuslim.webp.png">
   <link rel="manifest" href="./manifest.json">
   <link rel="icon" type="image/png" href="./logo-zad-almuslim.webp.png">
   <link rel="apple-touch-icon" href="./logo-zad-almuslim.webp.png">
@@ -28,18 +32,21 @@
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"WebSite","name":"زاد عبيدة","url":"https://zad-oubaida.github.io/zad-almuslim/","inLanguage":"ar","description":"أذكار ومواقيت الصلاة وقرآن من مصادر موثوقة."}
   </script>
-  
+
   <style>
     /* ===== التصميم الفخم والهادئ ===== */
     :root {
       --bg-color: #f5f7fa;
       --text-color: #2c3e50;
+      --muted: #5f6f7a;
       --primary: #0d7a5f;
       --primary-dark: #0a5a45;
       --primary-light: #e6f2ef;
       --accent: #d4af37;
       --border-color: #e0e0e0;
       --card-bg: #ffffff;
+      --nav-bg: rgba(255, 255, 255, 0.95);
+      --btn-bg: #f1f2f6;
       --shadow: 0 4px 20px rgba(0,0,0,0.04);
       --shadow-hover: 0 10px 30px rgba(13, 122, 95, 0.1);
     }
@@ -47,8 +54,13 @@
     body.dark {
       --bg-color: #121212;
       --text-color: #e0e0e0;
+      --muted: #a3acb3;
+      --primary: #2fb892;
+      --primary-dark: #249376;
       --border-color: #333;
       --card-bg: #1e1e1e;
+      --nav-bg: rgba(18, 18, 18, 0.95);
+      --btn-bg: #2a2a2a;
       --primary-light: #1a3d33;
       --shadow: 0 4px 20px rgba(0,0,0,0.3);
     }
@@ -90,7 +102,7 @@
 
     /* شريط التنقل */
     .navbar {
-      background: rgba(255, 255, 255, 0.95);
+      background: var(--nav-bg);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border-color);
       padding: 15px 0;
@@ -98,12 +110,11 @@
       top: 0;
       z-index: 1000;
     }
-    body.dark .navbar { background: rgba(18, 18, 18, 0.95); }
     .nav-inner { display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
     .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
     .brand img { width: 45px; height: 45px; border-radius: 50%; }
     .brand strong { font-size: 1.3rem; color: var(--primary); display: block; }
-    .brand small { font-size: 0.75rem; color: #7f8c8d; display: block; }
+    .brand small { font-size: 0.75rem; color: var(--muted); display: block; }
 
     .nav-links { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: center; }
     .nav-links a { text-decoration: none; color: var(--text-color); font-weight: 600; font-size: 0.9rem; padding: 8px 12px; border-radius: 8px; transition: all 0.3s; }
@@ -111,20 +122,23 @@
 
     .dropdown { position: relative; }
     .dropdown-content { display: none; position: absolute; background: var(--card-bg); min-width: 180px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 12px; border: 1px solid var(--border-color); top: 100%; right: 0; padding: 8px 0; z-index: 1001; }
-    .dropdown:hover .dropdown-content { display: block; }
+    .dropdown:hover .dropdown-content,
+    .dropdown:focus-within .dropdown-content,
+    .dropdown.open .dropdown-content { display: block; }
     .dropdown-content a { display: block; padding: 10px 16px; font-size: 0.9rem; color: var(--text-color); }
     .dropdown-content a:hover { background-color: var(--primary-light); color: var(--primary); }
 
     .nav-tools { display: flex; gap: 8px; align-items: center; }
-    .icon-btn { background: #f1f2f6; border: none; border-radius: 8px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; color: var(--text-color); }
-    body.dark .icon-btn { background: #2a2a2a; }
+    .icon-btn { background: var(--btn-bg); border: none; border-radius: 8px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; color: var(--text-color); font-size: 1rem; }
     .icon-btn:hover { background: var(--primary-light); color: var(--primary); }
 
     /* قسم الترحيب */
     .hero { text-align: center; padding: 70px 20px 50px; max-width: 800px; margin: 0 auto; position: relative; }
     .hero .bismillah { font-family: 'Amiri', serif; font-size: 1.6rem; color: var(--accent); margin-bottom: 20px; }
     .hero h1 { font-family: 'Amiri', serif; font-size: 3.2rem; color: var(--primary); margin-bottom: 20px; line-height: 1.3; }
-    .hero p { font-size: 1.1rem; color: #7f8c8d; margin-bottom: 30px; }
+    .hero p { font-size: 1.1rem; color: var(--muted); margin-bottom: 30px; }
+    .hero p.bismillah { color: #9a7b10; }
+    body.dark .hero p.bismillah { color: var(--accent); }
 
     .hero-actions { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 30px; }
     .btn-primary { background-color: var(--primary); color: #fff; padding: 12px 28px; border-radius: 50px; text-decoration: none; font-weight: bold; transition: 0.3s; box-shadow: 0 4px 15px rgba(13, 122, 95, 0.2); border: none; cursor: pointer; font-family: inherit; font-size: 1rem; }
@@ -134,35 +148,36 @@
 
     .action-buttons { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
     .install-btn, .notif-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; font-family: inherit; font-size: 0.95rem; }
-    .install-btn { background: #fff; color: var(--primary); border: 1px solid var(--primary); }
-    body.dark .install-btn { background: #1e1e1e; }
+    .install-btn { background: var(--card-bg); color: var(--primary); border: 1px solid var(--primary); }
     .install-btn:hover { background: var(--primary-light); transform: translateY(-2px); }
     .notif-btn { background: var(--accent); color: #1a1a1a; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
     .notif-btn:hover { background: #c9a227; transform: translateY(-2px); }
+    .notif-btn:disabled { opacity: .85; cursor: default; transform: none; }
 
     /* تباعد الأقسام */
     .section { padding: 50px 20px; }
     .section-head { text-align: center; margin-bottom: 40px; }
     .section-head h2 { font-family: 'Amiri', serif; font-size: 2.2rem; color: var(--primary); margin-bottom: 10px; position: relative; display: inline-block; }
     .section-head h2::after { content: ''; position: absolute; bottom: -8px; left: 20%; right: 20%; height: 2px; background: var(--accent); border-radius: 2px; }
-    .section-head p { color: #7f8c8d; font-size: 1rem; margin-top: 15px; }
+    .section-head p { color: var(--muted); font-size: 1rem; margin-top: 15px; }
 
     .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto; }
     .nav-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px 20px; text-align: center; text-decoration: none; color: var(--text-color); transition: all 0.3s ease; box-shadow: var(--shadow); display: flex; flex-direction: column; align-items: center; justify-content: center; }
     .nav-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: var(--shadow-hover); }
     .nav-card .emoji { font-size: 2.5rem; margin-bottom: 15px; display: block; }
     .nav-card h3 { color: var(--primary); font-size: 1.2rem; margin: 0 0 10px 0; }
-    .nav-card p { color: #7f8c8d; font-size: 0.9rem; margin: 0; }
+    .nav-card p { color: var(--muted); font-size: 0.9rem; margin: 0; }
 
     /* لوحة اليوم */
     .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; max-width: 1100px; margin: 0 auto; }
     .dash-card { background: var(--card-bg); border-radius: 20px; padding: 25px; border: 1px solid var(--border-color); box-shadow: var(--shadow); position: relative; overflow: hidden; }
     .dash-card::before { content: ''; position: absolute; top: 0; right: 0; left: 0; height: 4px; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 4px 4px 0 0; }
     .dash-card h3 { color: var(--primary); font-size: 1.15rem; margin-top: 0; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .dash-body { text-align: center; color: var(--muted); padding: 15px 0; }
 
     /* مواقيت الصلاة */
     .prayer-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
-    .prayer-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: var(--bg-color); border-radius: 12px; border-right: 4px solid var(--accent); transition: 0.3s; }
+    .prayer-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: var(--bg-color); border-radius: 12px; border-right: 4px solid var(--accent); transition: 0.3s; color: var(--text-color); }
     .prayer-item.active { background: var(--primary-light); border-right-color: var(--primary); font-weight: bold; }
     .prayer-item span { font-size: 1rem; }
     .prayer-item strong { font-size: 1.1rem; color: var(--primary); }
@@ -170,13 +185,30 @@
     .city-bar { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
     .city-bar input { flex: 1; min-width: 100px; padding: 10px; border: 1px solid var(--border-color); border-radius: 10px; background: var(--bg-color); color: var(--text-color); font-family: inherit; }
     .city-bar button { padding: 10px 16px; border-radius: 10px; background: var(--primary); color: #fff; border: none; cursor: pointer; font-family: inherit; font-weight: bold; }
+    .city-bar button.geo { background: var(--btn-bg); color: var(--primary); border: 1px solid var(--border-color); }
+    .city-name { font-size: .85rem; color: var(--muted); margin-bottom: 10px; text-align: center; }
+
+    /* آية وحديث اليوم (احتياطي) */
+    .verse-text { font-family: 'Amiri', serif; font-size: 1.5rem; line-height: 2.1; color: var(--text-color); }
+    .verse-src { margin-top: 10px; font-size: .9rem; color: var(--muted); }
+    .hadith-text { font-family: 'Amiri', serif; font-size: 1.35rem; line-height: 2; color: var(--text-color); }
 
     /* التذييل */
     footer { background: #2c3e50; color: #ecf0f1; padding: 40px 20px 20px; margin-top: 60px; }
     .footer-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; max-width: 1100px; margin: 0 auto; }
     footer h4 { color: var(--accent); margin-bottom: 15px; }
-    footer a { color: #bdc3c7; text-decoration: none; transition: 0.3s; }
+    footer a { color: #cfd6db; text-decoration: none; transition: 0.3s; }
     footer a:hover { color: var(--accent); }
+    .copyright { text-align: center; margin-top: 30px; font-size: 0.8rem; color: #b7c0c6; }
+
+    /* إشعار صغير */
+    .zad-toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 30px; font-weight: 600; z-index: 3000; box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+
+    /* إمكانية الوصول */
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; animation: none !important; }
+    }
 
     /* الموبايل */
     @media (max-width: 768px) {
@@ -190,17 +222,17 @@
 <body>
 
 <!-- شريط التنقل -->
-<nav class="navbar">
+<nav class="navbar" aria-label="التنقل الرئيسي">
   <div class="nav-inner">
     <a href="./index.html" class="brand">
-      <img src="./logo-zad-almuslim.webp.png" alt="شعار زاد عبيدة">
+      <img src="./logo-zad-almuslim.webp.png" alt="شعار زاد عبيدة" width="45" height="45">
       <div><strong>زاد عبيدة</strong><small>ذكرٌ نافع، وعلمٌ موثّق</small></div>
     </a>
     <div class="nav-links">
-      <a href="./index.html" class="active">الرئيسية</a>
+      <a href="./index.html" class="active" aria-current="page">الرئيسية</a>
       <a href="./wird.html">🌿 وردك اليومي</a>
       <div class="dropdown">
-        <a href="./adhkar.html">📿 أذكار المسلم ▼</a>
+        <a href="./adhkar.html" class="dd-trigger" aria-haspopup="true" aria-expanded="false">📿 أذكار المسلم ▼</a>
         <div class="dropdown-content">
           <a href="./adhkar.html">الأذكار المختارة</a>
           <a href="./azkar-morning.html">🌅 أذكار الصباح</a>
@@ -215,23 +247,24 @@
       <a href="./opinions.html">💬 آراء</a>
     </div>
     <div class="nav-tools">
-      <div class="dropdown">
-        <button class="icon-btn" title="ترجمة الموقع">🌐</button>
-        <div class="dropdown-content" style="min-width: 120px; left: 0; right: auto;">
-          <a href="#" onclick="doTranslate('ar')">العربية</a>
-          <a href="#" onclick="doTranslate('en')">English</a>
-          <a href="#" onclick="doTranslate('fr')">Français</a>
-          <a href="#" onclick="doTranslate('es')">Español</a>
-          <a href="#" onclick="doTranslate('de')">Deutsch</a>
-          <a href="#" onclick="doTranslate('tr')">Türkçe</a>
-          <a href="#" onclick="doTranslate('it')">Italiano</a>
+      <div class="dropdown" id="langDropdown">
+        <button class="icon-btn dd-trigger" type="button" title="ترجمة الموقع" aria-label="ترجمة الموقع" aria-haspopup="true" aria-expanded="false">🌐</button>
+        <div class="dropdown-content notranslate" translate="no" style="min-width: 120px; left: 0; right: auto;">
+          <a href="#" data-lang="ar">العربية</a>
+          <a href="#" data-lang="en">English</a>
+          <a href="#" data-lang="fr">Français</a>
+          <a href="#" data-lang="es">Español</a>
+          <a href="#" data-lang="de">Deutsch</a>
+          <a href="#" data-lang="tr">Türkçe</a>
+          <a href="#" data-lang="it">Italiano</a>
         </div>
       </div>
-      <button class="icon-btn" id="themeToggle" title="الوضع الليلي">🌙</button>
+      <button class="icon-btn" id="themeToggle" type="button" title="الوضع الليلي" aria-label="تبديل الوضع الليلي">🌙</button>
     </div>
   </div>
 </nav>
 
+<main>
 <!-- قسم الترحيب -->
 <section class="hero">
   <p class="bismillah">بسم الله الرحمن الرحيم</p>
@@ -242,8 +275,8 @@
     <a href="./quran.html" class="btn-secondary">تصفّح القرآن</a>
   </div>
   <div class="action-buttons">
-    <button class="install-btn" id="installAppBtn">📲 ثبّت التطبيق على جهازك</button>
-    <button class="notif-btn" id="enableNotifBtn">🔔 فعّل تذكير وردك اليومي</button>
+    <button class="install-btn" id="installAppBtn" type="button">📲 ثبّت التطبيق على جهازك</button>
+    <button class="notif-btn" id="enableNotifBtn" type="button">🔔 فعّل تذكير وردك اليومي</button>
   </div>
 </section>
 
@@ -253,20 +286,20 @@
     <div class="dash-card">
       <h3>🕌 مواقيت الصلاة</h3>
       <div class="city-bar">
-        <input type="text" id="cityInput" placeholder="مدينتك (Algiers)">
+        <input type="text" id="cityInput" placeholder="مدينتك (Algiers)" aria-label="اسم المدينة">
         <button type="button" id="cityBtn">تحديث</button>
-        <button type="button" id="geoBtn" style="background: #f1f2f6; color: var(--primary); border: 1px solid var(--border-color);" title="استخدم موقعي">📍</button>
+        <button type="button" id="geoBtn" class="geo" title="استخدم موقعي" aria-label="استخدم موقعي">📍</button>
       </div>
-      <div id="prayerTimes" style="text-align:center; color:#7f8c8d; padding:15px 0;">جارٍ تحديد موقعك…</div>
+      <div id="prayerTimes" class="dash-body" aria-live="polite">جارٍ تحديد موقعك…</div>
       <div id="prayerCountdown" class="countdown" style="display:none;"></div>
     </div>
     <div class="dash-card">
       <h3>📖 آية اليوم</h3>
-      <div id="dailyAyah" style="text-align:center; color:#7f8c8d; padding:15px 0;">جارٍ التحميل…</div>
+      <div id="dailyAyah" class="dash-body notranslate" translate="no">جارٍ التحميل…</div>
     </div>
     <div class="dash-card">
       <h3>📜 حديث اليوم</h3>
-      <div id="dailyHadith" style="text-align:center; color:#7f8c8d; padding:15px 0;">جارٍ التحميل…</div>
+      <div id="dailyHadith" class="dash-body notranslate" translate="no">جارٍ التحميل…</div>
     </div>
   </div>
 </div>
@@ -289,72 +322,324 @@
     <a href="./articles.html" class="nav-card"><span class="emoji">✍️</span><h3>مقالات</h3><p>مقالات في العبادة والأخلاق</p></a>
   </div>
 </section>
+</main>
 
 <!-- التذييل -->
 <footer>
   <div class="footer-inner">
     <div><h4>زاد عبيدة</h4><p>محتوى إسلامي نافع مع توضيح المصادر.</p></div>
-    <div><h4>روابط سريعة</h4><p><a href="./adhkar.html">الأذكار</a><br><a href="./quran.html">القرآن</a><br><a href="./duas.html">أدعية</a></p></div>
+    <div><h4>روابط سريعة</h4><p><a href="./adhkar.html">الأذكار</a><br><a href="./quran.html">القرآن</a><br><a href="./duas.html">أدعية</a><br><a href="./about.html">عن الموقع</a></p></div>
     <div><h4>تواصل</h4><p>إنستغرام</p></div>
   </div>
-  <div style="text-align:center; margin-top:30px; font-size:0.8rem; color:#7f8c8d;">© 2026 زاد عبيدة — جميع الحقوق محفوظة</div>
+  <div class="copyright">© <span id="year">2026</span> زاد عبيدة — جميع الحقوق محفوظة</div>
 </footer>
 
 <script src="./assets/data.js"></script>
 <script src="./assets/app.js"></script>
 
-<!-- مكتبة الترجمة -->
-<script src="https://cdn.staticfile.net/translate.js/3.18.66/translate.js"></script>
 <script>
-document.getElementById('year').textContent = new Date().getFullYear();
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var store = {
+    get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  };
 
-// إعداد الترجمة
-if (typeof translate !== 'undefined') {
-  translate.language.setLocal('arabic');
-  translate.service.use('client.edge');
-  translate.language.setLanguages(['arabic', 'english', 'french', 'spanish', 'german', 'turkish', 'italian']);
-  translate.listener.start();
-}
-
-function doTranslate(lang) {
-  if (lang === 'ar') { window.location.reload(); return; }
-  if (typeof translate !== 'undefined') {
-    translate.changeLanguage(lang);
-    if (typeof showToast === 'function') showToast('تمت الترجمة ✓');
-  } else {
-    alert('مكتبة الترجمة لم يتم تحميلها بعد.');
+  /* ---------- رسالة قصيرة ---------- */
+  function toast(msg) {
+    if (typeof window.showToast === 'function') { window.showToast(msg); return; }
+    var t = document.createElement('div');
+    t.className = 'zad-toast';
+    t.textContent = msg;
+    t.setAttribute('role', 'status');
+    document.body.appendChild(t);
+    setTimeout(function () { t.remove(); }, 2500);
   }
-}
 
-// الوضع الليلي
-document.getElementById('themeToggle').addEventListener('click', () => {
-  document.body.classList.toggle('dark');
-  document.getElementById('themeToggle').textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
-});
+  /* ---------- السنة في التذييل (آمن) ---------- */
+  var y = $('year');
+  if (y) y.textContent = new Date().getFullYear();
 
-// نافذة تثبيت التطبيق
-document.getElementById('installAppBtn').addEventListener('click', () => {
-  alert('لتثبيت التطبيق:\n1. افتح قائمة المتصفح (⋮).\n2. اختر "إضافة إلى الشاشة الرئيسية".\n3. اضغط "إضافة".');
-});
-
-// إدارة الإشعارات
-const notifBtn = document.getElementById('enableNotifBtn');
-if (notifBtn) {
-  if (Notification.permission === 'granted') {
-    notifBtn.textContent = '✅ الإشعارات مفعلة';
-    notifBtn.disabled = true;
-  } else {
-    notifBtn.addEventListener('click', async () => {
-      if (!('Notification' in window)) { alert('متصفحك لا يدعم الإشعارات'); return; }
-      const permission = await Notification.requestPermission();
-      if (permission === 'granted') {
-        notifBtn.textContent = '✅ الإشعارات مفعلة';
-        notifBtn.disabled = true;
-        if (typeof showToast === 'function') showToast('تم تفعيل الإشعارات ✓');
-      }
+  /* ---------- Service Worker ---------- */
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('./sw.js').catch(function (e) {
+        console.warn('تعذّر تسجيل sw.js:', e);
+      });
     });
   }
-}
+
+  /* ---------- الوضع الليلي (يُحفظ) ---------- */
+  var themeBtn = $('themeToggle');
+  var themeMeta = document.querySelector('meta[name="theme-color"]');
+  function applyTheme(dark) {
+    document.body.classList.toggle('dark', dark);
+    themeBtn.textContent = dark ? '☀️' : '🌙';
+    themeBtn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+    if (themeMeta) themeMeta.setAttribute('content', dark ? '#121212' : '#0d7a5f');
+  }
+  var saved = store.get('zad_theme');
+  applyTheme(saved === 'dark');
+  themeBtn.addEventListener('click', function () {
+    var dark = !document.body.classList.contains('dark');
+    applyTheme(dark);
+    store.set('zad_theme', dark ? 'dark' : 'light');
+  });
+
+  /* ---------- القوائم المنسدلة (لمس + لوحة مفاتيح) ---------- */
+  var touchLike = window.matchMedia && window.matchMedia('(hover: none)').matches;
+  document.querySelectorAll('.dropdown').forEach(function (dd) {
+    var trigger = dd.querySelector('.dd-trigger');
+    if (!trigger) return;
+    trigger.addEventListener('click', function (e) {
+      var isLink = trigger.tagName === 'A';
+      if (isLink && !touchLike) return;     // على الحاسوب: الرابط يعمل عادياً والقائمة بالـ hover
+      e.preventDefault();
+      var open = dd.classList.toggle('open');
+      trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
+  document.addEventListener('click', function (e) {
+    document.querySelectorAll('.dropdown.open').forEach(function (dd) {
+      if (!dd.contains(e.target)) {
+        dd.classList.remove('open');
+        var t = dd.querySelector('.dd-trigger');
+        if (t) t.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') document.querySelectorAll('.dropdown.open').forEach(function (dd) { dd.classList.remove('open'); });
+  });
+
+  /* ---------- الترجمة (تُحمَّل مرة واحدة دون تعطيل الصفحة) ---------- */
+  var translateReady = false, translateLoading = false, pendingLang = null;
+  function initTranslate() {
+    if (typeof translate === 'undefined') return false;
+    try {
+      translate.language.setLocal('arabic');
+      translate.service.use('client.edge');
+      translate.language.setLanguages(['arabic', 'english', 'french', 'spanish', 'german', 'turkish', 'italian']);
+      if (translate.selectLanguageTag) translate.selectLanguageTag.show = false;
+      translate.listener.start();
+      translateReady = true;
+    } catch (e) { console.warn('translate init', e); }
+    return translateReady;
+  }
+  function loadTranslate(cb) {
+    if (translateReady) { cb(true); return; }
+    if (translateLoading) { pendingLang = cb; return; }
+    translateLoading = true;
+    var s = document.createElement('script');
+    s.src = 'https://cdn.staticfile.net/translate.js/3.18.66/translate.js';
+    s.onload = function () { translateLoading = false; var ok = initTranslate(); cb(ok); if (pendingLang) { pendingLang(ok); pendingLang = null; } };
+    s.onerror = function () { translateLoading = false; cb(false); };
+    document.head.appendChild(s);
+  }
+  function doTranslate(lang) {
+    if (lang === 'ar') {
+      try { if (typeof translate !== 'undefined' && translate.reset) translate.reset(); } catch (e) {}
+      window.location.reload();
+      return;
+    }
+    toast('جارٍ الترجمة…');
+    loadTranslate(function (ok) {
+      if (!ok) { toast('تعذّر تحميل مكتبة الترجمة، تحقّق من اتصالك'); return; }
+      try { translate.changeLanguage(lang); toast('تمت الترجمة ✓'); }
+      catch (e) { toast('تعذّرت الترجمة'); }
+    });
+  }
+  window.doTranslate = doTranslate; // للتوافق مع أي استدعاء قديم
+  document.querySelectorAll('#langDropdown [data-lang]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      doTranslate(a.getAttribute('data-lang'));
+      var dd = $('langDropdown'); dd.classList.remove('open');
+    });
+  });
+  // إن كان المستخدم قد اختار لغة سابقاً، حمّل المكتبة ليعود للغته
+  try {
+    var stored = localStorage.getItem('to_language') || '';
+    if (stored && stored !== 'chinese_simplified' && stored !== 'arabic') loadTranslate(function () {});
+  } catch (e) {}
+
+  /* ---------- تثبيت التطبيق (PWA) ---------- */
+  var installBtn = $('installAppBtn');
+  var deferredPrompt = null;
+  var isStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+  if (isStandalone) installBtn.style.display = 'none';
+  window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); deferredPrompt = e; });
+  window.addEventListener('appinstalled', function () { installBtn.style.display = 'none'; deferredPrompt = null; toast('تم تثبيت التطبيق ✓'); });
+  installBtn.addEventListener('click', function () {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.finally(function () { deferredPrompt = null; });
+      return;
+    }
+    var ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    alert(ios
+      ? 'لتثبيت التطبيق على آيفون:\n1. اضغط زر المشاركة في Safari.\n2. اختر "إضافة إلى الشاشة الرئيسية".\n3. اضغط "إضافة".'
+      : 'لتثبيت التطبيق:\n1. افتح قائمة المتصفح (⋮).\n2. اختر "إضافة إلى الشاشة الرئيسية" أو "تثبيت التطبيق".\n3. اضغط "إضافة".');
+  });
+
+  /* ---------- الإشعارات (آمنة على المتصفحات غير الداعمة) ---------- */
+  var notifBtn = $('enableNotifBtn');
+  function markNotifOn() { notifBtn.textContent = '✅ الإشعارات مفعلة'; notifBtn.disabled = true; }
+  if (notifBtn) {
+    if (!('Notification' in window)) {
+      notifBtn.addEventListener('click', function () {
+        alert('متصفحك لا يدعم الإشعارات. على آيفون: ثبّت الموقع على الشاشة الرئيسية أولاً ثم افتحه من هناك.');
+      });
+    } else if (Notification.permission === 'granted') {
+      markNotifOn();
+    } else {
+      notifBtn.addEventListener('click', function () {
+        if (Notification.permission === 'denied') {
+          alert('الإشعارات محظورة لهذا الموقع. فعّلها من إعدادات المتصفح (قفل العنوان ← الإشعارات ← سماح).');
+          return;
+        }
+        Notification.requestPermission().then(function (permission) {
+          if (permission === 'granted') {
+            markNotifOn();
+            toast('تم تفعيل الإشعارات ✓');
+            if ('serviceWorker' in navigator) {
+              navigator.serviceWorker.ready.then(function (reg) {
+                reg.showNotification('زاد عبيدة', { body: 'سيصلك تذكير وردك اليومي بإذن الله', icon: './logo-zad-almuslim.webp.png' });
+              }).catch(function () {});
+            }
+          }
+        });
+      });
+    }
+  }
+
+  /* =====================================================================
+     احتياطي: إن لم يعرض app.js مواقيت الصلاة أو آية/حديث اليوم خلال 4 ثوانٍ
+     فنعرضها من هنا. لا يتدخل إطلاقاً إن كان app.js يعمل.
+     ===================================================================== */
+  function stillLoading(id) {
+    var el = $(id);
+    if (!el) return false;
+    var t = (el.textContent || '').trim();
+    return t === '' || t.indexOf('جارٍ') === 0;
+  }
+
+  /* --- مواقيت الصلاة (طريقة 19: وزارة الشؤون الدينية الجزائرية) --- */
+  function startPrayerFallback() {
+    var NAMES = [['Fajr', 'الفجر'], ['Sunrise', 'الشروق'], ['Dhuhr', 'الظهر'], ['Asr', 'العصر'], ['Maghrib', 'المغرب'], ['Isha', 'العشاء']];
+    var box = $('prayerTimes'), cd = $('prayerCountdown');
+    var times = null, tz = null, tick = null;
+
+    function secsNow(zone) {
+      var parts = new Intl.DateTimeFormat('en-GB', { timeZone: zone || undefined, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).formatToParts(new Date());
+      var g = function (t) { return parseInt(parts.filter(function (p) { return p.type === t; })[0].value, 10); };
+      return (g('hour') % 24) * 3600 + g('minute') * 60 + g('second');
+    }
+    function toSecs(s) { var m = String(s).match(/(\d{1,2}):(\d{2})/); return m ? (+m[1]) * 3600 + (+m[2]) * 60 : 0; }
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+    function render(label) {
+      if (!times) return;
+      var now = secsNow(tz), nextKey = null, nextIn = 0, i;
+      var order = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+      for (i = 0; i < order.length; i++) {
+        var s = toSecs(times[order[i]]);
+        if (s > now) { nextKey = order[i]; nextIn = s - now; break; }
+      }
+      if (!nextKey) { nextKey = 'Fajr'; nextIn = 86400 - now + toSecs(times.Fajr); }
+      var html = (label ? '<div class="city-name">📍 ' + label + '</div>' : '') + '<ul class="prayer-list">';
+      NAMES.forEach(function (n) {
+        html += '<li class="prayer-item' + (n[0] === nextKey ? ' active' : '') + '"><span>' + n[1] + '</span><strong>' + String(times[n[0]]).slice(0, 5) + '</strong></li>';
+      });
+      box.innerHTML = html + '</ul>';
+      var nm = NAMES.filter(function (n) { return n[0] === nextKey; })[0][1];
+      var h = Math.floor(nextIn / 3600), m = Math.floor((nextIn % 3600) / 60), s2 = nextIn % 60;
+      cd.style.display = 'block';
+      cd.textContent = 'المتبقي على ' + nm + ': ' + pad(h) + ':' + pad(m) + ':' + pad(s2);
+    }
+
+    function fetchTimes(url, label) {
+      box.textContent = 'جارٍ تحميل المواقيت…';
+      fetch(url).then(function (r) { return r.json(); }).then(function (j) {
+        if (!j || j.code !== 200) throw new Error('bad');
+        times = j.data.timings;
+        tz = j.data.meta && j.data.meta.timezone;
+        render(label);
+        clearInterval(tick);
+        tick = setInterval(function () { render(label); }, 1000);
+      }).catch(function () {
+        box.textContent = 'تعذّر تحميل المواقيت. تحقّق من الاتصال أو اسم المدينة.';
+        cd.style.display = 'none';
+      });
+    }
+    function dateStr() { var d = new Date(); return pad(d.getDate()) + '-' + pad(d.getMonth() + 1) + '-' + d.getFullYear(); }
+    function byCity(city) {
+      store.set('zad_city', city);
+      fetchTimes('https://api.aladhan.com/v1/timingsByAddress/' + dateStr() + '?method=19&address=' + encodeURIComponent(city), city);
+    }
+    function byGeo() {
+      if (!navigator.geolocation) { byCity('Algiers'); return; }
+      box.textContent = 'جارٍ تحديد موقعك…';
+      navigator.geolocation.getCurrentPosition(function (p) {
+        fetchTimes('https://api.aladhan.com/v1/timings/' + dateStr() + '?method=19&latitude=' + p.coords.latitude + '&longitude=' + p.coords.longitude, 'موقعك الحالي');
+      }, function () { byCity(store.get('zad_city') || 'Algiers'); }, { timeout: 8000 });
+    }
+
+    $('cityBtn').addEventListener('click', function () {
+      var v = $('cityInput').value.trim();
+      if (v) byCity(v); else toast('اكتب اسم مدينتك أولاً');
+    });
+    $('cityInput').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('cityBtn').click(); });
+    $('geoBtn').addEventListener('click', byGeo);
+
+    var c = store.get('zad_city');
+    if (c) { $('cityInput').value = c; byCity(c); } else { byGeo(); }
+  }
+
+  /* --- آية اليوم --- */
+  function startAyahFallback() {
+    var el = $('dailyAyah');
+    var day = Math.floor(Date.now() / 86400000);
+    var n = (day * 37) % 6236 + 1;
+    fetch('https://api.alquran.cloud/v1/ayah/' + n + '/quran-uthmani')
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        if (!j || j.code !== 200) throw new Error('bad');
+        var d = j.data;
+        el.innerHTML = '<div class="verse-text"></div><div class="verse-src"></div>';
+        el.firstChild.textContent = '﴿ ' + d.text + ' ﴾';
+        el.lastChild.textContent = 'سورة ' + d.surah.name.replace('سُورَةُ ', '').replace('سورة ', '') + ' — آية ' + d.numberInSurah;
+      })
+      .catch(function () { el.textContent = 'تعذّر تحميل آية اليوم. تحقّق من الاتصال.'; });
+  }
+
+  /* --- حديث اليوم (أحاديث مشهورة من الأربعين النووية وغيرها) --- */
+  function startHadithFallback() {
+    var list = [
+      ['إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى', 'متفق عليه'],
+      ['الدِّينُ النَّصِيحَةُ', 'رواه مسلم'],
+      ['لَا يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لِأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ', 'متفق عليه'],
+      ['مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ', 'متفق عليه'],
+      ['الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ', 'متفق عليه'],
+      ['اتَّقِ اللَّهَ حَيْثُمَا كُنْتَ، وَأَتْبِعِ السَّيِّئَةَ الْحَسَنَةَ تَمْحُهَا، وَخَالِقِ النَّاسَ بِخُلُقٍ حَسَنٍ', 'رواه الترمذي وقال: حديث حسن'],
+      ['مِنْ حُسْنِ إِسْلَامِ الْمَرْءِ تَرْكُهُ مَا لَا يَعْنِيهِ', 'رواه الترمذي وغيره، وهو حديث حسن']
+    ];
+    var h = list[Math.floor(Date.now() / 86400000) % list.length];
+    var el = $('dailyHadith');
+    el.innerHTML = '<div class="hadith-text"></div><div class="verse-src"></div>';
+    el.firstChild.textContent = '«' + h[0] + '»';
+    el.lastChild.textContent = h[1];
+  }
+
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      if (stillLoading('prayerTimes')) startPrayerFallback();
+      if (stillLoading('dailyAyah')) startAyahFallback();
+      if (stillLoading('dailyHadith')) startHadithFallback();
+    }, 4000);
+  });
+})();
 </script>
 
 <!-- Webpushr -->

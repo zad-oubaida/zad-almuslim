@@ -29,70 +29,44 @@
   {"@context":"https://schema.org","@type":"WebSite","name":"زاد عبيدة","url":"https://zad-oubaida.github.io/zad-almuslim/","inLanguage":"ar","description":"أذكار ومواقيت الصلاة وقرآن من مصادر موثوقة."}
   </script>
   <style>
-    /* ===== تحسينات فخمة ===== */
-    :root {
-      --gold-glow: 0 0 15px rgba(217, 189, 120, 0.4);
-    }
-    body { background: #f8f9fa; }
-    
-    /* شريط التنقل */
-    .navbar { background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(0,0,0,0.05); }
-    body.dark .navbar { background: rgba(18,18,18,0.95); border-bottom: 1px solid rgba(255,255,255,0.05); }
-    
-    .brand strong { font-size: 1.3rem; letter-spacing: 0.5px; }
-    .brand small { font-size: 0.75rem; opacity: 0.8; }
-    
-    /* بطاقات لوحة اليوم */
-    .dash-card {
-      border: none;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .dash-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-    }
-    body.dark .dash-card { box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-    body.dark .dash-card:hover { box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
-    
-    /* زر الإشعارات */
-    .notif-btn {
-      background: linear-gradient(135deg, var(--accent), #e6a800);
-      box-shadow: 0 4px 15px rgba(240, 180, 41, 0.3);
-      border: none;
-      transition: all 0.3s;
-    }
-    .notif-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(240, 180, 41, 0.5); }
-    
-    /* زر التثبيت */
-    .install-btn {
-      background: linear-gradient(135deg, var(--primary), var(--green2));
-      box-shadow: 0 4px 15px rgba(13, 122, 95, 0.3);
-      border: none;
-      transition: all 0.3s;
-    }
-    .install-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(13, 122, 95, 0.5); }
+    /* ===== تنسيقات الشريط المنسدل الفخم ===== */
+    .dropdown { position: relative; display: inline-block; }
+    .dropdown-content { display: none; position: absolute; background-color: var(--card); min-width: 180px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 1000; border-radius: 12px; border: 1px solid var(--line); top: 100%; right: 0; padding: 8px 0; }
+    .dropdown-content a { color: var(--text); padding: 10px 16px; text-decoration: none; display: block; font-size: 0.9rem; transition: background 0.2s; }
+    .dropdown-content a:hover { background-color: var(--primary-light); color: var(--primary); }
+    .dropdown:hover .dropdown-content { display: block; }
 
-    /* العناوين */
-    .hero-title { text-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-    .section-head h2 { position: relative; display: inline-block; }
-    .section-head h2::after {
-      content: ''; position: absolute; bottom: -8px; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-      border-radius: 3px;
-    }
+    /* ===== تحسين الشريط العلوي ===== */
+    .nav-inner { padding: 12px 0; }
+    .brand strong { font-size: 1.2rem; color: var(--primary); }
+    .brand small { font-size: 0.75rem; color: var(--text-muted); }
+    .nav-links a { font-size: 0.95rem; padding: 8px 12px; }
+    
+    /* ===== تحسين الأزرار ===== */
+    .btn-primary { background: var(--green2); color: #fff; border-radius: 8px; font-weight: bold; padding: 10px 20px; transition: all 0.3s; }
+    .btn-primary:hover { background: var(--green); transform: translateY(-2px); box-shadow: 0 4px 15px rgba(13, 122, 95, 0.3); }
+    .btn-secondary { background: var(--card); color: var(--primary); border: 1px solid var(--line); border-radius: 8px; padding: 10px 20px; transition: all 0.3s; }
+    .btn-secondary:hover { border-color: var(--primary); background: var(--primary-light); }
 
-    /* القوائم المنسدلة */
-    .dropdown-content { border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-    body.dark .dropdown-content { border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+    /* ===== البطاقات ===== */
+    .dash-card { background: var(--card); border-radius: 16px; border: 1px solid var(--line); box-shadow: 0 8px 25px rgba(0,0,0,0.04); transition: transform 0.3s; }
+    .dash-card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.08); }
+    .dash-card h3 { color: var(--primary); font-size: 1.1rem; margin-bottom: 15px; border-bottom: 2px solid var(--accent); padding-bottom: 10px; }
 
-    /* أزرار الهيرو */
-    .btn-primary { background: linear-gradient(135deg, var(--primary), var(--green2)); box-shadow: 0 4px 15px rgba(13, 122, 95, 0.3); }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(13, 122, 95, 0.5); }
+    /* ===== زر الترجمة ===== */
+    .lang-btn { display: flex; align-items: center; justify-content: center; gap: 4px; }
 
-    /* تأثيرات التمرير */
-    .fade-in { animation: fadeIn 0.8s ease forwards; opacity: 0; }
-    @keyframes fadeIn { to { opacity: 1; } }
+    /* ===== التذييل ===== */
+    footer { background: #0d2e26; color: #dce7e0; padding: 40px 0 20px; margin-top: 40px; }
+    footer h4 { color: var(--accent); margin-bottom: 15px; font-size: 1rem; }
+    footer a { color: #dce7e0; text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: var(--accent); }
+
+    /* ===== تحسينات عامة ===== */
+    .hero-title { font-size: clamp(2rem, 5vw, 3.5rem); color: var(--primary); margin-bottom: 15px; }
+    .hero-subtitle { font-size: 1.1rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 30px; }
+    .actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+    .section { padding: 40px 0; }
   </style>
 </head>
 <body>
@@ -106,7 +80,7 @@
       <a href="./index.html" class="active">الرئيسية</a>
       <a href="./wird.html">🌿 وردك اليومي</a>
       <div class="dropdown">
-        <a href="./adhkar.html">📿 أذكار المسلم</a>
+        <a href="./adhkar.html">📿 أذكار المسلم ▼</a>
         <div class="dropdown-content">
           <a href="./adhkar.html">الأذكار المختارة</a>
           <a href="./azkar-morning.html">🌅 أذكار الصباح</a>
@@ -122,9 +96,9 @@
       <a href="./opinions.html">💬 آراء</a>
     </div>
     <div class="nav-tools">
-      <!-- زر الترجمة (أعيد إضافته) -->
+      <!-- زر الترجمة -->
       <div class="dropdown" style="margin-left: 10px;">
-        <button class="icon-btn" style="font-size: 0.9rem; padding: 8px 12px;" title="ترجمة الموقع">🌐</button>
+        <button class="icon-btn lang-btn" style="font-size: 0.9rem; padding: 8px 12px;" title="ترجمة الموقع">🌐</button>
         <div class="dropdown-content" style="min-width: 120px; left: 0; right: auto;">
           <a href="#" onclick="doTranslate('ar')">العربية</a>
           <a href="#" onclick="doTranslate('en')">English</a>
@@ -144,9 +118,9 @@
 <section class="hero">
   <div class="wrap">
     <p class="bismillah">بسم الله الرحمن الرحيم</p>
-    <h1 class="hero-title fade-in">زادٌ لقلبك، ومعرفةٌ تثق بمصدرها</h1>
-    <p class="hero-subtitle fade-in">مساحة عربية هادئة للأذكار والقرآن ومواقيت الصلاة، مع مصادر واضحة وتثبّت قبل النشر.</p>
-    <div class="hero-actions fade-in">
+    <h1 class="hero-title">زادٌ لقلبك، ومعرفةٌ تثق بمصدرها</h1>
+    <p class="hero-subtitle">مساحة عربية هادئة للأذكار والقرآن ومواقيت الصلاة، مع مصادر واضحة وتثبّت قبل النشر.</p>
+    <div class="actions">
       <a href="./adhkar.html" class="btn-primary">ابدأ بالأذكار ←</a>
       <a href="./quran.html" class="btn-secondary">تصفّح القرآن</a>
     </div>
@@ -254,7 +228,7 @@
 <script src="./assets/data.js"></script>
 <script src="./assets/app.js"></script>
 
-<!-- مكتبة الترجمة المجانية (translate.js) -->
+<!-- مكتبة الترجمة المجانية -->
 <script src="https://cdn.staticfile.net/translate.js/3.18.66/translate.js"></script>
 <script>
 document.getElementById('year').textContent = new Date().getFullYear();

@@ -1,0 +1,355 @@
+/* ============================================================
+   زاد عبيدة — السكربت المشترك لكل الصفحات
+   ضعه في: assets/common.js  وأضفه في آخر كل صفحة:
+     <script src="./assets/common.js"></script>
+   يتولى: الوضع الليلي، القوائم، قائمة الموبايل، الترجمة، تثبيت التطبيق،
+          الإشعارات، تسجيل الـ Service Worker، زر العودة للأعلى.
+   (احذف هذه الأجزاء من السكربت الداخلي في بقية الصفحات حتى لا تعمل مرتين.)
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var d = document, root = d.documentElement;
+  var $ = function (id) { return d.getElementById(id); };
+
+  var store = {
+    get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+    del: function (k) { try { localStorage.removeItem(k); } catch (e) {} }
+  };
+
+  /* ---------- رسالة قصيرة ---------- */
+  function toast(msg) {
+    if (typeof window.showToast === 'function') { window.showToast(msg); return; }
+    var t = d.createElement('div');
+    t.className = 'toast';
+    t.textContent = msg;
+    t.setAttribute('role', 'status');
+    d.body.appendChild(t);
+    requestAnimationFrame(function () { requestAnimationFrame(function () { t.classList.add('show'); }); });
+    setTimeout(function () { t.classList.remove('show'); setTimeout(function () { t.remove(); }, 400); }, 3000);
+  }
+
+  /* ---------- نافذة معلومات (بديل alert) ---------- */
+  function dialog(title, text) {
+    var prev = d.activeElement;
+    var ov = d.createElement('div');
+    ov.className = 'modal';
+    var box = d.createElement('div');
+    box.className = 'modal-dialog';
+    box.setAttribute('role', 'dialog');
+    box.setAttribute('aria-modal', 'true');
+    box.setAttribute('aria-labelledby', 'zadDlgTitle');
+    var head = d.createElement('div'); head.className = 'modal-head';
+    var h = d.createElement('h2'); h.id = 'zadDlgTitle'; h.textContent = title;
+    var close = d.createElement('button'); close.type = 'button'; close.className = 'modal-close'; close.textContent = 'حسناً';
+    var body = d.createElement('div'); body.className = 'modal-body'; body.textContent = text;
+    head.appendChild(h); head.appendChild(close);
+    box.appendChild(head); box.appendChild(body); ov.appendChild(box);
+    d.body.appendChild(ov);
+
+    function end() {
+      ov.remove();
+      d.removeEventListener('keydown', onKey);
+      if (prev && prev.focus) prev.focus();
+    }
+    function onKey(e) {
+      if (e.key === 'Escape') end();
+      else if (e.key === 'Tab') { e.preventDefault(); close.focus(); }   // نافذة فيها زر واحد: نبقي التركيز داخلها
+    }
+    close.addEventListener('click', end);
+    ov.addEventListener('click', function (e) { if (e.target === ov) end(); });
+    d.addEventListener('keydown', onKey);
+    close.focus();
+  }
+
+  /* ---------- السنة في التذييل ---------- */
+  var y = $('year');
+  if (y) y.textContent = new Date().getFullYear();
+
+  /* ---------- Service Worker ---------- */
+  if ('serviceWorker' in navigator) {
+    var hadController = !!navigator.serviceWorker.controller;
+    navigator.serviceWorker.addEventListener('controllerchange', function () {
+      if (hadController) toast('تم تحديث الموقع. أعد تحميل الصفحة لتظهر النسخة الجديدة.');
+      hadController = true;
+    });
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('./sw.js').catch(function (e) {
+        console.warn('تعذّر تسجيل sw.js:', e);
+      });
+    });
+  }
+
+  /* ---------- الوضع الليلي ----------
+     - الاختيار المحفوظ أولاً، وإلا نتبع إعداد الجهاز (prefers-color-scheme).
+     - يُطبَّق مبكراً من سكربت صغير في <head> (لا وميض أبيض)، وهنا نربط الزر ونزامن التبويبات. */
+  var themeBtn = $('themeToggle');
+  var themeMeta = d.querySelector('meta[name="theme-color"]');
+  var mqDark = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+
+  function savedTheme() { var v = store.get('zad_theme'); return (v === 'dark' || v === 'light') ? v : null; }
+  function wantsDark() { var s = savedTheme(); return s ? s === 'dark' : !!(mqDark && mqDark.matches); }
+
+  function applyTheme(dark) {
+    root.setAttribute('data-theme', dark ? 'dark' : 'light');
+    if (d.body) d.body.classList.toggle('dark', dark);          // توافق مع الصفحات القديمة
+    if (themeMeta) themeMeta.setAttribute('content', dark ? '#121212' : '#0d7a5f');
+    if (themeBtn) {
+      themeBtn.textContent = dark ? '☀️' : '🌙';
+      themeBtn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+      themeBtn.title = dark ? 'الوضع الفاتح' : 'الوضع الليلي';
+    }
+  }
+  applyTheme(wantsDark());
+  if (themeBtn) {
+    themeBtn.addEventListener('click', function () {
+      var dark = root.getAttribute('data-theme') !== 'dark';
+      applyTheme(dark);
+      store.set('zad_theme', dark ? 'dark' : 'light');
+    });
+  }
+  if (mqDark) {
+    var onSystem = function () { if (!savedTheme()) applyTheme(mqDark.matches); };
+    if (mqDark.addEventListener) mqDark.addEventListener('change', onSystem);
+    else if (mqDark.addListener) mqDark.addListener(onSystem);
+  }
+  window.addEventListener('storage', function (e) { if (e.key === 'zad_theme') applyTheme(wantsDark()); });
+
+  /* ---------- القوائم المنسدلة (لمس + لوحة مفاتيح) ---------- */
+  var mqTouch = window.matchMedia('(hover: none)'), mqNarrow = window.matchMedia('(max-width: 768px)');
+  function closeDropdowns(except, refocus) {
+    d.querySelectorAll('.dropdown.open').forEach(function (dd) {
+      if (dd === except) return;
+      dd.classList.remove('open');
+      var t = dd.querySelector('.dd-trigger');
+      if (t) { t.setAttribute('aria-expanded', 'false'); if (refocus) t.focus(); }
+    });
+  }
+  d.querySelectorAll('.dropdown').forEach(function (dd) {
+    var trigger = dd.querySelector('.dd-trigger');
+    if (!trigger) return;
+    trigger.addEventListener('click', function (e) {
+      var isLink = trigger.tagName === 'A';
+      if (isLink && !(mqTouch.matches || mqNarrow.matches)) return;   // على الحاسوب: الرابط يعمل عادياً والقائمة بالـ hover
+      e.preventDefault();
+      closeDropdowns(dd);
+      var open = dd.classList.toggle('open');
+      trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
+  d.addEventListener('click', function (e) {
+    d.querySelectorAll('.dropdown.open').forEach(function (dd) {
+      if (!dd.contains(e.target)) {
+        dd.classList.remove('open');
+        var t = dd.querySelector('.dd-trigger');
+        if (t) t.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+
+  /* ---------- قائمة الموبايل ---------- */
+  var menuBtn = $('menuBtn'), navLinks = $('navLinks');
+  function closeMenu(refocus) {
+    if (!navLinks || !menuBtn) return;
+    var wasOpen = navLinks.classList.contains('open');
+    navLinks.classList.remove('open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.textContent = '☰';
+    if (wasOpen && refocus) menuBtn.focus();
+  }
+  if (menuBtn && navLinks) {
+    menuBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var open = navLinks.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      menuBtn.textContent = open ? '✕' : '☰';
+    });
+    navLinks.addEventListener('click', function (e) {
+      var a = e.target.closest('a');
+      if (a && !a.classList.contains('dd-trigger')) closeMenu();
+    });
+    d.addEventListener('click', function (e) {
+      if (!navLinks.contains(e.target) && e.target !== menuBtn) closeMenu();
+    });
+    if (mqNarrow.addEventListener) mqNarrow.addEventListener('change', function () { closeMenu(); });
+  }
+  d.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    closeDropdowns(null, true);
+    closeMenu(true);
+  });
+
+  /* ---------- زر العودة للأعلى (إن لم ينشئه app.js) ---------- */
+  window.addEventListener('load', function () {
+    var b = d.querySelector('.back-to-top');
+    if (!b) {
+      b = d.createElement('button');
+      b.className = 'back-to-top';
+      b.type = 'button';
+      b.setAttribute('aria-label', 'العودة للأعلى');
+      b.textContent = '↑';
+      b.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+      d.body.appendChild(b);
+      window.addEventListener('scroll', function () { b.classList.toggle('show', window.scrollY > 400); }, { passive: true });
+    }
+  });
+
+  /* ---------- الترجمة ----------
+     المكتبة تُحمَّل عند أول طلب فقط، من عدة مصادر بالتتابع (إن تعذّر أحدها ننتقل للتالي).
+     عند الترجمة إلى لغة لاتينية نحوّل اتجاه الصفحة إلى LTR ثم نعيده RTL عند العودة للعربية. */
+  var TR_URLS = [
+    'https://cdn.jsdelivr.net/npm/i18n-jsautotranslate@3.18.66/translate.js',
+    'https://cdn.staticfile.net/translate.js/3.18.66/translate.js',
+    'https://unpkg.com/i18n-jsautotranslate@3.18.66/translate.js'
+  ];
+  var LANGS = { en: 'english', fr: 'french', es: 'spanish', de: 'german', tr: 'turkish', it: 'italian' };
+  var tState = 'idle', waiters = [];
+
+  function initTranslate() {
+    if (typeof translate === 'undefined') return false;
+    try {
+      translate.language.setLocal('arabic');
+      translate.service.use('client.edge');
+      translate.language.setLanguages(['arabic', 'english', 'french', 'spanish', 'german', 'turkish', 'italian']);
+      if (translate.selectLanguageTag) translate.selectLanguageTag.show = false;
+      // لا تُترجَم العناصر الموسومة notranslate (القرآن، الحديث، الأوقات، القائمة نفسها)
+      try { if (translate.ignore && translate.ignore.class && translate.ignore.class.indexOf('notranslate') < 0) translate.ignore.class.push('notranslate'); } catch (e) {}
+      translate.listener.start();
+      return true;
+    } catch (e) { console.warn('translate init', e); return false; }
+  }
+  function finishLoad(ok) {
+    tState = ok ? 'ready' : 'idle';
+    var w = waiters; waiters = [];
+    w.forEach(function (f) { f(ok); });
+  }
+  function tryUrl(i) {
+    if (i >= TR_URLS.length) { finishLoad(false); return; }
+    var s = d.createElement('script'), done = false, timer;
+    function next() { if (done) return; done = true; clearTimeout(timer); s.remove(); tryUrl(i + 1); }
+    timer = setTimeout(next, 10000);
+    s.async = true;
+    s.onerror = next;
+    s.onload = function () {
+      if (done) return;
+      clearTimeout(timer);
+      if (typeof translate === 'undefined') { next(); return; }
+      done = true;
+      finishLoad(initTranslate());
+    };
+    s.src = TR_URLS[i];
+    d.head.appendChild(s);
+  }
+  function loadTranslate(cb) {
+    if (tState === 'ready') { cb(true); return; }
+    waiters.push(cb);
+    if (tState === 'loading') return;
+    tState = 'loading';
+    tryUrl(0);
+  }
+
+  function markLang(lang) {
+    d.querySelectorAll('#langDropdown [data-lang]').forEach(function (a) {
+      if (a.getAttribute('data-lang') === lang) a.setAttribute('aria-current', 'true');
+      else a.removeAttribute('aria-current');
+    });
+  }
+  function setDir(lang) {
+    root.setAttribute('lang', lang);
+    root.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  }
+
+  function doTranslate(lang, quiet) {
+    if (lang === 'ar') {
+      var prev = store.get('zad_lang');
+      store.set('zad_lang', 'ar');
+      markLang('ar');
+      if (tState === 'ready' || (prev && prev !== 'ar')) {
+        try { if (typeof translate !== 'undefined' && translate.reset) translate.reset(); } catch (e) {}
+        window.location.reload();
+      }
+      return;
+    }
+    if (!LANGS[lang]) return;
+    if (!quiet) toast('جارٍ الترجمة…');
+    loadTranslate(function (ok) {
+      if (!ok) { toast('تعذّر تحميل مكتبة الترجمة. تحقّق من اتصالك ثم حاول مجدداً.'); return; }
+      try {
+        translate.changeLanguage(LANGS[lang]);
+        setDir(lang);
+        markLang(lang);
+        store.set('zad_lang', lang);
+        if (!quiet) toast('تمت الترجمة ✓');
+      } catch (e) { toast('تعذّرت الترجمة'); }
+    });
+  }
+  window.doTranslate = doTranslate;   // للتوافق مع أي استدعاء قديم
+
+  d.querySelectorAll('#langDropdown [data-lang]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      doTranslate(a.getAttribute('data-lang'));
+      var dd = $('langDropdown');
+      if (dd) { dd.classList.remove('open'); var t = dd.querySelector('.dd-trigger'); if (t) t.setAttribute('aria-expanded', 'false'); }
+    });
+  });
+  (function () {
+    var l = store.get('zad_lang');
+    markLang(l && LANGS[l] ? l : 'ar');
+    if (l && LANGS[l]) window.addEventListener('load', function () { doTranslate(l, true); });
+  })();
+
+  /* ---------- تثبيت التطبيق (PWA) ---------- */
+  var installBtn = $('installAppBtn');
+  if (installBtn) {
+    var deferredPrompt = null;
+    var isStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+    if (isStandalone) installBtn.style.display = 'none';
+    window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); deferredPrompt = e; });
+    window.addEventListener('appinstalled', function () { installBtn.style.display = 'none'; deferredPrompt = null; toast('تم تثبيت التطبيق ✓'); });
+    installBtn.addEventListener('click', function () {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(function () {}, function () {}).then(function () { deferredPrompt = null; });
+        return;
+      }
+      var ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+      dialog('تثبيت التطبيق', ios
+        ? '1. اضغط زر المشاركة في Safari.\n2. اختر «إضافة إلى الشاشة الرئيسية».\n3. اضغط «إضافة».'
+        : '1. افتح قائمة المتصفح (⋮).\n2. اختر «إضافة إلى الشاشة الرئيسية» أو «تثبيت التطبيق».\n3. اضغط «إضافة».');
+    });
+  }
+
+  /* ---------- الإشعارات (آمنة على المتصفحات غير الداعمة) ---------- */
+  var notifBtn = $('enableNotifBtn');
+  if (notifBtn) {
+    var markOn = function () { notifBtn.textContent = '✅ الإشعارات مفعلة'; notifBtn.disabled = true; };
+    if (!('Notification' in window)) {
+      notifBtn.addEventListener('click', function () {
+        dialog('الإشعارات غير مدعومة', 'متصفحك لا يدعم الإشعارات.\nعلى آيفون: ثبّت الموقع على الشاشة الرئيسية أولاً ثم افتحه من هناك.');
+      });
+    } else if (Notification.permission === 'granted') {
+      markOn();
+    } else {
+      notifBtn.addEventListener('click', function () {
+        if (Notification.permission === 'denied') {
+          dialog('الإشعارات محظورة', 'فعّلها من إعدادات المتصفح:\nقفل العنوان ← الإشعارات ← سماح.');
+          return;
+        }
+        Notification.requestPermission().then(function (permission) {
+          if (permission !== 'granted') return;
+          markOn();
+          toast('تم تفعيل الإشعارات ✓');
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.ready.then(function (reg) {
+              reg.showNotification('زاد عبيدة', { body: 'سيصلك تذكير وردك اليومي بإذن الله', icon: './logo-zad-almuslim.webp.png', lang: 'ar', dir: 'rtl', tag: 'zad-local-reminder', data: { local: true, url: './' } });
+            }).catch(function () {});
+          }
+        });
+      });
+    }
+  }
+
+  window.zad = { store: store, toast: toast, dialog: dialog };
+})();

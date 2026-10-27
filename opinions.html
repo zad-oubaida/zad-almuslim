@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d7a5f">
+  <meta name="description" content="آراء واقتراحات الزوار — زاد عبيدة">
+  <title>آراء واقتراحات — زاد عبيدة</title>
+  <link rel="icon" type="image/png" href="./logo-zad-almuslim.webp.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/style.css">
+  <style>
+    .opinions-container { max-width: 800px; margin: 0 auto; }
+    .opinion-card {
+      background: var(--card); border-radius: var(--radius); padding: 24px;
+      box-shadow: var(--shadow); border: 1px solid var(--line); margin-bottom: 20px;
+    }
+    .opinion-card h3 { color: var(--primary); margin-bottom: 12px; font-family: 'Cairo', sans-serif; }
+    .opinion-text { font-size: 1.1rem; line-height: 1.9; color: var(--text); margin-bottom: 10px; }
+    .opinion-author { font-size: 0.85rem; color: var(--text-muted); }
+    .submit-btn {
+      display: block; width: 100%; padding: 14px;
+      background: var(--primary); color: #fff; border: none;
+      border-radius: var(--radius-sm); font-weight: bold; font-size: 1.1rem;
+      cursor: pointer; font-family: inherit; text-align: center; text-decoration: none;
+      margin-bottom: 30px;
+    }
+    .submit-btn:hover { background: var(--primary-dark); }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="wrap nav-inner">
+    <a href="./index.html" class="brand" aria-label="زاد عبيدة">
+      <img src="./logo-zad-almuslim.webp.png" alt="شعار زاد عبيدة">
+      <span>زاد عبيدة</span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="./index.html">الرئيسية</a>
+      <a href="./wird.html">🌿 وردك اليومي</a>
+      <a href="./adhkar.html">الأذكار</a>
+      <a href="./azkar-morning.html">الصباح</a>
+      <a href="./azkar-evening.html">المساء</a>
+      <a href="./azkar-sleep.html">النوم</a>
+      <a href="./nawawi.html">الأحاديث</a>
+      <a href="./quran.html">القرآن</a>
+      <a href="./duas.html">🤲 أدعية</a>
+      <a href="./articles.html">المقالات</a>
+      <a href="./about.html">عن الموقع</a>
+    </div>
+    <div class="nav-tools">
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="الوضع الليلي">🌙</button>
+      <button class="icon-btn mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="القائمة">☰</button>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap" style="padding:40px 0">
+  <div class="opinions-container">
+    <div class="section-head">
+      <h2>💬 آراء واقتراحات</h2>
+      <p>شاركنا رأيك أو اقتراحك، وسننشره هنا بعد المراجعة</p>
+    </div>
+
+    <!-- زر إرسال الاقتراح -->
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLScd-rAgtUar1g0s5kHfvkltON2bOb1R1AeZ9Pg6qcxeBqzQCA/viewform" target="_blank" rel="noopener noreferrer" class="submit-btn">
+      ✍️ أرسل رأيك أو اقتراحك
+    </a>
+
+    <!-- قسم عرض الاقتراحات (ستضيفها يدوياً هنا) -->
+    <div id="opinionsList">
+      <!-- مثال: يمكنك إضافة الاقتراحات هنا بهذا الشكل -->
+      <div class="opinion-card">
+        <h3>اقتراح بخصوص الأذكار</h3>
+        <p class="opinion-text">أقترح إضافة أذكار الصباح والمساء بشكل مفصل أكثر، وبارك الله فيكم.</p>
+        <p class="opinion-author">— زائر من الجزائر</p>
+      </div>
+      
+      <!-- انسخ الكود أعلاه وألصقه لكل اقتراح جديد توافق عليه -->
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div><h4>زاد عبيدة</h4><p>محتوى إسلامي نافع مع توضيح المصادر.</p></div>
+      <div><h4>روابط</h4><p><a href="./index.html">الرئيسية</a><br><a href="./adhkar.html">الأذكار</a><br><a href="./quran.html">القرآن</a></p></div>
+      <div><h4>تواصل</h4><p><a href="https://www.instagram.com/oubaida.muslim/" target="_blank" rel="noopener noreferrer">إنستغرام</a></p></div>
+    </div>
+    <div class="footer-bottom">© <span id="year"></span> زاد عبيدة</div>
+  </div>
+</footer>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<button class="back-to-top" id="backToTop" type="button" aria-label="العودة إلى الأعلى">↑</button>
+
+<script src="./assets/data.js"></script>
+<script src="./assets/app.js"></script>
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

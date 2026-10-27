@@ -76,6 +76,7 @@
       <a href="./duas.html">🤲 أدعية</a>
       <a href="./articles.html">المقالات</a>
       <a href="./about.html">عن الموقع</a>
+      <a href="./opinions.html">💬 آراء واقتراحات</a>
     </div>
     <div class="nav-tools">
       <div class="dropdown" style="margin-left: 10px;">
@@ -240,21 +241,18 @@ function updateNotifButtonState() {
   }
 
   if (Notification.permission === 'granted') {
-    // المستخدم مفعل الإشعارات بالفعل
     notifBtn.textContent = '✅ الإشعارات مفعلة';
     notifBtn.disabled = true;
     notifBtn.style.opacity = '0.6';
     notifBtn.style.background = 'var(--primary-light)';
     notifBtn.style.color = 'var(--primary)';
   } else if (Notification.permission === 'denied') {
-    // المستخدم رفض الإشعارات
     notifBtn.textContent = '⚠️ الإشعارات مرفوضة (فعّلها من إعدادات المتصفح)';
     notifBtn.disabled = true;
     notifBtn.style.opacity = '0.6';
     notifBtn.style.background = '#ffebee';
     notifBtn.style.color = '#c62828';
   } else {
-    // الحالة الافتراضية: لم يقرر بعد
     notifBtn.textContent = '🔔 فعّل تذكير وردك اليومي';
     notifBtn.disabled = false;
     notifBtn.style.opacity = '1';
@@ -263,17 +261,15 @@ function updateNotifButtonState() {
   }
 }
 
-// استدعاء الدالة عند تحميل الصفحة
 updateNotifButtonState();
 
-// معالج النقر على الزر
 notifBtn.addEventListener('click', async () => {
   if (!('Notification' in window)) { alert('متصفحك لا يدعم الإشعارات'); return; }
   try {
     const permission = await Notification.requestPermission();
     if (permission === 'granted') {
       showToast('تم تفعيل الإشعارات ✓');
-      updateNotifButtonState(); // تحديث الزر فوراً
+      updateNotifButtonState();
       if (navigator.serviceWorker.controller) {
         navigator.serviceWorker.controller.postMessage({ type: 'SCHEDULE_REMINDER', title: 'زاد عبيدة', body: 'تم تفعيل الإشعارات بنجاح! 🕌' });
       }
@@ -305,7 +301,6 @@ installModal.addEventListener('click', (e) => {
   }
 });
 
-// تبديل التبويبات في نافذة التثبيت
 document.querySelectorAll('.install-tab').forEach(tab => {
   tab.addEventListener('click', () => {
     document.querySelectorAll('.install-tab').forEach(t => t.classList.remove('active'));
@@ -315,7 +310,7 @@ document.querySelectorAll('.install-tab').forEach(tab => {
   });
 });
 
-// ============ الترجمة (باستخدام أداة جوجل المدمجة) ============
+// ============ الترجمة (تحسين الأداة) ============
 function doTranslate(lang) {
   const warning = document.getElementById('translationWarning');
   if (warning) {
@@ -327,21 +322,22 @@ function doTranslate(lang) {
     return;
   }
 
-  const select = document.querySelector('.goog-te-combo');
-  if (select) {
-    select.value = lang;
-    select.dispatchEvent(new Event('change'));
-  } else {
-    setTimeout(() => {
-      const select2 = document.querySelector('.goog-te-combo');
-      if (select2) {
-        select2.value = lang;
-        select2.dispatchEvent(new Event('change'));
-      } else {
-        alert('أداة الترجمة لم يتم تحميلها بعد. يرجى تحديث الصفحة.');
-      }
-    }, 2000);
-  }
+  // محاولة العثور على القائمة عدة مرات
+  let attempts = 0;
+  const maxAttempts = 10;
+  const tryTranslate = () => {
+    const select = document.querySelector('.goog-te-combo');
+    if (select) {
+      select.value = lang;
+      select.dispatchEvent(new Event('change'));
+    } else if (attempts < maxAttempts) {
+      attempts++;
+      setTimeout(tryTranslate, 500);
+    } else {
+      alert('أداة الترجمة لم يتم تحميلها بعد. يرجى تحديث الصفحة والمحاولة مجدداً.');
+    }
+  };
+  tryTranslate();
 }
 </script>
 

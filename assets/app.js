@@ -369,6 +369,9 @@ window.doTranslate = window.doTranslate || function (lang) {
 
 /* ============ Service Worker ============ */
 if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.addEventListener('message', e => {
+    if (e.data && e.data.type === 'SW_UPDATED') showToast('تم تحديث الموقع ✓');
+  });
   window.addEventListener('load', () => {
     navigator.serviceWorker.register(new URL('./sw.js', location.href).href, { scope: './' })
       .catch(e => console.warn('⚠️ SW failed:', e.message));

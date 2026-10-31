@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0d7a5f">
+  <meta name="color-scheme" content="light dark">
   <meta name="description" content="زاد عبيدة: أذكار، أحاديث، مواقيت الصلاة، قرآن، ومقالات موثوقة.">
   <meta name="robots" content="index,follow">
   <meta name="google-site-verification" content="vu1Grx9Kn0mioZbtk1KvI9SMEc0w1ELpfju5QRV_ULs">
@@ -28,55 +29,58 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/style.css">
+  <link rel="stylesheet" href="./assets/enhancements.css">
   <title>زاد عبيدة | أذكار ومواقيت الصلاة وقرآن</title>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"WebSite","name":"زاد عبيدة","url":"https://zad-oubaida.github.io/zad-almuslim/","inLanguage":"ar","description":"أذكار ومواقيت الصلاة وقرآن من مصادر موثوقة."}
   </script>
-
 </head>
 <body>
+<!-- تطبيق الوضع الليلي قبل الرسم الأول لمنع الوميض -->
+<script>try{var _t=localStorage.getItem('zad_theme');if(_t==='dark'||(!_t&&window.matchMedia('(prefers-color-scheme: dark)').matches))document.body.classList.add('dark');}catch(e){}</script>
+<noscript><p class="noscript-msg">يحتاج الموقع إلى تفعيل جافاسكربت لعرض مواقيت الصلاة وآية اليوم وحديث اليوم.</p></noscript>
 <a href="#main" class="skip-link">تخطَّ إلى المحتوى</a>
 
 <!-- شريط التنقل -->
 <nav class="navbar" aria-label="التنقل الرئيسي">
   <div class="nav-inner">
     <a href="./index.html" class="brand">
-      <img src="./logo-zad-almuslim.webp.png" alt="شعار زاد عبيدة" width="45" height="45">
+      <img src="./logo-zad-almuslim.webp.png" alt="شعار زاد عبيدة" width="45" height="45" fetchpriority="high" decoding="async">
       <div><strong>زاد عبيدة</strong><small>ذكرٌ نافع، وعلمٌ موثّق</small></div>
     </a>
     <div class="nav-links" id="navLinks">
       <a href="./index.html" class="active" aria-current="page">الرئيسية</a>
-      <a href="./wird.html">🌿 وردك اليومي</a>
+      <a href="./wird.html"><span aria-hidden="true">🌿</span> وردك اليومي</a>
       <div class="dropdown">
-        <a href="./adhkar.html" class="dd-trigger" aria-haspopup="true" aria-expanded="false">📿 أذكار المسلم ▼</a>
+        <a href="./adhkar.html" class="dd-trigger" aria-haspopup="true" aria-expanded="false"><span aria-hidden="true">📿</span> أذكار المسلم</a>
         <div class="dropdown-content">
           <a href="./adhkar.html">الأذكار المختارة</a>
-          <a href="./azkar-morning.html">🌅 أذكار الصباح</a>
-          <a href="./azkar-evening.html">🌙 أذكار المساء</a>
-          <a href="./azkar-sleep.html">💤 أذكار النوم</a>
+          <a href="./azkar-morning.html"><span aria-hidden="true">🌅</span> أذكار الصباح</a>
+          <a href="./azkar-evening.html"><span aria-hidden="true">🌙</span> أذكار المساء</a>
+          <a href="./azkar-sleep.html"><span aria-hidden="true">💤</span> أذكار النوم</a>
         </div>
       </div>
       <a href="./nawawi.html">الأحاديث</a>
       <a href="./quran.html">القرآن</a>
-      <a href="./duas.html">🤲 أدعية</a>
+      <a href="./duas.html"><span aria-hidden="true">🤲</span> أدعية</a>
       <a href="./articles.html">المقالات</a>
-      <a href="./opinions.html">💬 آراء</a>
+      <a href="./opinions.html"><span aria-hidden="true">💬</span> آراء</a>
     </div>
     <div class="nav-tools">
       <div class="dropdown" id="langDropdown">
         <button class="icon-btn dd-trigger" type="button" title="ترجمة الموقع" aria-label="ترجمة الموقع" aria-haspopup="true" aria-expanded="false">🌐</button>
         <div class="dropdown-content dd-left notranslate" translate="no">
-          <a href="#" data-lang="ar">العربية</a>
-          <a href="#" data-lang="en">English</a>
-          <a href="#" data-lang="fr">Français</a>
-          <a href="#" data-lang="es">Español</a>
-          <a href="#" data-lang="de">Deutsch</a>
-          <a href="#" data-lang="tr">Türkçe</a>
-          <a href="#" data-lang="it">Italiano</a>
+          <a href="#" data-lang="ar" lang="ar">العربية</a>
+          <a href="#" data-lang="en" lang="en">English</a>
+          <a href="#" data-lang="fr" lang="fr">Français</a>
+          <a href="#" data-lang="es" lang="es">Español</a>
+          <a href="#" data-lang="de" lang="de">Deutsch</a>
+          <a href="#" data-lang="tr" lang="tr">Türkçe</a>
+          <a href="#" data-lang="it" lang="it">Italiano</a>
         </div>
       </div>
-      <button class="icon-btn" id="themeToggle" type="button" title="الوضع الليلي" aria-label="تبديل الوضع الليلي">🌙</button>
-      <button class="icon-btn mobile-menu-btn" id="menuBtn" type="button" aria-label="القائمة" aria-expanded="false" aria-controls="navLinks">☰</button>
+      <button class="icon-btn" id="themeToggle" type="button" title="الوضع الليلي" aria-label="تبديل الوضع الليلي" aria-pressed="false">🌙</button>
+      <button class="icon-btn mobile-menu-btn" id="menuBtn" type="button" aria-label="فتح القائمة" aria-expanded="false" aria-controls="navLinks">☰</button>
     </div>
   </div>
 </nav>
@@ -99,24 +103,25 @@
 
 <!-- لوحة اليوم -->
 <div class="section dash-section"><div class="wrap">
+  <h2 class="sr-only">لوحة اليوم</h2>
   <div class="dashboard">
     <div class="dash-card">
-      <h3>🕌 مواقيت الصلاة</h3>
-      <div class="city-bar">
-        <input type="text" id="cityInput" placeholder="مدينتك (Algiers)" aria-label="اسم المدينة">
+      <h3><span aria-hidden="true">🕌</span> مواقيت الصلاة</h3>
+      <div class="city-bar" role="search">
+        <input type="text" id="cityInput" placeholder="مدينتك (Algiers)" aria-label="اسم المدينة" autocomplete="off" enterkeyhint="search">
         <button type="button" id="cityBtn">تحديث</button>
         <button type="button" id="geoBtn" class="geo" title="استخدم موقعي" aria-label="استخدم موقعي">📍</button>
       </div>
-      <div id="prayerTimes" class="dash-body" aria-live="polite">جارٍ تحديد موقعك…</div>
+      <div id="prayerTimes" class="dash-body is-loading" aria-live="polite">جارٍ تحديد موقعك…</div>
       <div id="prayerCountdown" class="countdown" style="display:none;"></div>
     </div>
     <div class="dash-card">
-      <h3>📖 آية اليوم</h3>
-      <div id="dailyAyah" class="dash-body notranslate" translate="no">جارٍ التحميل…</div>
+      <h3><span aria-hidden="true">📖</span> آية اليوم</h3>
+      <div id="dailyAyah" class="dash-body is-loading notranslate" translate="no">جارٍ التحميل…</div>
     </div>
     <div class="dash-card">
-      <h3>📜 حديث اليوم</h3>
-      <div id="dailyHadith" class="dash-body notranslate" translate="no">جارٍ التحميل…</div>
+      <h3><span aria-hidden="true">📜</span> حديث اليوم</h3>
+      <div id="dailyHadith" class="dash-body is-loading notranslate" translate="no">جارٍ التحميل…</div>
     </div>
   </div>
 </div></div>
@@ -128,25 +133,39 @@
     <p>اختر ما يناسبك</p>
   </div>
   <div class="cards-grid">
-    <a href="./wird.html" class="nav-card"><span class="emoji">🌿</span><h3>وردك اليومي</h3><p>نظّم أذكارك وقراءتك</p></a>
-    <a href="./adhkar.html" class="nav-card"><span class="emoji">📿</span><h3>الأذكار</h3><p>أذكار مختارة بمصادرها</p></a>
-    <a href="./azkar-morning.html" class="nav-card"><span class="emoji">🌅</span><h3>أذكار الصباح</h3><p>تبدأ يومك بذكر الله</p></a>
-    <a href="./azkar-evening.html" class="nav-card"><span class="emoji">🌙</span><h3>أذكار المساء</h3><p>اختم يومك بذكر الله</p></a>
-    <a href="./azkar-sleep.html" class="nav-card"><span class="emoji">💤</span><h3>أذكار النوم</h3><p>أذكار تُقال قبل النوم</p></a>
-    <a href="./nawawi.html" class="nav-card"><span class="emoji">📜</span><h3>الأحاديث</h3><p>40 حديثاً في متناول يدك</p></a>
-    <a href="./quran.html" class="nav-card"><span class="emoji">📖</span><h3>القرآن الكريم</h3><p>قارئ مصغّر لكل السور</p></a>
-    <a href="./duas.html" class="nav-card"><span class="emoji">🤲</span><h3>أدعية مستجابة</h3><p>أدعية صحيحة من السنة</p></a>
-    <a href="./articles.html" class="nav-card"><span class="emoji">✍️</span><h3>مقالات</h3><p>مقالات في العبادة والأخلاق</p></a>
+    <a href="./wird.html" class="nav-card"><span class="emoji" aria-hidden="true">🌿</span><h3>وردك اليومي</h3><p>نظّم أذكارك وقراءتك</p></a>
+    <a href="./adhkar.html" class="nav-card"><span class="emoji" aria-hidden="true">📿</span><h3>الأذكار</h3><p>أذكار مختارة بمصادرها</p></a>
+    <a href="./azkar-morning.html" class="nav-card"><span class="emoji" aria-hidden="true">🌅</span><h3>أذكار الصباح</h3><p>تبدأ يومك بذكر الله</p></a>
+    <a href="./azkar-evening.html" class="nav-card"><span class="emoji" aria-hidden="true">🌙</span><h3>أذكار المساء</h3><p>اختم يومك بذكر الله</p></a>
+    <a href="./azkar-sleep.html" class="nav-card"><span class="emoji" aria-hidden="true">💤</span><h3>أذكار النوم</h3><p>أذكار تُقال قبل النوم</p></a>
+    <a href="./nawawi.html" class="nav-card"><span class="emoji" aria-hidden="true">📜</span><h3>الأحاديث</h3><p>40 حديثاً في متناول يدك</p></a>
+    <a href="./quran.html" class="nav-card"><span class="emoji" aria-hidden="true">📖</span><h3>القرآن الكريم</h3><p>قارئ مصغّر لكل السور</p></a>
+    <a href="./duas.html" class="nav-card"><span class="emoji" aria-hidden="true">🤲</span><h3>أدعية مستجابة</h3><p>أدعية صحيحة من السنة</p></a>
+    <a href="./articles.html" class="nav-card"><span class="emoji" aria-hidden="true">✍️</span><h3>مقالات</h3><p>مقالات في العبادة والأخلاق</p></a>
   </div>
 </div></section>
 </main>
+
+<!-- نافذة معلومات (بديل alert) -->
+<dialog id="infoDialog" class="info-dialog" aria-labelledby="infoTitle">
+  <form method="dialog">
+    <h3 id="infoTitle"></h3>
+    <ol id="infoList"></ol>
+    <button class="btn-primary" type="submit">حسنًا</button>
+  </form>
+</dialog>
 
 <!-- التذييل -->
 <footer><div class="wrap">
   <div class="footer-inner">
     <div><h4>زاد عبيدة</h4><p>محتوى إسلامي نافع مع توضيح المصادر.</p></div>
-    <div><h4>روابط سريعة</h4><p><a href="./adhkar.html">الأذكار</a><br><a href="./quran.html">القرآن</a><br><a href="./duas.html">أدعية</a><br><a href="./about.html">عن الموقع</a></p></div>
-    <div><h4>تواصل</h4><p>إنستغرام</p></div>
+    <div><h4>روابط سريعة</h4><p><a href="./adhkar.html">الأذكار</a><br><a href="./quran.html">القرآن</a><br><a href="./nawawi.html">الأحاديث</a><br><a href="./duas.html">أدعية</a><br><a href="./articles.html">المقالات</a><br><a href="./about.html">عن الموقع</a></p></div>
+    <div><h4>تواصل</h4><p>
+      <!-- غيّر الرابط التالي إلى حسابك الفعلي -->
+      <a class="social-link" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="حسابنا على إنستغرام">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+        إنستغرام
+      </a></p></div>
   </div>
   <div class="footer-bottom">© <span id="year">2026</span> زاد عبيدة — جميع الحقوق محفوظة</div>
 </div></footer>
@@ -162,6 +181,7 @@
     get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
     set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
   };
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
 
   /* ---------- رسالة قصيرة ---------- */
   function toast(msg) {
@@ -173,6 +193,27 @@
     document.body.appendChild(t);
     requestAnimationFrame(function () { requestAnimationFrame(function () { t.classList.add('show'); }); });
     setTimeout(function () { t.classList.remove('show'); setTimeout(function () { t.remove(); }, 400); }, 2500);
+  }
+
+  /* ---------- نافذة معلومات بدل alert ---------- */
+  function info(title, lines) {
+    var d = $('infoDialog');
+    if (!d || typeof d.showModal !== 'function') { alert(title + '\n' + lines.join('\n')); return; }
+    $('infoTitle').textContent = title;
+    var ol = $('infoList'); ol.textContent = '';
+    lines.forEach(function (l) { var li = document.createElement('li'); li.textContent = l; ol.appendChild(li); });
+    d.showModal();
+  }
+
+  /* ---------- طلب JSON مع مهلة زمنية ---------- */
+  function getJSON(url) {
+    var ctrl = window.AbortController ? new AbortController() : null;
+    var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 10000);
+    return fetch(url, ctrl ? { signal: ctrl.signal } : {}).then(function (r) {
+      clearTimeout(timer);
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.json();
+    }, function (e) { clearTimeout(timer); throw e; });
   }
 
   /* ---------- السنة في التذييل (آمن) ---------- */
@@ -188,25 +229,38 @@
     });
   }
 
-  /* ---------- الوضع الليلي (يُحفظ) ---------- */
+  /* ---------- الوضع الليلي (يُحفظ، ويتبع نظام الجهاز عند عدم الاختيار) ---------- */
   var themeBtn = $('themeToggle');
   var themeMeta = document.querySelector('meta[name="theme-color"]');
   function applyTheme(dark) {
     document.body.classList.toggle('dark', dark);
     themeBtn.textContent = dark ? '☀️' : '🌙';
     themeBtn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+    themeBtn.title = dark ? 'الوضع النهاري' : 'الوضع الليلي';
     if (themeMeta) themeMeta.setAttribute('content', dark ? '#121212' : '#0d7a5f');
   }
   var saved = store.get('zad_theme');
-  applyTheme(saved === 'dark');
+  var mqDark = window.matchMedia('(prefers-color-scheme: dark)');
+  applyTheme(saved ? saved === 'dark' : mqDark.matches);
   themeBtn.addEventListener('click', function () {
     var dark = !document.body.classList.contains('dark');
     applyTheme(dark);
     store.set('zad_theme', dark ? 'dark' : 'light');
   });
+  if (mqDark.addEventListener) mqDark.addEventListener('change', function (e) {
+    if (!store.get('zad_theme')) applyTheme(e.matches);
+  });
 
   /* ---------- القوائم المنسدلة (لمس + لوحة مفاتيح) ---------- */
   var mqTouch = window.matchMedia('(hover: none)'), mqNarrow = window.matchMedia('(max-width: 768px)');
+  function closeDropdowns(except) {
+    document.querySelectorAll('.dropdown.open').forEach(function (dd) {
+      if (dd === except) return;
+      dd.classList.remove('open');
+      var t = dd.querySelector('.dd-trigger');
+      if (t) t.setAttribute('aria-expanded', 'false');
+    });
+  }
   document.querySelectorAll('.dropdown').forEach(function (dd) {
     var trigger = dd.querySelector('.dd-trigger');
     if (!trigger) return;
@@ -214,6 +268,7 @@
       var isLink = trigger.tagName === 'A';
       if (isLink && !(mqTouch.matches || mqNarrow.matches)) return;     // على الحاسوب: الرابط يعمل عادياً والقائمة بالـ hover
       e.preventDefault();
+      closeDropdowns(dd);
       var open = dd.classList.toggle('open');
       trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
@@ -228,7 +283,7 @@
     });
   });
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') document.querySelectorAll('.dropdown.open').forEach(function (dd) { dd.classList.remove('open'); });
+    if (e.key === 'Escape') closeDropdowns(null);
   });
 
   /* ---------- قائمة الموبايل ---------- */
@@ -236,12 +291,14 @@
   function closeMenu() {
     navLinks.classList.remove('open');
     menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.setAttribute('aria-label', 'فتح القائمة');
     menuBtn.textContent = '☰';
   }
   menuBtn.addEventListener('click', function (e) {
     e.stopPropagation();
     var open = navLinks.classList.toggle('open');
     menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    menuBtn.setAttribute('aria-label', open ? 'إغلاق القائمة' : 'فتح القائمة');
     menuBtn.textContent = open ? '✕' : '☰';
   });
   navLinks.addEventListener('click', function (e) {
@@ -270,7 +327,7 @@
   });
 
   /* ---------- الترجمة (تُحمَّل مرة واحدة دون تعطيل الصفحة) ---------- */
-  var translateReady = false, translateLoading = false, pendingLang = null;
+  var translateReady = false, translateLoading = false, translateQueue = [];
   function initTranslate() {
     if (typeof translate === 'undefined') return false;
     try {
@@ -285,12 +342,20 @@
   }
   function loadTranslate(cb) {
     if (translateReady) { cb(true); return; }
-    if (translateLoading) { pendingLang = cb; return; }
+    translateQueue.push(cb);                       // طابور بدل متغير واحد يُستبدل
+    if (translateLoading) return;
     translateLoading = true;
     var s = document.createElement('script');
     s.src = 'https://cdn.staticfile.net/translate.js/3.18.66/translate.js';
-    s.onload = function () { translateLoading = false; var ok = initTranslate(); cb(ok); if (pendingLang) { pendingLang(ok); pendingLang = null; } };
-    s.onerror = function () { translateLoading = false; cb(false); };
+    s.onload = function () {
+      translateLoading = false;
+      var ok = initTranslate();
+      translateQueue.splice(0).forEach(function (f) { f(ok); });
+    };
+    s.onerror = function () {
+      translateLoading = false;
+      translateQueue.splice(0).forEach(function (f) { f(false); });
+    };
     document.head.appendChild(s);
   }
   var LANG_NAMES = { en: 'english', fr: 'french', es: 'spanish', de: 'german', tr: 'turkish', it: 'italian' };
@@ -313,7 +378,7 @@
     a.addEventListener('click', function (e) {
       e.preventDefault();
       doTranslate(a.getAttribute('data-lang'));
-      var dd = $('langDropdown'); dd.classList.remove('open');
+      closeDropdowns(null);
     });
   });
   // استعادة اللغة التي اختارها المستخدم سابقاً
@@ -336,9 +401,8 @@
       return;
     }
     var ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
-    alert(ios
-      ? 'لتثبيت التطبيق على آيفون:\n1. اضغط زر المشاركة في Safari.\n2. اختر "إضافة إلى الشاشة الرئيسية".\n3. اضغط "إضافة".'
-      : 'لتثبيت التطبيق:\n1. افتح قائمة المتصفح (⋮).\n2. اختر "إضافة إلى الشاشة الرئيسية" أو "تثبيت التطبيق".\n3. اضغط "إضافة".');
+    if (ios) info('لتثبيت التطبيق على آيفون', ['اضغط زر المشاركة في Safari.', 'اختر «إضافة إلى الشاشة الرئيسية».', 'اضغط «إضافة».']);
+    else info('لتثبيت التطبيق', ['افتح قائمة المتصفح (⋮).', 'اختر «إضافة إلى الشاشة الرئيسية» أو «تثبيت التطبيق».', 'اضغط «إضافة».']);
   });
 
   /* ---------- الإشعارات (آمنة على المتصفحات غير الداعمة) ---------- */
@@ -347,14 +411,14 @@
   if (notifBtn) {
     if (!('Notification' in window)) {
       notifBtn.addEventListener('click', function () {
-        alert('متصفحك لا يدعم الإشعارات. على آيفون: ثبّت الموقع على الشاشة الرئيسية أولاً ثم افتحه من هناك.');
+        info('الإشعارات غير مدعومة', ['متصفحك لا يدعم الإشعارات.', 'على آيفون: ثبّت الموقع على الشاشة الرئيسية أولاً ثم افتحه من هناك.']);
       });
     } else if (Notification.permission === 'granted') {
       markNotifOn();
     } else {
       notifBtn.addEventListener('click', function () {
         if (Notification.permission === 'denied') {
-          alert('الإشعارات محظورة لهذا الموقع. فعّلها من إعدادات المتصفح (قفل العنوان ← الإشعارات ← سماح).');
+          info('الإشعارات محظورة', ['فعّلها من إعدادات المتصفح:', 'قفل العنوان ← الإشعارات ← سماح.']);
           return;
         }
         Notification.requestPermission().then(function (permission) {
@@ -374,82 +438,128 @@
 
   /* =====================================================================
      احتياطي: إن لم يعرض app.js مواقيت الصلاة أو آية/حديث اليوم خلال 4 ثوانٍ
-     فنعرضها من هنا. لا يتدخل إطلاقاً إن كان app.js يعمل.
+     (أو عرض رسالة خطأ) فنعرضها من هنا. لا يتدخل إن كان app.js يعمل.
      ===================================================================== */
   function stillLoading(id) {
     var el = $(id);
     if (!el) return false;
     var t = (el.textContent || '').trim();
-    return t === '' || t.indexOf('جارٍ') === 0;
+    return t === '' || t.indexOf('جارٍ') === 0 || t.indexOf('تعذّر') === 0 || t.indexOf('تعذر') === 0;
+  }
+  function done(id) { var el = $(id); if (el) el.classList.remove('is-loading'); }
+  function addRetry(el, fn) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'retry-btn'; b.textContent = 'إعادة المحاولة';
+    b.addEventListener('click', fn);
+    el.appendChild(document.createElement('br'));
+    el.appendChild(b);
   }
 
   /* --- مواقيت الصلاة (طريقة 19: وزارة الشؤون الدينية الجزائرية) --- */
   function startPrayerFallback() {
     var NAMES = [['Fajr', 'الفجر'], ['Sunrise', 'الشروق'], ['Dhuhr', 'الظهر'], ['Asr', 'العصر'], ['Maghrib', 'المغرب'], ['Isha', 'العشاء']];
+    var ORDER = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
     var box = $('prayerTimes'), cd = $('prayerCountdown');
-    var times = null, tz = null, tick = null;
+    var times = null, tz = null, tick = null, cityLabel = '', stale = false;
+    var shownKey = null, fetchedDate = '', lastLoad = null, binding = false;
 
     function secsNow(zone) {
-      var parts = new Intl.DateTimeFormat('en-GB', { timeZone: zone || undefined, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).formatToParts(new Date());
+      var parts;
+      try {
+        parts = new Intl.DateTimeFormat('en-GB', { timeZone: zone || undefined, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).formatToParts(new Date());
+      } catch (e) {
+        parts = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).formatToParts(new Date());
+      }
       var g = function (t) { return parseInt(parts.filter(function (p) { return p.type === t; })[0].value, 10); };
       return (g('hour') % 24) * 3600 + g('minute') * 60 + g('second');
     }
     function toSecs(s) { var m = String(s).match(/(\d{1,2}):(\d{2})/); return m ? (+m[1]) * 3600 + (+m[2]) * 60 : 0; }
-    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    function dateStr() { var d = new Date(); return pad(d.getDate()) + '-' + pad(d.getMonth() + 1) + '-' + d.getFullYear(); }
 
-    function render(label) {
-      if (!times) return;
-      var now = secsNow(tz), nextKey = null, nextIn = 0, i;
-      var order = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-      for (i = 0; i < order.length; i++) {
-        var s = toSecs(times[order[i]]);
-        if (s > now) { nextKey = order[i]; nextIn = s - now; break; }
+    function nextInfo() {
+      var now = secsNow(tz), i, s;
+      for (i = 0; i < ORDER.length; i++) {
+        s = toSecs(times[ORDER[i]]);
+        if (s > now) return { key: ORDER[i], secs: s - now };
       }
-      if (!nextKey) { nextKey = 'Fajr'; nextIn = 86400 - now + toSecs(times.Fajr); }
-      var html = (label ? '<div class="city-name">📍 ' + label + '</div>' : '') + '<ul class="prayer-list">';
+      return { key: 'Fajr', secs: 86400 - now + toSecs(times.Fajr) };
+    }
+
+    // نعيد بناء القائمة فقط عند تغيّر الصلاة القادمة (لتجنّب إزعاج القارئات الشاشية كل ثانية)
+    function renderList(key) {
+      var html = (cityLabel ? '<div class="city-name">📍 ' + cityLabel + '</div>' : '') + '<ul class="prayer-list">';
       NAMES.forEach(function (n) {
-        html += '<li class="prayer-item' + (n[0] === nextKey ? ' active' : '') + '"><span>' + n[1] + '</span><strong>' + String(times[n[0]]).slice(0, 5) + '</strong></li>';
+        html += '<li class="prayer-item' + (n[0] === key ? ' active' : '') + '"><span>' + n[1] + '</span><strong>' + String(times[n[0]]).slice(0, 5) + '</strong></li>';
       });
-      box.innerHTML = html + '</ul>';
-      var nm = NAMES.filter(function (n) { return n[0] === nextKey; })[0][1];
-      var h = Math.floor(nextIn / 3600), m = Math.floor((nextIn % 3600) / 60), s2 = nextIn % 60;
+      html += '</ul>';
+      if (stale) html += '<div class="stale-note">تُعرض آخر مواقيت محفوظة (تعذّر التحديث).</div>';
+      box.innerHTML = html;
+      shownKey = key;
+    }
+    function update() {
+      if (!times) return;
+      if (!stale && fetchedDate && fetchedDate !== dateStr() && lastLoad) { lastLoad(); return; } // يوم جديد
+      var n = nextInfo();
+      if (n.key !== shownKey) renderList(n.key);
+      var nm = NAMES.filter(function (x) { return x[0] === n.key; })[0][1];
+      var h = Math.floor(n.secs / 3600), m = Math.floor((n.secs % 3600) / 60), s2 = n.secs % 60;
       cd.style.display = 'block';
       cd.textContent = 'المتبقي على ' + nm + ': ' + pad(h) + ':' + pad(m) + ':' + pad(s2);
     }
+    function show(data, label, isStale) {
+      times = data.times; tz = data.tz; cityLabel = label; stale = !!isStale; shownKey = null;
+      fetchedDate = isStale ? '' : dateStr();
+      box.classList.remove('is-loading');
+      update();
+      clearInterval(tick);
+      tick = setInterval(update, 1000);
+    }
 
-    function fetchTimes(url, label) {
+    function load(buildUrl, label) {
+      lastLoad = function () { load(buildUrl, label); };
+      box.classList.add('is-loading');
       box.textContent = 'جارٍ تحميل المواقيت…';
-      fetch(url).then(function (r) { return r.json(); }).then(function (j) {
+      getJSON(buildUrl()).then(function (j) {
         if (!j || j.code !== 200) throw new Error('bad');
-        times = j.data.timings;
-        tz = j.data.meta && j.data.meta.timezone;
-        render(label);
-        clearInterval(tick);
-        tick = setInterval(function () { render(label); }, 1000);
+        var data = { times: j.data.timings, tz: j.data.meta && j.data.meta.timezone };
+        store.set('zad_pt_cache', JSON.stringify({ label: label, times: data.times, tz: data.tz }));
+        show(data, label, false);
       }).catch(function () {
+        var c = null;
+        try { c = JSON.parse(store.get('zad_pt_cache')); } catch (e) {}
+        if (c && c.times) { show({ times: c.times, tz: c.tz }, c.label, true); return; }
+        clearInterval(tick); times = null;
+        box.classList.remove('is-loading');
         box.textContent = 'تعذّر تحميل المواقيت. تحقّق من الاتصال أو اسم المدينة.';
+        addRetry(box, function () { if (lastLoad) lastLoad(); });
         cd.style.display = 'none';
       });
     }
-    function dateStr() { var d = new Date(); return pad(d.getDate()) + '-' + pad(d.getMonth() + 1) + '-' + d.getFullYear(); }
     function byCity(city) {
       store.set('zad_city', city);
-      fetchTimes('https://api.aladhan.com/v1/timingsByAddress/' + dateStr() + '?method=19&address=' + encodeURIComponent(city), city);
+      load(function () { return 'https://api.aladhan.com/v1/timingsByAddress/' + dateStr() + '?method=19&address=' + encodeURIComponent(city); }, city);
     }
     function byGeo() {
-      if (!navigator.geolocation) { byCity('Algiers'); return; }
+      if (!navigator.geolocation) { byCity(store.get('zad_city') || 'Algiers'); return; }
+      box.classList.add('is-loading');
       box.textContent = 'جارٍ تحديد موقعك…';
       navigator.geolocation.getCurrentPosition(function (p) {
-        fetchTimes('https://api.aladhan.com/v1/timings/' + dateStr() + '?method=19&latitude=' + p.coords.latitude + '&longitude=' + p.coords.longitude, 'موقعك الحالي');
-      }, function () { byCity(store.get('zad_city') || 'Algiers'); }, { timeout: 8000 });
+        load(function () { return 'https://api.aladhan.com/v1/timings/' + dateStr() + '?method=19&latitude=' + p.coords.latitude + '&longitude=' + p.coords.longitude; }, 'موقعك الحالي');
+      }, function () {
+        toast('تعذّر تحديد موقعك، سنعرض مواقيت المدينة المحفوظة');
+        byCity(store.get('zad_city') || 'Algiers');
+      }, { timeout: 8000 });
     }
 
-    $('cityBtn').addEventListener('click', function () {
-      var v = $('cityInput').value.trim();
-      if (v) byCity(v); else toast('اكتب اسم مدينتك أولاً');
-    });
-    $('cityInput').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('cityBtn').click(); });
-    $('geoBtn').addEventListener('click', byGeo);
+    if (!binding) {
+      binding = true;
+      $('cityBtn').addEventListener('click', function () {
+        var v = $('cityInput').value.trim();
+        if (v) byCity(v); else toast('اكتب اسم مدينتك أولاً');
+      });
+      $('cityInput').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('cityBtn').click(); });
+      $('geoBtn').addEventListener('click', byGeo);
+    }
 
     var c = store.get('zad_city');
     if (c) { $('cityInput').value = c; byCity(c); } else { byGeo(); }
@@ -460,16 +570,20 @@
     var el = $('dailyAyah');
     var day = Math.floor(Date.now() / 86400000);
     var n = (day * 37) % 6236 + 1;
-    fetch('https://api.alquran.cloud/v1/ayah/' + n + '/quran-uthmani')
-      .then(function (r) { return r.json(); })
+    getJSON('https://api.alquran.cloud/v1/ayah/' + n + '/quran-uthmani')
       .then(function (j) {
         if (!j || j.code !== 200) throw new Error('bad');
         var d = j.data;
         el.innerHTML = '<div class="verse-text"></div><div class="verse-src"></div>';
         el.firstChild.textContent = '﴿ ' + d.text + ' ﴾';
         el.lastChild.textContent = 'سورة ' + d.surah.name.replace('سُورَةُ ', '').replace('سورة ', '') + ' — آية ' + d.numberInSurah;
+        done('dailyAyah');
       })
-      .catch(function () { el.textContent = 'تعذّر تحميل آية اليوم. تحقّق من الاتصال.'; });
+      .catch(function () {
+        el.textContent = 'تعذّر تحميل آية اليوم. تحقّق من الاتصال.';
+        addRetry(el, function () { el.textContent = 'جارٍ التحميل…'; el.classList.add('is-loading'); startAyahFallback(); });
+        done('dailyAyah');
+      });
   }
 
   /* --- حديث اليوم (أحاديث مشهورة من الأربعين النووية وغيرها) --- */
@@ -488,13 +602,14 @@
     el.innerHTML = '<div class="hadith-text"></div><div class="verse-src"></div>';
     el.firstChild.textContent = '«' + h[0] + '»';
     el.lastChild.textContent = h[1];
+    done('dailyHadith');
   }
 
   window.addEventListener('load', function () {
     setTimeout(function () {
-      if (stillLoading('prayerTimes')) startPrayerFallback();
-      if (stillLoading('dailyAyah')) startAyahFallback();
-      if (stillLoading('dailyHadith')) startHadithFallback();
+      if (stillLoading('prayerTimes')) startPrayerFallback(); else done('prayerTimes');
+      if (stillLoading('dailyAyah')) startAyahFallback(); else done('dailyAyah');
+      if (stillLoading('dailyHadith')) startHadithFallback(); else done('dailyHadith');
     }, 4000);
   });
 })();

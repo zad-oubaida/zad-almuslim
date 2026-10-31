@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d7a5f">
+  <meta name="description" content="صحيح البخاري وصحيح مسلم — زاد عبيدة">
+  <title>الصحيحان — زاد عبيدة</title>
+  <link rel="icon" type="image/png" href="./logo-zad-almuslim.webp.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/style.css">
+  <style>
+    .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+    .tabs { display: flex; gap: 10px; margin-bottom: 30px; justify-content: center; flex-wrap: wrap; }
+    .tab { padding: 12px 24px; border-radius: 50px; border: 2px solid var(--primary); background: transparent; color: var(--primary); cursor: pointer; font-weight: bold; font-family: inherit; font-size: 1rem; transition: 0.3s; }
+    .tab.active { background: var(--primary); color: #fff; }
+    .search-box { margin-bottom: 25px; }
+    .search-box input { width: 100%; padding: 14px 20px; border: 2px solid var(--border-color); border-radius: 50px; font-size: 1rem; font-family: inherit; outline: none; box-sizing: border-box; }
+    .search-box input:focus { border-color: var(--primary); }
+    .hadith-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+    .hadith-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); cursor: pointer; transition: 0.3s; display: flex; flex-direction: column; }
+    .hadith-card:hover { transform: translateY(-3px); border-color: var(--primary); box-shadow: 0 8px 25px rgba(13,122,95,0.1); }
+    .hadith-card .pill { display: inline-block; background: var(--primary); color: #fff; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; margin-bottom: 10px; width: fit-content; }
+    .hadith-card h3 { color: var(--primary); margin: 0 0 10px; font-size: 1rem; }
+    .hadith-preview { color: var(--text-color); font-size: 0.9rem; line-height: 1.8; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; flex-grow: 1; }
+    .hadith-card .open-btn { margin-top: 15px; padding: 8px 14px; background: var(--primary); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-family: inherit; font-weight: bold; font-size: 0.85rem; }
+    .hadith-modal { position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .hadith-modal[hidden] { display: none !important; }
+    .hadith-dialog { background: var(--card-bg); color: var(--text-color); width: min(800px, 100%); max-height: 88vh; overflow-y: auto; border-radius: 20px; padding: 30px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+    .hadith-dialog h3 { color: var(--primary); margin-top: 0; border-bottom: 2px solid var(--accent); padding-bottom: 12px; }
+    .hadith-full { font-size: 1.15rem; line-height: 2.2; white-space: pre-line; margin: 20px 0; color: var(--text-color); }
+    .hadith-close { display: block; width: 100%; margin-top: 20px; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; font-family: inherit; font-size: 1rem; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="./index.html" class="brand">
+      <img src="./logo-zad-almuslim.webp.png" alt="شعار">
+      زاد عبيدة
+    </a>
+    <div class="nav-links">
+      <a href="./index.html">الرئيسية</a>
+      <a href="./nawawi.html">الأربعون</a>
+      <a href="./sahihayn.html" class="active">الصحيحان</a>
+    </div>
+    <div>
+      <button class="btn btn-outline" onclick="toggleTheme()" id="themeBtn" style="padding: 6px 12px; font-size: 0.9rem;">🌙</button>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <h1 style="text-align: center; font-family: 'Amiri'; color: var(--primary); font-size: 2.5rem;">📚 الصحيحان</h1>
+  <p style="text-align: center; color: #7f8c8d; margin-bottom: 30px;">صحيح البخاري وصحيح مسلم — أصح كتابين بعد القرآن الكريم</p>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchBook('bukhari', this)">صحيح البخاري</button>
+    <button class="tab" onclick="switchBook('muslim', this)">صحيح مسلم</button>
+  </div>
+
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="ابحث في الأحاديث..." oninput="filterHadiths()">
+  </div>
+
+  <div id="hadithGrid" class="hadith-grid"></div>
+</div>
+
+<!-- المودال -->
+<div class="hadith-modal" id="hadithModal" hidden>
+  <div class="hadith-dialog">
+    <h3 id="modalTitle">الحديث</h3>
+    <div id="modalText" class="hadith-full"></div>
+    <button class="hadith-close" onclick="closeModal()">إغلاق ✕</button>
+  </div>
+</div>
+
+<footer style="background:#2c3e50;color:#ecf0f1;padding:30px;text-align:center;margin-top:40px;">
+  <p>© 2026 زاد عبيدة — جميع الحقوق محفوظة</p>
+</footer>
+
+<script>
+// ============ صحيح البخاري (20 حديثاً - أضف 130 حديثاً هنا) ============
+const SAHIH_BUKHARI = [
+  { title: "بدء الوحي - إنما الأعمال بالنيات", text: "عن عمر بن الخطاب رضي الله عنه قال: سمعت رسول الله ﷺ يقول: «إنما الأعمال بالنيات، وإنما لكل امرئ ما نوى، فمن كانت هجرته إلى الله ورسوله، فهجرته إلى الله ورسوله، ومن كانت هجرته لدنيا يصيبها أو امرأة ينكحها، فهجرته إلى ما هاجر إليه» (رواه البخاري)" },
+  { title: "فضل الصلاة", text: "عن أبي هريرة رضي الله عنه أن رسول الله ﷺ قال: «الصلاة خمس، والجمعة إلى الجمعة، ورمضان إلى رمضان، كفارات لما بينهن ما اجتنبت الكبائر» (رواه مسلم)" },
+  { title: "بر الوالدين", text: "عن عبد الله بن مسعود رضي الله عنه قال: سألت النبي ﷺ: أي العمل أحب إلى الله؟ قال: «الصلاة على وقتها»، قلت: ثم أي؟ قال: «بر الوالدين»، قلت: ثم أي؟ قال: «الجهاد في سبيل الله» (متفق عليه)" },
+  { title: "فضل الذكر", text: "عن أبي هريرة رضي الله عنه قال: قال رسول الله ﷺ: «كلمتان خفيفتان على اللسان، ثقيلتان في الميزان، حبيبتان إلى الرحمن: سبحان الله وبحمده، سبحان الله العظيم» (متفق عليه)" },
+  { title: "حسن الخلق", text: "عن عبد الله بن عمرو رضي الله عنهما قال: قال رسول الله ﷺ: «إن من خياركم أحاسنكم أخلاقاً» (متفق عليه)" },
+  { title: "فضل القرآن", text: "عن عثمان رضي الله عنه عن النبي ﷺ قال: «خيركم من تعلم القرآن وعلمه» (رواه البخاري)" },
+  { title: "الصدق", text: "عن عبد الله بن مسعود رضي الله عنه قال: قال رسول الله ﷺ: «إن الصدق يهدي إلى البر، وإن البر يهدي إلى الجنة، وإن الرجل ليصدق حتى يكتب عند الله صديقاً» (متفق عليه)" },
+  { title: "إكرام الجار", text: "عن أبي شريح رضي الله عنه أن النبي ﷺ قال: «من كان يؤمن بالله واليوم الآخر فليكرم جاره» (متفق عليه)" },
+  { title: "الحياء", text: "عن أبي مسعود رضي الله عنه قال: قال رسول الله ﷺ: «إن مما أدرك الناس من كلام النبوة الأولى: إذا لم تستح فاصنع ما شئت» (رواه البخاري)" },
+  { title: "الرفق", text: "عن عائشة رضي الله عنها قالت: قال رسول الله ﷺ: «إن الله رفيق يحب الرفق في الأمر كله» (متفق عليه)" },
+  { title: "فضل الصدقة", text: "عن أبي هريرة رضي الله عنه قال: قال رسول الله ﷺ: «من تصدق بعدل تمرة من كسب طيب، ولا يقبل الله إلا الطيب، فإن الله يتقبلها بيمينه ثم يربيها لصاحبها كما يربي أحدكم فلوه حتى تكون مثل الجبل» (متفق عليه)" },
+  { title: "فضل صلاة الجماعة", text: "عن ابن عمر رضي الله عنهما أن رسول الله ﷺ قال: «صلاة الجماعة أفضل من صلاة الفذ بسبع وعشرين درجة» (متفق عليه)" },
+  { title: "إفشاء السلام", text: "عن أبي هريرة رضي الله عنه قال: قال رسول الله ﷺ: «لا تدخلوا الجنة حتى تؤمنوا، ولا تؤمنوا حتى تحابوا، أولا أدلكم على شيء إذا فعلتموه تحاببتم؟ أفشوا السلام بينكم» (رواه مسلم)" },
+  { title: "فضل الصلاة على النبي", text: "عن عبد الله بن عمرو رضي الله عنهما أن رسول الله ﷺ قال: «من صلى علي صلاة صلى الله عليه بها عشراً» (رواه مسلم)" },
+  { title: "النية أساس العمل", text: "عن عمر رضي الله عنه قال: سمعت رسول الله ﷺ يقول: «إنما الأعمال بالنيات، وإنما لكل امرئ ما نوى...» (متفق عليه)" },
+  { title: "فضل الوضوء", text: "عن أبي هريرة رضي الله عنه أن رسول الله ﷺ قال: «إذا توضأ العبد المسلم أو المؤمن فغسل وجهه خرج من وجهه كل خطيئة نظر إليها بعينيه مع الماء...» (رواه مسلم)" },
+  { title: "الطهور شطر الإيمان", text: "عن أبي مالك الأشعري رضي الله عنه قال: قال رسول الله ﷺ: «الطهور شطر الإيمان، والحمد لله تملأ الميزان...» (رواه مسلم)" },
+  { title: "الصبر", text: "عن صهيب رضي الله عنه قال: قال رسول الله ﷺ: «عجباً لأمر المؤمن، إن أمره كله خير، وليس ذاك لأحد إلا للمؤمن: إن أصابته سراء شكر فكان خيراً له، وإن أصابته ضراء صبر فكان خيراً له» (رواه مسلم)" },
+  { title: "الدعاء", text: "عن أبي هريرة رضي الله عنه أن النبي ﷺ قال: «لا يزال يستجاب للعبد ما لم يدع بإثم أو قطيعة رحم، ما لم يستعجل» (رواه مسلم)" },
+  { title: "التوبة", text: "عن أبي هريرة رضي الله عنه قال: قال رسول الله ﷺ: «لله أفرح بتوبة عبده من أحدكم سقط على بعيره في أرض فلاة» (متفق عليه)" },
+  // ===== أضف 130 حديثاً آخر هنا بنفس النمط =====
+];
+
+// ============ صحيح مسلم (20 حديثاً - أضف 130 حديثاً هنا) ============
+const SAHIH_MUSLIM = [
+  { title: "فضل الوضوء", text: "عن أبي هريرة رضي الله عنه أن رسول الله ﷺ قال: «إذا توضأ العبد المسلم أو المؤمن فغسل وجهه خرج من وجهه كل خطيئة نظر إليها بعينيه مع الماء...» (رواه مسلم)" },
+  { title: "الطهور شطر الإيمان", text: "عن أبي مالك الأشعري رضي الله عنه قال: قال رسول الله ﷺ: «الطهور شطر الإيمان، والحمد لله تملأ الميزان، وسبحان الله والحمد لله تملآن أو تملأ بين السماء والأرض...» (رواه مسلم)" },
+  { title: "الصبر", text: "عن صهيب رضي الله عنه قال: قال رسول الله ﷺ: «عجباً لأمر المؤمن، إن أمره كله خير، وليس ذاك لأحد إلا للمؤمن: إن أصابته سراء شكر فكان خيراً له، وإن أصابته ضراء صبر فكان خيراً له» (رواه مسلم)" },
+  { title: "الدعاء", text: "عن أبي هريرة رضي الله عنه أن النبي ﷺ قال: «لا يزال يستجاب للعبد ما لم يدع بإثم أو قطيعة رحم، ما لم يستعجل» (رواه مسلم)" },
+  { title: "التوبة", text: "عن أبي هريرة رضي الله عنه قال: قال رسول الله ﷺ: «لله أفرح بتوبة عبده من أحدكم سقط على بعيره في أرض فلاة» (متفق عليه)" },
+  { title: "فضل الصلاة على النبي", text: "عن عبد الله بن عمرو رضي الله عنهما أن رسول الله ﷺ قال: «من صلى علي صلاة صلى الله عليه بها عشراً» (رواه مسلم)" },
+  { title: "بر الوالدين", text: "عن أبي هريرة رضي الله عنه قال: جاء رجل إلى النبي ﷺ فقال: من أحق الناس بحسن صحابتي؟ قال: «أمك»، قال: ثم من؟ قال: «أمك»، قال: ثم من؟ قال: «أمك»، قال: ثم من؟ قال: «أبوك» (متفق عليه)" },
+  { title: "فضل الجماعة", text: "عن ابن عمر رضي الله عنهما أن رسول الله ﷺ قال: «صلاة الجماعة أفضل من صلاة الفذ بسبع وعشرين درجة» (متفق عليه)" },
+  { title: "إفشاء السلام", text: "عن أبي هريرة رضي الله عنه قال: قال رسول الله ﷺ: «لا تدخلوا الجنة حتى تؤمنوا، ولا تؤمنوا حتى تحابوا، أولا أدلكم على شيء إذا فعلتموه تحاببتم؟ أفشوا السلام بينكم» (رواه مسلم)" },
+  { title: "النية", text: "عن عمر رضي الله عنه قال: سمعت رسول الله ﷺ يقول: «إنما الأعمال بالنيات...» (متفق عليه)" },
+  { title: "فضل الصدقة", text: "عن أبي هريرة رضي الله عنه قال: قال رسول الله ﷺ: «من تصدق بعدل تمرة من كسب طيب...» (متفق عليه)" },
+  { title: "فضل الذكر", text: "عن أبي هريرة رضي الله عنه قال: قال رسول الله ﷺ: «كلمتان خفيفتان على اللسان...» (متفق عليه)" },
+  { title: "حسن الخلق", text: "عن عبد الله بن عمرو رضي الله عنهما قال: قال رسول الله ﷺ: «إن من خياركم أحاسنكم أخلاقاً» (متفق عليه)" },
+  { title: "فضل القرآن", text: "عن عثمان رضي الله عنه عن النبي ﷺ قال: «خيركم من تعلم القرآن وعلمه» (رواه البخاري)" },
+  { title: "الصدق", text: "عن عبد الله بن مسعود رضي الله عنه قال: قال رسول الله ﷺ: «إن الصدق يهدي إلى البر...» (متفق عليه)" },
+  { title: "إكرام الجار", text: "عن أبي شريح رضي الله عنه أن النبي ﷺ قال: «من كان يؤمن بالله واليوم الآخر فليكرم جاره» (متفق عليه)" },
+  { title: "الحياء", text: "عن أبي مسعود رضي الله عنه قال: قال رسول الله ﷺ: «إن مما أدرك الناس من كلام النبوة الأولى: إذا لم تستح فاصنع ما شئت» (رواه البخاري)" },
+  { title: "الرفق", text: "عن عائشة رضي الله عنها قالت: قال رسول الله ﷺ: «إن الله رفيق يحب الرفق في الأمر كله» (متفق عليه)" },
+  { title: "فضل الصلاة", text: "عن أبي هريرة رضي الله عنه أن رسول الله ﷺ قال: «الصلاة خمس، والجمعة إلى الجمعة...» (رواه مسلم)" },
+  { title: "بر الوالدين", text: "عن عبد الله بن مسعود رضي الله عنه قال: سألت النبي ﷺ: أي العمل أحب إلى الله؟...» (متفق عليه)" },
+  // ===== أضف 130 حديثاً آخر هنا بنفس النمط =====
+];
+
+// ============ الوضع الليلي ============
+function toggleTheme() {
+  document.body.classList.toggle('dark');
+  var isDark = document.body.classList.contains('dark');
+  document.getElementById('themeBtn').textContent = isDark ? '☀️' : '🌙';
+  localStorage.setItem('zad_theme', isDark ? 'dark' : 'light');
+}
+if (localStorage.getItem('zad_theme') === 'dark') {
+  document.body.classList.add('dark');
+  document.getElementById('themeBtn').textContent = '☀️';
+}
+
+// ============ المتغيرات ============
+let currentBook = 'bukhari';
+
+// ============ التبديل بين الكتابين ============
+function switchBook(book, btn) {
+  currentBook = book;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('searchInput').value = '';
+  renderHadiths();
+}
+
+// ============ عرض الأحاديث ============
+function renderHadiths() {
+  const grid = document.getElementById('hadithGrid');
+  grid.innerHTML = '';
+  const source = currentBook === 'bukhari' ? SAHIH_BUKHARI : SAHIH_MUSLIM;
+  const bookName = currentBook === 'bukhari' ? 'البخاري' : 'مسلم';
+
+  source.forEach((h, i) => {
+    const card = document.createElement('div');
+    card.className = 'hadith-card';
+    card.innerHTML = `
+      <span class="pill">${bookName} - ${i + 1}</span>
+      <h3>${h.title}</h3>
+      <p class="hadith-preview">${h.text}</p>
+      <button class="open-btn">اقرأ الحديث كاملاً ←</button>
+    `;
+    card.querySelector('.open-btn').onclick = (e) => {
+      e.stopPropagation();
+      openModal(h);
+    };
+    card.onclick = () => openModal(h);
+    grid.appendChild(card);
+  });
+}
+
+// ============ فتح المودال ============
+function openModal(h) {
+  document.getElementById('modalTitle').textContent = h.title;
+  document.getElementById('modalText').textContent = h.text;
+  document.getElementById('hadithModal').hidden = false;
+  document.body.style.overflow = 'hidden';
+}
+
+// ============ إغلاق المودال ============
+function closeModal() {
+  document.getElementById('hadithModal').hidden = true;
+  document.body.style.overflow = '';
+}
+
+document.getElementById('hadithModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+
+// ============ البحث ============
+function filterHadiths() {
+  const query = document.getElementById('searchInput').value.trim();
+  const grid = document.getElementById('hadithGrid');
+  const source = currentBook === 'bukhari' ? SAHIH_BUKHARI : SAHIH_MUSLIM;
+  const cards = grid.querySelectorAll('.hadith-card');
+  let visible = 0;
+
+  cards.forEach((card, i) => {
+    const match = !query || source[i].title.includes(query) || source[i].text.includes(query);
+    card.style.display = match ? '' : 'none';
+    if (match) visible++;
+  });
+
+  let noResult = grid.querySelector('.no-result');
+  if (visible === 0) {
+    if (!noResult) {
+      noResult = document.createElement('p');
+      noResult.className = 'no-result';
+      noResult.style.cssText = 'text-align:center;color:#7f8c8d;grid-column:1/-1;padding:40px;';
+      noResult.textContent = 'لا توجد نتائج مطابقة.';
+      grid.appendChild(noResult);
+    }
+  } else if (noResult) {
+    noResult.remove();
+  }
+}
+
+// ============ التحميل الأولي ============
+renderHadiths();
+</script>
+
+</body>
+</html>

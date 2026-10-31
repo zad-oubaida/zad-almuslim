@@ -221,7 +221,7 @@
   if (y) y.textContent = new Date().getFullYear();
 
   /* ---------- Service Worker ---------- */
-  if ('serviceWorker' in navigator) {
+  if ('serviceWorker' in navigator && !(window.ZadApp && window.ZadApp.swManaged)) {
     window.addEventListener('load', function () {
       navigator.serviceWorker.register('./sw.js').catch(function (e) {
         console.warn('تعذّر تسجيل sw.js:', e);
@@ -242,7 +242,7 @@
   var saved = store.get('zad_theme');
   var mqDark = window.matchMedia('(prefers-color-scheme: dark)');
   applyTheme(saved ? saved === 'dark' : mqDark.matches);
-  themeBtn.addEventListener('click', function () {
+  if (!(window.ZadApp && window.ZadApp.themeManaged)) themeBtn.addEventListener('click', function () {
     var dark = !document.body.classList.contains('dark');
     applyTheme(dark);
     store.set('zad_theme', dark ? 'dark' : 'light');
@@ -607,7 +607,7 @@
 
   window.addEventListener('load', function () {
     setTimeout(function () {
-      if (stillLoading('prayerTimes')) startPrayerFallback(); else done('prayerTimes');
+      if (!(window.ZadApp && window.ZadApp.prayerManaged) && stillLoading('prayerTimes')) startPrayerFallback(); else done('prayerTimes');
       if (stillLoading('dailyAyah')) startAyahFallback(); else done('dailyAyah');
       if (stillLoading('dailyHadith')) startHadithFallback(); else done('dailyHadith');
     }, 4000);

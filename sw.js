@@ -5,10 +5,11 @@
    ضعه في جذر الموقع بجانب index.html (وليس داخل assets).
    ============================================================ */
 
-const VERSION = 'v41';                       // غيّره عند أي نشر يتضمن ملفات ثابتة جديدة
+const VERSION = 'v42';                       // ⚠️ غيّره (v43، v44…) عند كل نشر يغيّر ملفات ثابتة
 const STATIC_CACHE = 'zad-static-' + VERSION; // الصفحات والملفات المحلية
 const FONT_CACHE = 'zad-fonts-v1';            // خطوط Google (لا تتغير غالباً)
 const KEEP = [STATIC_CACHE, FONT_CACHE];
+const FONT_CACHE_MAX = 40;
 
 // ملفات الهيكل الأساسي: تُخزَّن عند التثبيت
 const CORE_ASSETS = [
@@ -26,6 +27,7 @@ const CORE_ASSETS = [
   './about.html',
   './opinions.html',
   './assets/style.css',
+  './assets/enhancements.css',
   './assets/data.js',
   './assets/app.js',
   './assets/common.js',
@@ -35,7 +37,8 @@ const CORE_ASSETS = [
   // quran.json كبير: يُخزَّن عند أول فتح لصفحة القرآن (عبر معالج الجلب أدناه) فلا يبطئ التثبيت
 ];
 
-const NAV_TIMEOUT_MS = 4000;
+const NAV_TIMEOUT_MS = 4000;     // مهلة الصفحات قبل تقديم النسخة المخزنة
+const ASSET_TIMEOUT_MS = 3000;   // مهلة ملفات JS/CSS قبل تقديم النسخة المخزنة
 
 const OFFLINE_HTML = `<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light dark">
@@ -70,6 +73,8 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', event => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
+    // تحديث فعلي = وُجد كاش ثابت قديم (لا نُشعر المستخدم عند أول تثبيت)
+    const isUpdate = keys.some(k => k.startsWith('zad-static-') && k !== STATIC_CACHE);
     await Promise.all(
       keys.filter(k => k.startsWith('zad') && !KEEP.includes(k)).map(k => caches.delete(k))
     );
@@ -78,10 +83,14 @@ self.addEventListener('activate', event => {
       try { await self.registration.navigationPreload.enable(); } catch (e) {}
     }
     await self.clients.claim();
+    if (isUpdate) {
+      const list = await self.clients.matchAll({ type: 'window' });
+      list.forEach(c => c.postMessage({ type: 'SW_UPDATED', version: VERSION }));
+    }
   })());
 });
 
-/* ---------------- استراتيجيات الجلب ---------------- */
+/* ---------------- أدوات مساعدة ---------------- */
 function isCacheable(res) {
   // لا نخزّن الردود المعاد توجيهها: المتصفح يرفض تقديمها لطلبات التنقل
   return res && res.status === 200 && !res.redirected && (res.type === 'basic' || res.type === 'cors');
@@ -95,7 +104,14 @@ function pageKey(url) {
   return u.href;
 }
 
-// الصفحات: الشبكة أولاً (محتوى حديث دائماً) مع الرجوع للكاش عند الانقطاع أو البطء
+async function trimCache(cache, max) {
+  const keys = await cache.keys();
+  if (keys.length > max) await Promise.all(keys.slice(0, keys.length - max).map(k => cache.delete(k)));
+}
+
+/* ---------------- استراتيجيات الجلب ---------------- */
+
+// الصفحات: الشبكة أولاً (محتوى حديث دائماً) مع الرجوع للكاش عند الانقطاع أو البطء أو خطأ الخادم
 async function handleNavigation(event) {
   const req = event.request;
   const cache = await caches.open(STATIC_CACHE);
@@ -113,11 +129,11 @@ async function handleNavigation(event) {
   try {
     const timeout = new Promise(resolve => { timer = setTimeout(() => resolve(null), NAV_TIMEOUT_MS); });
     const first = await Promise.race([netPromise, timeout]);
-    if (first) return first;
-    // الشبكة بطيئة: قدّم النسخة المخزنة إن وُجدت، وأكمل التحديث في الخلفية
+    if (first && first.status < 500) return first;
+    // الشبكة بطيئة أو الخادم يرد بخطأ 5xx: قدّم النسخة المخزنة إن وُجدت
     const cached = await cache.match(key);
     if (cached) { event.waitUntil(netPromise.catch(() => {})); return cached; }
-    return await netPromise;
+    return first || await netPromise;
   } catch (err) {
     const cached = await cache.match(key);
     return cached || offlineResponse();
@@ -126,13 +142,42 @@ async function handleNavigation(event) {
   }
 }
 
-// الملفات الثابتة: من الكاش فوراً ثم التحديث في الخلفية (stale-while-revalidate)
-async function staleWhileRevalidate(event, cacheName, allowOpaque) {
+// ملفات الكود (JS/CSS/manifest): الشبكة أولاً بمهلة قصيرة، فلا يختلط HTML جديد بكود قديم
+async function networkFirst(event, cacheName, timeoutMs) {
+  const req = event.request;
+  const cache = await caches.open(cacheName);
+  const net = fetch(req).then(res => {
+    if (isCacheable(res)) cache.put(req, res.clone()).catch(() => {});
+    return res;
+  });
+  net.catch(() => {});
+
+  let timer;
+  try {
+    const timeout = new Promise(resolve => { timer = setTimeout(() => resolve(null), timeoutMs); });
+    const first = await Promise.race([net, timeout]);
+    if (first && first.ok) return first;
+    const cached = await cache.match(req);
+    if (cached) { event.waitUntil(net.catch(() => {})); return cached; }
+    return first || await net;
+  } catch (err) {
+    const cached = await cache.match(req);
+    return cached || Response.error();
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+// باقي الملفات (صور، quran.json…): من الكاش فوراً ثم التحديث في الخلفية (stale-while-revalidate)
+async function staleWhileRevalidate(event, cacheName, maxEntries) {
   const req = event.request;
   const cache = await caches.open(cacheName);
   const cached = await cache.match(req);
-  const update = fetch(req).then(res => {
-    if (isCacheable(res) || (allowOpaque && res && res.type === 'opaque')) cache.put(req, res.clone()).catch(() => {});
+  const update = fetch(req).then(async res => {
+    if (isCacheable(res)) {
+      await cache.put(req, res.clone()).catch(() => {});
+      if (maxEntries) trimCache(cache, maxEntries).catch(() => {});
+    }
     return res;
   }).catch(() => null);
 
@@ -148,9 +193,9 @@ self.addEventListener('fetch', event => {
   const url = new URL(req.url);
   if (url.protocol !== 'http:' && url.protocol !== 'https:') return;
 
-  // خطوط Google
+  // خطوط Google (ردود CORS فقط؛ لا نخزّن الردود المبهمة لأنها تستهلك حصة تخزين كبيرة)
   if (url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com') {
-    event.respondWith(staleWhileRevalidate(event, FONT_CACHE, true));
+    event.respondWith(staleWhileRevalidate(event, FONT_CACHE, FONT_CACHE_MAX));
     return;
   }
 
@@ -162,7 +207,12 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  event.respondWith(staleWhileRevalidate(event, STATIC_CACHE, false));
+  if (req.destination === 'script' || req.destination === 'style' || /\/manifest\.json$/.test(url.pathname)) {
+    event.respondWith(networkFirst(event, STATIC_CACHE, ASSET_TIMEOUT_MS));
+    return;
+  }
+
+  event.respondWith(staleWhileRevalidate(event, STATIC_CACHE, 0));
 });
 
 /* ---------------- الإشعارات ----------------

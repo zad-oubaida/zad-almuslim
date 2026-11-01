@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
@@ -32,8 +33,60 @@
   <link rel="stylesheet" href="./assets/enhancements.css">
   <title>زاد عبيدة | أذكار ومواقيت الصلاة وقرآن</title>
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebSite","name":"زاد عبيدة","url":"https://zad-oubaida.github.io/zad-almuslim/","inLanguage":"ar","description":"أذكار ومواقيت الصلاة وقرآن من مصادر موثوقة."}
+  {"@context":"https://schema.org","@type":"WebSite","name":"زاد عبيدة","url":"https://zad-oubaida.github.io/zad-almuslim/","inLanguage":"ar","description":"أذكار ومواقيت الصلاة وقرآن من مصادر موثوقة.","sameAs":["https://www.instagram.com/zad_oubaida/","https://www.facebook.com/profile.php?id=61595379137805","https://www.youtube.com/@oubaida_dz"]}
   </script>
+
+  <!-- تحسينات الخطوط وقسم «أذكاري» (تأتي بعد ملفات التنسيق لتتقدّم عليها) -->
+  <style id="zad-extras">
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+    body { font-family: 'Cairo', 'Noto Naskh Arabic', system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif; line-height: 1.85; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
+    h1, h2, .hero-title, .bismillah, .brand strong { font-family: 'Amiri', 'Noto Naskh Arabic', serif; }
+    .hero-title { line-height: 1.5; }
+    .bismillah { font-size: 1.6rem; }
+    .verse-text, .hadith-text { font-family: 'Amiri', 'Noto Naskh Arabic', serif; font-size: 1.4rem; line-height: 2.2; }
+    .verse-src { font-size: .9rem; opacity: .8; }
+    button, input, textarea, select { font-family: inherit; }
+    a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 3px solid #e0a82e; outline-offset: 2px; border-radius: 6px; }
+    .retry-btn { margin-top: .6rem; padding: .35rem .9rem; border-radius: 8px; border: 1px solid currentColor; background: transparent; color: inherit; cursor: pointer; }
+    .stale-note { margin-top: .5rem; font-size: .85rem; opacity: .75; }
+
+    /* روابط التواصل */
+    .mk-social { display: flex; flex-direction: column; gap: .6rem; }
+    .social-link { display: inline-flex; align-items: center; gap: .5rem; }
+    .social-link svg { width: 20px; height: 20px; flex: none; }
+
+    /* قسم أذكاري */
+    #my-adhkar { scroll-margin-top: 80px; }
+    .mk { --mk-bg: #ffffff; --mk-soft: #f3f8f6; --mk-line: #d3e3de; --mk-text: #1d2a26; --mk-muted: #5b6e68; --mk-accent: #0d7a5f; --mk-danger: #b3261e; max-width: 860px; margin: 0 auto; color: var(--mk-text); }
+    body.dark .mk { --mk-bg: #1a1f1e; --mk-soft: #222927; --mk-line: #34413d; --mk-text: #e8efec; --mk-muted: #9fb2ab; --mk-accent: #46c7a3; --mk-danger: #ff8a80; }
+    .mk-form, .mk-item { background: var(--mk-bg); border: 1px solid var(--mk-line); border-radius: 14px; }
+    .mk-form { padding: 1.1rem; display: grid; gap: .8rem; margin-bottom: 1.2rem; }
+    .mk-form label { font-weight: 700; font-size: .95rem; }
+    .mk-form input[type=text], .mk-form textarea, .mk-search { width: 100%; box-sizing: border-box; padding: .7rem .85rem; border: 1px solid var(--mk-line); border-radius: 10px; background: var(--mk-soft); color: var(--mk-text); font-size: 1rem; }
+    .mk-form textarea { min-height: 150px; resize: vertical; font-family: 'Amiri', 'Noto Naskh Arabic', serif; font-size: 1.25rem; line-height: 2; }
+    .mk-row { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; }
+    .mk-hint { font-size: .85rem; color: var(--mk-muted); margin: 0; }
+    .mk-btn { padding: .55rem 1.1rem; border-radius: 10px; border: 1px solid var(--mk-line); background: var(--mk-soft); color: var(--mk-text); cursor: pointer; font-size: .95rem; font-weight: 600; }
+    .mk-btn:hover { border-color: var(--mk-accent); }
+    .mk-btn.primary { background: var(--mk-accent); border-color: var(--mk-accent); color: #fff; }
+    body.dark .mk-btn.primary { color: #0b1512; }
+    .mk-btn.danger { color: var(--mk-danger); }
+    .mk-tools { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; margin-bottom: 1rem; }
+    .mk-tools .mk-search { flex: 1 1 220px; width: auto; }
+    .mk-list { display: grid; gap: .8rem; }
+    .mk-item summary { list-style: none; cursor: pointer; padding: .9rem 1.1rem; display: flex; justify-content: space-between; align-items: center; gap: .8rem; font-weight: 700; font-size: 1.05rem; }
+    .mk-item summary::-webkit-details-marker { display: none; }
+    .mk-item summary::after { content: '▾'; color: var(--mk-muted); transition: transform .2s; }
+    .mk-item[open] summary::after { transform: rotate(180deg); }
+    .mk-title { flex: 1; overflow-wrap: anywhere; }
+    .mk-count { font-size: .85rem; font-weight: 600; color: var(--mk-accent); background: var(--mk-soft); border-radius: 999px; padding: .1rem .7rem; }
+    .mk-body { padding: 0 1.1rem 1.1rem; border-top: 1px solid var(--mk-line); }
+    .mk-text { white-space: pre-wrap; overflow-wrap: anywhere; font-family: 'Amiri', 'Noto Naskh Arabic', serif; font-size: 1.45rem; line-height: 2.2; margin: 1rem 0; }
+    .mk-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .mk-empty { text-align: center; padding: 2rem 1rem; color: var(--mk-muted); border: 1px dashed var(--mk-line); border-radius: 14px; }
+    @media (max-width: 480px) { .mk-text { font-size: 1.3rem; } .mk-actions .mk-btn { flex: 1 1 40%; } }
+  </style>
 </head>
 <body>
 <!-- تطبيق الوضع الليلي قبل الرسم الأول لمنع الوميض -->
@@ -60,6 +113,7 @@
           <a href="./azkar-sleep.html"><span aria-hidden="true">💤</span> أذكار النوم</a>
         </div>
       </div>
+      <a href="./index.html#my-adhkar"><span aria-hidden="true">📝</span> أذكاري</a>
       <a href="./nawawi.html">الأحاديث</a>
       <a href="./quran.html">القرآن</a>
       <a href="./duas.html"><span aria-hidden="true">🤲</span> أدعية</a>
@@ -138,10 +192,45 @@
     <a href="./azkar-morning.html" class="nav-card"><span class="emoji" aria-hidden="true">🌅</span><h3>أذكار الصباح</h3><p>تبدأ يومك بذكر الله</p></a>
     <a href="./azkar-evening.html" class="nav-card"><span class="emoji" aria-hidden="true">🌙</span><h3>أذكار المساء</h3><p>اختم يومك بذكر الله</p></a>
     <a href="./azkar-sleep.html" class="nav-card"><span class="emoji" aria-hidden="true">💤</span><h3>أذكار النوم</h3><p>أذكار تُقال قبل النوم</p></a>
+    <a href="#my-adhkar" class="nav-card"><span class="emoji" aria-hidden="true">📝</span><h3>أذكاري</h3><p>اكتب أذكارك واحفظها في هاتفك</p></a>
     <a href="./nawawi.html" class="nav-card"><span class="emoji" aria-hidden="true">📜</span><h3>الأحاديث</h3><p>40 حديثاً في متناول يدك</p></a>
     <a href="./quran.html" class="nav-card"><span class="emoji" aria-hidden="true">📖</span><h3>القرآن الكريم</h3><p>قارئ مصغّر لكل السور</p></a>
     <a href="./duas.html" class="nav-card"><span class="emoji" aria-hidden="true">🤲</span><h3>أدعية مستجابة</h3><p>أدعية صحيحة من السنة</p></a>
     <a href="./articles.html" class="nav-card"><span class="emoji" aria-hidden="true">✍️</span><h3>مقالات</h3><p>مقالات في العبادة والأخلاق</p></a>
+  </div>
+</div></section>
+
+<!-- أذكاري: يكتب المستخدم أذكاره وتُحفظ على جهازه -->
+<section class="section" id="my-adhkar" aria-labelledby="myAdhkarTitle"><div class="wrap">
+  <div class="section-head">
+    <h2 id="myAdhkarTitle">📝 أذكاري</h2>
+    <p>اكتب ذكرك أو دعاءك مع عنوانه، يُحفظ في هاتفك وتعود إليه متى شئت</p>
+  </div>
+  <div class="mk">
+    <form class="mk-form" id="mkForm" autocomplete="off">
+      <div>
+        <label for="mkTitle">عنوان الذكر</label>
+        <input type="text" id="mkTitle" maxlength="80" placeholder="مثال: ذكري بعد الفجر">
+      </div>
+      <div>
+        <label for="mkText">نص الذكر</label>
+        <textarea id="mkText" maxlength="5000" placeholder="اكتب ذكرك هنا…" required></textarea>
+      </div>
+      <div class="mk-row">
+        <button class="mk-btn primary" type="submit" id="mkSave">حفظ الذكر</button>
+        <button class="mk-btn" type="button" id="mkCancel" hidden>إلغاء التعديل</button>
+      </div>
+      <p class="mk-hint">تُحفظ أذكارك على هذا الجهاز وفي هذا المتصفح فقط، ولا تُرسل إلى أي خادم. احتفظ بنسخة احتياطية من الأسفل لتنقلها أو لتأمن عليها من المسح.</p>
+    </form>
+
+    <div class="mk-tools">
+      <input type="search" class="mk-search" id="mkSearch" placeholder="ابحث في أذكاري…" aria-label="ابحث في أذكاري">
+      <button class="mk-btn" type="button" id="mkExport">⬇️ نسخة احتياطية</button>
+      <button class="mk-btn" type="button" id="mkImportBtn">⬆️ استيراد</button>
+      <input type="file" id="mkImport" accept="application/json,.json" hidden>
+    </div>
+
+    <div class="mk-list notranslate" id="mkList" translate="no" aria-live="polite"></div>
   </div>
 </div></section>
 </main>
@@ -155,17 +244,38 @@
   </form>
 </dialog>
 
+<!-- نافذة تأكيد الحذف -->
+<dialog id="delDialog" class="info-dialog" aria-labelledby="delTitle">
+  <form method="dialog">
+    <h3 id="delTitle">حذف هذا الذكر؟</h3>
+    <p id="delName"></p>
+    <p>لا يمكن التراجع عن الحذف.</p>
+    <button class="btn-primary" type="submit" value="yes">نعم، احذف</button>
+    <button class="btn-secondary" type="submit" value="no">إلغاء</button>
+  </form>
+</dialog>
+
 <!-- التذييل -->
 <footer><div class="wrap">
   <div class="footer-inner">
-    <div><h4>زاد عبيدة</h4><p>محتوى إسلامي نافع مع توضيح المصادر.</p></div>
-    <div><h4>روابط سريعة</h4><p><a href="./adhkar.html">الأذكار</a><br><a href="./quran.html">القرآن</a><br><a href="./nawawi.html">الأحاديث</a><br><a href="./duas.html">أدعية</a><br><a href="./articles.html">المقالات</a><br><a href="./about.html">عن الموقع</a></p></div>
-    <div><h4>تواصل</h4><p>
-      <!-- غيّر الرابط التالي إلى حسابك الفعلي -->
-      <a class="social-link" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="حسابنا على إنستغرام">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
-        إنستغرام
-      </a></p></div>
+    <div><h4 role="heading" aria-level="3">زاد عبيدة</h4><p>محتوى إسلامي نافع مع توضيح المصادر.</p></div>
+    <div><h4 role="heading" aria-level="3">روابط سريعة</h4><p><a href="./adhkar.html">الأذكار</a><br><a href="./index.html#my-adhkar">أذكاري</a><br><a href="./quran.html">القرآن</a><br><a href="./nawawi.html">الأحاديث</a><br><a href="./duas.html">أدعية</a><br><a href="./articles.html">المقالات</a><br><a href="./about.html">عن الموقع</a></p></div>
+    <div><h4 role="heading" aria-level="3">تواصل</h4>
+      <div class="mk-social">
+        <a class="social-link" href="https://www.instagram.com/zad_oubaida/" target="_blank" rel="noopener noreferrer" aria-label="حسابنا على إنستغرام">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          إنستغرام
+        </a>
+        <a class="social-link" href="https://www.facebook.com/profile.php?id=61595379137805" target="_blank" rel="noopener noreferrer" aria-label="صفحتنا على فيسبوك">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H8v3h2.5V21h3z"/></svg>
+          فيسبوك
+        </a>
+        <a class="social-link" href="https://www.youtube.com/@oubaida_dz" target="_blank" rel="noopener noreferrer" aria-label="قناتنا على يوتيوب">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2C2 8.8 2 12 2 12s0 3.2.4 4.8a2.5 2.5 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8c.4-1.6.4-4.8.4-4.8s0-3.2-.4-4.8zM10 15V9l5.2 3L10 15z"/></svg>
+          يوتيوب
+        </a>
+      </div>
+    </div>
   </div>
   <div class="footer-bottom">© <span id="year">2026</span> زاد عبيدة — جميع الحقوق محفوظة</div>
 </div></footer>
@@ -182,6 +292,11 @@
     set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
   };
   function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
 
   /* ---------- رسالة قصيرة ---------- */
   function toast(msg) {
@@ -194,6 +309,7 @@
     requestAnimationFrame(function () { requestAnimationFrame(function () { t.classList.add('show'); }); });
     setTimeout(function () { t.classList.remove('show'); setTimeout(function () { t.remove(); }, 400); }, 2500);
   }
+  window.zadToast = toast;
 
   /* ---------- نافذة معلومات بدل alert ---------- */
   function info(title, lines) {
@@ -360,12 +476,16 @@
   }
   var LANG_NAMES = { en: 'english', fr: 'french', es: 'spanish', de: 'german', tr: 'turkish', it: 'italian' };
   function doTranslate(lang, quiet) {
-    store.set('zad_lang', lang);
     if (lang === 'ar') {
-      try { if (typeof translate !== 'undefined' && translate.reset) translate.reset(); } catch (e) {}
-      window.location.reload();
+      var wasTranslated = store.get('zad_lang') && store.get('zad_lang') !== 'ar';
+      store.set('zad_lang', 'ar');
+      if (wasTranslated) {            // لا نعيد تحميل الصفحة إلا إذا كانت مترجمة فعلاً
+        try { if (typeof translate !== 'undefined' && translate.reset) translate.reset(); } catch (e) {}
+        window.location.reload();
+      }
       return;
     }
+    store.set('zad_lang', lang);
     if (!quiet) toast('جارٍ الترجمة…');
     loadTranslate(function (ok) {
       if (!ok) { toast('تعذّر تحميل مكتبة الترجمة، تحقّق من اتصالك'); return; }
@@ -461,7 +581,7 @@
     var ORDER = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
     var box = $('prayerTimes'), cd = $('prayerCountdown');
     var times = null, tz = null, tick = null, cityLabel = '', stale = false;
-    var shownKey = null, fetchedDate = '', lastLoad = null, binding = false;
+    var shownKey = null, fetchedDate = '', lastLoad = null, binding = false, reloading = false;
 
     function secsNow(zone) {
       var parts;
@@ -487,7 +607,7 @@
 
     // نعيد بناء القائمة فقط عند تغيّر الصلاة القادمة (لتجنّب إزعاج القارئات الشاشية كل ثانية)
     function renderList(key) {
-      var html = (cityLabel ? '<div class="city-name">📍 ' + cityLabel + '</div>' : '') + '<ul class="prayer-list">';
+      var html = (cityLabel ? '<div class="city-name">📍 ' + esc(cityLabel) + '</div>' : '') + '<ul class="prayer-list">';
       NAMES.forEach(function (n) {
         html += '<li class="prayer-item' + (n[0] === key ? ' active' : '') + '"><span>' + n[1] + '</span><strong>' + String(times[n[0]]).slice(0, 5) + '</strong></li>';
       });
@@ -498,7 +618,7 @@
     }
     function update() {
       if (!times) return;
-      if (!stale && fetchedDate && fetchedDate !== dateStr() && lastLoad) { lastLoad(); return; } // يوم جديد
+      if (!stale && fetchedDate && fetchedDate !== dateStr() && lastLoad && !reloading) { reloading = true; lastLoad(); return; } // يوم جديد (طلب واحد فقط)
       var n = nextInfo();
       if (n.key !== shownKey) renderList(n.key);
       var nm = NAMES.filter(function (x) { return x[0] === n.key; })[0][1];
@@ -509,6 +629,7 @@
     function show(data, label, isStale) {
       times = data.times; tz = data.tz; cityLabel = label; stale = !!isStale; shownKey = null;
       fetchedDate = isStale ? '' : dateStr();
+      reloading = false;
       box.classList.remove('is-loading');
       update();
       clearInterval(tick);
@@ -525,6 +646,7 @@
         store.set('zad_pt_cache', JSON.stringify({ label: label, times: data.times, tz: data.tz }));
         show(data, label, false);
       }).catch(function () {
+        reloading = false;
         var c = null;
         try { c = JSON.parse(store.get('zad_pt_cache')); } catch (e) {}
         if (c && c.times) { show({ times: c.times, tz: c.tz }, c.label, true); return; }
@@ -561,8 +683,9 @@
       $('geoBtn').addEventListener('click', byGeo);
     }
 
+    // نبدأ بالمدينة المحفوظة أو الجزائر، ولا نطلب الموقع إلا بضغط زر 📍
     var c = store.get('zad_city');
-    if (c) { $('cityInput').value = c; byCity(c); } else { byGeo(); }
+    if (c) { $('cityInput').value = c; byCity(c); } else { byCity('Algiers'); }
   }
 
   /* --- آية اليوم --- */
@@ -607,11 +730,172 @@
 
   window.addEventListener('load', function () {
     setTimeout(function () {
-      if (!(window.ZadApp && window.ZadApp.prayerManaged) && stillLoading('prayerTimes')) startPrayerFallback(); else done('prayerTimes');
+      if (window.ZadApp && window.ZadApp.prayerManaged) { /* app.js مسؤول عن المواقيت */ }
+      else if (stillLoading('prayerTimes')) startPrayerFallback();
+      else done('prayerTimes');
       if (stillLoading('dailyAyah')) startAyahFallback(); else done('dailyAyah');
       if (stillLoading('dailyHadith')) startHadithFallback(); else done('dailyHadith');
     }, 4000);
   });
+})();
+</script>
+
+<!-- قسم «أذكاري»: حفظ محلي في هاتف المستخدم (localStorage) -->
+<script>
+(function () {
+  'use strict';
+  var KEY = 'zad_my_adhkar';
+  var $ = function (id) { return document.getElementById(id); };
+  var items = [], editId = null, query = '', openIds = {};
+  var form = $('mkForm'); if (!form) return;
+  var elTitle = $('mkTitle'), elText = $('mkText'), elList = $('mkList');
+  var btnCancel = $('mkCancel'), btnSave = $('mkSave');
+
+  function say(m) { if (window.zadToast) window.zadToast(m); }
+  function load() {
+    try {
+      var a = JSON.parse(localStorage.getItem(KEY) || '[]');
+      items = Array.isArray(a) ? a.filter(function (x) { return x && x.id && typeof x.text === 'string'; }) : [];
+    } catch (e) { items = []; }
+  }
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(items)); return true; }
+    catch (e) { say('تعذّر الحفظ على هذا الجهاز. تحقّق من إعدادات المتصفح.'); return false; }
+  }
+  function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+  function find(id) { for (var i = 0; i < items.length; i++) if (items[i].id === id) return items[i]; return null; }
+
+  function btn(label, cls, fn) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'mk-btn' + (cls ? ' ' + cls : ''); b.textContent = label;
+    b.addEventListener('click', fn);
+    return b;
+  }
+
+  function render() {
+    elList.textContent = '';
+    var q = query.trim().toLowerCase();
+    var shown = items.filter(function (it) {
+      return !q || it.title.toLowerCase().indexOf(q) > -1 || it.text.toLowerCase().indexOf(q) > -1;
+    });
+    if (!shown.length) {
+      var e = document.createElement('div');
+      e.className = 'mk-empty';
+      e.textContent = items.length ? 'لا توجد نتائج مطابقة لبحثك.' : 'لم تحفظ أي ذكر بعد. اكتب أول ذكر في النموذج أعلاه.';
+      elList.appendChild(e);
+      return;
+    }
+    shown.forEach(function (it) {
+      var d = document.createElement('details');
+      d.className = 'mk-item';
+      if (openIds[it.id]) d.open = true;
+      d.addEventListener('toggle', function () { openIds[it.id] = d.open; });
+
+      var s = document.createElement('summary');
+      var t = document.createElement('span'); t.className = 'mk-title'; t.textContent = it.title;
+      s.appendChild(t);
+      if (it.count) { var c = document.createElement('span'); c.className = 'mk-count'; c.textContent = '× ' + it.count; s.appendChild(c); }
+      d.appendChild(s);
+
+      var body = document.createElement('div'); body.className = 'mk-body';
+      var p = document.createElement('p'); p.className = 'mk-text'; p.textContent = it.text;
+      body.appendChild(p);
+
+      var act = document.createElement('div'); act.className = 'mk-actions';
+      act.appendChild(btn('📿 عدّ', 'primary', function () { it.count = (it.count || 0) + 1; if (save()) { openIds[it.id] = true; render(); } }));
+      if (it.count) act.appendChild(btn('تصفير', '', function () { it.count = 0; if (save()) { openIds[it.id] = true; render(); } }));
+      act.appendChild(btn('نسخ', '', function () {
+        var txt = it.title + '\n' + it.text;
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(function () { say('تم النسخ ✓'); }, function () { say('تعذّر النسخ'); });
+        else say('النسخ غير مدعوم في هذا المتصفح');
+      }));
+      act.appendChild(btn('تعديل', '', function () {
+        editId = it.id; elTitle.value = it.title; elText.value = it.text;
+        btnSave.textContent = 'حفظ التعديل'; btnCancel.hidden = false;
+        form.scrollIntoView({ behavior: 'smooth', block: 'center' }); elText.focus();
+      }));
+      act.appendChild(btn('حذف', 'danger', function () { askDelete(it); }));
+      body.appendChild(act);
+      d.appendChild(body);
+      elList.appendChild(d);
+    });
+  }
+
+  function resetForm() {
+    editId = null; form.reset(); btnSave.textContent = 'حفظ الذكر'; btnCancel.hidden = true;
+  }
+
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var text = elText.value.trim();
+    if (!text) { say('اكتب نص الذكر أولاً'); elText.focus(); return; }
+    var title = elTitle.value.trim() || 'بدون عنوان';
+    if (editId) {
+      var it = find(editId);
+      if (it) { it.title = title; it.text = text; it.updated = Date.now(); openIds[it.id] = true; }
+      if (save()) say('تم حفظ التعديل ✓');
+    } else {
+      var n = { id: uid(), title: title, text: text, count: 0, created: Date.now() };
+      items.unshift(n); openIds[n.id] = true;
+      if (save()) say('تم حفظ الذكر ✓');
+    }
+    resetForm(); render();
+  });
+  btnCancel.addEventListener('click', resetForm);
+  $('mkSearch').addEventListener('input', function (e) { query = e.target.value; render(); });
+
+  /* حذف مع تأكيد */
+  function askDelete(it) {
+    var dlg = $('delDialog');
+    function doDel() {
+      items = items.filter(function (x) { return x.id !== it.id; });
+      if (editId === it.id) resetForm();
+      if (save()) say('تم الحذف');
+      render();
+    }
+    if (!dlg || typeof dlg.showModal !== 'function') { if (window.confirm('حذف «' + it.title + '»؟')) doDel(); return; }
+    $('delName').textContent = it.title;
+    dlg.returnValue = '';
+    dlg.addEventListener('close', function h() {
+      dlg.removeEventListener('close', h);
+      if (dlg.returnValue === 'yes') doDel();
+    });
+    dlg.showModal();
+  }
+
+  /* نسخة احتياطية: تصدير / استيراد */
+  $('mkExport').addEventListener('click', function () {
+    if (!items.length) { say('لا توجد أذكار لتصديرها'); return; }
+    var blob = new Blob([JSON.stringify({ app: 'zad-oubaida', adhkar: items }, null, 2)], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = 'azkari-backup.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  });
+  $('mkImportBtn').addEventListener('click', function () { $('mkImport').click(); });
+  $('mkImport').addEventListener('change', function (e) {
+    var f = e.target.files && e.target.files[0]; if (!f) return;
+    var r = new FileReader();
+    r.onload = function () {
+      try {
+        var j = JSON.parse(r.result), arr = Array.isArray(j) ? j : j.adhkar, added = 0;
+        if (!Array.isArray(arr)) throw new Error('bad');
+        arr.forEach(function (x) {
+          if (!x || typeof x.text !== 'string' || !x.text.trim()) return;
+          var id = String(x.id || uid());
+          if (find(id)) id = uid();
+          items.push({ id: id, title: String(x.title || 'بدون عنوان').slice(0, 80), text: x.text.slice(0, 5000), count: +x.count || 0, created: +x.created || Date.now() });
+          added++;
+        });
+        if (added && save()) { say('تم استيراد ' + added + ' ذكر ✓'); render(); }
+        else if (!added) say('الملف لا يحتوي على أذكار صالحة');
+      } catch (err) { say('ملف غير صالح'); }
+      e.target.value = '';
+    };
+    r.readAsText(f);
+  });
+
+  load(); render();
 })();
 </script>
 

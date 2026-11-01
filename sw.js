@@ -5,7 +5,7 @@
    ضعه في جذر الموقع بجانب index.html (وليس داخل assets).
    ============================================================ */
 
-const VERSION = 'v42';                       // ⚠️ غيّره (v43، v44…) عند كل نشر يغيّر ملفات ثابتة
+const VERSION = 'v43';                       // ⚠️ غيّره (v43، v44…) عند كل نشر يغيّر ملفات ثابتة
 const STATIC_CACHE = 'zad-static-' + VERSION; // الصفحات والملفات المحلية
 const FONT_CACHE = 'zad-fonts-v1';            // خطوط Google (لا تتغير غالباً)
 const KEEP = [STATIC_CACHE, FONT_CACHE];

@@ -1,17 +1,16 @@
 'use strict';
 
 /* ============================================================
-   زاد عبيدة — Service Worker
+   زاد عبيدة — Service Worker  (v44)
    ضعه في جذر الموقع بجانب index.html (وليس داخل assets).
    ============================================================ */
 
-const VERSION = 'v43';                       // ⚠️ غيّره (v43، v44…) عند كل نشر يغيّر ملفات ثابتة
-const STATIC_CACHE = 'zad-static-' + VERSION; // الصفحات والملفات المحلية
-const FONT_CACHE = 'zad-fonts-v1';            // خطوط Google (لا تتغير غالباً)
+const VERSION = 'v44';                       // ⚠️ غيّره عند كل نشر يغيّر ملفات ثابتة
+const STATIC_CACHE = 'zad-static-' + VERSION;
+const FONT_CACHE = 'zad-fonts-v1';
 const KEEP = [STATIC_CACHE, FONT_CACHE];
 const FONT_CACHE_MAX = 40;
 
-// ملفات الهيكل الأساسي: تُخزَّن عند التثبيت
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -34,11 +33,10 @@ const CORE_ASSETS = [
   './assets/home.js',
   './logo-zad-almuslim.webp.png',
   './manifest.json'
-  // quran.json كبير: يُخزَّن عند أول فتح لصفحة القرآن (عبر معالج الجلب أدناه) فلا يبطئ التثبيت
 ];
 
-const NAV_TIMEOUT_MS = 4000;     // مهلة الصفحات قبل تقديم النسخة المخزنة
-const ASSET_TIMEOUT_MS = 3000;   // مهلة ملفات JS/CSS قبل تقديم النسخة المخزنة
+const NAV_TIMEOUT_MS = 4000;
+const ASSET_TIMEOUT_MS = 3000;
 
 const OFFLINE_HTML = `<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light dark">
@@ -59,7 +57,6 @@ self.addEventListener('install', event => {
   event.waitUntil((async () => {
     const cache = await caches.open(STATIC_CACHE);
     const results = await Promise.allSettled(
-      // cache: 'reload' لتجاوز كاش المتصفح (GitHub Pages يخزّن الملفات ~10 دقائق)
       CORE_ASSETS.map(url => cache.add(new Request(url, { cache: 'reload' })))
     );
     results.forEach((r, i) => {
@@ -73,12 +70,10 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', event => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
-    // تحديث فعلي = وُجد كاش ثابت قديم (لا نُشعر المستخدم عند أول تثبيت)
     const isUpdate = keys.some(k => k.startsWith('zad-static-') && k !== STATIC_CACHE);
     await Promise.all(
       keys.filter(k => k.startsWith('zad') && !KEEP.includes(k)).map(k => caches.delete(k))
     );
-    // يبدأ طلب الصفحة بالتوازي مع إقلاع الـ Service Worker (أسرع على الجوال)
     if (self.registration.navigationPreload) {
       try { await self.registration.navigationPreload.enable(); } catch (e) {}
     }
@@ -92,11 +87,9 @@ self.addEventListener('activate', event => {
 
 /* ---------------- أدوات مساعدة ---------------- */
 function isCacheable(res) {
-  // لا نخزّن الردود المعاد توجيهها: المتصفح يرفض تقديمها لطلبات التنقل
   return res && res.status === 200 && !res.redirected && (res.type === 'basic' || res.type === 'cors');
 }
 
-// مفتاح الصفحة في الكاش بدون ?query حتى لا تمتلئ الذاكرة بنسخ ?utm_... وغيرها
 function pageKey(url) {
   const u = new URL(url);
   u.search = '';
@@ -109,40 +102,40 @@ async function trimCache(cache, max) {
   if (keys.length > max) await Promise.all(keys.slice(0, keys.length - max).map(k => cache.delete(k)));
 }
 
+// مهلة موحّدة تعيد null بدل الرفض — آمنة مع Promise.race
+function withTimeout(promise, ms) {
+  let timer;
+  const timeout = new Promise(resolve => { timer = setTimeout(() => resolve(null), ms); });
+  return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
+}
+
 /* ---------------- استراتيجيات الجلب ---------------- */
 
-// الصفحات: الشبكة أولاً (محتوى حديث دائماً) مع الرجوع للكاش عند الانقطاع أو البطء أو خطأ الخادم
 async function handleNavigation(event) {
   const req = event.request;
   const cache = await caches.open(STATIC_CACHE);
   const key = pageKey(req.url);
 
   const netPromise = (async () => {
-    const pre = await event.preloadResponse;       // undefined إن لم يكن التفعيل مدعوماً
+    const pre = await event.preloadResponse;
     const res = pre || await fetch(req);
     if (isCacheable(res)) cache.put(key, res.clone()).catch(() => {});
     return res;
   })();
-  netPromise.catch(() => {});                       // يمنع تحذير "unhandled rejection" إن فاز المؤقّت
+  netPromise.catch(() => {});
 
-  let timer;
   try {
-    const timeout = new Promise(resolve => { timer = setTimeout(() => resolve(null), NAV_TIMEOUT_MS); });
-    const first = await Promise.race([netPromise, timeout]);
+    const first = await withTimeout(netPromise, NAV_TIMEOUT_MS);
     if (first && first.status < 500) return first;
-    // الشبكة بطيئة أو الخادم يرد بخطأ 5xx: قدّم النسخة المخزنة إن وُجدت
     const cached = await cache.match(key);
     if (cached) { event.waitUntil(netPromise.catch(() => {})); return cached; }
     return first || await netPromise;
   } catch (err) {
     const cached = await cache.match(key);
     return cached || offlineResponse();
-  } finally {
-    clearTimeout(timer);
   }
 }
 
-// ملفات الكود (JS/CSS/manifest): الشبكة أولاً بمهلة قصيرة، فلا يختلط HTML جديد بكود قديم
 async function networkFirst(event, cacheName, timeoutMs) {
   const req = event.request;
   const cache = await caches.open(cacheName);
@@ -152,31 +145,29 @@ async function networkFirst(event, cacheName, timeoutMs) {
   });
   net.catch(() => {});
 
-  let timer;
   try {
-    const timeout = new Promise(resolve => { timer = setTimeout(() => resolve(null), timeoutMs); });
-    const first = await Promise.race([net, timeout]);
-    if (first && first.ok) return first;
+    const first = await withTimeout(net, timeoutMs);
+    // ✅ v44: شرط النجاح موحّد مع handleNavigation (first.status < 500)
+    // بدل first.ok، حتى لا يقع على 304/404 ويقدّم كاشاً قديماً بلا داعٍ.
+    if (first && first.status < 500) return first;
     const cached = await cache.match(req);
     if (cached) { event.waitUntil(net.catch(() => {})); return cached; }
     return first || await net;
   } catch (err) {
     const cached = await cache.match(req);
     return cached || Response.error();
-  } finally {
-    clearTimeout(timer);
   }
 }
 
-// باقي الملفات (صور، quran.json…): من الكاش فوراً ثم التحديث في الخلفية (stale-while-revalidate)
 async function staleWhileRevalidate(event, cacheName, maxEntries) {
   const req = event.request;
   const cache = await caches.open(cacheName);
   const cached = await cache.match(req);
   const update = fetch(req).then(async res => {
     if (isCacheable(res)) {
+      // ✅ v44: انتظار put قبل trimCache لمنع حذف مدخل أُضيف للتو (تسابق)
       await cache.put(req, res.clone()).catch(() => {});
-      if (maxEntries) trimCache(cache, maxEntries).catch(() => {});
+      if (maxEntries) await trimCache(cache, maxEntries).catch(() => {});
     }
     return res;
   }).catch(() => null);
@@ -189,17 +180,15 @@ async function staleWhileRevalidate(event, cacheName, maxEntries) {
 self.addEventListener('fetch', event => {
   const req = event.request;
   if (req.method !== 'GET') return;
-  if (req.headers.has('range')) return;                    // لا نتدخل في طلبات الصوت/الفيديو الجزئية
+  if (req.headers.has('range')) return;
   const url = new URL(req.url);
   if (url.protocol !== 'http:' && url.protocol !== 'https:') return;
 
-  // خطوط Google (ردود CORS فقط؛ لا نخزّن الردود المبهمة لأنها تستهلك حصة تخزين كبيرة)
   if (url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com') {
     event.respondWith(staleWhileRevalidate(event, FONT_CACHE, FONT_CACHE_MAX));
     return;
   }
 
-  // أي مصدر خارجي آخر (واجهات المواقيت والآيات، الترجمة، Webpushr): مباشرة من الشبكة دون تخزين
   if (url.origin !== self.location.origin) return;
 
   if (req.mode === 'navigate') {
@@ -215,10 +204,7 @@ self.addEventListener('fetch', event => {
   event.respondWith(staleWhileRevalidate(event, STATIC_CACHE, 0));
 });
 
-/* ---------------- الإشعارات ----------------
-   إشعارات الدفع (push) والنقر عليها يتولاها Webpushr عبر sw-server.min.js في آخر الملف،
-   لذلك لا يوجد هنا معالج push حتى لا يظهر الإشعار مرتين.
-   أدناه فقط: الإشعارات المحلية التي تطلقها الصفحة (مثل التجربة) ونقرها. */
+/* ---------------- الإشعارات المحلية ---------------- */
 
 self.addEventListener('message', event => {
   const msg = event.data;
@@ -226,7 +212,6 @@ self.addEventListener('message', event => {
 
   if (msg.type === 'SKIP_WAITING') { self.skipWaiting(); return; }
 
-  // SCHEDULE_REMINDER اسم قديم: يعرض الإشعار فوراً ولا يجدول شيئاً
   if (msg.type === 'SHOW_REMINDER' || msg.type === 'SCHEDULE_REMINDER') {
     event.waitUntil(self.registration.showNotification(msg.title || 'زاد عبيدة', {
       body: msg.body || 'تذكير بوردك اليومي',
@@ -240,7 +225,6 @@ self.addEventListener('message', event => {
   }
 });
 
-// ينفّذ فقط للإشعارات المحلية؛ أما إشعارات Webpushr فيعالجها كودهم
 self.addEventListener('notificationclick', event => {
   const d = event.notification.data;
   if (!d || !d.local) return;
@@ -253,7 +237,9 @@ self.addEventListener('notificationclick', event => {
     for (const c of list) {
       if (c.url.startsWith(self.registration.scope) && 'focus' in c) {
         const focused = await c.focus();
-        if (focused && 'navigate' in focused && focused.url !== target) { try { await focused.navigate(target); } catch (e) {} }
+        if (focused && 'navigate' in focused && focused.url !== target) {
+          try { await focused.navigate(target); } catch (e) {}
+        }
         return;
       }
     }
@@ -261,9 +247,7 @@ self.addEventListener('notificationclick', event => {
   })());
 });
 
-/* ---------------- Webpushr ----------------
-   في آخر الملف عمداً: يُسجَّل معالج نقرنا أولاً. ومُغلَّف بـ try حتى لا يفشل تحديث
-   الـ Service Worker كله إن تعذّر تحميل السكربت الخارجي. */
+/* ---------------- Webpushr ---------------- */
 try {
   importScripts('https://cdn.webpushr.com/sw-server.min.js');
 } catch (e) {

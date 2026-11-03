@@ -1,11 +1,11 @@
 'use strict';
 
 /* ============================================================
-   زاد عبيدة — Service Worker  (v46)
+   زاد عبيدة — Service Worker  (v47)
    ضعه في جذر الموقع بجانب index.html (وليس داخل assets).
    ============================================================ */
 
-const VERSION = 'v46';                       // ⚠️ غيّره عند كل نشر يغيّر ملفات ثابتة
+const VERSION = 'v47';                       // ⚠️ غيّره عند كل نشر يغيّر ملفات ثابتة
 const STATIC_CACHE = 'zad-static-' + VERSION;
 const RUNTIME_CACHE = 'zad-runtime-v1';      // ✅ v46: للصور وغيرها بسقف، حتى لا تُحذف الملفات الأساسية
 const FONT_CACHE = 'zad-fonts-v1';
@@ -30,7 +30,6 @@ const CORE_ASSETS = [
   './assets/style.css',
   './assets/enhancements.css',
   './assets/data.js',
-  './assets/nawawi-data.js',   // ✅ v45: الأربعون النووية + زيادات ابن رجب (50 حديثًا)
   './assets/app.js',
   './assets/common.js',
   './assets/home.js',

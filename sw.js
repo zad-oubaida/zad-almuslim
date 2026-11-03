@@ -1,15 +1,17 @@
 'use strict';
 
 /* ============================================================
-   زاد عبيدة — Service Worker  (v45)
+   زاد عبيدة — Service Worker  (v46)
    ضعه في جذر الموقع بجانب index.html (وليس داخل assets).
    ============================================================ */
 
-const VERSION = 'v45';                       // ⚠️ غيّره عند كل نشر يغيّر ملفات ثابتة
+const VERSION = 'v46';                       // ⚠️ غيّره عند كل نشر يغيّر ملفات ثابتة
 const STATIC_CACHE = 'zad-static-' + VERSION;
+const RUNTIME_CACHE = 'zad-runtime-v1';      // ✅ v46: للصور وغيرها بسقف، حتى لا تُحذف الملفات الأساسية
 const FONT_CACHE = 'zad-fonts-v1';
-const KEEP = [STATIC_CACHE, FONT_CACHE];
+const KEEP = [STATIC_CACHE, RUNTIME_CACHE, FONT_CACHE];
 const FONT_CACHE_MAX = 40;
+const RUNTIME_CACHE_MAX = 60;
 
 const CORE_ASSETS = [
   './',
@@ -120,19 +122,26 @@ async function handleNavigation(event) {
   const netPromise = (async () => {
     const pre = await event.preloadResponse;
     const res = pre || await fetch(req);
-    if (isCacheable(res)) cache.put(key, res.clone()).catch(() => {});
+    if (isCacheable(res)) await cache.put(key, res.clone()).catch(() => {});
     return res;
   })();
   netPromise.catch(() => {});
+  // ✅ v46: إبقاء العامل حيًّا حتى يكتمل التخزين حتى لو أُرجعت الاستجابة مبكرًا
+  event.waitUntil(netPromise.catch(() => {}));
+
+  // يطابق الصفحة، وإن كان الطلب للجذر دون اتصال يرجع إلى index.html
+  const fromCache = async () =>
+    (await cache.match(key)) ||
+    (new URL(key).pathname.endsWith('/') ? await cache.match('./index.html') : null);
 
   try {
     const first = await withTimeout(netPromise, NAV_TIMEOUT_MS);
     if (first && first.status < 500) return first;
-    const cached = await cache.match(key);
-    if (cached) { event.waitUntil(netPromise.catch(() => {})); return cached; }
+    const cached = await fromCache();
+    if (cached) return cached;
     return first || await netPromise;
   } catch (err) {
-    const cached = await cache.match(key);
+    const cached = await fromCache();
     return cached || offlineResponse();
   }
 }
@@ -140,20 +149,24 @@ async function handleNavigation(event) {
 async function networkFirst(event, cacheName, timeoutMs) {
   const req = event.request;
   const cache = await caches.open(cacheName);
-  const net = fetch(req).then(res => {
-    if (isCacheable(res)) cache.put(req, res.clone()).catch(() => {});
+  const net = fetch(req).then(async res => {
+    if (isCacheable(res)) await cache.put(req, res.clone()).catch(() => {});
     return res;
   });
   net.catch(() => {});
+  event.waitUntil(net.catch(() => {}));   // ✅ v46: إكمال التخزين في الخلفية
+
+  // ✅ v46: ignoreSearch حتى يُقدَّم app.js من الكاش لو طُلب باسم app.js?v=...
+  const fromCache = () => cache.match(req, { ignoreSearch: true });
 
   try {
     const first = await withTimeout(net, timeoutMs);
     if (first && first.status < 500) return first;
-    const cached = await cache.match(req);
-    if (cached) { event.waitUntil(net.catch(() => {})); return cached; }
+    const cached = await fromCache();
+    if (cached) return cached;
     return first || await net;
   } catch (err) {
-    const cached = await cache.match(req);
+    const cached = await fromCache();
     return cached || Response.error();
   }
 }
@@ -199,7 +212,8 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  event.respondWith(staleWhileRevalidate(event, STATIC_CACHE, 0));
+  // ✅ v46: بقية الملفات (صور وغيرها) في كاش مستقل بسقف 60 ملفًا
+  event.respondWith(staleWhileRevalidate(event, RUNTIME_CACHE, RUNTIME_CACHE_MAX));
 });
 
 /* ---------------- الإشعارات المحلية ---------------- */

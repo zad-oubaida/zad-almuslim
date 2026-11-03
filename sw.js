@@ -1,11 +1,11 @@
 'use strict';
 
 /* ============================================================
-   زاد عبيدة — Service Worker  (v44)
+   زاد عبيدة — Service Worker  (v45)
    ضعه في جذر الموقع بجانب index.html (وليس داخل assets).
    ============================================================ */
 
-const VERSION = 'v44';                       // ⚠️ غيّره عند كل نشر يغيّر ملفات ثابتة
+const VERSION = 'v45';                       // ⚠️ غيّره عند كل نشر يغيّر ملفات ثابتة
 const STATIC_CACHE = 'zad-static-' + VERSION;
 const FONT_CACHE = 'zad-fonts-v1';
 const KEEP = [STATIC_CACHE, FONT_CACHE];
@@ -28,6 +28,7 @@ const CORE_ASSETS = [
   './assets/style.css',
   './assets/enhancements.css',
   './assets/data.js',
+  './assets/nawawi-data.js',   // ✅ v45: الأربعون النووية + زيادات ابن رجب (50 حديثًا)
   './assets/app.js',
   './assets/common.js',
   './assets/home.js',
@@ -147,8 +148,6 @@ async function networkFirst(event, cacheName, timeoutMs) {
 
   try {
     const first = await withTimeout(net, timeoutMs);
-    // ✅ v44: شرط النجاح موحّد مع handleNavigation (first.status < 500)
-    // بدل first.ok، حتى لا يقع على 304/404 ويقدّم كاشاً قديماً بلا داعٍ.
     if (first && first.status < 500) return first;
     const cached = await cache.match(req);
     if (cached) { event.waitUntil(net.catch(() => {})); return cached; }
@@ -165,7 +164,6 @@ async function staleWhileRevalidate(event, cacheName, maxEntries) {
   const cached = await cache.match(req);
   const update = fetch(req).then(async res => {
     if (isCacheable(res)) {
-      // ✅ v44: انتظار put قبل trimCache لمنع حذف مدخل أُضيف للتو (تسابق)
       await cache.put(req, res.clone()).catch(() => {});
       if (maxEntries) await trimCache(cache, maxEntries).catch(() => {});
     }

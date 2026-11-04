@@ -1,11 +1,11 @@
 'use strict';
 
 /* ============================================================
-   زاد عبيدة — Service Worker  (v47)
+   زاد عبيدة — Service Worker  (v48)
    ضعه في جذر الموقع بجانب index.html (وليس داخل assets).
    ============================================================ */
 
-const VERSION = 'v47';                       // ⚠️ غيّره عند كل نشر يغيّر ملفات ثابتة
+const VERSION = 'v48';                       // ⚠️ غيّره عند كل نشر يغيّر ملفات ثابتة
 const STATIC_CACHE = 'zad-static-' + VERSION;
 const RUNTIME_CACHE = 'zad-runtime-v1';      // ✅ v46: للصور وغيرها بسقف، حتى لا تُحذف الملفات الأساسية
 const FONT_CACHE = 'zad-fonts-v1';
@@ -73,7 +73,7 @@ self.addEventListener('activate', event => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
     const isUpdate = keys.some(k => k.startsWith('zad-static-') && k !== STATIC_CACHE);
-    await Promise.all(
+    await Promise.allSettled(
       keys.filter(k => k.startsWith('zad') && !KEEP.includes(k)).map(k => caches.delete(k))
     );
     if (self.registration.navigationPreload) {
@@ -138,7 +138,8 @@ async function handleNavigation(event) {
     if (first && first.status < 500) return first;
     const cached = await fromCache();
     if (cached) return cached;
-    return first || await netPromise;
+    // ✅ v48: لا انتظار غير محدود — نعود لصفحة عدم الاتصال عند فشل الشبكة
+    return first || await netPromise.catch(() => offlineResponse());
   } catch (err) {
     const cached = await fromCache();
     return cached || offlineResponse();
@@ -163,7 +164,8 @@ async function networkFirst(event, cacheName, timeoutMs) {
     if (first && first.status < 500) return first;
     const cached = await fromCache();
     if (cached) return cached;
-    return first || await net;
+    // ✅ v48: حماية من انتظار غير محدود عند فشل الشبكة
+    return first || await net.catch(() => Response.error());
   } catch (err) {
     const cached = await fromCache();
     return cached || Response.error();

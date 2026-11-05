@@ -1,21 +1,24 @@
 /* ============================================================
-   زاد عبيدة — التنسيقات المشتركة (نسخة محسّنة)
+   زاد عبيدة — التنسيقات المشتركة (v5)
    ضعه في: assets/style.css
 
-   أهم التغييرات:
-   - الوضع الليلي يعمل على :root[data-theme="dark"] (يُطبَّق قبل الرسم فلا يحدث وميض أبيض)
-     مع إبقاء body.dark للتوافق مع الصفحات القديمة.
-   - خصائص منطقية (inline-start/end) حتى تعمل الصفحة بشكل صحيح عند الترجمة لغة LTR.
-   - حلقة تركيز واضحة، أهداف لمس 44px، حقول 16px لمنع تكبير iOS.
+   الجديد في v5 (إضافات فقط، لا حذف):
+   - overflow-x:hidden على html (يمنع التمرير الأفقي من زخرفة ۞)
+   - min-height للوحة اليوم لمنع القفزات (CLS) كاحتياطي
+   - توسيط نص التحميل داخل المساحة المحجوزة
+   - --accent-ink أغمق قليلًا لتحقيق تباين AA
+   - content-visibility للقوائم الطويلة (أداء)
+   - forced-colors للتباين العالي
+   - scrollbar هادئ + ::selection
    ============================================================ */
 
 :root{
   --primary:#0d7a5f;
   --primary-dark:#095a45;
   --primary-light:#e8f4f0;
-  --ink:#0d7a5f;            /* لون النصوص والروابط الخضراء (يفتح في الوضع الليلي لتباين أفضل) */
+  --ink:#0d7a5f;
   --accent:#f0b429;
-  --accent-ink:#8a6a00;     /* ذهبي للنص على خلفية فاتحة */
+  --accent-ink:#6b5200;      /* v5: أغمق قليلًا لتباين AA على accent-light */
   --accent-light:#fef3d7;
   --focus:#095a45;
   --bg:#fafaf7;
@@ -51,7 +54,15 @@ body.dark{
 
 *,*::before,*::after{box-sizing:border-box}
 *{margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:90px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html{
+  scroll-behavior:smooth;scroll-padding-top:90px;
+  -webkit-text-size-adjust:100%;text-size-adjust:100%;
+  overflow-x:hidden;                    /* v5: منع التمرير الأفقي من الزخرفة */
+  scrollbar-width:thin;                 /* v5: شريط تمرير هادئ (Firefox) */
+  scrollbar-color:var(--primary) transparent;
+}
+::-webkit-scrollbar{width:8px;height:8px}          /* v5 */
+::-webkit-scrollbar-thumb{background:var(--primary);border-radius:8px}  /* v5 */
 
 body{
   font-family:'Cairo',Tahoma,sans-serif;
@@ -63,6 +74,7 @@ body{
   min-height:100dvh;
   display:flex;
   flex-direction:column;
+  overflow-x:hidden;                    /* v5: احتياطي إضافي */
 }
 main{flex:1 0 auto}
 
@@ -81,6 +93,7 @@ button:disabled{cursor:default}
 img{max-width:100%;height:auto}
 ul{list-style:none}
 [hidden]{display:none!important}
+::selection{background:var(--accent);color:#1a1a1a}      /* v5 */
 
 .wrap{width:min(1200px,92%);margin:0 auto}
 
@@ -226,6 +239,7 @@ ul{list-style:none}
   display:inline-flex;align-items:center;gap:8px;
   padding:10px 20px;border-radius:12px;font-weight:700;
   font-size:.95rem;transition:background .2s,transform .2s;
+  min-height:44px;                      /* v5: هدف لمس أوضح */
 }
 .install-btn{background:var(--card);color:var(--ink);border:1px solid var(--primary)}
 .install-btn:hover{background:var(--primary-light);transform:translateY(-2px)}
@@ -258,6 +272,24 @@ ul{list-style:none}
 }
 .dash-body{text-align:center;color:var(--text-muted);padding:12px 0}
 
+/* v5: حجز مساحات لمنع CLS (احتياطي حتى لو لم يُحدَّث index.html) */
+#prayerTimes { min-height: 260px; }
+#dailyAyah   { min-height: 120px; }
+#dailyHadith { min-height: 120px; }
+#mkList      { min-height: 80px; }
+#prayerCountdown { min-height: 52px; }
+
+/* v5: توسيط نص التحميل داخل المساحة المحجوزة */
+#prayerTimes.is-loading,
+#dailyAyah.is-loading,
+#dailyHadith.is-loading{
+  display:flex;align-items:center;justify-content:center;text-align:center;
+}
+
+@media (max-width: 768px){
+  #prayerTimes { min-height: 300px; }   /* القائمة أطول على الجوال */
+}
+
 /* مواقيت الصلاة */
 .prayer-list{display:flex;flex-direction:column;gap:8px}
 .prayer-item{
@@ -287,7 +319,7 @@ ul{list-style:none}
   flex:1;min-width:110px;padding:10px 12px;
   border:1px solid var(--line);border-radius:10px;
   background:var(--bg);color:var(--text);font-family:inherit;
-  font-size:1rem;                 /* 16px: يمنع تكبير الصفحة تلقائياً في iOS */
+  font-size:1rem;
 }
 .city-bar input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(13,122,95,.25)}
 .city-bar button{
@@ -347,6 +379,7 @@ ul{list-style:none}
   padding:22px;box-shadow:var(--shadow);
   border:1px solid var(--line);
   transition:border-color .2s,box-shadow .2s,opacity .2s;
+  content-visibility:auto;contain-intrinsic-size:auto 260px;   /* v5: أداء */
 }
 .azkar-item:hover{border-color:var(--primary);box-shadow:var(--shadow-lg)}
 .azkar-item h3{
@@ -370,6 +403,7 @@ ul{list-style:none}
   background:var(--primary-light);color:var(--ink);
   font-size:.85rem;font-weight:600;
   transition:background .2s,color .2s;border:0;cursor:pointer;
+  min-height:44px;                      /* v5: هدف لمس */
 }
 .action-btn:hover{background:var(--primary);color:#fff}
 .action-btn.primary{background:var(--primary);color:#fff}
@@ -389,6 +423,7 @@ ul{list-style:none}
   background:var(--card);color:var(--text-muted);
   border:1px solid var(--line);font-size:.88rem;
   font-weight:600;cursor:pointer;transition:all .2s;
+  min-height:44px;                      /* v5: هدف لمس */
 }
 .filter-btn:hover{border-color:var(--primary);color:var(--ink)}
 .filter-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
@@ -424,6 +459,7 @@ ul{list-style:none}
   border:1px solid var(--line);
   display:flex;flex-direction:column;gap:10px;
   transition:border-color .2s,box-shadow .2s;
+  content-visibility:auto;contain-intrinsic-size:auto 220px;   /* v5: أداء */
 }
 .hadith-card:hover{border-color:var(--primary);box-shadow:var(--shadow-lg)}
 .hadith-badge{
@@ -447,6 +483,7 @@ ul{list-style:none}
   background:var(--primary);color:#fff;
   border-radius:8px;font-size:.85rem;font-weight:600;
   cursor:pointer;transition:background .2s;border:0;
+  min-height:44px;                      /* v5: هدف لمس */
 }
 .hadith-open:hover{background:var(--primary-dark)}
 
@@ -478,6 +515,7 @@ ul{list-style:none}
   padding:8px 14px;border-radius:8px;
   background:var(--primary-light);color:var(--ink);
   font-weight:700;cursor:pointer;border:0;font-size:.9rem;
+  min-height:44px;                      /* v5: هدف لمس */
 }
 .modal-close:hover{background:var(--primary);color:#fff}
 .modal-body{
@@ -499,6 +537,7 @@ ul{list-style:none}
   padding:12px 16px;border-radius:var(--radius-sm);
   border:1px solid var(--line);background:var(--card);
   color:var(--text);font-family:inherit;font-size:1rem;
+  min-height:48px;                      /* v5: هدف لمس */
 }
 .quran-reader{
   background:var(--card);border-radius:var(--radius);
@@ -611,8 +650,17 @@ body.dark .back-to-top{background:var(--accent);color:#1a1a1a}
   html{scroll-behavior:auto}
 }
 
+/* v5: وضع التباين العالي */
+@media(forced-colors:active){
+  .btn-primary,.action-btn,.filter-btn,.nav-links a.active,.prayer-item.active{
+    border:2px solid ButtonText;
+  }
+  body::before,body::after{display:none}
+}
+
 /* ============ Print ============ */
 @media print{
   .navbar,.back-to-top,.toast,footer,.action-btn,.action-buttons,body::before,body::after{display:none!important}
   body{background:#fff;color:#000}
+  .azkar-item,.hadith-card{break-inside:avoid;box-shadow:none}
 }

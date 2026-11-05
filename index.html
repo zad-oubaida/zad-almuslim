@@ -85,6 +85,34 @@
     .mk-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
     .mk-empty { text-align: center; padding: 2rem 1rem; color: var(--mk-muted); border: 1px dashed var(--mk-line); border-radius: 14px; }
     @media (max-width: 480px) { .mk-text { font-size: 1.3rem; } .mk-actions .mk-btn { flex: 1 1 40%; } }
+
+    /* ============================================================
+       v2 — إضافات حجز المساحة لمنع القفزات البصرية (CLS)
+       لا تحذف أي شيء مما سبق. هذه أسطر مضافة فقط.
+       ============================================================ */
+
+    /* لوحة اليوم: احجز ارتفاعًا أدنى حتى لا تقفز عند امتلاء المحتوى */
+    #prayerTimes { min-height: 260px; }
+    #dailyAyah   { min-height: 120px; }
+    #dailyHadith { min-height: 120px; }
+
+    /* أثناء التحميل: وسّط النص داخل المساحة المحجوزة ليبدو مقصودًا */
+    #prayerTimes.is-loading,
+    #dailyAyah.is-loading,
+    #dailyHadith.is-loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    /* قائمة "أذكاري": احجز مساحة صغيرة لمنع قفزة عند تحميل العناصر المحفوظة */
+    #mkList { min-height: 80px; }
+
+    /* على الشاشات الصغيرة: قلّل الحجز قليلًا (المحتوى يتكدّس عموديًا) */
+    @media (max-width: 768px) {
+      #prayerTimes { min-height: 300px; }   /* على الجوال القائمة أطول */
+    }
   </style>
 
   <!-- تحسينات التثبيت على الجوال والأداء + تنسيقات الخط والتجربة (يجب أن تأتي بعد <style id="zad-extras">) -->

@@ -4,7 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0d7a5f">
-  <meta name="description" content="عن موقع زاد عبيدة — رسالتنا وأهدافنا">
+  <meta name="description" content="حكاية زاد عبيدة: مشروع إسلامي مجاني بدأه شاب في السادسة عشرة ليجمع القرآن والأذكار والأحاديث في مكان واحد وبطريقة بسيطة.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ar_AR">
+  <meta property="og:site_name" content="زاد عبيدة">
+  <meta property="og:title" content="عن الموقع — زاد عبيدة">
+  <meta property="og:description" content="حكاية بدأت من قلب طفل في السادسة عشرة: مساحة إسلامية مجانية تجمع الفائدة والبساطة.">
   <title>عن الموقع — زاد عبيدة</title>
   <link rel="icon" type="image/png" href="./logo-zad-almuslim.webp.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,23 +17,57 @@
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/style.css">
   <style>
+    /* رابط تخطي التنقل (لمستخدمي لوحة المفاتيح وقارئات الشاشة) */
+    .skip-link {
+      position: absolute; top: -60px; inset-inline-start: 12px; z-index: 1000;
+      background: var(--primary); color: #fff; padding: 10px 16px;
+      border-radius: 8px; font-family: 'Cairo', sans-serif; text-decoration: none;
+    }
+    .skip-link:focus { top: 12px; }
+
+    .about-main { padding: 40px 0; }
+    .about-main:focus { outline: none; }
+
     .about-section {
       background: var(--card); padding: 30px; border-radius: var(--radius);
       box-shadow: var(--shadow); margin-bottom: 24px; border: 1px solid var(--line);
     }
     .about-section h3 { color: var(--primary); margin-bottom: 12px; font-family: 'Cairo', sans-serif; }
     .about-section p { line-height: 1.9; color: var(--text); margin-bottom: 10px; }
-    .about-section ul { padding-right: 20px; line-height: 2; color: var(--text); }
+    .about-section ul { list-style: none; margin: 0; padding: 0; line-height: 2; color: var(--text); }
     .about-section a { color: var(--primary); font-weight: bold; text-decoration: none; }
     .about-section a:hover { text-decoration: underline; }
+    .about-section a:focus-visible {
+      outline: 2px solid var(--primary); outline-offset: 3px; border-radius: 4px;
+    }
+
     .contact-links { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
     .contact-item { display: flex; align-items: center; gap: 10px; font-size: 1.05rem; }
-    .contact-item .icon { font-size: 1.3rem; }
+    .contact-item .icon { font-size: 1.3rem; flex-shrink: 0; }
+    .contact-item span:not(.icon) { min-width: 0; overflow-wrap: anywhere; }
+
+    .about-section p { max-width: 72ch; }
+    .about-quote {
+      margin: 16px 0; padding: 12px 18px; max-width: 72ch;
+      border-inline-start: 4px solid var(--primary);
+      color: var(--text); font-weight: 700; line-height: 1.9;
+    }
+    .about-section p.about-dua {
+      max-width: none; margin-top: 16px; text-align: center;
+      font-family: 'Amiri', 'Noto Naskh Arabic', serif; font-size: 1.2rem; line-height: 2;
+    }
+
+    @media (max-width: 600px) {
+      .about-main { padding: 28px 0; }
+      .about-section { padding: 20px; }
+    }
   </style>
 </head>
 <body>
 
-<nav class="navbar">
+<a href="#main" class="skip-link">تخطَّ إلى المحتوى</a>
+
+<nav class="navbar" aria-label="التنقل الرئيسي">
   <div class="wrap nav-inner">
     <a href="./index.html" class="brand" aria-label="زاد عبيدة">
       <img src="./logo-zad-almuslim.webp.png" alt="شعار زاد عبيدة">
@@ -42,40 +81,62 @@
       <a href="./nawawi.html">الأحاديث</a>
       <a href="./quran.html">القرآن</a>
       <a href="./articles.html">المقالات</a>
-      <a href="./about.html" class="active">عن الموقع</a>
+      <a href="./about.html" class="active" aria-current="page">عن الموقع</a>
     </div>
     <div class="nav-tools">
-      <button class="icon-btn" id="themeToggle" type="button" aria-label="الوضع الليلي">🌙</button>
-      <button class="icon-btn mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="القائمة">☰</button>
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="الوضع الليلي" title="الوضع الليلي">🌙</button>
+      <button class="icon-btn mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="القائمة" aria-controls="navLinks">☰</button>
     </div>
   </div>
 </nav>
 
-<main class="wrap" style="padding:40px 0">
+<main id="main" class="wrap about-main" tabindex="-1">
   <div class="section-head">
-    <h2>ℹ️ عن زاد عبيدة</h2>
-    <p>رسالتنا وأهدافنا</p>
+    <h2><span aria-hidden="true">ℹ️</span> عن زاد عبيدة</h2>
+    <p>حكاية بدأت من قلب طفل في السادسة عشرة</p>
   </div>
 
   <div class="about-section">
-    <h3>هدف الموقع</h3>
-    <p>نشر محتوى إسلامي عربي نافع، سهل القراءة، مع توضيح المصادر وتجنب نشر المعلومات غير المتحققة. الموقع مشروع تعليمي مستقل، وليس جهة إفتاء.</p>
+    <h3>كيف بدأت الحكاية؟</h3>
+    <p>لم أكن أملك شركة، ولا فريق عمل، ولا ميزانية ضخمة، ولم أكن خبيرًا في البرمجة أو التكنولوجيا... كنت مجرد طفل في السادسة عشرة من عمري، يحمل في قلبه فكرة، وفي عقله حلمًا، وفي نفسه رغبة صادقة في أن يترك أثرًا طيبًا.</p>
+    <p>بدأت الحكاية عندما أصبحت ألاحظ شيئًا يتكرر أمامي؛ كثير من الناس يريدون معرفة أمور دينهم، لكنهم لا يعرفون من أين يبدأون. هناك من لا يعرف أذكار الصباح والمساء، ومن يبحث عن حديث فلا يعرف مدى صحته، ومن يريد قراءة القرآن لكنه لا يجد وسيلة بسيطة تجمع له ما يحتاجه. رأيت كيف يمكن لقلة المعرفة أن تجعل الإنسان بعيدًا عن أمور كان من الممكن أن يتعلمها بسهولة.</p>
+    <p>لم أكن أقول إنني أفضل من أحد، فأنا نفسي ما زلت أتعلم، وما زلت أبحث وأسأل وأخطئ وأصحح. لكن سؤالًا ظل يرافقني:</p>
+    <blockquote class="about-quote">لماذا لا أصنع مكانًا يجمع للمسلم ما يحتاجه من أمور دينه، بطريقة بسيطة ومنظمة ومجانية؟</blockquote>
   </div>
 
   <div class="about-section">
-    <h3>ماذا يقدم الموقع؟</h3>
+    <h3>ولادة المشروع</h3>
+    <p>ومن هنا بدأت الفكرة...</p>
+    <p>فتحت حاسوبي، وبدأت أتعلم شيئًا لم أكن أعرف عنه الكثير: البرمجة وتصميم المواقع. واجهت صعوبات كثيرة، وأخطاء لم أفهمها، وأيامًا كنت أظن فيها أن المشروع لن يكتمل. لم يكن لدي فريق يساعدني، ولا إمكانيات كبيرة، لكنني كنت أعود في كل مرة وأحاول من جديد.</p>
+    <p>وهكذا وُلد مشروع <strong>«زاد عبيدة»</strong>.</p>
+    <p>لم يكن الهدف إنشاء موقع آخر على الإنترنت، ولم تكن الغاية الشهرة أو جمع المتابعين، بل أردت إنشاء مساحة إسلامية مجانية تجمع بين الفائدة والبساطة، وتساعد المسلم على الاقتراب من دينه.</p>
+  </div>
+
+  <div class="about-section">
+    <h3>ماذا أردت أن أقدم من خلال زاد عبيدة؟</h3>
+    <p>أردت أن يجد الزائر في مكان واحد:</p>
     <ul>
-      <li>📿 أذكار مختارة مع المصادر</li>
-      <li>🌅 أذكار الصباح والمساء كاملة</li>
-      <li>📜 الأربعون النووية</li>
-      <li>📖 قارئ القرآن الكريم (حفص وورش)</li>
-      <li>✍️ مقالات في العبادة والأخلاق</li>
+      <li><span aria-hidden="true">📖</span> <strong>القرآن الكريم:</strong> ليكون قريبًا من المسلم في يومه.</li>
+      <li><span aria-hidden="true">📿</span> <strong>الأذكار:</strong> أذكار الصباح والمساء وغيرها من الأذكار اليومية.</li>
+      <li><span aria-hidden="true">📜</span> <strong>الأحاديث النبوية:</strong> للتعرف على سنة رسول الله ﷺ من مصادر موثوقة.</li>
+      <li><span aria-hidden="true">🕌</span> <strong>مواقيت الصلاة:</strong> لمساعدة المسلم على المحافظة على صلاته.</li>
+      <li><span aria-hidden="true">✍️</span> <strong>المقالات الإسلامية:</strong> لنشر العلم والمعرفة بأسلوب واضح ومبسط.</li>
+      <li><span aria-hidden="true">✅</span> <strong>الورد اليومي:</strong> لمساعدة المستخدم على تنظيم عباداته ومتابعة إنجازه.</li>
+      <li><span aria-hidden="true">🤲</span> <strong>أذكاري:</strong> مساحة شخصية يستطيع فيها المستخدم حفظ أذكاره الخاصة والعودة إليها.</li>
     </ul>
+    <p>وما زال المشروع قابلًا للتطوير، فكل فكرة جديدة يمكن أن تجعل تجربة الزائر أفضل وأكثر فائدة.</p>
   </div>
 
   <div class="about-section">
-    <h3>الأمانة العلمية</h3>
-    <p>نحرص على توثيق المصادر. ننصح دائماً بالرجوع إلى أهل العلم في المسائل المتخصصة، وعدم الاعتماد على أي محتوى إلكتروني كبديل عن الفتوى الشرعية.</p>
+    <h3>حلم أكبر من مجرد موقع</h3>
+    <p>أنا لا أدّعي أنني عالم أو طالب علم متخصص، ولا أريد أن أقدم نفسي على أنني صاحب علم واسع. أنا شاب مسلم ما زلت في بداية الطريق، أحاول أن أتعلم وأستفيد وأشارك ما أستطيع تقديمه، مع الحرص على الاعتماد على المصادر الإسلامية الموثوقة.</p>
+    <p>أؤمن أن نشر الخير لا يحتاج دائمًا إلى إمكانيات كبيرة، وأن الإنسان يستطيع أن يبدأ بما يملكه، مهما كان بسيطًا.</p>
+    <p>قد يكون زاد عبيدة اليوم مجرد موقع إلكتروني، لكنه بالنسبة إليّ مشروع يحمل رسالة أتمنى أن تصل إلى أبعد مدى.</p>
+    <blockquote class="about-quote">رسالتي بسيطة: أن نجعل الوصول إلى الخير والعلم الشرعي أسهل، وأن نساهم في نشر الوعي الديني، وأن يكون هذا العمل سببًا في نفع الناس بإذن الله.</blockquote>
+    <p>وفي النهاية، لست صاحب هذه الحكاية لأقول إنني حققت إنجازًا عظيمًا، بل لأقول لكل شاب لديه فكرة نافعة: لا تنتظر أن تصبح كبيرًا، ولا تنتظر أن تمتلك كل الإمكانيات. ابدأ بما تستطيع، وتعلم في طريقك، واجعل نيتك صادقة.</p>
+    <p>فربما تبدأ بخطوة صغيرة، ولا تعلم إلى أين يمكن أن تصل.</p>
+    <p class="about-dua"><strong>زاد عبيدة | زادٌ من الخير، وأثرٌ نرجو أن يبقى.</strong></p>
+    <p class="about-dua">نسأل الله الإخلاص والقبول، وأن يجعل هذا المشروع علمًا نافعًا وصدقة جارية، وأن ينفع به كل من زاره أو استفاد منه.</p>
   </div>
 
   <div class="about-section">
@@ -83,12 +144,12 @@
     <p>يمكنك التواصل معنا مباشرة عبر:</p>
     <div class="contact-links">
       <div class="contact-item">
-        <span class="icon">📸</span>
-        <span>إنستغرام: <a href="https://www.instagram.com/oubaida.muslim/" target="_blank" rel="noopener noreferrer">@oubaida.muslim</a></span>
+        <span class="icon" aria-hidden="true">📸</span>
+        <span>إنستغرام: <a dir="ltr" href="https://www.instagram.com/oubaida.muslim/" target="_blank" rel="noopener noreferrer">@oubaida.muslim</a></span>
       </div>
       <div class="contact-item">
-        <span class="icon">✉️</span>
-        <span>البريد الإلكتروني: <a href="mailto:oubaidakuolal@gmail.com">oubaidakuolal@gmail.com</a></span>
+        <span class="icon" aria-hidden="true">✉️</span>
+        <span>البريد الإلكتروني: <a dir="ltr" href="mailto:oubaidakuolal@gmail.com">oubaidakuolal@gmail.com</a></span>
       </div>
     </div>
   </div>
@@ -101,7 +162,7 @@
       <div><h4>روابط</h4><p><a href="./index.html">الرئيسية</a><br><a href="./adhkar.html">الأذكار</a><br><a href="./quran.html">القرآن</a></p></div>
       <div><h4>تواصل</h4><p><a href="https://www.instagram.com/oubaida.muslim/" target="_blank" rel="noopener noreferrer">إنستغرام</a></p></div>
     </div>
-    <div class="footer-bottom">© <span id="year"></span> زاد عبيدة</div>
+    <div class="footer-bottom">© <span id="year">2026</span> زاد عبيدة</div>
   </div>
 </footer>
 
@@ -111,7 +172,10 @@
 <script src="./assets/data.js"></script>
 <script src="./assets/app.js"></script>
 <script>
-document.getElementById('year').textContent = new Date().getFullYear();
+(function () {
+  var year = document.getElementById('year');
+  if (year) year.textContent = new Date().getFullYear();
+})();
 </script>
 </body>
 </html>

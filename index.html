@@ -113,6 +113,14 @@
     @media (max-width: 768px) {
       #prayerTimes { min-height: 300px; }   /* على الجوال القائمة أطول */
     }
+
+    /* ============================================================
+       v3 — إخفاء شريط ومكوّنات ترجمة Google (الترجمة تعمل بواجهتنا)
+       ============================================================ */
+    body > .skiptranslate, .goog-te-banner-frame { display: none !important; }
+    body { top: 0 !important; }
+    .goog-tooltip, .goog-tooltip:hover, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; }
+    .goog-text-highlight { background: none !important; box-shadow: none !important; }
   </style>
 
   <!-- تحسينات التثبيت على الجوال والأداء + تنسيقات الخط والتجربة (يجب أن تأتي بعد <style id="zad-extras">) -->
@@ -126,6 +134,9 @@
   <link rel="stylesheet" href="./assets/zad-enhance.css">
 </head>
 <body>
+<!-- حاوية ترجمة Google (مخفية، تُشغَّل من قائمة 🌐) -->
+<div id="google_translate_element" class="notranslate" translate="no" aria-hidden="true" style="position:absolute;left:-9999px;top:0;width:1px;height:1px;overflow:hidden"></div>
+
 <!-- تطبيق الوضع الليلي قبل الرسم الأول لمنع الوميض -->
 <script>try{var _t=localStorage.getItem('zad_theme');if(_t==='dark'||(!_t&&window.matchMedia('(prefers-color-scheme: dark)').matches))document.body.classList.add('dark');}catch(e){}</script>
 <noscript><p class="noscript-msg">يحتاج الموقع إلى تفعيل جافاسكربت لعرض مواقيت الصلاة وآية اليوم وحديث اليوم.</p></noscript>
@@ -482,55 +493,71 @@
     }
   });
 
-  /* ---------- الترجمة (تُحمَّل مرة واحدة دون تعطيل الصفحة) ---------- */
-  var translateReady = false, translateLoading = false, translateQueue = [];
-  function initTranslate() {
-    if (typeof translate === 'undefined') return false;
+  /* ---------- الترجمة (Google Website Translator) ---------- */
+  var SUPPORTED = ['en', 'fr', 'es', 'de', 'tr', 'it'];
+  var gtState = 'idle';            // idle | loading | ready | failed
+  var gtQueue = [];
+
+  function setCookie(name, val, keep) {
+    var exp = keep ? '' : '; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    var base = name + '=' + val + exp + '; path=/';
+    document.cookie = base;
+    if (location.hostname.indexOf('.') > -1) document.cookie = base + '; domain=' + location.hostname;
+  }
+  function gtFlush(ok) { gtQueue.splice(0).forEach(function (f) { f(ok); }); }
+
+  window.zadGoogleInit = function () {
     try {
-      translate.language.setLocal('arabic');
-      translate.service.use('client.edge');
-      translate.language.setLanguages(['arabic', 'english', 'french', 'spanish', 'german', 'turkish', 'italian']);
-      if (translate.selectLanguageTag) translate.selectLanguageTag.show = false;
-      translate.listener.start();
-      translateReady = true;
-    } catch (e) { console.warn('translate init', e); }
-    return translateReady;
-  }
+      new google.translate.TranslateElement({
+        pageLanguage: 'ar',
+        includedLanguages: SUPPORTED.join(','),
+        autoDisplay: false
+      }, 'google_translate_element');
+    } catch (e) { gtState = 'failed'; gtFlush(false); return; }
+    var tries = 0;
+    var wait = setInterval(function () {
+      tries++;
+      if (document.querySelector('.goog-te-combo')) { clearInterval(wait); gtState = 'ready'; gtFlush(true); }
+      else if (tries > 50) { clearInterval(wait); gtState = 'failed'; gtFlush(false); }
+    }, 150);
+  };
+
   function loadTranslate(cb) {
-    if (translateReady) { cb(true); return; }
-    translateQueue.push(cb);                       // طابور بدل متغير واحد يُستبدل
-    if (translateLoading) return;
-    translateLoading = true;
+    if (gtState === 'ready') { cb(true); return; }
+    if (gtState === 'failed') gtState = 'idle';      // السماح بإعادة المحاولة
+    gtQueue.push(cb);
+    if (gtState === 'loading') return;
+    gtState = 'loading';
     var s = document.createElement('script');
-    s.src = 'https://cdn.staticfile.net/translate.js/3.18.66/translate.js';
-    s.onload = function () {
-      translateLoading = false;
-      var ok = initTranslate();
-      translateQueue.splice(0).forEach(function (f) { f(ok); });
-    };
-    s.onerror = function () {
-      translateLoading = false;
-      translateQueue.splice(0).forEach(function (f) { f(false); });
-    };
+    s.src = 'https://translate.google.com/translate_a/element.js?cb=zadGoogleInit';
+    s.async = true;
+    s.onerror = function () { gtState = 'failed'; gtFlush(false); };
     document.head.appendChild(s);
+    setTimeout(function () { if (gtState === 'loading') { gtState = 'failed'; gtFlush(false); } }, 10000);
   }
-  var LANG_NAMES = { en: 'english', fr: 'french', es: 'spanish', de: 'german', tr: 'turkish', it: 'italian' };
+
+  function applyLang(lang) {
+    var combo = document.querySelector('.goog-te-combo');
+    if (!combo) return false;
+    combo.value = lang;
+    combo.dispatchEvent(new Event('change'));
+    return true;
+  }
+
   function doTranslate(lang, quiet) {
     if (lang === 'ar') {
-      var wasTranslated = store.get('zad_lang') && store.get('zad_lang') !== 'ar';
+      var was = store.get('zad_lang') && store.get('zad_lang') !== 'ar';
       store.set('zad_lang', 'ar');
-      if (wasTranslated) {            // لا نعيد تحميل الصفحة إلا إذا كانت مترجمة فعلاً
-        try { if (typeof translate !== 'undefined' && translate.reset) translate.reset(); } catch (e) {}
-        window.location.reload();
-      }
+      if (was) { setCookie('googtrans', '', false); window.location.reload(); }
       return;
     }
+    if (SUPPORTED.indexOf(lang) < 0) return;
     store.set('zad_lang', lang);
     if (!quiet) toast('جارٍ الترجمة…');
     loadTranslate(function (ok) {
-      if (!ok) { toast('تعذّر تحميل مكتبة الترجمة، تحقّق من اتصالك'); return; }
-      try { translate.changeLanguage(LANG_NAMES[lang] || lang); if (!quiet) toast('تمت الترجمة ✓'); }
-      catch (e) { toast('تعذّرت الترجمة'); }
+      if (!ok) { toast('تعذّر تحميل الترجمة، تحقّق من اتصالك ثم أعد المحاولة'); return; }
+      if (applyLang(lang)) { if (!quiet) toast('تمت الترجمة ✓'); }
+      else toast('تعذّرت الترجمة');
     });
   }
   window.doTranslate = doTranslate; // للتوافق مع أي استدعاء قديم
@@ -544,7 +571,7 @@
   // استعادة اللغة التي اختارها المستخدم سابقاً
   (function () {
     var l = store.get('zad_lang');
-    if (l && l !== 'ar' && LANG_NAMES[l]) window.addEventListener('load', function () { doTranslate(l, true); });
+    if (l && l !== 'ar' && SUPPORTED.indexOf(l) > -1) window.addEventListener('load', function () { doTranslate(l, true); });
   })();
 
   /* ---------- تثبيت التطبيق (PWA) ---------- */

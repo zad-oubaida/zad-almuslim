@@ -1,20 +1,25 @@
+
 'use strict';
 
 /* ============================================================
-   زاد عبيدة — Service Worker  (v49)
+   زاد عبيدة — Service Worker  (v50)
    ضعه في جذر الموقع بجانب index.html (وليس داخل assets).
    ============================================================ */
 
-const VERSION = 'v49';                       // ⚠️ غيّره عند كل نشر يغيّر ملفات ثابتة
+const VERSION = 'v50';                       // ⚠️ غيّره عند كل نشر يغيّر ملفات ثابتة
 const STATIC_CACHE = 'zad-static-' + VERSION;
-const RUNTIME_CACHE = 'zad-runtime-v1';      // ✅ v46: للصور وغيرها بسقف، حتى لا تُحذف الملفات الأساسية
-const FONT_CACHE = 'zad-fonts-v1';
+const RUNTIME_CACHE = 'zad-runtime-v2';      // ✅ v50: رفع الرقم يمسح أي نسخ قديمة أو تالفة عند كل المستخدمين
+const FONT_CACHE = 'zad-fonts-v2';
 const KEEP = [STATIC_CACHE, RUNTIME_CACHE, FONT_CACHE];
 const FONT_CACHE_MAX = 40;
 const RUNTIME_CACHE_MAX = 60;
 
 // ✅ v49: تجاوز كاش المتصفح (HTTP cache) — يتحقق من الخادم دائمًا حتى تصل التحديثات للناس
 const NET_OPTS = { cache: 'no-cache' };
+
+// ✅ v50: سقف انتظار الملفات غير المخزّنة (حتى لا تبقى الصفحة معلّقة بانتظار صورة أو خط)
+const RUNTIME_WAIT_MS = 8000;
+const FONT_WAIT_MS = 3000;
 
 const CORE_ASSETS = [
   './',
@@ -115,6 +120,17 @@ function withTimeout(promise, ms) {
   return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
 }
 
+// ✅ v50: بعض المتصفحات ترفض fetch(طلب تنقّل + خيارات) — نعود للجلب العادي بدل صفحة فارغة
+async function fetchFresh(req) {
+  try { return await fetch(req, NET_OPTS); }
+  catch (e) { return await fetch(req); }
+}
+
+// ✅ v50: إن تأخر Google Fonts نُرجع CSS فارغًا فتظهر الصفحة بالخط الاحتياطي بدل أن تنتظر
+function emptyCss() {
+  return new Response('/* fonts unavailable */', { status: 200, headers: { 'Content-Type': 'text/css; charset=utf-8' } });
+}
+
 /* ---------------- استراتيجيات الجلب ---------------- */
 
 async function handleNavigation(event) {
@@ -124,7 +140,7 @@ async function handleNavigation(event) {
 
   const netPromise = (async () => {
     // ✅ v49: fetch مع no-cache بدل preloadResponse لضمان وصول آخر نسخة من الخادم
-    const res = await fetch(req, NET_OPTS);
+    const res = await fetchFresh(req);
     if (isCacheable(res)) await cache.put(key, res.clone()).catch(() => {});
     return res;
   })();
@@ -154,7 +170,7 @@ async function networkFirst(event, cacheName, timeoutMs) {
   const req = event.request;
   const cache = await caches.open(cacheName);
   // ✅ v49: no-cache حتى لا يُقدَّم app.js / style.css القديم من كاش المتصفح
-  const net = fetch(req, NET_OPTS).then(async res => {
+  const net = fetchFresh(req).then(async res => {
     if (isCacheable(res)) await cache.put(req, res.clone()).catch(() => {});
     return res;
   });
@@ -177,7 +193,8 @@ async function networkFirst(event, cacheName, timeoutMs) {
   }
 }
 
-async function staleWhileRevalidate(event, cacheName, maxEntries) {
+async function staleWhileRevalidate(event, cacheName, maxEntries, opts) {
+  opts = opts || {};
   const req = event.request;
   const cache = await caches.open(cacheName);
   const cached = await cache.match(req);
@@ -189,9 +206,13 @@ async function staleWhileRevalidate(event, cacheName, maxEntries) {
     return res;
   }).catch(() => null);
 
-  if (cached) { event.waitUntil(update); return cached; }
-  const res = await update;
-  return res || Response.error();
+  // التحديث يكمل في الخلفية دائمًا حتى لو توقفنا عن الانتظار
+  event.waitUntil(update);
+  if (cached) return cached;
+
+  // ✅ v50: لا انتظار غير محدود لملف غير مخزّن
+  const res = await withTimeout(update, opts.waitMs || RUNTIME_WAIT_MS);
+  return res || (opts.onTimeout ? opts.onTimeout() : Response.error());
 }
 
 self.addEventListener('fetch', event => {
@@ -202,7 +223,10 @@ self.addEventListener('fetch', event => {
   if (url.protocol !== 'http:' && url.protocol !== 'https:') return;
 
   if (url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com') {
-    event.respondWith(staleWhileRevalidate(event, FONT_CACHE, FONT_CACHE_MAX));
+    event.respondWith(staleWhileRevalidate(event, FONT_CACHE, FONT_CACHE_MAX, {
+      waitMs: FONT_WAIT_MS,
+      onTimeout: url.hostname === 'fonts.googleapis.com' ? emptyCss : null
+    }));
     return;
   }
 
@@ -219,7 +243,7 @@ self.addEventListener('fetch', event => {
   }
 
   // ✅ v46: بقية الملفات (صور وغيرها) في كاش مستقل بسقف 60 ملفًا
-  event.respondWith(staleWhileRevalidate(event, RUNTIME_CACHE, RUNTIME_CACHE_MAX));
+  event.respondWith(staleWhileRevalidate(event, RUNTIME_CACHE, RUNTIME_CACHE_MAX, { waitMs: RUNTIME_WAIT_MS }));
 });
 
 /* ---------------- الإشعارات المحلية ---------------- */

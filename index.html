@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0d7a5f">
+  <meta name="theme-color" content="#0f5b4a">
   <meta name="color-scheme" content="light dark">
   <meta name="description" content="زاد عبيدة: أذكار، أحاديث، مواقيت الصلاة، قرآن، ومقالات موثوقة.">
   <meta name="robots" content="index,follow">
@@ -121,6 +121,71 @@
     body { top: 0 !important; }
     .goog-tooltip, .goog-tooltip:hover, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; }
     .goog-text-highlight { background: none !important; box-shadow: none !important; }
+
+    /* ============================================================
+       v4 — لوحة ألوان هادئة بروح عربية أصيلة:
+       أخضر زمردي عميق + رمل/رق دافئ + ذهب عتيق + نقش نجمة ثمانية
+       ============================================================ */
+    body { background: #f7f1e3; color: #22302b; }
+    body.dark { background: #0f1a17; color: #ece4d0; }
+    body .navbar { background: rgba(250,245,232,.94); border-bottom: 1px solid #e2d4b4; box-shadow: 0 2px 14px rgba(15,91,74,.08); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+    body.dark .navbar { background: rgba(15,26,23,.94); border-bottom-color: #2b3a34; box-shadow: none; }
+    body .brand strong, body .section-head h2, body .dash-card h3, body .nav-card h3 { color: #0f5b4a; }
+    body.dark .brand strong, body.dark .section-head h2, body.dark .dash-card h3, body.dark .nav-card h3 { color: #e6c46d; }
+    body .nav-links > a, body .dropdown > a { color: #2c4a40; }
+    body .nav-links > a:hover, body .nav-links > a.active, body .dropdown > a:hover { color: #0f5b4a; }
+    body.dark .nav-links > a, body.dark .dropdown > a { color: #d8d0b8; }
+    body.dark .nav-links > a:hover, body.dark .nav-links > a.active { color: #e6c46d; }
+    body .dropdown-content { background: #fffaf0; border: 1px solid #e0d2ac; }
+    body .dropdown-content a { color: #2c4a40; }
+    body.dark .dropdown-content { background: #16231f; border-color: #2b3a34; }
+    body.dark .dropdown-content a { color: #d8d0b8; }
+    @media (max-width: 768px) {
+      body .nav-links { background: #fffaf0; }
+      body.dark .nav-links { background: #16231f; }
+    }
+
+    body .hero {
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23e6c46d' stroke-opacity='.17' stroke-width='1'%3E%3Crect x='16' y='16' width='32' height='32'/%3E%3Crect x='16' y='16' width='32' height='32' transform='rotate(45 32 32)'/%3E%3C/g%3E%3C/svg%3E"),
+        linear-gradient(165deg, #14705c 0%, #0f5b4a 45%, #0b3f33 100%);
+      color: #f7f1e3;
+    }
+    body .hero .bismillah { color: #e6c46d; }
+    body .hero .hero-title { color: #fbf3da; }
+    body .hero .hero-subtitle { color: #e8e0cb; }
+    body .btn-primary { background: linear-gradient(180deg, #e6c46d, #c5963a); color: #2a2008; border: 0; box-shadow: 0 4px 14px rgba(0,0,0,.18); }
+    body .btn-secondary { background: transparent; color: #f7f1e3; border: 1.5px solid rgba(230,196,109,.7); }
+    body .info-dialog .btn-secondary { color: #0f5b4a; border-color: #0f5b4a; }
+    body .install-btn, body .notif-btn { background: rgba(255,250,235,.10); color: #f7f1e3; border: 1px solid rgba(230,196,109,.5); }
+
+    body .dash-card, body .nav-card, body .info-dialog { background: #fffaf0; color: #22302b; border: 1px solid #e6d9b8; border-radius: 16px; box-shadow: 0 2px 14px rgba(15,91,74,.07); }
+    body .nav-card p { color: #6b6a58; }
+    body .nav-card:hover { border-color: #c5963a; box-shadow: 0 6px 20px rgba(184,137,47,.18); }
+    body.dark .dash-card, body.dark .nav-card, body.dark .info-dialog { background: #16231f; color: #ece4d0; border-color: #2b3a34; box-shadow: none; }
+    body.dark .nav-card p { color: #a9b3a8; }
+    body .section-alt { background: #efe6d0; }
+    body.dark .section-alt { background: #121f1b; }
+    body .section-head p { color: #6b6a58; }
+    body.dark .section-head p { color: #a9b3a8; }
+
+    body .city-bar input { background: #fffaf0; border: 1px solid #d9c89f; color: #22302b; }
+    body .city-bar button { background: #0f5b4a; color: #f7f1e3; border-color: #0f5b4a; }
+    body.dark .city-bar input { background: #1c2b26; border-color: #34443d; color: #ece4d0; }
+    body.dark .city-bar button { background: #c5963a; color: #1d1706; border-color: #c5963a; }
+    body .prayer-item.active { background: rgba(184,137,47,.16); color: #0f5b4a; }
+    body.dark .prayer-item.active { background: rgba(230,196,109,.14); color: #e6c46d; }
+    body .countdown { color: #8a6a1f; }
+    body.dark .countdown { color: #e6c46d; }
+
+    body footer { background: #0b3f33; color: #e8e0cb; }
+    body footer h4 { color: #f3dfa4; }
+    body footer a { color: #e6c46d; }
+    body footer .footer-bottom { border-top: 1px solid rgba(230,196,109,.25); }
+
+    .mk { --mk-bg: #fffaf0; --mk-soft: #f3ead4; --mk-line: #e0d2ac; --mk-text: #22302b; --mk-muted: #6b6a58; --mk-accent: #0f5b4a; --mk-danger: #a3362c; }
+    body.dark .mk { --mk-bg: #16231f; --mk-soft: #1c2b26; --mk-line: #2b3a34; --mk-text: #ece4d0; --mk-muted: #a9b3a8; --mk-accent: #e6c46d; --mk-danger: #ff9a8f; }
+    body.dark .mk-btn.primary { color: #1d1706; }
   </style>
 
   <!-- تحسينات التثبيت على الجوال والأداء + تنسيقات الخط والتجربة (يجب أن تأتي بعد <style id="zad-extras">) -->
@@ -404,7 +469,7 @@
     themeBtn.textContent = dark ? '☀️' : '🌙';
     themeBtn.setAttribute('aria-pressed', dark ? 'true' : 'false');
     themeBtn.title = dark ? 'الوضع النهاري' : 'الوضع الليلي';
-    if (themeMeta) themeMeta.setAttribute('content', dark ? '#121212' : '#0d7a5f');
+    if (themeMeta) themeMeta.setAttribute('content', dark ? '#0f1a17' : '#0f5b4a');
   }
   var saved = store.get('zad_theme');
   var mqDark = window.matchMedia('(prefers-color-scheme: dark)');
@@ -502,7 +567,10 @@
     var exp = keep ? '' : '; expires=Thu, 01 Jan 1970 00:00:00 GMT';
     var base = name + '=' + val + exp + '; path=/';
     document.cookie = base;
-    if (location.hostname.indexOf('.') > -1) document.cookie = base + '; domain=' + location.hostname;
+    if (location.hostname.indexOf('.') > -1) {
+      document.cookie = base + '; domain=' + location.hostname;
+      document.cookie = base + '; domain=.' + location.hostname;
+    }
   }
   function gtFlush(ok) { gtQueue.splice(0).forEach(function (f) { f(ok); }); }
 

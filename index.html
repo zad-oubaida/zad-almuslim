@@ -2,6 +2,55 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
+
+  <!-- ===== إصلاح v51: شبكة أمان + تشخيص + علاج ذاتي ===== -->
+  <style>
+    /* لا يبقى المحتوى مخفيًا إن تعطّل أي سكربت */
+    html body{opacity:1!important;visibility:visible!important}
+    .reveal,.fade-in,.fade-up,[data-animate],.animate{opacity:1!important;transform:none!important}
+  </style>
+  <script>
+  (function () {
+    var debug = /[?&]debug=1/.test(location.search);
+    function show(m) {
+      if (!debug) return;
+      var d = document.createElement('pre');
+      d.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;background:#fff;color:#c00;padding:8px;font-size:12px;direction:ltr;white-space:pre-wrap;margin:0;max-height:50vh;overflow:auto';
+      d.textContent = m;
+      (document.body || document.documentElement).appendChild(d);
+    }
+    window.addEventListener('error', function (e) {
+      show('ERR: ' + e.message + ' @' + String(e.filename || '').split('/').pop() + ':' + e.lineno);
+    });
+    window.addEventListener('unhandledrejection', function (e) {
+      show('PROMISE: ' + (e.reason && e.reason.message || e.reason));
+    });
+
+    // علاج ذاتي: إن بقيت الصفحة فارغة نمسح الـ Service Worker والكاش ونعيد التحميل مرة واحدة
+    window.addEventListener('load', function () {
+      setTimeout(function () {
+        var el = document.querySelector('.hero') || document.getElementById('main');
+        var bad = !el;
+        if (el) {
+          var r = el.getBoundingClientRect(), cs = getComputedStyle(el);
+          bad = r.height < 50 || parseFloat(cs.opacity) < 0.1 || cs.visibility === 'hidden' || cs.display === 'none';
+        }
+        if (!bad) return;
+        var done = false;
+        try { done = sessionStorage.getItem('zad_healed') === '1'; sessionStorage.setItem('zad_healed', '1'); } catch (e) {}
+        if (done) { show('الصفحة ما زالت فارغة بعد المعالجة'); return; }
+        var jobs = [];
+        if (navigator.serviceWorker && navigator.serviceWorker.getRegistrations)
+          jobs.push(navigator.serviceWorker.getRegistrations().then(function (rs) { return Promise.all(rs.map(function (r) { return r.unregister(); })); }));
+        if (window.caches)
+          jobs.push(caches.keys().then(function (ks) { return Promise.all(ks.map(function (k) { return caches.delete(k); })); }));
+        Promise.all(jobs).then(function () { location.reload(); }, function () { location.reload(); });
+      }, 3500);
+    });
+  })();
+  </script>
+  <!-- ===== نهاية الإصلاح ===== -->
+
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0f5b4a">
   <meta name="color-scheme" content="light dark">
@@ -27,7 +76,9 @@
   <link rel="apple-touch-icon" href="./logo-zad-almuslim.webp.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
+  <!-- v51: الخطوط لا تحجب رسم الصفحة -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap"></noscript>
   <link rel="stylesheet" href="./assets/style.css">
   <link rel="stylesheet" href="./assets/enhancements.css">
   <title>زاد عبيدة | أذكار ومواقيت الصلاة وقرآن</title>

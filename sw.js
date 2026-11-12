@@ -1,17 +1,20 @@
 'use strict';
 
 /* ============================================================
-   زاد عبيدة — Service Worker  (v48)
+   زاد عبيدة — Service Worker  (v49)
    ضعه في جذر الموقع بجانب index.html (وليس داخل assets).
    ============================================================ */
 
-const VERSION = 'v48';                       // ⚠️ غيّره عند كل نشر يغيّر ملفات ثابتة
+const VERSION = 'v49';                       // ⚠️ غيّره عند كل نشر يغيّر ملفات ثابتة
 const STATIC_CACHE = 'zad-static-' + VERSION;
 const RUNTIME_CACHE = 'zad-runtime-v1';      // ✅ v46: للصور وغيرها بسقف، حتى لا تُحذف الملفات الأساسية
 const FONT_CACHE = 'zad-fonts-v1';
 const KEEP = [STATIC_CACHE, RUNTIME_CACHE, FONT_CACHE];
 const FONT_CACHE_MAX = 40;
 const RUNTIME_CACHE_MAX = 60;
+
+// ✅ v49: تجاوز كاش المتصفح (HTTP cache) — يتحقق من الخادم دائمًا حتى تصل التحديثات للناس
+const NET_OPTS = { cache: 'no-cache' };
 
 const CORE_ASSETS = [
   './',
@@ -76,8 +79,9 @@ self.addEventListener('activate', event => {
     await Promise.allSettled(
       keys.filter(k => k.startsWith('zad') && !KEEP.includes(k)).map(k => caches.delete(k))
     );
+    // ✅ v49: إيقاف Navigation Preload — كان يمر على كاش المتصفح فيُرجع صفحات قديمة
     if (self.registration.navigationPreload) {
-      try { await self.registration.navigationPreload.enable(); } catch (e) {}
+      try { await self.registration.navigationPreload.disable(); } catch (e) {}
     }
     await self.clients.claim();
     if (isUpdate) {
@@ -119,8 +123,8 @@ async function handleNavigation(event) {
   const key = pageKey(req.url);
 
   const netPromise = (async () => {
-    const pre = await event.preloadResponse;
-    const res = pre || await fetch(req);
+    // ✅ v49: fetch مع no-cache بدل preloadResponse لضمان وصول آخر نسخة من الخادم
+    const res = await fetch(req, NET_OPTS);
     if (isCacheable(res)) await cache.put(key, res.clone()).catch(() => {});
     return res;
   })();
@@ -149,7 +153,8 @@ async function handleNavigation(event) {
 async function networkFirst(event, cacheName, timeoutMs) {
   const req = event.request;
   const cache = await caches.open(cacheName);
-  const net = fetch(req).then(async res => {
+  // ✅ v49: no-cache حتى لا يُقدَّم app.js / style.css القديم من كاش المتصفح
+  const net = fetch(req, NET_OPTS).then(async res => {
     if (isCacheable(res)) await cache.put(req, res.clone()).catch(() => {});
     return res;
   });

@@ -1,9 +1,0 @@
-User-agent: *
-Allow: /
-
-# منع فهرسة ملفات النظام (اختياري)
-Disallow: /sw.js
-Disallow: /manifest.json
-
-# خريطة الموقع
-Sitemap: https://zad-oubaida.github.io/zad-almuslim/sitemap.xml

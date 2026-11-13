@@ -9,82 +9,276 @@
   <link rel="icon" type="image/png" href="./logo-zad-almuslim.webp.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;800&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/style.css">
   <style>
-    .wird-container { max-width: 800px; margin: 0 auto; }
-    .wird-card {
-      background: var(--card); border-radius: var(--radius); padding: 24px;
-      box-shadow: var(--shadow); border: 1px solid var(--line); margin-bottom: 20px;
+    /* ============================================================
+       وردك اليومي — تصميم جديد (كل القواعد محصورة داخل .wird-page)
+       ============================================================ */
+    .wird-page {
+      --g1: #0b6b53; --g2: #0f8a6a; --g3: #064a3a;
+      --gold: #d9a441; --gold2: #f3d07a;
+      --bg: #f8f5ec; --card: #ffffff; --ink: #1d2b26; --muted: #66766f;
+      --line: #e7e2d2; --soft: #eef6f1;
+      --shadow: 0 10px 30px rgba(11, 107, 83, .10);
+      --streak-bg: linear-gradient(145deg, #fff5d9 0%, #f6cb66 62%, #e9a91f 100%);
+      --streak-ink: #5a3d00;
+      position: relative; overflow: hidden;
+      background: var(--bg); color: var(--ink);
+      padding: 28px 16px 70px;
+      font-family: 'Cairo', 'Noto Naskh Arabic', sans-serif;
+      transition: background .3s, color .3s;
     }
-    .wird-card h3 { color: var(--primary); margin-bottom: 16px; font-family: 'Cairo', sans-serif; display: flex; align-items: center; gap: 10px; }
-    .wird-item {
-      display: flex; align-items: center; gap: 12px; padding: 12px 0;
-      border-bottom: 1px solid var(--line);
+    .wird-page[data-mode="dark"] {
+      --bg: #0b1411; --card: #12201b; --ink: #e8f1ed; --muted: #97ada3;
+      --line: #223630; --soft: #172a24;
+      --shadow: 0 10px 30px rgba(0, 0, 0, .45);
+      --streak-bg: linear-gradient(145deg, #3b2d0c 0%, #6b4d10 60%, #94681a 100%);
+      --streak-ink: #ffe9b0;
     }
-    .wird-item:last-child { border-bottom: none; }
-    .wird-item input[type="checkbox"] {
-      width: 22px; height: 22px; accent-color: var(--primary); cursor: pointer;
-    }
-    .wird-item label { flex: 1; cursor: pointer; font-size: 1.05rem; }
-    .wird-item.completed label { text-decoration: line-through; color: var(--text-muted); }
-    
-    /* دائرة التقدم */
-    .progress-box { text-align: center; margin-bottom: 30px; }
-    .progress-circle {
-      width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 12px;
-      background: conic-gradient(var(--primary) 0%, var(--line) 0%);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.5rem; font-weight: bold; color: var(--primary);
-      position: relative;
-    }
-    .progress-circle::before {
-      content: ""; width: 100px; height: 100px; border-radius: 50%;
-      background: var(--card); position: absolute;
-    }
-    .progress-circle span { position: relative; z-index: 1; }
-    
-    /* السلسلة */
-    .streak-box {
-      display: flex; align-items: center; justify-content: center; gap: 10px;
-      background: linear-gradient(135deg, #fef3d7, #f0b429);
-      border-radius: var(--radius); padding: 16px; margin-bottom: 20px;
-      box-shadow: 0 4px 15px rgba(240, 180, 41, 0.3);
-    }
-    .streak-box .fire { font-size: 2rem; }
-    .streak-box .streak-text { font-size: 1.2rem; font-weight: bold; color: #856404; }
-    .streak-box .streak-days { font-size: 1.8rem; font-weight: bold; color: #1a1a1a; }
+    .wird-page *, .wird-page *::before, .wird-page *::after { box-sizing: border-box; }
+    .wird-wrap { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; }
+    #confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 60; }
 
-    /* تحدي 7 أيام */
-    .challenge-box {
-      background: var(--card); border: 2px dashed var(--accent); border-radius: var(--radius);
-      padding: 20px; margin-bottom: 20px; text-align: center;
+    /* زخرفة الخلفية */
+    .wird-page::before, .wird-page::after {
+      content: ""; position: absolute; width: 420px; height: 420px; border-radius: 50%;
+      filter: blur(70px); opacity: .35; pointer-events: none; z-index: 0;
     }
-    .challenge-box h3 { color: var(--primary); margin-bottom: 12px; }
-    .challenge-days {
-      display: flex; justify-content: center; gap: 8px; margin: 16px 0;
+    .wird-page::before { top: -120px; right: -120px; background: rgba(15, 138, 106, .35); }
+    .wird-page::after { bottom: -140px; left: -140px; background: rgba(217, 164, 65, .30); }
+    .wird-page[data-mode="dark"]::before, .wird-page[data-mode="dark"]::after { opacity: .22; }
+
+    /* ---------- الهيرو ---------- */
+    .hero {
+      position: relative; overflow: hidden; color: #fff; text-align: center;
+      border-radius: 30px; padding: 30px 22px 26px; margin-bottom: 20px;
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40 6l9.5 14.5L66 14l-6.5 16.5L74 40 59.5 49.5 66 66 49.5 59.5 40 74 30.5 59.5 14 66l6.5-16.5L6 40l14.5-9.5L14 14l16.5 6.5z' fill='none' stroke='%23ffffff' stroke-opacity='.10' stroke-width='1.2'/%3E%3C/svg%3E"),
+        linear-gradient(135deg, var(--g3) 0%, var(--g1) 55%, #14956f 100%);
+      box-shadow: 0 18px 40px rgba(6, 74, 58, .30);
     }
-    .challenge-day {
-      width: 40px; height: 40px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: bold; border: 2px solid var(--line);
-      background: var(--bg); color: var(--text-muted);
+    .hero::after {
+      content: ""; position: absolute; top: -60px; left: 50%; width: 260px; height: 260px;
+      transform: translateX(-50%); border-radius: 50%;
+      background: radial-gradient(circle, rgba(243, 208, 122, .35), transparent 70%); pointer-events: none;
     }
-    .challenge-day.completed { background: var(--primary); color: #fff; border-color: var(--primary); }
-    .challenge-day.current { border-color: var(--accent); border-width: 3px; box-shadow: 0 0 10px rgba(240, 180, 41, 0.5); }
-    .challenge-start-btn {
-      background: var(--primary); color: #fff; border: none; padding: 12px 24px;
-      border-radius: var(--radius-sm); font-weight: bold; cursor: pointer; font-family: inherit;
-      font-size: 1rem;
+    .hero-top { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; position: relative; z-index: 1; }
+    .chip {
+      background: rgba(255, 255, 255, .14); border: 1px solid rgba(255, 255, 255, .22);
+      padding: 5px 14px; border-radius: 999px; font-size: .82rem; backdrop-filter: blur(6px);
     }
-    .challenge-start-btn:hover { background: var(--primary-dark); }
-    
+    .greet { margin: 0 0 4px; color: var(--gold2); font-weight: 700; position: relative; z-index: 1; }
+    .hero h1 {
+      margin: 0 0 8px; font-family: 'Amiri', serif; font-size: clamp(2rem, 6vw, 2.9rem);
+      line-height: 1.3; position: relative; z-index: 1; color: #fff;
+    }
+    .hero .lead { margin: 0 auto 20px; max-width: 520px; opacity: .88; font-size: .95rem; position: relative; z-index: 1; }
+    .verse {
+      margin: 0 auto; max-width: 600px; padding: 18px 18px 14px; border-radius: 20px; position: relative; z-index: 1;
+      background: rgba(255, 255, 255, .11); border: 1px solid rgba(255, 255, 255, .2); backdrop-filter: blur(8px);
+    }
+    .verse figcaption { color: var(--gold2); font-size: .78rem; letter-spacing: .5px; margin-bottom: 8px; font-weight: 700; }
+    .verse blockquote { margin: 0; font-family: 'Amiri', serif; font-size: clamp(1.25rem, 3.6vw, 1.6rem); line-height: 2; }
+    .verse cite { display: block; margin-top: 8px; font-style: normal; font-size: .82rem; opacity: .8; }
+
+    /* ---------- البطاقات ---------- */
+    .wird-page .card {
+      background: var(--card); border: 1px solid var(--line); border-radius: 24px;
+      box-shadow: var(--shadow); padding: 22px; margin-bottom: 20px; transition: background .3s, border-color .3s;
+    }
+    .wird-page .card h3 {
+      margin: 0 0 16px; font-family: 'Amiri', serif; font-size: 1.45rem; color: var(--g1);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .wird-page[data-mode="dark"] .card h3 { color: #5fd3ac; }
+    .card-sub { margin: -8px 0 16px; color: var(--muted); font-size: .9rem; }
+    .grid2 { display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 20px; }
+    .grid2 .card { margin-bottom: 0; }
+    @media (min-width: 760px) { .grid2 { grid-template-columns: 1.1fr .9fr; } }
+
+    /* ---------- السلسلة ---------- */
+    .streak { background: var(--streak-bg); color: var(--streak-ink); border: 0; position: relative; overflow: hidden; }
+    .streak::after {
+      content: ""; position: absolute; left: -50px; bottom: -50px; width: 180px; height: 180px; border-radius: 50%;
+      background: rgba(255, 255, 255, .25); filter: blur(30px); pointer-events: none;
+    }
+    .streak-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-weight: 800; position: relative; z-index: 1; }
+    .tier { background: rgba(255, 255, 255, .45); padding: 4px 12px; border-radius: 999px; font-size: .85rem; }
+    .wird-page[data-mode="dark"] .tier { background: rgba(255, 233, 176, .16); }
+    .streak-main { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 12px 0 6px; position: relative; z-index: 1; }
+    .flame { font-size: 3.2rem; display: inline-block; transform-origin: 50% 90%; animation: flicker 1.6s ease-in-out infinite; filter: drop-shadow(0 4px 12px rgba(255, 120, 0, .55)); }
+    .flame.off { filter: grayscale(1); opacity: .45; animation: none; }
+    .streak .num { font-size: 4rem; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+    .streak .num.bump { animation: bump .6s ease; }
+    .streak .unit { font-weight: 700; align-self: flex-end; padding-bottom: 10px; }
+    .tier-bar { height: 9px; border-radius: 9px; background: rgba(255, 255, 255, .45); overflow: hidden; position: relative; z-index: 1; }
+    .wird-page[data-mode="dark"] .tier-bar { background: rgba(255, 233, 176, .16); }
+    .tier-bar i { display: block; height: 100%; width: 0; border-radius: 9px; background: linear-gradient(90deg, #0f8a6a, #064a3a); transition: width .8s cubic-bezier(.2, .8, .2, 1); }
+    .wird-page[data-mode="dark"] .tier-bar i { background: linear-gradient(90deg, #ffe9b0, #f3d07a); }
+    .tier-note { margin: 8px 0 14px; font-size: .88rem; text-align: center; position: relative; z-index: 1; font-weight: 600; }
+    .week { display: flex; justify-content: space-between; gap: 6px; position: relative; z-index: 1; }
+    .week div { flex: 1; text-align: center; font-size: .72rem; font-weight: 700; }
+    .week span {
+      display: grid; place-items: center; width: 100%; max-width: 38px; aspect-ratio: 1; margin: 4px auto 0;
+      border-radius: 50%; background: rgba(255, 255, 255, .45); font-size: .9rem;
+    }
+    .wird-page[data-mode="dark"] .week span { background: rgba(255, 233, 176, .14); }
+    .week .on span { background: var(--g1); color: #fff; }
+    .week .today span { outline: 2px solid var(--streak-ink); outline-offset: 2px; }
+    .mini-stats { display: flex; gap: 10px; margin-top: 16px; position: relative; z-index: 1; }
+    .mini-stats div { flex: 1; text-align: center; background: rgba(255, 255, 255, .4); border-radius: 14px; padding: 8px 4px; }
+    .wird-page[data-mode="dark"] .mini-stats div { background: rgba(255, 233, 176, .12); }
+    .mini-stats b { display: block; font-size: 1.35rem; }
+    .mini-stats span { font-size: .78rem; font-weight: 600; }
+
+    /* ---------- دائرة التقدم ---------- */
+    .ringcard { text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .ring { position: relative; width: 190px; height: 190px; margin-bottom: 10px; }
+    .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+    .ring circle { fill: none; stroke-width: 11; }
+    .ring .trk { stroke: var(--line); }
+    .ring .bar { stroke-linecap: round; transition: stroke-dashoffset 1s cubic-bezier(.2, .8, .2, 1); }
+    .ring-in { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .ring-in b { font-size: 2.6rem; color: var(--g1); line-height: 1; font-variant-numeric: tabular-nums; }
+    .wird-page[data-mode="dark"] .ring-in b { color: #5fd3ac; }
+    .ring-in span { font-size: .8rem; color: var(--muted); margin-top: 4px; }
+    .ringcard .count { margin: 2px 0 8px; color: var(--muted); }
+    .ringcard .count b { color: var(--ink); }
+    .ringcard .msg { margin: 0; font-weight: 700; color: var(--g1); min-height: 2.8em; max-width: 280px; line-height: 1.7; }
+    .wird-page[data-mode="dark"] .ringcard .msg { color: #5fd3ac; }
+    .done-banner {
+      margin-top: 12px; padding: 10px 16px; border-radius: 14px; font-weight: 700; font-size: .92rem;
+      background: linear-gradient(135deg, var(--g1), var(--g2)); color: #fff; animation: pop .5s ease;
+    }
+    .done-banner[hidden] { display: none; }
+
+    /* ---------- المهام ---------- */
+    .task {
+      display: flex; align-items: center; flex-wrap: wrap; gap: 12px; padding: 14px;
+      border: 1px solid var(--line); border-radius: 18px; background: var(--card); transition: .25s;
+    }
+    .task + .task { margin-top: 10px; }
+    .task:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(11, 107, 83, .10); }
+    .task.done { background: linear-gradient(90deg, var(--soft), var(--card)); border-color: rgba(15, 138, 106, .4); }
+    .task .ico { width: 44px; height: 44px; border-radius: 14px; background: var(--soft); display: grid; place-items: center; font-size: 1.35rem; flex: none; }
+    .task .info { flex: 1 1 150px; min-width: 0; }
+    .task .t { font-weight: 800; font-size: 1.02rem; }
+    .task .s { color: var(--muted); font-size: .84rem; }
+    .task.done .t { color: var(--g1); }
+    .wird-page[data-mode="dark"] .task.done .t { color: #5fd3ac; }
+    .chk {
+      width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--line); background: transparent;
+      display: grid; place-items: center; cursor: pointer; flex: none; transition: .25s; color: #fff; padding: 0;
+    }
+    .chk:hover { border-color: var(--g2); }
+    .chk svg { width: 19px; height: 19px; stroke-dasharray: 24; stroke-dashoffset: 24; transition: stroke-dashoffset .35s .05s; }
+    .task.done .chk { background: var(--g2); border-color: var(--g2); transform: scale(1.08); }
+    .task.done .chk svg { stroke-dashoffset: 0; }
+    .actions { display: flex; align-items: center; gap: 8px; margin-inline-start: auto; flex-wrap: wrap; }
+    .count-pill { background: var(--soft); color: var(--g1); font-weight: 800; padding: 4px 12px; border-radius: 999px; font-size: .88rem; font-variant-numeric: tabular-nums; }
+    .wird-page[data-mode="dark"] .count-pill { color: #5fd3ac; }
+    .btn-add {
+      border: 0; background: var(--g1); color: #fff; border-radius: 12px; padding: 8px 14px; cursor: pointer;
+      font-family: inherit; font-weight: 800; font-size: .92rem; transition: .2s;
+    }
+    .btn-add.alt { background: var(--gold); color: #3a2a00; }
+    .btn-add:active { transform: scale(.92); }
+    .btn-add:hover { filter: brightness(1.1); }
+    .go { color: var(--g1); font-size: .82rem; font-weight: 700; text-decoration: none; padding: 6px 10px; border-radius: 10px; background: var(--soft); }
+    .wird-page[data-mode="dark"] .go { color: #5fd3ac; }
+    .go:hover { text-decoration: underline; }
+    .mini { height: 6px; border-radius: 6px; background: var(--line); margin-top: 8px; overflow: hidden; }
+    .mini i { display: block; height: 100%; width: 0; border-radius: 6px; background: linear-gradient(90deg, var(--g2), var(--gold)); transition: width .4s; }
+
+    /* ---------- التحدي ---------- */
+    .challenge { border: 2px dashed var(--gold); text-align: center; }
+    .ch-days { display: flex; justify-content: space-between; gap: 4px; margin: 22px 0 18px; position: relative; }
+    .ch-days::before { content: ""; position: absolute; top: 21px; right: 6%; left: 6%; height: 3px; background: var(--line); border-radius: 3px; }
+    .ch-day { flex: 1; position: relative; z-index: 1; }
+    .ch-day .dot {
+      width: 44px; height: 44px; border-radius: 50%; margin: 0 auto 6px; display: grid; place-items: center;
+      font-weight: 800; background: var(--card); border: 2px solid var(--line); color: var(--muted); transition: .3s;
+    }
+    .ch-day small { font-size: .72rem; color: var(--muted); }
+    .ch-day.done .dot { background: var(--g2); border-color: var(--g2); color: #fff; }
+    .ch-day.current .dot { border-color: var(--gold); border-width: 3px; color: var(--ink); animation: pulse 1.8s infinite; }
+    .ch-day.missed .dot { background: #fdeceb; border-color: #e7a79f; color: #b3412f; }
+    .wird-page[data-mode="dark"] .ch-day.missed .dot { background: #3a1d1a; }
+    .ch-note { margin: 0 0 14px; color: var(--muted); font-size: .92rem; }
+    .btn-main {
+      border: 0; border-radius: 14px; padding: 12px 28px; cursor: pointer; color: #fff; font-family: inherit;
+      font-weight: 800; font-size: 1rem; background: linear-gradient(135deg, var(--g1), var(--g2));
+      box-shadow: 0 8px 18px rgba(11, 107, 83, .3); transition: .2s;
+    }
+    .btn-main:hover { transform: translateY(-2px); }
+    .btn-main:disabled { opacity: .6; cursor: default; transform: none; box-shadow: none; }
+    .medal {
+      display: inline-flex; align-items: center; gap: 10px; margin-bottom: 14px; padding: 10px 20px; border-radius: 16px;
+      background: linear-gradient(135deg, #fff1c4, #f1c24f); color: #5a3d00; font-weight: 800; animation: pop .6s ease;
+    }
+    .medal span { font-size: 1.7rem; }
+
+    /* ---------- التقويم ---------- */
+    .cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .cal-head h3 { margin: 0; }
+    .cal-nav { display: flex; gap: 6px; }
+    .cal-nav button {
+      width: 36px; height: 36px; border-radius: 12px; border: 1px solid var(--line); background: var(--soft);
+      color: var(--ink); cursor: pointer; font-size: 1.2rem; font-family: inherit;
+    }
+    .cal-nav button:disabled { opacity: .35; cursor: default; }
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+    .cal-dow { text-align: center; font-size: .75rem; color: var(--muted); font-weight: 700; padding-bottom: 4px; }
+    .cal-cell { aspect-ratio: 1; display: grid; place-items: center; border-radius: 12px; font-size: .9rem; background: var(--soft); font-variant-numeric: tabular-nums; }
+    .cal-cell.blank { background: transparent; }
+    .cal-cell.done { background: linear-gradient(135deg, var(--g1), var(--g2)); color: #fff; font-weight: 800; }
+    .cal-cell.today { outline: 2px solid var(--gold); outline-offset: 1px; font-weight: 800; }
+    .cal-cell.future { opacity: .4; }
+    .cal-legend { display: flex; gap: 16px; margin-top: 14px; font-size: .8rem; color: var(--muted); }
+    .cal-legend i { display: inline-block; width: 12px; height: 12px; border-radius: 4px; margin-inline-end: 6px; vertical-align: -1px; }
+
+    /* ---------- الأوسمة ---------- */
+    .badges { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 12px; }
+    .badge { text-align: center; padding: 16px 8px; border: 1px solid var(--line); border-radius: 18px; background: var(--soft); transition: .3s; }
+    .badge .bi { font-size: 2rem; display: block; margin-bottom: 4px; }
+    .badge b { display: block; font-size: .9rem; }
+    .badge small { color: var(--muted); font-size: .75rem; }
+    .badge.on { background: linear-gradient(160deg, #fff4d6, #f7d27a); border-color: #e9b942; color: #5a3d00; box-shadow: 0 6px 16px rgba(217, 164, 65, .3); }
+    .badge.on small { color: #7a5a14; }
+    .badge.locked { filter: grayscale(1); opacity: .5; }
+
     .reset-wird {
-      display: block; margin: 20px auto 0; padding: 10px 20px; border-radius: 8px;
-      background: var(--accent-light); color: var(--primary); border: 1px solid var(--accent);
-      cursor: pointer; font-family: inherit; font-weight: bold;
+      display: block; margin: 8px auto 0; padding: 10px 22px; border-radius: 12px; cursor: pointer;
+      background: transparent; color: var(--muted); border: 1px dashed var(--line); font-family: inherit; font-weight: 700;
     }
-    .reset-wird:hover { background: var(--accent); color: #fff; }
+    .reset-wird:hover { color: #b3412f; border-color: #e7a79f; }
+
+    /* ---------- الإشعار ---------- */
+    .wtoast {
+      position: fixed; bottom: 26px; left: 50%; transform: translate(-50%, 30px); opacity: 0; pointer-events: none; z-index: 70;
+      background: #0b2e25; color: #fff; padding: 12px 22px; border-radius: 999px; font-weight: 700; font-size: .92rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .3); transition: .35s; max-width: 90vw; text-align: center;
+    }
+    .wtoast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    /* ---------- الحركات ---------- */
+    @keyframes flicker { 0%, 100% { transform: scale(1) rotate(-2deg); } 25% { transform: scale(1.07) rotate(2deg); } 50% { transform: scale(.97) rotate(-1deg); } 75% { transform: scale(1.1) rotate(2deg); } }
+    @keyframes bump { 0% { transform: scale(1); } 40% { transform: scale(1.35); } 100% { transform: scale(1); } }
+    @keyframes pop { 0% { transform: scale(.7); opacity: 0; } 70% { transform: scale(1.06); } 100% { transform: scale(1); opacity: 1; } }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(217, 164, 65, .55); } 70% { box-shadow: 0 0 0 12px rgba(217, 164, 65, 0); } 100% { box-shadow: 0 0 0 0 rgba(217, 164, 65, 0); } }
+    @media (prefers-reduced-motion: reduce) {
+      .wird-page * { animation: none !important; transition: none !important; }
+    }
+    @media (max-width: 520px) {
+      .wird-page { padding: 18px 12px 60px; }
+      .hero { padding: 24px 14px 20px; border-radius: 24px; }
+      .wird-page .card { padding: 16px; border-radius: 20px; }
+      .task .ico { display: none; }
+      .streak .num { font-size: 3.4rem; }
+      .ch-day .dot { width: 36px; height: 36px; font-size: .85rem; }
+      .ch-days::before { top: 17px; }
+    }
   </style>
 </head>
 <body>
@@ -113,44 +307,111 @@
   </div>
 </nav>
 
-<main class="wrap" style="padding:40px 0">
-  <div class="wird-container">
-    <div class="section-head">
-      <h2>🌿 وردك اليومي</h2>
-      <p>حدد ما أنجزته اليوم، وسيتم حفظ تقدمك تلقائياً</p>
-    </div>
+<main class="wird-page" id="wirdPage" data-mode="light">
+  <canvas id="confetti" aria-hidden="true"></canvas>
 
-    <!-- السلسلة (Streak) -->
-    <div class="streak-box">
-      <span class="fire">🔥</span>
-      <div>
-        <div class="streak-text">سلسلتك الحالية</div>
-        <div class="streak-days" id="streakCount">0</div>
-        <div class="streak-text">أيام متتالية</div>
+  <div class="wird-wrap">
+
+    <!-- الهيرو -->
+    <header class="hero">
+      <div class="hero-top">
+        <span class="chip" id="hijri"></span>
+        <span class="chip" id="greg"></span>
       </div>
-    </div>
+      <p class="greet" id="greet"></p>
+      <h1>🌿 وردك اليومي</h1>
+      <p class="lead">القليل الدائم خير من الكثير المنقطع — أنجز مهامك اليوم وسيُحفظ تقدمك تلقائياً</p>
+      <figure class="verse">
+        <figcaption>✦ <span id="verseKind"></span> ✦</figcaption>
+        <blockquote id="verseText"></blockquote>
+        <cite id="verseSrc"></cite>
+      </figure>
+    </header>
 
-    <!-- تحدي 7 أيام -->
-    <div class="challenge-box">
-      <h3>🏆 تحدي 7 أيام</h3>
-      <p style="color:var(--text-muted);font-size:0.9rem">أكمل وردك 7 أيام متتالية لتحصل على وسام الإنجاز</p>
-      <div class="challenge-days" id="challengeDays"></div>
-      <button class="challenge-start-btn" id="challengeBtn">ابدأ التحدي</button>
-    </div>
+    <!-- السلسلة + التقدم -->
+    <section class="grid2">
+      <article class="card streak">
+        <div class="streak-head">
+          <span>سلسلتك الحالية</span>
+          <span class="tier" id="tier"></span>
+        </div>
+        <div class="streak-main">
+          <span class="flame off" id="flame">🔥</span>
+          <span class="num" id="streakCount">0</span>
+          <span class="unit">أيام متتالية</span>
+        </div>
+        <div class="tier-bar"><i id="tierFill"></i></div>
+        <p class="tier-note" id="tierNote"></p>
+        <div class="week" id="week"></div>
+        <div class="mini-stats">
+          <div><b id="bestStreak">0</b><span>أفضل سلسلة</span></div>
+          <div><b id="totalDays">0</b><span>أيام أكملتها</span></div>
+        </div>
+      </article>
 
-    <!-- دائرة التقدم -->
-    <div class="progress-box">
-      <div class="progress-circle" id="progressCircle"><span id="progressText">0%</span></div>
-      <p style="color:var(--text-muted)">أكملت <span id="completedCount">0</span> من <span id="totalCount">0</span> مهام</p>
-      <button class="reset-wird" id="resetWird">إعادة تعيين الورد لليوم</button>
-    </div>
+      <article class="card ringcard">
+        <div class="ring">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <defs>
+              <linearGradient id="wg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#0f8a6a"/>
+                <stop offset="1" stop-color="#d9a441"/>
+              </linearGradient>
+            </defs>
+            <circle class="trk" cx="60" cy="60" r="54"/>
+            <circle class="bar" id="ringBar" cx="60" cy="60" r="54" stroke="url(#wg)"/>
+          </svg>
+          <div class="ring-in"><b id="progressText">0%</b><span>من ورد اليوم</span></div>
+        </div>
+        <p class="count">أكملت <b id="completedCount">0</b> من <b id="totalCount">0</b> مهام</p>
+        <p class="msg" id="msg"></p>
+        <div class="done-banner" id="doneBanner" hidden>تقبّل الله طاعتك 🤍 أتممت ورد اليوم</div>
+      </article>
+    </section>
 
     <!-- المهام -->
-    <div class="wird-card">
-      <h3>📿 الأذكار اليومية</h3>
+    <section class="card">
+      <h3>📿 أذكار اليوم ومهامه</h3>
+      <p class="card-sub">اضغط على الدائرة لإتمام المهمة، أو استخدم العدّاد في الأذكار المعدودة</p>
       <div id="wirdTasksList"></div>
-    </div>
+    </section>
+
+    <!-- التحدي -->
+    <section class="card challenge">
+      <h3 style="justify-content:center">🏆 تحدي 7 أيام</h3>
+      <p class="ch-note" id="chNote"></p>
+      <div class="ch-days" id="challengeDays"></div>
+      <div id="chMedal"></div>
+      <button class="btn-main" id="challengeBtn" type="button">ابدأ التحدي</button>
+    </section>
+
+    <!-- التقويم -->
+    <section class="card">
+      <div class="cal-head">
+        <h3>📅 <span id="calTitle"></span></h3>
+        <div class="cal-nav">
+          <button type="button" id="calPrev" aria-label="الشهر السابق">›</button>
+          <button type="button" id="calNext" aria-label="الشهر التالي">‹</button>
+        </div>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+      <div class="cal-legend">
+        <span><i style="background:linear-gradient(135deg,#0b6b53,#0f8a6a)"></i>يوم مكتمل</span>
+        <span><i style="outline:2px solid #d9a441;outline-offset:-2px"></i>اليوم</span>
+      </div>
+    </section>
+
+    <!-- الأوسمة -->
+    <section class="card">
+      <h3>🏅 أوسمتك</h3>
+      <p class="card-sub">تُفتح الأوسمة بحسب أفضل سلسلة حققتها</p>
+      <div class="badges" id="badges"></div>
+    </section>
+
+    <button class="reset-wird" id="resetWird" type="button">إعادة تعيين الورد لليوم</button>
   </div>
+
+  <div class="wtoast" id="wToast" role="status" aria-live="polite"></div>
 </main>
 
 <footer>
@@ -172,171 +433,435 @@
 <script>
 document.getElementById('year').textContent = new Date().getFullYear();
 
-(function(){
+(function () {
+  'use strict';
+
+  /* ================== الإعدادات ================== */
   const TASKS = [
-    { id: 'morning', title: 'أذكار الصباح', link: './azkar-morning.html' },
-    { id: 'evening', title: 'أذكار المساء', link: './azkar-evening.html' },
-    { id: 'quran', title: 'قراءة ورد من القرآن', link: './quran.html' },
-    { id: 'hadith', title: 'قراءة حديث من الأربعين', link: './nawawi.html' },
-    { id: 'salawat', title: 'الصلاة على النبي ﷺ (10 مرات)', link: './adhkar.html' },
-    { id: 'istighfar', title: 'الاستغفار (100 مرة)', link: './adhkar.html' },
+    { id: 'morning',   icon: '🌅', title: 'أذكار الصباح',               sub: 'حصّن يومك بذكر الله',        link: './azkar-morning.html', target: 1 },
+    { id: 'evening',   icon: '🌙', title: 'أذكار المساء',               sub: 'اختم يومك بالطمأنينة',       link: './azkar-evening.html', target: 1 },
+    { id: 'quran',     icon: '📖', title: 'قراءة ورد من القرآن',        sub: 'ولو صفحة واحدة',              link: './quran.html',         target: 1 },
+    { id: 'hadith',    icon: '📜', title: 'قراءة حديث من الأربعين',     sub: 'حديث واحد وتأمّل فيه',        link: './nawawi.html',        target: 1 },
+    { id: 'salawat',   icon: '🤍', title: 'الصلاة على النبي ﷺ',          sub: '10 مرات',                     link: './adhkar.html',        target: 10 },
+    { id: 'istighfar', icon: '🤲', title: 'الاستغفار',                   sub: '100 مرة',                     link: './adhkar.html',        target: 100 }
   ];
 
-  const STORAGE_KEY = 'zad_wird_' + new Date().toISOString().slice(0,10);
-  const STREAK_KEY = 'zad_streak_data';
-  const CHALLENGE_KEY = 'zad_challenge_data';
+  const VERSES = [
+    { k: 'آية اليوم',  t: 'فَاذْكُرُونِي أَذْكُرْكُمْ',                                                          s: 'سورة البقرة: 152' },
+    { k: 'آية اليوم',  t: 'أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ',                                        s: 'سورة الرعد: 28' },
+    { k: 'حديث اليوم', t: 'أَحَبُّ الأَعْمَالِ إِلَى اللَّهِ أَدْوَمُهَا وَإِنْ قَلَّ',                          s: 'متفق عليه' },
+    { k: 'آية اليوم',  t: 'وَاصْبِرْ فَإِنَّ اللَّهَ لَا يُضِيعُ أَجْرَ الْمُحْسِنِينَ',                        s: 'سورة هود: 115' },
+    { k: 'حديث اليوم', t: 'مَثَلُ الَّذِي يَذْكُرُ رَبَّهُ وَالَّذِي لَا يَذْكُرُ مَثَلُ الْحَيِّ وَالْمَيِّتِ', s: 'رواه البخاري' },
+    { k: 'آية اليوم',  t: 'وَالذَّاكِرِينَ اللَّهَ كَثِيرًا وَالذَّاكِرَاتِ أَعَدَّ اللَّهُ لَهُم مَّغْفِرَةً وَأَجْرًا عَظِيمًا', s: 'سورة الأحزاب: 35' },
+    { k: 'حديث اليوم', t: 'مَنْ قَالَ سُبْحَانَ اللَّهِ وَبِحَمْدِهِ فِي يَوْمٍ مِائَةَ مَرَّةٍ حُطَّتْ خَطَايَاهُ وَإِنْ كَانَتْ مِثْلَ زَبَدِ الْبَحْرِ', s: 'متفق عليه' },
+    { k: 'آية اليوم',  t: 'وَقُل رَّبِّ زِدْنِي عِلْمًا',                                                         s: 'سورة طه: 114' }
+  ];
 
-  let state = {};
-  try { state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch {}
+  const TIERS = [
+    { min: 0,   name: 'بداية الطريق', icon: '🌱' },
+    { min: 3,   name: 'مواظب',        icon: '🌿' },
+    { min: 7,   name: 'برونزي',       icon: '🥉' },
+    { min: 14,  name: 'فضي',          icon: '🥈' },
+    { min: 30,  name: 'ذهبي',         icon: '🥇' },
+    { min: 100, name: 'ماسي',         icon: '💎' }
+  ];
 
-  let streakData = { count: 0, lastDate: null };
-  try { streakData = JSON.parse(localStorage.getItem(STREAK_KEY) || '{"count":0,"lastDate":null}'); } catch {}
+  const BADGES = [
+    { n: 1,   icon: '🌱', name: 'الخطوة الأولى' },
+    { n: 3,   icon: '🌿', name: 'ثلاثة أيام' },
+    { n: 7,   icon: '⭐', name: 'أسبوع كامل' },
+    { n: 14,  icon: '🌙', name: 'أسبوعان' },
+    { n: 30,  icon: '🏆', name: 'شهر من النور' },
+    { n: 100, icon: '💎', name: 'المئة الذهبية' }
+  ];
 
-  let challengeData = { startDate: null, days: [] };
-  try { challengeData = JSON.parse(localStorage.getItem(CHALLENGE_KEY) || '{"startDate":null,"days":[]}'); } catch {}
+  /* ================== أدوات ================== */
+  const $ = id => document.getElementById(id);
+  const pad = n => String(n).padStart(2, '0');
+  const ymd = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+  const parse = s => { const p = s.split('-').map(Number); return new Date(p[0], p[1] - 1, p[2]); };
+  const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+  const load = (k, def) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : def; } catch (e) { return def; } };
+  const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+  const reduceMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const list = document.getElementById('wirdTasksList');
-  const progressCircle = document.getElementById('progressCircle');
-  const progressText = document.getElementById('progressText');
-  const completedCount = document.getElementById('completedCount');
-  const totalCount = document.getElementById('totalCount');
-  const streakCount = document.getElementById('streakCount');
-  const challengeDays = document.getElementById('challengeDays');
-  const challengeBtn = document.getElementById('challengeBtn');
+  const now = new Date();
+  const todayKey = ymd(now);   // تاريخ محلي (يصحّح مشكلة التوقيت العالمي)
+  const KEYS = {
+    day: 'zad_wird_' + todayKey,
+    counts: 'zad_wird_counts_' + todayKey,
+    hist: 'zad_wird_history',
+    ch: 'zad_challenge_data',
+    oldStreak: 'zad_streak_data'
+  };
 
-  const today = new Date().toISOString().slice(0,10);
+  const page = $('wirdPage');
+  let toastTimer;
+  function toast(msg) {
+    const t = $('wToast');
+    t.textContent = msg; t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+  }
+  const buzz = ms => { try { navigator.vibrate && navigator.vibrate(ms); } catch (e) {} };
 
-  // ============ السلسلة ============
-  function updateStreak() {
-    const allCompleted = TASKS.every(t => state[t.id]);
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    const yesterdayStr = yesterday.toISOString().slice(0,10);
-
-    if (allCompleted) {
-      if (streakData.lastDate === yesterdayStr) {
-        // استمرار السلسلة
-        streakData.count += 1;
-        streakData.lastDate = today;
-        localStorage.setItem(STREAK_KEY, JSON.stringify(streakData));
-      } else if (streakData.lastDate !== today) {
-        // بداية سلسلة جديدة
-        streakData.count = 1;
-        streakData.lastDate = today;
-        localStorage.setItem(STREAK_KEY, JSON.stringify(streakData));
+  /* ================== الوضع الليلي (يتبع موقعك تلقائياً) ================== */
+  function syncMode() {
+    let dark = false;
+    const els = [document.body, document.documentElement];
+    for (const el of els) {
+      const m = getComputedStyle(el).backgroundColor.match(/[\d.]+/g);
+      if (m && m.length >= 3) {
+        const a = m[3] === undefined ? 1 : Number(m[3]);
+        if (a > 0.5) { dark = (0.299 * m[0] + 0.587 * m[1] + 0.114 * m[2]) < 110; break; }
       }
     }
+    page.dataset.mode = dark ? 'dark' : 'light';
+  }
+  syncMode();
+  try {
+    const mo = new MutationObserver(syncMode);
+    mo.observe(document.documentElement, { attributes: true });
+    mo.observe(document.body, { attributes: true });
+  } catch (e) {}
+  const tt = $('themeToggle');
+  if (tt) tt.addEventListener('click', () => { setTimeout(syncMode, 60); setTimeout(syncMode, 500); });
 
-    // إذا فات يوم، تصفر السلسلة (اختياري: يمكنك تعديل هذا السلوك)
-    if (streakData.lastDate && streakData.lastDate !== today && streakData.lastDate !== yesterdayStr) {
-      streakData.count = 0;
-      localStorage.setItem(STREAK_KEY, JSON.stringify(streakData));
+  /* ================== التاريخ والتحية والآية ================== */
+  (function header() {
+    try {
+      $('hijri').textContent = '🌙 ' + new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-latn', { day: 'numeric', month: 'long', year: 'numeric' }).format(now);
+    } catch (e) { $('hijri').style.display = 'none'; }
+    try {
+      $('greg').textContent = new Intl.DateTimeFormat('ar-u-nu-latn', { weekday: 'long', day: 'numeric', month: 'long' }).format(now);
+    } catch (e) { $('greg').style.display = 'none'; }
+    const h = now.getHours();
+    $('greet').textContent = h < 5 ? 'ليلة مباركة ✨' : h < 12 ? 'صباح النور ☀️' : h < 17 ? 'طاب يومك 🌤️' : h < 21 ? 'مساء النور 🌇' : 'ليلة مباركة ✨';
+    const dayNum = Math.floor(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) / 864e5);
+    const v = VERSES[dayNum % VERSES.length];
+    $('verseKind').textContent = v.k;
+    $('verseText').textContent = v.k === 'آية اليوم' ? '﴿ ' + v.t + ' ﴾' : '« ' + v.t + ' »';
+    $('verseSrc').textContent = v.s;
+  })();
+
+  /* ================== الحالة ================== */
+  let state = load(KEYS.day, {});
+  let counts = load(KEYS.counts, {});
+  let hist = load(KEYS.hist, null);
+
+  if (!Array.isArray(hist)) {
+    // ترحيل البيانات القديمة حتى لا يفقد الزائر تقدمه السابق
+    const set = new Set();
+    try {
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        const m = k && k.match(/^zad_wird_(\d{4}-\d{2}-\d{2})$/);
+        if (m) {
+          const st = load(k, {});
+          if (TASKS.every(t => st[t.id])) set.add(m[1]);
+        }
+      }
+    } catch (e) {}
+    const old = load(KEYS.oldStreak, null);
+    if (old && old.count > 0 && old.lastDate) {
+      const last = parse(old.lastDate);
+      for (let i = 0; i < old.count; i++) set.add(ymd(addDays(last, -i)));
     }
+    hist = Array.from(set);
+    save(KEYS.hist, hist);
+  }
+  hist = new Set(hist);
+  const persistHist = () => save(KEYS.hist, Array.from(hist));
 
-    streakCount.textContent = streakData.count;
+  let ch = load(KEYS.ch, {});
+  if (!ch || typeof ch !== 'object') ch = {};
+
+  const allDone = () => TASKS.every(t => state[t.id]);
+
+  /* ================== الحسابات ================== */
+  function streakInfo() {
+    let cur = 0;
+    let d = new Date();
+    if (!hist.has(todayKey)) d = addDays(d, -1);
+    while (hist.has(ymd(d))) { cur++; d = addDays(d, -1); }
+    const sorted = Array.from(hist).sort();
+    let best = 0, run = 0, prev = null;
+    for (const k of sorted) {
+      if (prev && ymd(addDays(parse(prev), 1)) === k) run++; else run = 1;
+      if (run > best) best = run;
+      prev = k;
+    }
+    return { cur: cur, best: best, total: hist.size };
   }
 
-  // ============ تحدي 7 أيام ============
-  function renderChallenge() {
-    challengeDays.innerHTML = '';
-    for (let i = 1; i <= 7; i++) {
-      const day = document.createElement('div');
-      day.className = 'challenge-day';
-      if (challengeData.days.includes(i)) {
-        day.classList.add('completed');
-      }
-      if (challengeData.startDate && !challengeData.days.includes(i) && 
-          challengeData.days.length === i - 1) {
-        day.classList.add('current');
-      }
-      day.textContent = challengeData.days.includes(i) ? '✓' : i;
-      challengeDays.appendChild(day);
+  function challengeStatus() {
+    if (!ch.startDate) return { status: 'idle', days: [] };
+    const start = parse(ch.startDate);
+    const days = [];
+    let broken = false, doneCount = 0;
+    for (let i = 0; i < 7; i++) {
+      const key = ymd(addDays(start, i));
+      let st;
+      if (hist.has(key)) { st = 'done'; doneCount++; }
+      else if (key === todayKey) st = 'current';
+      else if (key < todayKey) { st = 'missed'; broken = true; }
+      else st = 'future';
+      days.push(st);
     }
-
-    if (challengeData.days.length === 7) {
-      challengeBtn.textContent = '🎉 أكملت التحدي!';
-      challengeBtn.disabled = true;
-      challengeBtn.style.opacity = '0.6';
-    }
+    let status = 'active';
+    if (doneCount === 7) status = 'complete';
+    else if (broken) status = 'failed';
+    return { status: status, days: days, doneCount: doneCount };
   }
 
-  function checkChallengeProgress() {
-    if (!challengeData.startDate) return;
-    const allCompleted = TASKS.every(t => state[t.id]);
-    if (allCompleted) {
-      const dayIndex = challengeData.days.length + 1;
-      if (dayIndex <= 7 && !challengeData.days.includes(dayIndex)) {
-        challengeData.days.push(dayIndex);
-        localStorage.setItem(CHALLENGE_KEY, JSON.stringify(challengeData));
-        renderChallenge();
-      }
-    }
-  }
+  /* ================== بناء المهام ================== */
+  const list = $('wirdTasksList');
+  list.innerHTML = TASKS.map(t => `
+    <div class="task" data-id="${t.id}">
+      <button class="chk" type="button" role="checkbox" aria-checked="false" aria-label="${t.title}" data-act="toggle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+      </button>
+      <div class="ico" aria-hidden="true">${t.icon}</div>
+      <div class="info">
+        <div class="t">${t.title}</div>
+        <div class="s">${t.sub}</div>
+        ${t.target > 1 ? '<div class="mini"><i></i></div>' : ''}
+      </div>
+      <div class="actions">
+        ${t.target > 1 ? `<span class="count-pill">0/${t.target}</span><button class="btn-add" type="button" data-act="add" data-n="1">+1</button>${t.target >= 100 ? '<button class="btn-add alt" type="button" data-act="add" data-n="10">+10</button>' : ''}` : ''}
+        <a class="go" href="${t.link}" target="_blank" rel="noopener">اذهب ↗</a>
+      </div>
+    </div>`).join('');
 
-  challengeBtn.addEventListener('click', () => {
-    if (challengeData.startDate) return; // بدأ بالفعل
-    challengeData = { startDate: today, days: [] };
-    localStorage.setItem(CHALLENGE_KEY, JSON.stringify(challengeData));
-    challengeBtn.textContent = 'التحدي جارٍ...';
-    challengeBtn.disabled = true;
-    renderChallenge();
-    if (typeof showToast === 'function') showToast('بدأ التحدي! 🏆');
+  list.addEventListener('click', e => {
+    const b = e.target.closest('[data-act]');
+    if (!b) return;
+    const row = b.closest('.task');
+    const task = TASKS.find(t => t.id === row.dataset.id);
+    if (!task) return;
+    if (b.dataset.act === 'toggle') {
+      const val = !state[task.id];
+      state[task.id] = val;
+      if (task.target > 1) counts[task.id] = val ? task.target : 0;
+    } else if (b.dataset.act === 'add') {
+      const c = Math.min(task.target, (counts[task.id] || 0) + Number(b.dataset.n));
+      counts[task.id] = c;
+      state[task.id] = c >= task.target;
+    }
+    buzz(12);
+    commit();
   });
 
-  // ============ المهام ============
-  function updateProgress() {
-    const completed = TASKS.filter(t => state[t.id]).length;
-    const percent = Math.round((completed / TASKS.length) * 100);
-    
-    progressText.textContent = percent + '%';
-    completedCount.textContent = completed;
-    totalCount.textContent = TASKS.length;
-    progressCircle.style.background = `conic-gradient(var(--primary) ${percent}%, var(--line) ${percent}%)`;
-
-    updateStreak();
-    checkChallengeProgress();
-  }
-
-  TASKS.forEach(task => {
-    const item = document.createElement('div');
-    item.className = 'wird-item' + (state[task.id] ? ' completed' : '');
-    
-    const cb = document.createElement('input');
-    cb.type = 'checkbox';
-    cb.id = 'task_' + task.id;
-    cb.checked = !!state[task.id];
-    
-    const label = document.createElement('label');
-    label.htmlFor = 'task_' + task.id;
-    label.innerHTML = `${task.title} — <a href="${task.link}" style="font-size:0.85rem;color:var(--primary);text-decoration:underline" target="_blank">اذهب</a>`;
-    
-    cb.addEventListener('change', () => {
-      state[task.id] = cb.checked;
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      item.classList.toggle('completed', cb.checked);
-      updateProgress();
+  /* ================== العرض ================== */
+  function renderTasks() {
+    TASKS.forEach(t => {
+      const row = list.querySelector('.task[data-id="' + t.id + '"]');
+      const done = !!state[t.id];
+      row.classList.toggle('done', done);
+      row.querySelector('.chk').setAttribute('aria-checked', done ? 'true' : 'false');
+      if (t.target > 1) {
+        const c = counts[t.id] || 0;
+        row.querySelector('.count-pill').textContent = c + '/' + t.target;
+        row.querySelector('.mini i').style.width = (c / t.target * 100) + '%';
+        row.querySelectorAll('.btn-add').forEach(b => { b.disabled = done; b.style.opacity = done ? .4 : 1; });
+      }
     });
-    
-    item.append(cb, label);
-    list.appendChild(item);
-  });
+  }
 
-  // إعادة تعيين
-  document.getElementById('resetWird').addEventListener('click', () => {
-    if(confirm('هل أنت متأكد من إعادة تعيين ورد اليوم؟')) {
-      state = {};
-      localStorage.removeItem(STORAGE_KEY);
-      document.querySelectorAll('.wird-item').forEach(item => {
-        item.classList.remove('completed');
-        item.querySelector('input').checked = false;
-      });
-      updateProgress();
-      if(typeof showToast === 'function') showToast('تم إعادة تعيين الورد ✓');
+  const C = 2 * Math.PI * 54;
+  const ringBar = $('ringBar');
+  ringBar.style.strokeDasharray = C;
+  ringBar.style.strokeDashoffset = C;
+
+  function renderProgress() {
+    const done = TASKS.filter(t => state[t.id]).length;
+    const pct = Math.round(done / TASKS.length * 100);
+    $('progressText').textContent = pct + '%';
+    $('completedCount').textContent = done;
+    $('totalCount').textContent = TASKS.length;
+    ringBar.style.strokeDashoffset = C * (1 - pct / 100);
+    $('doneBanner').hidden = pct < 100;
+    let msg;
+    if (pct === 0) msg = 'ابدأ بخطوة صغيرة، فأحب الأعمال إلى الله أدومها';
+    else if (pct < 50) msg = 'بداية مباركة، واصل ولا تتوقف 🌱';
+    else if (pct < 100) msg = 'أنت في منتصف الطريق وأقرب مما تظن 🌿';
+    else msg = 'ما شاء الله، أتممت وردك اليوم ✨';
+    $('msg').textContent = msg;
+  }
+
+  let lastStreak = null;
+  function renderStreak() {
+    const s = streakInfo();
+    const numEl = $('streakCount');
+    numEl.textContent = s.cur;
+    if (lastStreak !== null && lastStreak !== s.cur) {
+      numEl.classList.remove('bump'); void numEl.offsetWidth; numEl.classList.add('bump');
     }
+    lastStreak = s.cur;
+    $('flame').classList.toggle('off', s.cur === 0);
+    $('bestStreak').textContent = s.best;
+    $('totalDays').textContent = s.total;
+
+    let idx = 0;
+    TIERS.forEach((t, i) => { if (s.cur >= t.min) idx = i; });
+    const tier = TIERS[idx], next = TIERS[idx + 1];
+    $('tier').textContent = tier.icon + ' ' + tier.name;
+    if (next) {
+      $('tierFill').style.width = ((s.cur - tier.min) / (next.min - tier.min) * 100) + '%';
+      $('tierNote').textContent = 'باقٍ ' + (next.min - s.cur) + ' يوم للوصول إلى «' + next.name + '»';
+    } else {
+      $('tierFill').style.width = '100%';
+      $('tierNote').textContent = 'وصلت إلى أعلى مستوى، بارك الله في مثابرتك 💎';
+    }
+    if (s.cur > 0 && !hist.has(todayKey)) {
+      $('tierNote').textContent = 'أكمل وردك اليوم لتحافظ على سلسلتك 🔥';
+    }
+
+    const letters = ['ح', 'ن', 'ث', 'ر', 'خ', 'ج', 'س'];
+    let html = '';
+    for (let i = 6; i >= 0; i--) {
+      const d = addDays(now, -i), k = ymd(d);
+      html += '<div class="' + (hist.has(k) ? 'on ' : '') + (i === 0 ? 'today' : '') + '">' + letters[d.getDay()] + '<span>' + (hist.has(k) ? '✓' : '') + '</span></div>';
+    }
+    $('week').innerHTML = html;
+  }
+
+  function renderChallenge() {
+    const cs = challengeStatus();
+    const wrap = $('challengeDays');
+    let html = '';
+    for (let i = 0; i < 7; i++) {
+      const st = cs.days[i] || 'future';
+      html += '<div class="ch-day ' + st + '"><div class="dot">' + (st === 'done' ? '✓' : st === 'missed' ? '✕' : (i + 1)) + '</div><small>اليوم ' + (i + 1) + '</small></div>';
+    }
+    wrap.innerHTML = html;
+    const btn = $('challengeBtn'), note = $('chNote'), medal = $('chMedal');
+    medal.innerHTML = '';
+    btn.disabled = false;
+    if (cs.status === 'idle') {
+      note.textContent = 'أكمل وردك 7 أيام متتالية لتحصل على وسام المثابرة';
+      btn.textContent = 'ابدأ التحدي';
+    } else if (cs.status === 'active') {
+      note.textContent = 'أنجزت ' + cs.doneCount + ' من 7 — استمر، فلا يجوز أن يفوتك يوم!';
+      btn.textContent = 'التحدي جارٍ… 💪';
+      btn.disabled = true;
+    } else if (cs.status === 'failed') {
+      note.textContent = 'انقطعت السلسلة هذه المرة، وهذا لا يضرّك؛ ابدأ من جديد وستصل بإذن الله';
+      btn.textContent = 'أعد المحاولة 🔄';
+    } else {
+      note.textContent = 'أتممت التحدي كاملاً، تقبّل الله منك وثبّتك';
+      medal.innerHTML = '<div class="medal"><span>🏅</span>وسام المثابرة — 7 أيام متتالية</div>';
+      btn.textContent = 'ابدأ تحدياً جديداً';
+    }
+  }
+
+  $('challengeBtn').addEventListener('click', () => {
+    const cs = challengeStatus();
+    if (cs.status === 'active') return;
+    ch = { startDate: todayKey, celebrated: false };
+    save(KEYS.ch, ch);
+    renderChallenge();
+    toast('بدأ التحدي! 🏆 بالتوفيق');
   });
 
-  renderChallenge();
-  updateProgress();
+  /* التقويم */
+  const nowMonth = { y: now.getFullYear(), m: now.getMonth() };
+  let view = { y: nowMonth.y, m: nowMonth.m };
+  function renderCalendar() {
+    const first = new Date(view.y, view.m, 1);
+    let title;
+    try { title = new Intl.DateTimeFormat('ar-u-nu-latn', { month: 'long', year: 'numeric' }).format(first); }
+    catch (e) { title = (view.m + 1) + '/' + view.y; }
+    $('calTitle').textContent = title;
+    const dows = ['السبت', 'الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'];
+    let html = dows.map(d => '<div class="cal-dow">' + d.slice(0, 3) + '</div>').join('');
+    const blanks = (first.getDay() + 1) % 7;
+    for (let i = 0; i < blanks; i++) html += '<div class="cal-cell blank"></div>';
+    const dim = new Date(view.y, view.m + 1, 0).getDate();
+    for (let d = 1; d <= dim; d++) {
+      const k = view.y + '-' + pad(view.m + 1) + '-' + pad(d);
+      let cls = 'cal-cell';
+      if (hist.has(k)) cls += ' done';
+      if (k === todayKey) cls += ' today';
+      if (k > todayKey) cls += ' future';
+      html += '<div class="' + cls + '">' + d + '</div>';
+    }
+    $('calGrid').innerHTML = html;
+    $('calNext').disabled = (view.y === nowMonth.y && view.m === nowMonth.m);
+  }
+  $('calPrev').addEventListener('click', () => { view.m--; if (view.m < 0) { view.m = 11; view.y--; } renderCalendar(); });
+  $('calNext').addEventListener('click', () => {
+    if (view.y === nowMonth.y && view.m === nowMonth.m) return;
+    view.m++; if (view.m > 11) { view.m = 0; view.y++; } renderCalendar();
+  });
+
+  function renderBadges() {
+    const best = streakInfo().best;
+    $('badges').innerHTML = BADGES.map(b => {
+      const on = best >= b.n;
+      return '<div class="badge ' + (on ? 'on' : 'locked') + '"><span class="bi">' + b.icon + '</span><b>' + b.name + '</b><small>' + (on ? 'مفتوح ✓' : b.n + ' يوم متتالٍ') + '</small></div>';
+    }).join('');
+  }
+
+  function renderAll() {
+    renderTasks(); renderProgress(); renderStreak(); renderChallenge(); renderCalendar(); renderBadges();
+  }
+
+  /* ================== الاحتفال ================== */
+  function confetti() {
+    if (reduceMotion) return;
+    const c = $('confetti'), ctx = c.getContext('2d');
+    c.width = innerWidth; c.height = innerHeight;
+    const colors = ['#0f8a6a', '#d9a441', '#f3d07a', '#ffffff', '#14956f'];
+    const P = [];
+    for (let i = 0; i < 150; i++) {
+      P.push({
+        x: innerWidth / 2 + (Math.random() - .5) * 240, y: innerHeight * 0.4,
+        vx: (Math.random() - .5) * 15, vy: -Math.random() * 13 - 4, g: .3 + Math.random() * .1,
+        s: 6 + Math.random() * 6, r: Math.random() * 6, vr: (Math.random() - .5) * .3,
+        c: colors[Math.floor(Math.random() * colors.length)]
+      });
+    }
+    let f = 0;
+    (function tick() {
+      ctx.clearRect(0, 0, c.width, c.height);
+      P.forEach(p => {
+        p.vy += p.g; p.x += p.vx; p.y += p.vy; p.vx *= .99; p.r += p.vr;
+        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r);
+        ctx.fillStyle = p.c; ctx.fillRect(-p.s / 2, -p.s / 2, p.s, p.s * .6); ctx.restore();
+      });
+      if (++f < 220) requestAnimationFrame(tick); else ctx.clearRect(0, 0, c.width, c.height);
+    })();
+  }
+
+  /* ================== حفظ وتحديث ================== */
+  function commit() {
+    const was = hist.has(todayKey);
+    const nowAll = allDone();
+    if (nowAll) hist.add(todayKey); else hist.delete(todayKey);
+    save(KEYS.day, state); save(KEYS.counts, counts); persistHist();
+    renderAll();
+    if (nowAll && !was) {
+      confetti(); buzz([30, 40, 30]);
+      toast('تقبّل الله طاعتك 🤍 أتممت ورد اليوم');
+      const cs = challengeStatus();
+      if (cs.status === 'complete' && !ch.celebrated) {
+        ch.celebrated = true; save(KEYS.ch, ch);
+        setTimeout(() => { toast('🏅 مبارك! أتممت تحدي الأيام السبعة'); confetti(); }, 1800);
+      }
+    }
+  }
+
+  $('resetWird').addEventListener('click', () => {
+    if (!confirm('هل أنت متأكد من إعادة تعيين ورد اليوم؟')) return;
+    state = {}; counts = {};
+    try { localStorage.removeItem(KEYS.day); localStorage.removeItem(KEYS.counts); } catch (e) {}
+    hist.delete(todayKey); persistHist();
+    renderAll();
+    toast('تمت إعادة تعيين ورد اليوم ✓');
+  });
+
+  renderAll();
 })();
 </script>
 </body>

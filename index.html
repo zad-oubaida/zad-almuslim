@@ -26,7 +26,8 @@
       show('PROMISE: ' + (e.reason && e.reason.message || e.reason));
     });
 
-    // علاج ذاتي: إن بقيت الصفحة فارغة نمسح الـ Service Worker والكاش ونعيد التحميل مرة واحدة
+    /* فحص تشخيصي فقط: لا يحذف الكاش ولا يلغي Service Worker ولا يعيد تحميل الصفحة.
+       هذا يمنع حلقة إعادة التحميل على الهاتف ويحافظ على جميع وظائف الموقع. */
     window.addEventListener('load', function () {
       setTimeout(function () {
         var el = document.querySelector('.hero') || document.getElementById('main');
@@ -35,16 +36,7 @@
           var r = el.getBoundingClientRect(), cs = getComputedStyle(el);
           bad = r.height < 50 || parseFloat(cs.opacity) < 0.1 || cs.visibility === 'hidden' || cs.display === 'none';
         }
-        if (!bad) return;
-        var done = false;
-        try { done = sessionStorage.getItem('zad_healed') === '1'; sessionStorage.setItem('zad_healed', '1'); } catch (e) {}
-        if (done) { show('الصفحة ما زالت فارغة بعد المعالجة'); return; }
-        var jobs = [];
-        if (navigator.serviceWorker && navigator.serviceWorker.getRegistrations)
-          jobs.push(navigator.serviceWorker.getRegistrations().then(function (rs) { return Promise.all(rs.map(function (r) { return r.unregister(); })); }));
-        if (window.caches)
-          jobs.push(caches.keys().then(function (ks) { return Promise.all(ks.map(function (k) { return caches.delete(k); })); }));
-        Promise.all(jobs).then(function () { location.reload(); }, function () { location.reload(); });
+        if (bad) show('DIAG: المحتوى الرئيسي غير ظاهر');
       }, 3500);
     });
   })();
@@ -435,15 +427,17 @@
   var themeMeta = document.querySelector('meta[name="theme-color"]');
   function applyTheme(dark) {
     document.body.classList.toggle('dark', dark);
-    themeBtn.textContent = dark ? '☀️' : '🌙';
-    themeBtn.setAttribute('aria-pressed', dark ? 'true' : 'false');
-    themeBtn.title = dark ? 'الوضع النهاري' : 'الوضع الليلي';
+    if (themeBtn) {
+      themeBtn.textContent = dark ? '☀️' : '🌙';
+      themeBtn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+      themeBtn.title = dark ? 'الوضع النهاري' : 'الوضع الليلي';
+    }
     if (themeMeta) themeMeta.setAttribute('content', dark ? '#0f1a17' : '#0f5b4a');
   }
   var saved = store.get('zad_theme');
   var mqDark = window.matchMedia('(prefers-color-scheme: dark)');
   applyTheme(saved ? saved === 'dark' : mqDark.matches);
-  if (!(window.ZadApp && window.ZadApp.themeManaged)) themeBtn.addEventListener('click', function () {
+  if (themeBtn && !(window.ZadApp && window.ZadApp.themeManaged)) themeBtn.addEventListener('click', function () {
     var dark = !document.body.classList.contains('dark');
     applyTheme(dark);
     store.set('zad_theme', dark ? 'dark' : 'light');

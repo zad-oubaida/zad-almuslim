@@ -419,15 +419,16 @@
   var y = $('year');
   if (y) y.textContent = new Date().getFullYear();
 
-  /* ---------- Service Worker ---------- */
+  /* ---------- Service Worker (تم تعطيله مؤقتاً لحل مشكلة الصفحة البيضاء) ---------- */
+  /*
   if ('serviceWorker' in navigator && !(window.ZadApp && window.ZadApp.swManaged)) {
     window.addEventListener('load', function () {
-      // تم وضع catch لمنع أي خطأ من تعليق الصفحة
       navigator.serviceWorker.register('./sw.js').catch(function (e) {
         console.warn('تعذّر تسجيل sw.js:', e);
       });
     });
   }
+  */
 
   /* ---------- الوضع الليلي (يُحفظ، ويتبع نظام الجهاز عند عدم الاختيار) ---------- */
   var themeBtn = $('themeToggle');

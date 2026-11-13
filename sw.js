@@ -1,26 +1,23 @@
-
 'use strict';
 
 /* ============================================================
-   زاد عبيدة — Service Worker  (v50)
-   ضعه في جذر الموقع بجانب index.html (وليس داخل assets).
+   زاد عبيدة — Service Worker  (v51)
+   تم تنظيفه لحل مشكلة الصفحة البيضاء (حذف الملفات القديمة).
    ============================================================ */
 
-const VERSION = 'v50';                       // ⚠️ غيّره عند كل نشر يغيّر ملفات ثابتة
+const VERSION = 'v51';                       // ⚠️ تم رفع الإصدار لإجبار المتصفح على مسح الكاش القديم
 const STATIC_CACHE = 'zad-static-' + VERSION;
-const RUNTIME_CACHE = 'zad-runtime-v2';      // ✅ v50: رفع الرقم يمسح أي نسخ قديمة أو تالفة عند كل المستخدمين
-const FONT_CACHE = 'zad-fonts-v2';
+const RUNTIME_CACHE = 'zad-runtime-v3';      
+const FONT_CACHE = 'zad-fonts-v3';
 const KEEP = [STATIC_CACHE, RUNTIME_CACHE, FONT_CACHE];
 const FONT_CACHE_MAX = 40;
 const RUNTIME_CACHE_MAX = 60;
 
-// ✅ v49: تجاوز كاش المتصفح (HTTP cache) — يتحقق من الخادم دائمًا حتى تصل التحديثات للناس
 const NET_OPTS = { cache: 'no-cache' };
-
-// ✅ v50: سقف انتظار الملفات غير المخزّنة (حتى لا تبقى الصفحة معلّقة بانتظار صورة أو خط)
 const RUNTIME_WAIT_MS = 8000;
 const FONT_WAIT_MS = 3000;
 
+// ✅ تم حذف الملفات القديمة المفقودة من هذه القائمة
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -36,11 +33,11 @@ const CORE_ASSETS = [
   './about.html',
   './opinions.html',
   './assets/style.css',
-  './assets/enhancements.css',
+  './assets/zad-redesign.css',
   './assets/data.js',
   './assets/app.js',
-  './assets/common.js',
-  './assets/home.js',
+  './assets/zad-redesign.js',
+  './assets/install-modal.js',
   './logo-zad-almuslim.webp.png',
   './manifest.json'
 ];
@@ -84,7 +81,6 @@ self.addEventListener('activate', event => {
     await Promise.allSettled(
       keys.filter(k => k.startsWith('zad') && !KEEP.includes(k)).map(k => caches.delete(k))
     );
-    // ✅ v49: إيقاف Navigation Preload — كان يمر على كاش المتصفح فيُرجع صفحات قديمة
     if (self.registration.navigationPreload) {
       try { await self.registration.navigationPreload.disable(); } catch (e) {}
     }
@@ -113,20 +109,17 @@ async function trimCache(cache, max) {
   if (keys.length > max) await Promise.all(keys.slice(0, keys.length - max).map(k => cache.delete(k)));
 }
 
-// مهلة موحّدة تعيد null بدل الرفض — آمنة مع Promise.race
 function withTimeout(promise, ms) {
   let timer;
   const timeout = new Promise(resolve => { timer = setTimeout(() => resolve(null), ms); });
   return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
 }
 
-// ✅ v50: بعض المتصفحات ترفض fetch(طلب تنقّل + خيارات) — نعود للجلب العادي بدل صفحة فارغة
 async function fetchFresh(req) {
   try { return await fetch(req, NET_OPTS); }
   catch (e) { return await fetch(req); }
 }
 
-// ✅ v50: إن تأخر Google Fonts نُرجع CSS فارغًا فتظهر الصفحة بالخط الاحتياطي بدل أن تنتظر
 function emptyCss() {
   return new Response('/* fonts unavailable */', { status: 200, headers: { 'Content-Type': 'text/css; charset=utf-8' } });
 }
@@ -139,16 +132,13 @@ async function handleNavigation(event) {
   const key = pageKey(req.url);
 
   const netPromise = (async () => {
-    // ✅ v49: fetch مع no-cache بدل preloadResponse لضمان وصول آخر نسخة من الخادم
     const res = await fetchFresh(req);
     if (isCacheable(res)) await cache.put(key, res.clone()).catch(() => {});
     return res;
   })();
   netPromise.catch(() => {});
-  // ✅ v46: إبقاء العامل حيًّا حتى يكتمل التخزين حتى لو أُرجعت الاستجابة مبكرًا
   event.waitUntil(netPromise.catch(() => {}));
 
-  // يطابق الصفحة، وإن كان الطلب للجذر دون اتصال يرجع إلى index.html
   const fromCache = async () =>
     (await cache.match(key)) ||
     (new URL(key).pathname.endsWith('/') ? await cache.match('./index.html') : null);
@@ -158,7 +148,6 @@ async function handleNavigation(event) {
     if (first && first.status < 500) return first;
     const cached = await fromCache();
     if (cached) return cached;
-    // ✅ v48: لا انتظار غير محدود — نعود لصفحة عدم الاتصال عند فشل الشبكة
     return first || await netPromise.catch(() => offlineResponse());
   } catch (err) {
     const cached = await fromCache();
@@ -169,15 +158,13 @@ async function handleNavigation(event) {
 async function networkFirst(event, cacheName, timeoutMs) {
   const req = event.request;
   const cache = await caches.open(cacheName);
-  // ✅ v49: no-cache حتى لا يُقدَّم app.js / style.css القديم من كاش المتصفح
   const net = fetchFresh(req).then(async res => {
     if (isCacheable(res)) await cache.put(req, res.clone()).catch(() => {});
     return res;
   });
   net.catch(() => {});
-  event.waitUntil(net.catch(() => {}));   // ✅ v46: إكمال التخزين في الخلفية
+  event.waitUntil(net.catch(() => {}));
 
-  // ✅ v46: ignoreSearch حتى يُقدَّم app.js من الكاش لو طُلب باسم app.js?v=...
   const fromCache = () => cache.match(req, { ignoreSearch: true });
 
   try {
@@ -185,7 +172,6 @@ async function networkFirst(event, cacheName, timeoutMs) {
     if (first && first.status < 500) return first;
     const cached = await fromCache();
     if (cached) return cached;
-    // ✅ v48: حماية من انتظار غير محدود عند فشل الشبكة
     return first || await net.catch(() => Response.error());
   } catch (err) {
     const cached = await fromCache();
@@ -206,11 +192,9 @@ async function staleWhileRevalidate(event, cacheName, maxEntries, opts) {
     return res;
   }).catch(() => null);
 
-  // التحديث يكمل في الخلفية دائمًا حتى لو توقفنا عن الانتظار
   event.waitUntil(update);
   if (cached) return cached;
 
-  // ✅ v50: لا انتظار غير محدود لملف غير مخزّن
   const res = await withTimeout(update, opts.waitMs || RUNTIME_WAIT_MS);
   return res || (opts.onTimeout ? opts.onTimeout() : Response.error());
 }
@@ -242,7 +226,6 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // ✅ v46: بقية الملفات (صور وغيرها) في كاش مستقل بسقف 60 ملفًا
   event.respondWith(staleWhileRevalidate(event, RUNTIME_CACHE, RUNTIME_CACHE_MAX, { waitMs: RUNTIME_WAIT_MS }));
 });
 

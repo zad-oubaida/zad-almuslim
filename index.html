@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>زاد عبيدة | أذكار ومواقيت الصلاة وقرآن</title>
 <meta name="description" content="مساحة عربية هادئة للأذكار والقرآن ومواقيت الصلاة، مع مصادر واضحة وتثبّت قبل النشر.">
-<meta name="theme-color" content="#0b6b50">
+<meta name="theme-color" content="#0b6b50"><meta name="color-scheme" content="light dark">
 <meta name="google-site-verification" content="vu1Grx9Kn0mioZbtk1KvI9SMEc0w1ELpfju5QRV_ULs">
 <meta name="robots" content="index,follow"><meta name="author" content="زاد عبيدة">
 <link rel="canonical" href="https://zad-oubaida.github.io/zad-almuslim/">
@@ -17,7 +17,7 @@
 <meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="زاد عبيدة">
 <link rel="manifest" href="./manifest.json">
 <link rel="icon" href="./logo-zad-almuslim.webp.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://api.aladhan.com" crossorigin><link rel="preconnect" href="https://api.alquran.cloud" crossorigin>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700;800&display=swap">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"زاد عبيدة","alternateName":"Zad Oubaida","url":"https://zad-oubaida.github.io/zad-almuslim/","inLanguage":"ar","sameAs":["https://www.instagram.com/zad_oubaida/","https://www.facebook.com/profile.php?id=61595379137805","https://www.youtube.com/@oubaida_dz"]}</script>
@@ -31,12 +31,12 @@ a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer;color:in
 .i{width:1.15em;height:1.15em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.2em;flex:none}
 .w{max-width:1112px;margin:0 auto;padding:0 20px}
 .hd{position:sticky;top:0;z-index:20;background:var(--sf);border-bottom:1px solid var(--ln)}
-.hd .w{display:flex;align-items:center;gap:16px;height:76px;position:relative}
+.hd .w{display:flex;align-items:center;gap:16px;height:76px;position:relative;max-width:1240px}
 .br{display:flex;align-items:center;gap:12px}
 .lg{width:42px;height:42px;border-radius:50%;background:var(--pri);color:#fff;display:grid;place-items:center;font:700 1.4rem Amiri,serif}
 .br b{display:block;color:var(--link);font:700 1.5rem/1.3 Amiri,serif}.br small{color:var(--mut);font-size:.86rem}
 .nav{display:flex;gap:4px;margin-inline:auto}
-.nav a{padding:8px 16px;border-radius:10px;font-weight:700;font-size:1.02rem}
+.nav a{padding:8px 11px;border-radius:10px;font-weight:700;font-size:1rem}
 .nav a.on,.nav a:hover{background:var(--mint);color:var(--link)}
 .ib{width:44px;height:44px;border-radius:12px;border:1px solid var(--ln);background:var(--sf);display:grid;place-items:center}
 #mn{display:none}
@@ -97,7 +97,7 @@ h1{font-size:clamp(2.3rem,5.6vw,4rem);margin:6px 0 14px;line-height:1.55}
 .st{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .st .card{padding:20px;box-shadow:none}.st h3{font:800 1.2rem Tajawal;margin:12px 0 4px}.st p{font-size:1rem;margin:0}
 .nm{width:38px;height:38px;border-radius:50%;background:var(--pri);color:#fff;display:grid;place-items:center;font-weight:700}
-.mine{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center}
+.mine{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start}
 .mine h2{font-size:2.6rem;margin:6px 0}.mine .eb{display:flex;gap:8px;align-items:center;color:var(--link)}
 #ml{display:grid;gap:12px}
 .de{border:1.5px dashed var(--ln);border-radius:16px;padding:16px 18px;background:var(--sf2);position:relative}
@@ -115,6 +115,39 @@ footer .fb{color:var(--gold);font:700 2rem Amiri,serif}
 #ts{position:fixed;inset-inline:0;bottom:calc(20px + env(safe-area-inset-bottom));margin:auto;width:max-content;max-width:90%;background:#052e23;color:#fff;padding:10px 20px;border-radius:99px;opacity:0;transform:translateY(20px);transition:.25s;pointer-events:none;z-index:50}
 #ts.s{opacity:1;transform:none}
 :focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+[hidden]{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.skip{position:absolute;inset-inline-start:12px;top:-80px;background:var(--pri);color:#fff;padding:10px 18px;border-radius:12px;z-index:100;font-weight:700}.skip:focus{top:10px}
+.ns{margin:0;padding:12px 20px;background:var(--gt);color:#3b2a05;text-align:center}
+.dd{position:relative}.dd-t{display:inline-flex;align-items:center;gap:4px}
+.dm{display:none;position:absolute;inset-inline-start:0;top:100%;min-width:210px;background:var(--sf);border:1px solid var(--ln);border-radius:14px;box-shadow:var(--sh);padding:6px;z-index:30}
+.dd.open>.dm{display:block}
+.lang .dm{inset-inline-start:auto;left:0;min-width:160px;top:calc(100% + 6px)}
+.dm a{display:block;padding:9px 14px;border-radius:10px;font-weight:500;font-size:.98rem}
+.dm a:hover{background:var(--mint);color:var(--link)}
+@media(hover:hover) and (min-width:1201px){.nav .dd:hover>.dm{display:block}}
+@media(max-width:1200px){
+.nav{display:none;position:absolute;top:100%;inset-inline:0;background:var(--sf);flex-direction:column;padding:8px 20px 14px;border-bottom:1px solid var(--ln);max-height:80vh;overflow:auto}
+.nav.open{display:flex}#mn{display:grid}.hd .lang{margin-inline-start:auto}
+.nav .dm{position:static;box-shadow:none;border:0;background:transparent;padding:0 12px;min-width:0}
+}
+dialog{border:1px solid var(--ln);border-radius:22px;background:var(--sf);color:var(--ink);padding:24px;width:min(92vw,440px);box-shadow:0 24px 70px rgba(0,0,0,.4);font:inherit}
+dialog::backdrop{background:rgba(4,28,21,.6)}
+dialog h3{font-size:1.6rem;margin:0 0 10px;color:var(--hd)}dialog ol{margin:0 0 6px;padding-inline-start:22px;color:var(--mut)}dialog p{color:var(--mut);margin:0 0 8px}
+dialog .ac{display:flex;gap:10px;flex-wrap:wrap;border:0;padding-top:12px;margin-top:6px}
+.mks,.mkf input,.mkf textarea{width:100%;border:1px solid var(--ln);border-radius:12px;background:var(--sf2);color:var(--ink);font:inherit;padding:10px 14px}
+.mkf{display:grid;gap:14px;margin-top:18px}.mkf label{font-weight:700;display:block;margin-bottom:4px}.mkf textarea{min-height:130px;resize:vertical;font:400 1.3rem/2 Amiri,serif}
+.mkt{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.mkt .mks{flex:1 1 180px;width:auto}
+details.mi{background:var(--sf2);border:1px solid var(--ln);border-radius:16px;margin-bottom:10px}
+details.mi summary{list-style:none;cursor:pointer;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px;font-weight:700}
+details.mi summary::-webkit-details-marker{display:none}details.mi summary:after{content:"▾";color:var(--mut);transition:transform .2s}details.mi[open] summary:after{transform:rotate(180deg)}
+.mi-t{flex:1;overflow-wrap:anywhere}.mi-c{font-size:.85rem;background:var(--mint);color:var(--link);border-radius:99px;padding:0 12px}
+.mi-b{padding:0 16px 14px;border-top:1px solid var(--ln)}.mi-x{white-space:pre-wrap;overflow-wrap:anywhere;font:400 1.45rem/2.1 Amiri,serif;margin:12px 0}
+.mi-a{display:flex;flex-wrap:wrap;gap:8px}.btn.s.pp{background:var(--pri);border-color:var(--pri);color:#fff}.btn.s.dg{color:#b3261e}[data-theme=dark] .btn.s.dg{color:#ff8a80}
+.btt{position:fixed;inset-inline-start:18px;bottom:calc(18px + env(safe-area-inset-bottom));width:46px;height:46px;border-radius:50%;border:0;background:var(--pri);color:#fff;display:grid;place-items:center;opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .25s,transform .25s;z-index:40}
+.btt.s{opacity:1;transform:none;pointer-events:auto}
+@media(hover:hover){.btt:hover{transform:translateY(-3px)}}
+body>.skiptranslate,.goog-te-banner-frame{display:none!important}body{top:0!important}.goog-tooltip,.goog-tooltip:hover,#goog-gt-tt,.goog-te-balloon-frame{display:none!important}.goog-text-highlight{background:none!important;box-shadow:none!important}
 .btn,.ib,.nav a,.ul,footer a{transition:transform .2s ease,box-shadow .2s ease,background-color .2s ease,border-color .2s ease,color .2s ease,filter .2s ease}
 .btn .i,.ib .i,.gi{transition:transform .25s ease,background-color .2s ease,color .2s ease}
 .btn:active,.ib:active{transform:scale(.96)!important;box-shadow:none!important}
@@ -134,7 +167,7 @@ footer a:hover{transform:translateX(-5px)}
 @media(max-width:900px){
 .two,.tr,.mine{grid-template-columns:1fr}.fg{grid-template-columns:1fr 1fr}
 .nav{display:none;position:absolute;top:100%;inset-inline:0;background:var(--sf);flex-direction:column;padding:8px 20px 14px;border-bottom:1px solid var(--ln)}.nav.open{display:flex}
-#mn{display:grid;margin-inline-start:auto}
+#mn{display:grid}
 .hero{padding:44px 0 40px}.card,.now{padding:20px}
 #pt{grid-template-columns:1fr 1fr}#pt li{flex-direction:column;align-items:flex-start;gap:2px;font-weight:500}#pt li b{font-size:1.15rem}#pt li.on b{color:#fff}
 .st{grid-template-columns:1fr}.sh h2,.tr h2{font-size:2.2rem}.band{padding:24px}.vt{font-size:1.8rem}
@@ -143,6 +176,9 @@ footer a:hover{transform:translateX(-5px)}
 </style>
 </head>
 <body>
+<a class="skip" href="#main">تخطَّ إلى المحتوى</a>
+<noscript><p class="ns">يحتاج الموقع إلى تفعيل جافاسكربت لعرض مواقيت الصلاة وآية اليوم وحديث اليوم.</p></noscript>
+<div id="google_translate_element" class="notranslate" translate="no" aria-hidden="true" style="position:absolute;left:-9999px;top:0;width:1px;height:1px;overflow:hidden"></div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <symbol id="orn" viewBox="-100 -100 200 200"><g class="ol"><path d="M0 -96L96 0L0 96L-96 0Z"/><path d="M67.9 -67.9L67.9 67.9L-67.9 67.9L-67.9 -67.9Z"/><path d="M22.2 -53.6L53.6 22.2L-22.2 53.6L-53.6 -22.2Z"/><path d="M53.6 -22.2L22.2 53.6L-53.6 22.2L-22.2 -53.6Z"/><path d="M11.5 -27.7L27.7 -11.5L27.7 11.5L11.5 27.7L-11.5 27.7L-27.7 11.5L-27.7 -11.5L-11.5 -27.7Z"/><circle r="12"/><circle r="99"/><circle cx="32.1" cy="-77.6" r="5"/><circle cx="77.6" cy="-32.1" r="5"/><circle cx="77.6" cy="32.1" r="5"/><circle cx="32.1" cy="77.6" r="5"/><circle cx="-32.1" cy="77.6" r="5"/><circle cx="-77.6" cy="32.1" r="5"/><circle cx="-77.6" cy="-32.1" r="5"/><circle cx="-32.1" cy="-77.6" r="5"/></g></symbol>
 <pattern id="gp" width="64" height="64" patternUnits="userSpaceOnUse"><g class="pl"><path d="M32 5L59 32L32 59L5 32ZM51.1 12.9L51.1 51.1L12.9 51.1L12.9 12.9Z"/><path d="M32 20L44 32L32 44L20 32ZM40.5 23.5L40.5 40.5L23.5 40.5L23.5 23.5Z"/><path d="M0 10L10 0M54 0L64 10M64 54L54 64M10 64L0 54"/></g></pattern>
@@ -165,18 +201,25 @@ footer a:hover{transform:translateX(-5px)}
 <symbol id="lef" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10zM2 21c0-3 1.9-5.4 5.1-6.1C9.7 14.3 12 13 14 11"/></symbol>
 <symbol id="bds" viewBox="0 0 24 24"><circle cx="12" cy="6" r="2"/><circle cx="6" cy="11" r="2"/><circle cx="18" cy="11" r="2"/><circle cx="8" cy="18" r="2"/><circle cx="16" cy="18" r="2"/></symbol>
 <symbol id="bed" viewBox="0 0 24 24"><path d="M2 4v16M2 8h18a2 2 0 0 1 2 2v10M2 17h20M6 8v9"/></symbol>
+<symbol id="glb" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></symbol>
+<symbol id="cdn" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+<symbol id="aup" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></symbol>
+<symbol id="x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
 </defs></svg>
 
 <header class="hd"><div class="w">
-  <a class="br" href="./index.html"><img class="lg" src="./logo-zad-almuslim.webp.png" alt="شعار زاد عبيدة"><span><b>زاد عبيدة</b><small>ذكر نافع بمصدر موثوق</small></span></a>
+  <a class="br" href="./index.html"><span class="lg" aria-hidden="true">ز</span><span><b>زاد عبيدة</b><small>ذكر نافع بمصدر موثوق</small></span></a>
   <nav class="nav" id="nv" aria-label="التنقل الرئيسي">
-    <a class="on" href="./index.html">الرئيسية</a><a href="./adhkar.html">الأذكار</a><a href="./quran.html">القرآن</a><a href="./nawawi.html">الأحاديث</a><a href="./duas.html">الأدعية</a><a href="./articles.html">المقالات</a><a href="#mine">أذكاري</a>
+    <a class="on" href="./index.html" aria-current="page">الرئيسية</a><a href="./wird.html">وردك اليومي</a>
+    <div class="dd"><a class="dd-t" href="./adhkar.html" aria-haspopup="true" aria-expanded="false">الأذكار <svg class="i"><use href="#cdn"/></svg></a><div class="dm"><a href="./adhkar.html">الأذكار المختارة</a><a href="./azkar-morning.html">أذكار الصباح</a><a href="./azkar-evening.html">أذكار المساء</a><a href="./azkar-sleep.html">أذكار النوم</a></div></div>
+    <a href="#mine">أذكاري</a><a href="./nawawi.html">الأحاديث</a><a href="./quran.html">القرآن</a><a href="./duas.html">الأدعية</a><a href="./articles.html">المقالات</a><a href="./opinions.html">آراء</a>
   </nav>
+  <div class="dd lang" id="lgd"><button class="ib dd-t" type="button" title="ترجمة الموقع" aria-label="ترجمة الموقع" aria-haspopup="true" aria-expanded="false"><svg class="i"><use href="#glb"/></svg></button><div class="dm notranslate" translate="no"><a href="#" data-lang="ar" lang="ar">العربية</a><a href="#" data-lang="en" lang="en">English</a><a href="#" data-lang="fr" lang="fr">Français</a><a href="#" data-lang="es" lang="es">Español</a><a href="#" data-lang="de" lang="de">Deutsch</a><a href="#" data-lang="tr" lang="tr">Türkçe</a><a href="#" data-lang="it" lang="it">Italiano</a></div></div>
   <button class="ib" id="th" aria-label="تبديل الوضع الداكن"><svg class="i"><use href="#moon"/></svg></button>
   <button class="ib" id="mn" aria-label="القائمة" aria-expanded="false"><svg class="i"><use href="#menu"/></svg></button>
 </div></header>
 
-<main>
+<main id="main">
 <section class="hero"><svg class="gp" aria-hidden="true"><rect width="100%" height="100%" fill="url(#gp)"/></svg><svg class="orn o1" aria-hidden="true"><use href="#orn"/></svg><svg class="orn o2" aria-hidden="true"><use href="#orn"/></svg><div class="w">
   <p class="bs">بسم الله الرحمن الرحيم</p>
   <h1>زادٌ لقلبك، ومعرفةٌ نثق بمصدرها</h1>
@@ -197,21 +240,21 @@ footer a:hover{transform:translateX(-5px)}
       <div class="ch"><h2 id="pth">مواقيت الصلاة</h2><button class="btn s" id="ct"><svg class="i"><use href="#pin"/></svg>تغيير</button></div>
       <p class="dt" id="pd">جارٍ تحميل المواقيت…</p>
       <ul id="pt"></ul>
-      <div class="cd" hidden id="cdb" role="timer"><div><span id="cl"></span><b id="cv">00:00:00</b></div><div class="pb"><i id="pg"></i></div></div>
+      <div class="cd" hidden id="cdb" role="timer"><div><span id="cl"></span><b id="cv" class="notranslate" translate="no">00:00:00</b></div><div class="pb"><i id="pg"></i></div></div>
     </section>
   </div>
 
   <div class="two" style="margin-bottom:0">
     <article class="card vh" aria-labelledby="ah">
       <div class="ch"><h3 id="ah"><svg class="i"><use href="#bok"/></svg>آية اليوم</h3></div>
-      <p class="vt" id="at">جارٍ التحميل…</p>
-      <p class="vs" id="as"></p>
+      <p class="vt notranslate" translate="no" id="at">جارٍ التحميل…</p>
+      <p class="vs notranslate" translate="no" id="as"></p>
       <div class="ac"><button class="btn s" data-a="cp" data-f="a"><svg class="i"><use href="#cpy"/></svg>نسخ</button><button class="btn s" data-a="sh" data-f="a"><svg class="i"><use href="#shr"/></svg>مشاركة</button></div>
     </article>
     <article class="card vh g" aria-labelledby="hh">
       <div class="ch"><h3 id="hh"><svg class="i"><use href="#fil"/></svg>حديث اليوم</h3><span class="badge" id="hb"><svg class="i"><use href="#chk"/></svg><span></span></span></div>
-      <p class="vt h" id="ht"></p>
-      <p class="vs" id="hs"></p>
+      <p class="vt h notranslate" translate="no" id="ht"></p>
+      <p class="vs notranslate" translate="no" id="hs"></p>
       <div class="ac"><button class="btn s" data-a="cp" data-f="h"><svg class="i"><use href="#cpy"/></svg>نسخ</button><button class="btn s" data-a="sh" data-f="h"><svg class="i"><use href="#shr"/></svg>مشاركة</button><a class="ul" style="margin-inline-start:auto;align-self:center" href="./nawawi.html">اقرأ الحديث كاملًا</a></div>
     </article>
   </div>
@@ -251,10 +294,17 @@ footer a:hover{transform:translateX(-5px)}
     <div>
       <p class="eb"><svg class="i"><use href="#lck"/></svg>أذكاري · دفترك الخاص</p>
       <h2>اكتب أذكارك، وتبقى معك وحدك</h2>
-      <p style="color:var(--mut)">تُحفظ على جهازك فقط، ولا تُرسل إلى أي خادم. خذ نسخة احتياطية متى شئت.</p>
-      <div class="cta" style="justify-content:flex-start"><button class="btn p" id="mo">افتح أذكاري</button><button class="btn" id="mb">نسخة احتياطية</button></div>
+      <p style="color:var(--mut)">تُحفظ على جهازك فقط ولا تُرسل إلى أي خادم. خذ نسخة احتياطية متى شئت لتنقلها أو لتأمن عليها من المسح.</p>
+      <form class="mkf" id="mkForm" autocomplete="off">
+        <div><label for="mkT">عنوان الذكر</label><input id="mkT" type="text" maxlength="80" placeholder="مثال: ذكري بعد الفجر"></div>
+        <div><label for="mkX">نص الذكر</label><textarea id="mkX" maxlength="5000" placeholder="اكتب ذكرك هنا…" required></textarea></div>
+        <div class="cta" style="justify-content:flex-start"><button class="btn p" type="submit" id="mkS">حفظ الذكر</button><button class="btn" type="button" id="mkC" hidden>إلغاء التعديل</button></div>
+      </form>
     </div>
-    <div id="ml"></div>
+    <div>
+      <div class="mkt"><input type="search" class="mks" id="mkQ" placeholder="ابحث في أذكاري…" aria-label="ابحث في أذكاري"><button class="btn s" id="mb" type="button"><svg class="i"><use href="#dwn"/></svg>نسخة احتياطية</button><button class="btn s" id="mi" type="button">استيراد</button><input type="file" id="mkFile" accept="application/json,.json" hidden></div>
+      <div id="ml" class="notranslate" translate="no" aria-live="polite"></div>
+    </div>
   </div>
 
   <div class="band">
@@ -273,6 +323,9 @@ footer a:hover{transform:translateX(-5px)}
   </div>
   <div class="cp">© <span id="yr">2026</span> زاد عبيدة — جميع الحقوق محفوظة</div>
 </div></footer>
+<dialog id="cityDlg" aria-labelledby="cdT"><form method="dialog"><h3 id="cdT">غيّر مدينتك</h3><label class="sr" for="cityIn">اسم المدينة</label><input id="cityIn" class="mks" type="text" maxlength="80" placeholder="مدينتك (Algiers)" autocomplete="off" enterkeyhint="search"><div class="ac"><button class="btn p" type="submit" value="ok">عرض المواقيت</button><button class="btn" type="button" id="geoB"><svg class="i"><use href="#pin"/></svg>استخدم موقعي</button><button class="btn s" type="submit" value="x" formnovalidate>إلغاء</button></div></form></dialog>
+<dialog id="infoDlg" aria-labelledby="infoT"><form method="dialog"><h3 id="infoT"></h3><ol id="infoL"></ol><div class="ac"><button class="btn p" type="submit">حسنًا</button></div></form></dialog>
+<dialog id="delDlg" aria-labelledby="delT"><form method="dialog"><h3 id="delT">حذف هذا الذكر؟</h3><p id="delN"></p><p>لا يمكن التراجع عن الحذف.</p><div class="ac"><button class="btn p" type="submit" value="yes">نعم، احذف</button><button class="btn s" type="submit" value="no">إلغاء</button></div></form></dialog>
 <div id="ts" role="status" aria-live="polite"></div>
 
 <script>
@@ -286,10 +339,23 @@ function day(){var n=new Date();return Math.floor((n.getTime()-n.getTimezoneOffs
 function gj(u,ms){var c=window.AbortController?new AbortController():null,t=setTimeout(function(){c&&c.abort()},ms||10000);return fetch(u,c?{signal:c.signal}:{}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){clearTimeout(t);return j},function(e){clearTimeout(t);throw e})}
 $('#yr').textContent=new Date().getFullYear();
 
-/* الوضع الداكن والقائمة */
-function icon(){var d=document.documentElement.dataset.theme==='dark';$('#th use').setAttribute('href',d?'#sun':'#moon')}
+/* الوضع الداكن والقائمة والقوائم المنسدلة */
+var tm=document.querySelector('meta[name=theme-color]');
+function icon(){var d=document.documentElement.dataset.theme==='dark';$('#th use').setAttribute('href',d?'#sun':'#moon');$('#th').setAttribute('aria-pressed',d);if(tm)tm.setAttribute('content',d?'#0d1511':'#0b6b50')}
 icon();$('#th').onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;ls.set('zad_theme',n);icon()};
-$('#mn').onclick=function(){var o=$('#nv').classList.toggle('open');this.setAttribute('aria-expanded',o)};
+var mqd=matchMedia('(prefers-color-scheme: dark)');if(mqd.addEventListener)mqd.addEventListener('change',function(e){if(!ls.get('zad_theme')){document.documentElement.dataset.theme=e.matches?'dark':'light';icon()}});
+var mn=$('#mn'),nv=$('#nv');
+function cm(){nv.classList.remove('open');mn.setAttribute('aria-expanded','false');$('#mn use').setAttribute('href','#menu')}
+mn.onclick=function(e){e.stopPropagation();var o=nv.classList.toggle('open');this.setAttribute('aria-expanded',o);$('#mn use').setAttribute('href',o?'#x':'#menu')};
+nv.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a');if(a&&!a.classList.contains('dd-t'))cm()});
+var mqT=matchMedia('(hover: none)'),mqN=matchMedia('(max-width: 1200px)');
+function cdd(x){document.querySelectorAll('.dd.open').forEach(function(d){if(d===x)return;d.classList.remove('open');var t=d.querySelector('.dd-t');if(t)t.setAttribute('aria-expanded','false')})}
+document.querySelectorAll('.dd').forEach(function(d){var t=d.querySelector('.dd-t');if(!t)return;t.addEventListener('click',function(e){if(t.tagName==='A'&&!(mqT.matches||mqN.matches))return;e.preventDefault();cdd(d);var o=d.classList.toggle('open');t.setAttribute('aria-expanded',o)})});
+document.addEventListener('click',function(e){document.querySelectorAll('.dd.open').forEach(function(d){if(!d.contains(e.target)){d.classList.remove('open');var t=d.querySelector('.dd-t');if(t)t.setAttribute('aria-expanded','false')}});if(!nv.contains(e.target)&&!mn.contains(e.target))cm()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){cdd(null);cm()}});
+var up=document.createElement('button');up.className='btt';up.type='button';up.setAttribute('aria-label','العودة للأعلى');up.innerHTML='<svg class="i"><use href="#aup"/></svg>';
+up.onclick=function(){window.scrollTo({top:0,behavior:'smooth'})};document.body.appendChild(up);
+window.addEventListener('scroll',function(){up.classList.toggle('s',window.scrollY>400)},{passive:true});
 
 /* الذكر المناسب للوقت */
 (function(){var h=new Date().getHours(),M={m:['الصباح','تبدأ بعد صلاة الفجر وتمتد إلى الضحى. اقرأها بهدوء، وكل ذكر معه مصدره.','./azkar-morning.html'],e:['المساء','تبدأ بعد صلاة العصر وتمتد إلى المغرب. اقرأها بهدوء، وكل ذكر معه مصدره.','./azkar-evening.html'],s:['النوم','تُقال قبل النوم. اختم يومك بها، وكل ذكر معه مصدره.','./azkar-sleep.html']};
@@ -299,7 +365,7 @@ $('#hc').href=v[2];$('#hc').firstChild.textContent='ابدأ بأذكار '+v[0]
 
 /* مواقيت الصلاة (طريقة 19: وزارة الشؤون الدينية الجزائرية) */
 var API='https://api.aladhan.com/v1/',N=[['Fajr','الفجر'],['Sunrise','الشروق'],['Dhuhr','الظهر'],['Asr','العصر'],['Maghrib','المغرب'],['Isha','العشاء']],O=['Fajr','Dhuhr','Asr','Maghrib','Isha'];
-var S=null,reload=null,retry=0,tok=0,pt=$('#pt');
+var S=null,reload=null,retry=0,tok=0,pt=$('#pt'),lk='';
 function sec(z){try{var p=new Intl.DateTimeFormat('en-GB',{timeZone:z||undefined,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).formatToParts(new Date()),g=function(k){return+p.filter(function(x){return x.type===k})[0].value};return g('hour')%24*3600+g('minute')*60+g('second')}catch(e){var n=new Date();return n.getHours()*3600+n.getMinutes()*60+n.getSeconds()}}
 function ts(s){var m=/(\d{1,2}):(\d{2})/.exec(s);return m?m[1]*3600+m[2]*60:0}
 function f12(s){var m=/(\d{1,2}):(\d{2})/.exec(s);if(!m)return'--';var h=+m[1];return(h%12||12)+':'+m[2]+' '+(h>=12?'م':'ص')}
@@ -321,10 +387,11 @@ var now=sec(S.tz),nk=null,ni=0,pv=null,i;
 for(i=0;i<O.length;i++){var s=ts(S.t[O[i]]);if(s>now){nk=O[i];ni=s-now;break}pv=s}
 if(!nk){nk='Fajr';ni=86400-now+ts(S.t.Fajr);pv=ts(S.t.Isha)}else if(pv===null)pv=ts(S.t.Isha)-86400;
 [].forEach.call(pt.children,function(li){li.classList.toggle('on',li.dataset.k===nk)});
-$('#cl').textContent='متبقٍ لصلاة '+nm(nk);$('#cv').textContent=p2(Math.floor(ni/3600))+':'+p2(Math.floor(ni%3600/60))+':'+p2(ni%60);
+if(lk!==nk){lk=nk;$('#cl').textContent='متبقٍ لصلاة '+nm(nk)}$('#cv').textContent=p2(Math.floor(ni/3600))+':'+p2(Math.floor(ni%3600/60))+':'+p2(ni%60);
 $('#pg').style.width=Math.max(0,Math.min(100,(now-pv)/(now+ni-pv)*100))+'%';$('#cdb').hidden=false}
 function use(d,label){S={t:d.t,tz:d.tz,date:d.date};var dt=new Date().toLocaleDateString('ar-DZ',{weekday:'long',day:'numeric',month:'long',year:'numeric'});$('#pd').textContent=(label?label+' · ':'')+dt;draw();tick()}
 setInterval(tick,1000);document.addEventListener('visibilitychange',function(){if(!document.hidden)tick()});
+function fail(){var p=$('#pd');p.textContent='تعذّر تحميل المواقيت. تحقّق من الاتصال أو اسم المدينة. ';var b=document.createElement('button');b.type='button';b.className='btn s';b.textContent='إعادة المحاولة';b.onclick=function(){reload&&reload()};p.appendChild(b)}
 function estData(){var g=ls.get('zad_geo'),la=36.7538,lo=3.0588,tz=1,z='Africa/Algiers';if(g&&/^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/.test(g)){g=g.split(',');la=+g[0];lo=+g[1];tz=-new Date().getTimezoneOffset()/60;z=null}return{t:est(la,lo,tz),tz:z,date:ds()}}
 function load(url,label,key,silent,eo){var t=++tok;reload=function(){load(url,label,key,true,eo)};
 if(!silent){S=null;pt.textContent='';$('#cdb').hidden=true;var c=null;try{c=JSON.parse(ls.get('zad_pt_'+key)||'null')}catch(e){}
@@ -332,12 +399,15 @@ if(c&&c.t&&c.date===ds())use(c,label);else if(eo)use(estData(),label+' · تقد
 gj(url(),7000).then(function(j){if(t!==tok)return;if(!j||j.code!==200||!j.data||!j.data.timings)throw 0;var d={t:j.data.timings,tz:j.data.meta&&j.data.meta.timezone,date:ds()};ls.set('zad_pt_'+key,JSON.stringify(d));use(d,label)}).catch(function(){
 if(t!==tok)return;if(S&&(S.date===ds()||!eo))return;if(eo)return use(estData(),label+' · تقديري');
 var c=null;try{c=JSON.parse(ls.get('zad_pt_'+key)||'null')}catch(e){}
-if(c&&c.t)use(c,label+' · آخر بيانات محفوظة');else $('#pd').textContent='تعذّر تحميل المواقيت. اضغط «تغيير» وجرّب مدينة أخرى.'})}
+if(c&&c.t)use(c,label+' · آخر بيانات محفوظة');else fail()})}
 function byCity(c,keep){if(!keep){ls.set('zad_city',c);ls.del('zad_geo')}load(function(){return API+'timingsByAddress/'+ds()+'?method=19&address='+encodeURIComponent(c)},keep?'الجزائر العاصمة':c,'c:'+c.toLowerCase(),false,keep)}
 function byGeo(la,lo){ls.set('zad_geo',la+','+lo);load(function(){return API+'timings/'+ds()+'?method=19&latitude='+la+'&longitude='+lo},'موقعك الحالي','g:'+la+','+lo,false,true)}
-$('#ct').onclick=function(){var v=prompt('اكتب اسم مدينتك، أو اتركه فارغًا لاستخدام موقعك الحالي',ls.get('zad_city')||'');if(v===null)return;v=v.trim().slice(0,80);
-if(v)return byCity(v);if(!navigator.geolocation)return toast('متصفحك لا يدعم تحديد الموقع');toast('جارٍ تحديد موقعك…');
-navigator.geolocation.getCurrentPosition(function(p){byGeo(p.coords.latitude.toFixed(2),p.coords.longitude.toFixed(2))},function(){toast('تعذّر تحديد موقعك. اكتب اسم مدينتك.')},{timeout:8000,maximumAge:6e5})};
+var cdl=$('#cityDlg'),cin=$('#cityIn');
+function geo(){if(!navigator.geolocation)return toast('متصفحك لا يدعم تحديد الموقع، اكتب اسم مدينتك');toast('جارٍ تحديد موقعك…');
+navigator.geolocation.getCurrentPosition(function(p){byGeo(p.coords.latitude.toFixed(2),p.coords.longitude.toFixed(2))},function(){toast('تعذّر تحديد موقعك. اكتب اسم مدينتك.')},{timeout:8000,maximumAge:6e5})}
+$('#ct').onclick=function(){if(!cdl||!cdl.showModal){var v=prompt('اكتب اسم مدينتك، أو اتركه فارغًا لاستخدام موقعك الحالي',ls.get('zad_city')||'');if(v===null)return;v=v.trim().slice(0,80);return v?byCity(v):geo()}cin.value=ls.get('zad_city')||'';cdl.returnValue='';cdl.showModal();cin.focus()};
+if(cdl)cdl.addEventListener('close',function(){if(cdl.returnValue!=='ok')return;var v=cin.value.trim().slice(0,80);if(v)byCity(v);else toast('اكتب اسم مدينتك أولًا')});
+$('#geoB').onclick=function(){cdl.returnValue='geo';cdl.close();geo()};
 window.addEventListener('online',function(){reload&&reload()});
 (function(){var g=ls.get('zad_geo'),c=ls.get('zad_city');if(g&&/^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/.test(g)){g=g.split(',');byGeo(g[0],g[1])}else byCity(c||'Algiers',!c)})();
 
@@ -374,24 +444,74 @@ function cp(t){if(navigator.clipboard)navigator.clipboard.writeText(t).then(func
 document.addEventListener('click',function(e){var b=e.target.closest('[data-a]');if(!b)return;var t=b.dataset.f==='a'?'﴿ '+AY.t+' ﴾ — '+AY.s:'«'+H[0]+'» — '+H[1],x=t+'\n— زاد عبيدة';
 if(b.dataset.a==='sh'&&navigator.share)navigator.share({text:x}).catch(function(){});else cp(x)});
 
-/* أذكاري: دفتر خاص على الجهاز فقط */
-var ml=$('#ml'),MK='zad_mine',mine=[];try{mine=JSON.parse(ls.get(MK)||'[]')}catch(e){}
-function sv(){ls.set(MK,JSON.stringify(mine))}
-function rm(){ml.textContent='';
-if(!mine.length){var e=document.createElement('div');e.className='de c';e.textContent='لا توجد أذكار محفوظة بعد';ml.appendChild(e)}
-mine.forEach(function(t,i){var d=document.createElement('div'),x=document.createElement('button');d.className='de';d.textContent=t;d.style.whiteSpace='pre-wrap';x.className='x';x.textContent='×';x.setAttribute('aria-label','حذف');x.onclick=function(){mine.splice(i,1);sv();rm()};d.appendChild(x);ml.appendChild(d)});
-var f=document.createElement('div');f.id='mf';var ta=document.createElement('textarea'),sb=document.createElement('button');ta.placeholder='اكتب الذكر هنا';ta.setAttribute('aria-label','نص الذكر');sb.className='btn p';sb.textContent='حفظ الذكر';
-sb.onclick=function(){var v=ta.value.trim();if(!v)return toast('اكتب الذكر أولًا');mine.unshift(v.slice(0,2000));sv();rm()};f.appendChild(ta);f.appendChild(sb);ml.appendChild(f)}
-rm();
-$('#mo').onclick=function(){var f=$('#mf');f.classList.add('open');f.firstChild.focus()};
-$('#mb').onclick=function(){if(!mine.length)return toast('لا توجد أذكار لحفظها بعد');var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({app:'zad-oubaida',adhkar:mine},null,1)],{type:'application/json'}));a.download='adhkari-zad-oubaida.json';a.click();setTimeout(function(){URL.revokeObjectURL(a.href)},3e3)};
+/* أذكاري: دفتر خاص على الجهاز (نفس مفتاح موقعك القديم zad_my_adhkar فتبقى أذكار المستخدمين) */
+var MK='zad_my_adhkar',mk=[],mkE=null,mkQ='',mkO={},ml=$('#ml'),mf=$('#mkForm'),mT=$('#mkT'),mX=$('#mkX'),mS=$('#mkS'),mC=$('#mkC');
+function mkL(){try{var a=JSON.parse(ls.get(MK)||'[]');mk=Array.isArray(a)?a.filter(function(x){return x&&x.id&&typeof x.text==='string'}):[]}catch(e){mk=[]}}
+function mkV(){try{localStorage.setItem(MK,JSON.stringify(mk));return true}catch(e){toast('تعذّر الحفظ على هذا الجهاز. تحقّق من إعدادات المتصفح.');return false}}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function mkF(id){for(var i=0;i<mk.length;i++)if(mk[i].id===id)return mk[i];return null}
+function mkB(l,c,f){var b=document.createElement('button');b.type='button';b.className='btn s'+(c?' '+c:'');b.textContent=l;b.addEventListener('click',f);return b}
+function mkR(){ml.textContent='';var q=mkQ.trim().toLowerCase();
+var sh=mk.filter(function(it){return!q||String(it.title||'').toLowerCase().indexOf(q)>-1||it.text.toLowerCase().indexOf(q)>-1});
+if(!sh.length){var e=document.createElement('div');e.className='de c';e.textContent=mk.length?'لا توجد نتائج مطابقة لبحثك.':'لم تحفظ أي ذكر بعد. اكتب أول ذكر في النموذج.';ml.appendChild(e);return}
+sh.forEach(function(it){var d=document.createElement('details');d.className='mi';if(mkO[it.id])d.open=true;d.addEventListener('toggle',function(){mkO[it.id]=d.open});
+var s=document.createElement('summary'),t=document.createElement('span');t.className='mi-t';t.textContent=it.title||'بدون عنوان';s.appendChild(t);
+if(it.count){var c=document.createElement('span');c.className='mi-c';c.textContent='× '+it.count;s.appendChild(c)}d.appendChild(s);
+var b=document.createElement('div');b.className='mi-b';var p=document.createElement('p');p.className='mi-x';p.textContent=it.text;b.appendChild(p);
+var a=document.createElement('div');a.className='mi-a';
+a.appendChild(mkB('عدّ','pp',function(){it.count=(it.count||0)+1;if(mkV()){mkO[it.id]=true;mkR()}}));
+if(it.count)a.appendChild(mkB('تصفير','',function(){it.count=0;if(mkV()){mkO[it.id]=true;mkR()}}));
+a.appendChild(mkB('نسخ','',function(){cp((it.title||'')+'\n'+it.text)}));
+a.appendChild(mkB('تعديل','',function(){mkE=it.id;mT.value=it.title||'';mX.value=it.text;mS.textContent='حفظ التعديل';mC.hidden=false;mf.scrollIntoView({behavior:'smooth',block:'center'});mX.focus()}));
+a.appendChild(mkB('حذف','dg',function(){mkD(it)}));
+b.appendChild(a);d.appendChild(b);ml.appendChild(d)})}
+function mkZ(){mkE=null;mf.reset();mS.textContent='حفظ الذكر';mC.hidden=true}
+mf.addEventListener('submit',function(ev){ev.preventDefault();var x=mX.value.trim();if(!x){toast('اكتب نص الذكر أولًا');mX.focus();return}var t=mT.value.trim()||'بدون عنوان';
+if(mkE){var it=mkF(mkE);if(it){it.title=t;it.text=x;it.updated=Date.now();mkO[it.id]=true}if(mkV())toast('تم حفظ التعديل ✓')}
+else{var n={id:uid(),title:t,text:x,count:0,created:Date.now()};mk.unshift(n);mkO[n.id]=true;if(mkV())toast('تم حفظ الذكر ✓')}mkZ();mkR()});
+mC.addEventListener('click',mkZ);$('#mkQ').addEventListener('input',function(e){mkQ=e.target.value;mkR()});
+function mkD(it){var dl=$('#delDlg');function go(){mk=mk.filter(function(x){return x.id!==it.id});if(mkE===it.id)mkZ();if(mkV())toast('تم الحذف');mkR()}
+if(!dl||!dl.showModal){if(confirm('حذف «'+it.title+'»؟'))go();return}$('#delN').textContent=it.title;dl.returnValue='';dl.addEventListener('close',function h(){dl.removeEventListener('close',h);if(dl.returnValue==='yes')go()});dl.showModal()}
+$('#mb').onclick=function(){if(!mk.length)return toast('لا توجد أذكار لتصديرها');var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({app:'zad-oubaida',adhkar:mk},null,2)],{type:'application/json'}));a.download='azkari-backup.json';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1e3)};
+$('#mi').onclick=function(){$('#mkFile').click()};
+$('#mkFile').addEventListener('change',function(e){var f=e.target.files&&e.target.files[0];if(!f)return;var r=new FileReader();
+r.onload=function(){try{var j=JSON.parse(r.result),arr=Array.isArray(j)?j:j.adhkar,n=0;if(!Array.isArray(arr))throw 0;
+arr.forEach(function(x){if(!x||typeof x.text!=='string'||!x.text.trim())return;var id=String(x.id||uid());if(mkF(id))id=uid();mk.push({id:id,title:String(x.title||'بدون عنوان').slice(0,80),text:x.text.slice(0,5000),count:+x.count||0,created:+x.created||Date.now()});n++});
+if(n&&mkV()){toast('تم استيراد '+n+' ذكر ✓');mkR()}else if(!n)toast('الملف لا يحتوي على أذكار صالحة')}catch(err){toast('ملف غير صالح')}e.target.value=''};r.readAsText(f)});
+mkL();mkR();
 
-/* التثبيت والتذكير */
-var dip;window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();dip=e});
-$('#in').onclick=function(){if(dip){dip.prompt();dip=null}else if(matchMedia('(display-mode: standalone)').matches)toast('التطبيق مثبّت بالفعل');else toast('من قائمة المتصفح اختر «إضافة إلى الشاشة الرئيسية»')};
-$('#rm').onclick=function(){if(!('Notification' in window))return toast('متصفحك لا يدعم الإشعارات');
-Notification.requestPermission().then(function(p){if(p!=='granted')return toast('لم يُسمح بالإشعارات');ls.set('zad_remind','1');
-if(navigator.serviceWorker)navigator.serviceWorker.ready.then(function(r){r.active&&r.active.postMessage({type:'SHOW_REMINDER',title:'زاد عبيدة',body:'تم تفعيل التذكير. بارك الله فيك.',url:'./'})});toast('تم تفعيل التذكير')})};
+/* نافذة معلومات + التثبيت والتذكير */
+function info(t,l){var d=$('#infoDlg');if(!d||!d.showModal){alert(t+'\n'+l.join('\n'));return}if(d.open)d.close();$('#infoT').textContent=t;var o=$('#infoL');o.textContent='';l.forEach(function(x){var li=document.createElement('li');li.textContent=x;o.appendChild(li)});d.showModal()}
+var dip,inb=$('#in'),sa=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+if(sa)inb.hidden=true;
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();dip=e});
+window.addEventListener('appinstalled',function(){inb.hidden=true;dip=null;toast('تم تثبيت التطبيق ✓')});
+inb.onclick=function(){if(dip){dip.prompt();dip.userChoice.then(function(){dip=null});return}
+if(/iphone|ipad|ipod/i.test(navigator.userAgent))info('لتثبيت التطبيق على آيفون',['اضغط زر المشاركة في Safari.','اختر «إضافة إلى الشاشة الرئيسية».','اضغط «إضافة».']);
+else info('لتثبيت التطبيق',['افتح قائمة المتصفح (⋮).','اختر «إضافة إلى الشاشة الرئيسية» أو «تثبيت التطبيق».','اضغط «إضافة».'])};
+var rb=$('#rm');function ron(){rb.lastChild.textContent='الإشعارات مفعلة';rb.disabled=true}
+if(!('Notification' in window)){rb.onclick=function(){info('الإشعارات غير مدعومة',['متصفحك لا يدعم الإشعارات.','على آيفون: ثبّت الموقع على الشاشة الرئيسية أولًا ثم افتحه من هناك.'])}}
+else if(Notification.permission==='granted')ron();
+else rb.onclick=function(){if(Notification.permission==='denied'){info('الإشعارات محظورة',['فعّلها من إعدادات المتصفح:','قفل العنوان ← الإشعارات ← سماح.']);return}
+Notification.requestPermission().then(function(p){if(p!=='granted')return;ron();ls.set('zad_remind','1');toast('تم تفعيل الإشعارات ✓');
+if(navigator.serviceWorker)navigator.serviceWorker.ready.then(function(r){r.showNotification('زاد عبيدة',{body:'سيصلك تذكير وردك اليومي بإذن الله',icon:'./logo-zad-almuslim.webp.png',lang:'ar',dir:'rtl',tag:'zad-local-reminder',data:{local:true,url:'./'}})}).catch(function(){})})};
+
+/* الترجمة (Google Website Translator) */
+var SUP=['en','fr','es','de','tr','it'],gs='idle',gq=[];
+function ck(n,v,keep){var e=keep?'':'; expires=Thu, 01 Jan 1970 00:00:00 GMT',b=n+'='+v+e+'; path=/';document.cookie=b;if(location.hostname.indexOf('.')>-1)document.cookie=b+'; domain='+location.hostname}
+function gf(ok){gq.splice(0).forEach(function(f){f(ok)})}
+window.zadGoogleInit=function(){try{new google.translate.TranslateElement({pageLanguage:'ar',includedLanguages:SUP.join(','),autoDisplay:false},'google_translate_element')}catch(e){gs='failed';gf(false);return}
+var n=0,w=setInterval(function(){n++;if(document.querySelector('.goog-te-combo')){clearInterval(w);gs='ready';gf(true)}else if(n>50){clearInterval(w);gs='failed';gf(false)}},150)};
+function lt(cb){if(gs==='ready'){cb(true);return}if(gs==='failed')gs='idle';gq.push(cb);if(gs==='loading')return;gs='loading';
+var s=document.createElement('script');s.src='https://translate.google.com/translate_a/element.js?cb=zadGoogleInit';s.async=true;s.onerror=function(){gs='failed';gf(false)};document.head.appendChild(s);
+setTimeout(function(){if(gs==='loading'){gs='failed';gf(false)}},10000)}
+function dt(lang,quiet){if(lang==='ar'){var was=ls.get('zad_lang')&&ls.get('zad_lang')!=='ar';ls.set('zad_lang','ar');if(was){ck('googtrans','',false);location.reload()}return}
+if(SUP.indexOf(lang)<0)return;ls.set('zad_lang',lang);if(!quiet)toast('جارٍ الترجمة…');
+lt(function(ok){if(!ok){toast('تعذّر تحميل الترجمة، تحقّق من اتصالك ثم أعد المحاولة');return}
+var c=document.querySelector('.goog-te-combo');if(c){c.value=lang;c.dispatchEvent(new Event('change'));if(!quiet)toast('تمت الترجمة ✓')}else toast('تعذّرت الترجمة')})}
+window.doTranslate=dt;
+document.querySelectorAll('#lgd [data-lang]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();dt(a.getAttribute('data-lang'));cdd(null)})});
+(function(){var l=ls.get('zad_lang');if(l&&l!=='ar'&&SUP.indexOf(l)>-1)window.addEventListener('load',function(){dt(l,true)})})();
 
 /* Service Worker */
 if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(function(r){r.update()}).catch(function(){})});

@@ -9,52 +9,256 @@
   <link rel="icon" type="image/png" href="./logo-zad-almuslim.webp.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;800&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/style.css">
   <style>
-    .duas-container { max-width: 900px; margin: 0 auto; }
-    .dua-category {
-      background: var(--card); border-radius: var(--radius); padding: 20px 24px;
-      box-shadow: var(--shadow); border: 1px solid var(--line); margin-bottom: 24px;
+    /* ============================================================
+       أدعية من القرآن والسنة — تصميم جديد (كل القواعد داخل .duas-page)
+       ============================================================ */
+    .duas-page {
+      --g1: #0b6b53; --g2: #0f8a6a; --g3: #064a3a;
+      --gold: #d9a441; --gold2: #f3d07a;
+      --bg: #f8f5ec; --card: #ffffff; --ink: #1d2b26; --muted: #66766f;
+      --line: #e7e2d2; --soft: #eef6f1;
+      --shadow: 0 10px 30px rgba(11, 107, 83, .10);
+      --dod-bg: linear-gradient(145deg, #fff8e1 0%, #fbe6a8 100%); --dod-ink: #4a3300;
+      --dfs: 1.5rem;
+      position: relative; overflow: hidden; min-height: 70vh;
+      background: var(--bg); color: var(--ink);
+      padding: 28px 16px 70px;
+      font-family: 'Cairo', 'Noto Naskh Arabic', sans-serif;
+      transition: background .3s, color .3s;
     }
-    .dua-category h3 {
-      color: var(--primary); margin-bottom: 16px; font-family: 'Cairo', sans-serif;
-      font-size: 1.3rem; border-bottom: 2px solid var(--accent); padding-bottom: 10px;
+    .duas-page[data-mode="dark"] {
+      --bg: #0b1411; --card: #12201b; --ink: #e8f1ed; --muted: #97ada3;
+      --line: #223630; --soft: #172a24;
+      --shadow: 0 10px 30px rgba(0, 0, 0, .45);
+      --dod-bg: linear-gradient(145deg, #2e2409 0%, #55400f 100%); --dod-ink: #ffe9b0;
     }
-    .dua-item { padding: 14px 0; border-bottom: 1px solid var(--line); }
-    .dua-item:last-child { border-bottom: none; }
-    .dua-text {
-      font-size: 1.15rem; line-height: 2.2; color: var(--text); margin-bottom: 8px;
-      background: var(--primary-light); padding: 12px 16px; border-radius: 8px;
-      border-right: 3px solid var(--accent);
+    .duas-page *, .duas-page *::before, .duas-page *::after { box-sizing: border-box; }
+    .duas-page [hidden] { display: none !important; }
+    .d-wrap { position: relative; z-index: 1; max-width: 980px; margin: 0 auto; }
+    .duas-page::before, .duas-page::after {
+      content: ""; position: absolute; width: 420px; height: 420px; border-radius: 50%;
+      filter: blur(70px); opacity: .35; pointer-events: none; z-index: 0;
     }
-    .dua-ref { font-size: 0.85rem; color: var(--text-muted); line-height: 1.8; }
-    .dua-actions { margin-top: 8px; display: flex; gap: 8px; }
-    .dua-actions button {
-      padding: 6px 12px; border-radius: 6px; border: 1px solid var(--line);
-      background: var(--bg); color: var(--primary); font-size: 0.8rem; cursor: pointer;
-      font-family: inherit;
+    .duas-page::before { top: -120px; right: -120px; background: rgba(15, 138, 106, .35); }
+    .duas-page::after { bottom: -140px; left: -140px; background: rgba(217, 164, 65, .30); }
+    .duas-page[data-mode="dark"]::before, .duas-page[data-mode="dark"]::after { opacity: .22; }
+
+    /* ---------- الهيرو ---------- */
+    .hero {
+      position: relative; overflow: hidden; color: #fff; text-align: center;
+      border-radius: 30px; padding: 30px 20px 28px; margin-bottom: 20px;
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40 6l9.5 14.5L66 14l-6.5 16.5L74 40 59.5 49.5 66 66 49.5 59.5 40 74 30.5 59.5 14 66l6.5-16.5L6 40l14.5-9.5L14 14l16.5 6.5z' fill='none' stroke='%23ffffff' stroke-opacity='.10' stroke-width='1.2'/%3E%3C/svg%3E"),
+        linear-gradient(135deg, var(--g3) 0%, var(--g1) 55%, #14956f 100%);
+      box-shadow: 0 18px 40px rgba(6, 74, 58, .30);
+      transition: padding .3s;
     }
-    .dua-actions button:hover { background: var(--primary); color: #fff; }
-    .dua-note { text-align:center; color: var(--text-muted); font-size:.9rem; margin: 0 0 20px; }
-    .dua-category[hidden], .dua-index[hidden], .dua-bar[hidden] { display: none !important; }
-    .dua-index { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; margin-bottom: 24px; }
-    .dua-index-card {
-      display: flex; flex-direction: column; gap: 6px; padding: 18px 20px; text-decoration: none;
-      background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
-      box-shadow: var(--shadow); color: var(--text); transition: transform .15s, border-color .15s;
+    .hero::after {
+      content: ""; position: absolute; top: -60px; left: 50%; width: 260px; height: 260px;
+      transform: translateX(-50%); border-radius: 50%;
+      background: radial-gradient(circle, rgba(243, 208, 122, .35), transparent 70%); pointer-events: none;
     }
-    .dua-index-card:hover, .dua-index-card:focus-visible { transform: translateY(-2px); border-color: var(--accent); outline: none; }
-    .dua-index-title { font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 1.1rem; color: var(--primary); }
-    .dua-index-n { font-size: .85rem; color: var(--text-muted); }
-    .dua-bar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
-    .dua-bar button {
-      padding: 8px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--primary-light);
-      color: var(--primary); font-weight: 700; cursor: pointer; font-family: inherit;
+    .hero h1 {
+      margin: 0 0 8px; font-family: 'Amiri', serif; font-size: clamp(1.9rem, 6vw, 2.8rem);
+      line-height: 1.3; position: relative; z-index: 1; color: #fff;
     }
-    .dua-bar button:hover { background: var(--primary); color: #fff; }
-    .dua-bar .dua-current { font-family: 'Cairo', sans-serif; font-weight: 700; color: var(--text); }
-    .dua-empty { text-align:center; color: var(--text-muted); padding: 30px 0; display:none; }
+    .hero .lead { margin: 0 auto 20px; max-width: 540px; opacity: .88; font-size: .95rem; position: relative; z-index: 1; }
+    .hero.compact { padding: 18px 16px; }
+    .hero.compact h1 { font-size: 1.6rem; margin-bottom: 12px; }
+    .hero.compact .lead { display: none; }
+    .search {
+      display: flex; align-items: center; gap: 10px; max-width: 580px; margin: 0 auto; position: relative; z-index: 1;
+      background: #fff; color: #1d2b26; border-radius: 999px; padding: 4px 18px; box-shadow: 0 10px 26px rgba(0, 0, 0, .2);
+    }
+    .duas-page[data-mode="dark"] .search { background: #12201b; color: #e8f1ed; }
+    .duas-page .search input {
+      flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; box-shadow: none; margin: 0;
+      font: inherit; font-size: 1rem; padding: 12px 0; color: inherit; -webkit-appearance: none; appearance: none;
+    }
+    .search input::placeholder { color: #8a9a93; }
+    .search .x { border: 0; background: var(--soft); color: var(--muted); width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: .9rem; }
+
+    /* ---------- بطاقات عامة ---------- */
+    .duas-page .card {
+      background: var(--card); border: 1px solid var(--line); border-radius: 24px;
+      box-shadow: var(--shadow); padding: 22px; margin-bottom: 20px; transition: background .3s, border-color .3s;
+    }
+    .sec-title { margin: 0 0 6px; font-family: 'Amiri', serif; font-size: 1.45rem; color: var(--g1); display: flex; align-items: center; gap: 10px; }
+    .duas-page[data-mode="dark"] .sec-title { color: #5fd3ac; }
+    .sec-sub { margin: 0 0 16px; color: var(--muted); font-size: .9rem; }
+
+    /* ---------- رحلتك ---------- */
+    .journey { display: grid; gap: 16px; }
+    @media (min-width: 720px) { .journey { grid-template-columns: 1.3fr 1fr; align-items: center; } }
+    .j-title { font-weight: 800; margin-bottom: 10px; }
+    .j-bar { height: 10px; border-radius: 10px; background: var(--line); overflow: hidden; }
+    .j-bar i { display: block; height: 100%; width: 0; border-radius: 10px; background: linear-gradient(90deg, var(--g2), var(--gold)); transition: width .8s cubic-bezier(.2, .8, .2, 1); }
+    .j-note { margin-top: 8px; color: var(--muted); font-size: .85rem; line-height: 1.7; }
+    .j-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pill {
+      border: 1px solid var(--line); background: var(--soft); color: var(--ink); border-radius: 999px; padding: 8px 14px;
+      font-family: inherit; font-weight: 700; font-size: .88rem; cursor: pointer; transition: .2s; text-decoration: none;
+    }
+    .pill:hover { border-color: var(--g2); transform: translateY(-1px); }
+    .pill b { color: var(--g1); margin-inline-start: 4px; }
+    .duas-page[data-mode="dark"] .pill b { color: #5fd3ac; }
+    .pill.cont { background: linear-gradient(135deg, var(--g1), var(--g2)); color: #fff; border: 0; }
+
+    /* ---------- دعاء اليوم ---------- */
+    .dod { background: var(--dod-bg) !important; color: var(--dod-ink); border: 0 !important; text-align: center; position: relative; overflow: hidden; }
+    .dod::after { content: ""; position: absolute; left: -40px; bottom: -40px; width: 170px; height: 170px; border-radius: 50%; background: rgba(255, 255, 255, .28); filter: blur(30px); pointer-events: none; }
+    .dod > * { position: relative; z-index: 1; }
+    .dod-lab { font-weight: 800; font-size: .85rem; letter-spacing: .5px; margin-bottom: 10px; opacity: .85; }
+    .dod-text { font-family: 'Amiri', serif; font-size: clamp(1.35rem, 3.8vw, 1.85rem); line-height: 2.1; margin: 0 0 10px; text-wrap: balance; }
+    .dod-ref { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; font-size: .82rem; opacity: .9; margin-bottom: 14px; line-height: 1.8; }
+    .dod-act { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+    .dod-act button {
+      border: 0; background: rgba(255, 255, 255, .55); color: inherit; padding: 8px 14px; border-radius: 12px; cursor: pointer;
+      font-family: inherit; font-weight: 700; font-size: .85rem; transition: .2s;
+    }
+    .duas-page[data-mode="dark"] .dod-act button { background: rgba(255, 233, 176, .14); }
+    .dod-act button:hover { transform: translateY(-2px); }
+
+    /* ---------- الحالات (Mood) ---------- */
+    .moods { display: flex; flex-wrap: wrap; gap: 10px; }
+    .mood {
+      display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 16px; border: 1px solid var(--line);
+      background: var(--soft); color: var(--ink); font-family: inherit; font-weight: 700; font-size: .92rem; cursor: pointer; transition: .2s;
+    }
+    .mood span { font-size: 1.25rem; }
+    .mood:hover { border-color: var(--g2); background: var(--card); transform: translateY(-2px); box-shadow: 0 8px 18px rgba(11, 107, 83, .12); }
+
+    /* ---------- الأقسام ---------- */
+    .cgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+    .ccard {
+      --ac: #0f8a6a;
+      position: relative; display: flex; flex-direction: column; gap: 8px; padding: 18px; overflow: hidden;
+      background: var(--card); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow);
+      color: var(--ink); text-decoration: none; transition: transform .2s, border-color .2s, box-shadow .2s;
+    }
+    .ccard::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--ac); }
+    .ccard:hover, .ccard:focus-visible { transform: translateY(-4px); border-color: var(--ac); outline: none; box-shadow: 0 16px 34px rgba(11, 107, 83, .16); }
+    .cc-head { display: flex; align-items: center; gap: 12px; }
+    .cc-ic { width: 50px; height: 50px; border-radius: 16px; display: grid; place-items: center; font-size: 1.6rem; flex: none; background: rgba(15, 138, 106, .12); background: color-mix(in srgb, var(--ac) 16%, transparent); }
+    .cc-name { font-weight: 800; font-size: 1.05rem; line-height: 1.5; color: var(--ink); }
+    .cc-peek { font-family: 'Amiri', serif; color: var(--muted); font-size: 1rem; line-height: 1.8; min-height: 1.8em; }
+    .cc-meta { display: flex; justify-content: space-between; font-size: .8rem; color: var(--muted); font-weight: 600; }
+    .cc-bar { height: 5px; border-radius: 5px; background: var(--line); overflow: hidden; }
+    .cc-bar i { display: block; height: 100%; width: 0; background: var(--ac); border-radius: 5px; transition: width .6s; }
+
+    /* ---------- عرض القائمة ---------- */
+    .lv-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+    .lv-bar .back { border: 1px solid var(--line); background: var(--card); color: var(--g1); font-family: inherit; font-weight: 800; padding: 9px 16px; border-radius: 12px; cursor: pointer; }
+    .duas-page[data-mode="dark"] .lv-bar .back { color: #5fd3ac; }
+    .lv-bar .back:hover { background: var(--g1); color: #fff; }
+    .lv-title { margin: 0; font-family: 'Amiri', serif; font-size: 1.5rem; color: var(--ink); flex: 1 1 200px; }
+    .lv-tools { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .lv-count { color: var(--muted); font-size: .88rem; font-weight: 600; }
+    .fsbtn { width: 38px; height: 38px; border-radius: 12px; border: 1px solid var(--line); background: var(--card); color: var(--ink); font-family: inherit; font-weight: 800; cursor: pointer; }
+    .fsbtn:hover { border-color: var(--g2); }
+    .btn-read { border: 0; border-radius: 12px; padding: 9px 16px; cursor: pointer; color: #fff; font-family: inherit; font-weight: 800; background: linear-gradient(135deg, var(--g1), var(--g2)); box-shadow: 0 8px 18px rgba(11, 107, 83, .25); }
+    .empty { text-align: center; color: var(--muted); padding: 40px 10px; line-height: 2; }
+    .empty b { display: block; font-size: 2.2rem; }
+
+    /* ---------- بطاقة الدعاء ---------- */
+    .dcard {
+      --ac: #0f8a6a;
+      position: relative; overflow: hidden; margin-bottom: 16px; padding: 18px 18px 14px;
+      background: var(--card); border: 1px solid var(--line); border-radius: 24px; box-shadow: var(--shadow); transition: border-color .25s, background .25s;
+    }
+    .dcard::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: linear-gradient(90deg, var(--ac), var(--gold)); }
+    .dcard.is-memo { border-color: rgba(15, 138, 106, .5); background: linear-gradient(180deg, var(--soft), var(--card) 45%); }
+    .dc-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; padding-top: 4px; }
+    .dc-top .sp { flex: 1; }
+    .dc-cat { font-size: .78rem; font-weight: 700; color: var(--muted); text-decoration: none; border: 1px solid var(--line); padding: 3px 10px; border-radius: 999px; background: var(--soft); }
+    .dc-cat:hover { color: var(--g1); border-color: var(--g2); }
+    .badge { display: inline-block; padding: 3px 12px; border-radius: 999px; font-size: .76rem; font-weight: 800; background: var(--soft); color: var(--muted); }
+    .badge.k-quran { background: #fff3cf; color: #7a5a14; }
+    .badge.k-agreed, .badge.k-sahih { background: #dff3e9; color: #0b6b53; }
+    .badge.k-hasan { background: #e5eefb; color: #2b5a99; }
+    .duas-page[data-mode="dark"] .badge.k-quran { background: rgba(217, 164, 65, .2); color: #f3d07a; }
+    .duas-page[data-mode="dark"] .badge.k-agreed, .duas-page[data-mode="dark"] .badge.k-sahih { background: rgba(15, 138, 106, .25); color: #7fe0bf; }
+    .duas-page[data-mode="dark"] .badge.k-hasan { background: rgba(80, 130, 200, .25); color: #a9c7f2; }
+    .dod .badge { background: rgba(255, 255, 255, .6); color: inherit; }
+    .ib { width: 38px; height: 38px; border-radius: 12px; border: 1px solid var(--line); background: var(--soft); color: var(--gold); font-size: 1.2rem; cursor: pointer; line-height: 1; transition: .2s; }
+    .ib.on { background: #fff3cf; border-color: #efd58c; color: #c98a0a; }
+    .ib:hover { transform: scale(1.08); }
+    .dc-text { margin: 4px 0 12px; font-family: 'Amiri', serif; font-size: var(--dfs); line-height: 2.25; text-align: center; text-wrap: balance; }
+    .dc-text.long { text-align: right; text-wrap: pretty; font-size: calc(var(--dfs) * .9); }
+    .dc-ref { background: var(--soft); border-radius: 14px; padding: 10px 14px; font-size: .85rem; line-height: 1.9; color: var(--muted); margin-bottom: 12px; border-inline-start: 3px solid var(--gold); }
+    .dc-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .dc-actions button {
+      padding: 8px 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--card); color: var(--g1);
+      font-family: inherit; font-weight: 700; font-size: .82rem; cursor: pointer; transition: .2s;
+    }
+    .duas-page[data-mode="dark"] .dc-actions button { color: #7fe0bf; }
+    .dc-actions button:hover { background: var(--g1); color: #fff; border-color: var(--g1); }
+    .dc-actions button.on { background: var(--g2); color: #fff; border-color: var(--g2); }
+    .dc-counter { margin-top: 12px; display: flex; align-items: center; gap: 14px; justify-content: center; padding: 14px; border-radius: 18px; background: var(--soft); }
+    .dc-counter .tap {
+      width: 104px; height: 104px; border-radius: 50%; border: 0; cursor: pointer; color: #fff; display: grid; place-items: center; align-content: center;
+      background: radial-gradient(circle at 30% 25%, #14956f, var(--g1)); box-shadow: 0 10px 24px rgba(11, 107, 83, .35); font-family: inherit; transition: transform .1s;
+    }
+    .dc-counter .tap:active { transform: scale(.93); }
+    .dc-counter .tap b { font-size: 2.2rem; line-height: 1; font-variant-numeric: tabular-nums; }
+    .dc-counter .tap span { font-size: .7rem; opacity: .85; }
+    .dc-counter .rs { border: 1px solid var(--line); background: var(--card); color: var(--muted); border-radius: 12px; padding: 8px 14px; cursor: pointer; font-family: inherit; font-weight: 700; }
+
+    /* ---------- وضع القراءة ---------- */
+    .reader {
+      position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; color: #fff;
+      font-family: 'Cairo', 'Noto Naskh Arabic', sans-serif;
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40 6l9.5 14.5L66 14l-6.5 16.5L74 40 59.5 49.5 66 66 49.5 59.5 40 74 30.5 59.5 14 66l6.5-16.5L6 40l14.5-9.5L14 14l16.5 6.5z' fill='none' stroke='%23ffffff' stroke-opacity='.06' stroke-width='1.2'/%3E%3C/svg%3E"),
+        linear-gradient(160deg, #053d30 0%, #0b6b53 60%, #0f8a6a 100%);
+    }
+    .rd-top { display: flex; align-items: center; gap: 12px; padding: 14px 16px; }
+    .rd-x { width: 40px; height: 40px; border-radius: 50%; border: 0; cursor: pointer; background: rgba(255, 255, 255, .16); color: #fff; font-size: 1.1rem; }
+    .rd-title { flex: 1; font-weight: 800; text-align: center; font-size: .95rem; opacity: .95; }
+    .rd-count { font-weight: 700; font-size: .9rem; opacity: .85; font-variant-numeric: tabular-nums; min-width: 56px; text-align: left; }
+    .rd-bar { height: 4px; background: rgba(255, 255, 255, .15); margin: 0 16px; border-radius: 4px; overflow: hidden; }
+    .rd-bar i { display: block; height: 100%; width: 0; background: var(--gold2); transition: width .4s; }
+    .rd-body { flex: 1; overflow-y: auto; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 24px 22px; gap: 14px; }
+    .rd-body.in { animation: rdIn .35s ease; }
+    .rd-text { margin: 0; max-width: 780px; font-family: 'Amiri', serif; font-size: calc(var(--dfs) * 1.45); line-height: 2.2; text-wrap: balance; }
+    .rd-text.long { font-size: calc(var(--dfs) * 1.1); text-align: right; text-wrap: pretty; }
+    .rd-ref { margin: 0; max-width: 680px; font-size: .88rem; line-height: 1.9; opacity: .82; }
+    .reader .badge { background: rgba(255, 255, 255, .18); color: var(--gold2); }
+    .rd-foot { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; padding: 14px 14px 22px; }
+    .rd-foot button { border: 0; border-radius: 14px; padding: 11px 16px; cursor: pointer; font-family: inherit; font-weight: 800; color: #fff; background: rgba(255, 255, 255, .16); font-size: .92rem; }
+    .rd-foot button.main { background: var(--gold); color: #3a2a00; padding: 11px 22px; }
+    .rd-foot button:disabled { opacity: .35; cursor: default; }
+
+    /* ---------- نافذة الصورة ---------- */
+    .imodal { position: fixed; inset: 0; z-index: 110; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(0, 0, 0, .78); }
+    .im-box { background: var(--card, #fff); border-radius: 22px; padding: 14px; width: min(440px, 100%); max-height: 94vh; overflow-y: auto; text-align: center; font-family: 'Cairo', sans-serif; }
+    .imodal img { width: 100%; height: auto; border-radius: 14px; display: block; }
+    .im-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+    .im-actions button { flex: 1; border: 0; border-radius: 12px; padding: 12px; cursor: pointer; font-family: inherit; font-weight: 800; background: #0b6b53; color: #fff; }
+    .im-actions button.alt { background: #eef2ef; color: #1d2b26; }
+
+    /* ---------- الإشعار ---------- */
+    .wtoast {
+      position: fixed; bottom: 26px; left: 50%; transform: translate(-50%, 30px); opacity: 0; pointer-events: none; z-index: 120;
+      background: #0b2e25; color: #fff; padding: 12px 22px; border-radius: 999px; font-weight: 700; font-size: .92rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .3); transition: .35s; max-width: 90vw; text-align: center;
+    }
+    .wtoast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    @keyframes rdIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+    @keyframes rise { from { transform: translateY(10px); } to { transform: none; } }
+    .dcard, .ccard, .dod { animation: rise .35s ease; }
+    @media (prefers-reduced-motion: reduce) { .duas-page *, .reader * { animation: none !important; transition: none !important; } }
+    @media (max-width: 520px) {
+      .duas-page { padding: 18px 12px 60px; }
+      .hero { padding: 24px 14px 22px; border-radius: 24px; }
+      .duas-page .card { padding: 16px; border-radius: 20px; }
+      .dcard { padding: 16px 14px 12px; border-radius: 20px; }
+      .dc-actions button { padding: 8px 10px; font-size: .78rem; }
+    }
   </style>
 </head>
 <body>
@@ -85,548 +289,102 @@
   </div>
 </nav>
 
-<main class="wrap" style="padding:40px 0">
-  <div class="duas-container">
-    <div class="section-head">
-      <h2>🤲 أدعية من القرآن والسنة</h2>
-      <p>أدعية من القرآن الكريم ومن الصحيحين والسنن، مع التخريج وحكم الألباني حيث يلزم</p>
+<main class="duas-page" id="duasPage" data-mode="light">
+  <div class="d-wrap">
+
+    <header class="hero" id="hero">
+      <h1>🤲 أدعية من القرآن والسنة</h1>
+      <p class="lead">أدعية من القرآن الكريم ومن الصحيحين والسنن، مع التخريج وحكم الألباني حيث يلزم</p>
+      <label class="search">
+        <span aria-hidden="true">🔍</span>
+        <input type="search" id="duaSearch" placeholder="ابحث في الأدعية… (مثال: الهم، الاستخارة، سيد الاستغفار)" aria-label="بحث في الأدعية" autocomplete="off">
+      </label>
+    </header>
+
+    <!-- ===== الصفحة الرئيسية ===== -->
+    <div id="indexView">
+      <section class="card journey">
+        <div>
+          <div class="j-title">🌱 رحلتك مع الأدعية</div>
+          <div class="j-bar"><i id="jFill"></i></div>
+          <div class="j-note" id="jNote"></div>
+        </div>
+        <div class="j-chips">
+          <button class="pill" type="button" data-go="#fav">⭐ المفضلة <b id="favN">0</b></button>
+          <button class="pill" type="button" data-go="#memo">✅ المحفوظة <b id="memoN">0</b></button>
+          <button class="pill cont" type="button" id="contBtn" hidden></button>
+        </div>
+      </section>
+
+      <div id="dodBox"></div>
+
+      <section class="card">
+        <h2 class="sec-title">💭 كيف تشعر الآن؟</h2>
+        <p class="sec-sub">اختر حالتك لنعرض لك الأدعية المناسبة لها</p>
+        <div class="moods" id="moods"></div>
+      </section>
+
+      <h2 class="sec-title" style="margin:6px 4px 12px">📚 أقسام الأدعية</h2>
+      <p class="sec-sub" id="duaCount" style="margin:-4px 4px 14px"></p>
+      <div class="cgrid" id="cgrid"></div>
     </div>
 
-    <div class="search-box">
-      <input type="search" id="duaSearch" placeholder="ابحث في الأدعية..." aria-label="بحث في الأدعية" autocomplete="off">
-    </div>
-    <p class="dua-note" id="duaCount"></p>
-
-    <div class="dua-index" id="duaIndex">
-      <a class="dua-index-card" href="#cat-0"><span class="dua-index-title">📿 الأدعية الجامعة</span><span class="dua-index-n">6 دعاء</span></a>
-      <a class="dua-index-card" href="#cat-1"><span class="dua-index-title">😔 أدعية الهم والحزن والكرب</span><span class="dua-index-n">8 دعاء</span></a>
-      <a class="dua-index-card" href="#cat-2"><span class="dua-index-title">🤲 أدعية المغفرة والتوبة</span><span class="dua-index-n">9 دعاء</span></a>
-      <a class="dua-index-card" href="#cat-3"><span class="dua-index-title">🛡️ أدعية الثبات والهداية وحسن الخلق</span><span class="dua-index-n">7 دعاء</span></a>
-      <a class="dua-index-card" href="#cat-4"><span class="dua-index-title">💚 أدعية العافية والشفاء</span><span class="dua-index-n">4 دعاء</span></a>
-      <a class="dua-index-card" href="#cat-5"><span class="dua-index-title">💰 أدعية الرزق والعلم</span><span class="dua-index-n">6 دعاء</span></a>
-      <a class="dua-index-card" href="#cat-6"><span class="dua-index-title">👨‍👩‍👧 أدعية الوالدين والأهل والذرية</span><span class="dua-index-n">6 دعاء</span></a>
-      <a class="dua-index-card" href="#cat-7"><span class="dua-index-title">🕌 أدعية الصلاة والعبادة</span><span class="dua-index-n">6 دعاء</span></a>
-      <a class="dua-index-card" href="#cat-8"><span class="dua-index-title">🔒 أدعية الاستعاذة</span><span class="dua-index-n">8 دعاء</span></a>
-      <a class="dua-index-card" href="#cat-9"><span class="dua-index-title">✈️ أدعية السفر</span><span class="dua-index-n">1 دعاء</span></a>
-      <a class="dua-index-card" href="#cat-10"><span class="dua-index-title">🌙 أدعية النوم والاستيقاظ</span><span class="dua-index-n">2 دعاء</span></a>
-      <a class="dua-index-card" href="#cat-11"><span class="dua-index-title">🌧️ أدعية المطر والرعد والريح</span><span class="dua-index-n">5 دعاء</span></a>
-      <a class="dua-index-card" href="#cat-12"><span class="dua-index-title">✨ أدعية المواقف والأحوال</span><span class="dua-index-n">8 دعاء</span></a>
-    </div>
-    <div class="dua-bar" id="duaBar" hidden>
-      <button type="button" id="duaBack">→ كل الأقسام</button>
-      <span class="dua-current" id="duaCurrent"></span>
+    <!-- ===== عرض قائمة الأدعية ===== -->
+    <div id="listView" hidden>
+      <div class="lv-bar">
+        <button class="back" type="button" id="duaBack">→ كل الأقسام</button>
+        <h2 class="lv-title" id="lvTitle"></h2>
+      </div>
+      <div class="lv-bar">
+        <span class="lv-count" id="lvCount"></span>
+        <span style="flex:1"></span>
+        <div class="lv-tools">
+          <button class="fsbtn" type="button" id="fsMinus" aria-label="تصغير الخط">A−</button>
+          <button class="fsbtn" type="button" id="fsPlus" aria-label="تكبير الخط">A+</button>
+          <button class="btn-read" type="button" id="readAll">▶ القراءة المتتابعة</button>
+        </div>
+      </div>
+      <div id="lvBody"></div>
     </div>
 
-    <div class="dua-category" id="cat-0" hidden>
-      <h3>📿 الأدعية الجامعة</h3>
-
-      <div class="dua-item">
-        <div class="dua-text">رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ</div>
-        <div class="dua-ref">البقرة ٢٠١ — وكان أكثر دعاء النبي ﷺ (متفق عليه من حديث أنس)</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنَ الْخَيْرِ كُلِّهِ عَاجِلِهِ وَآجِلِهِ، مَا عَلِمْتُ مِنْهُ وَمَا لَمْ أَعْلَمْ، وَأَعُوذُ بِكَ مِنَ الشَّرِّ كُلِّهِ عَاجِلِهِ وَآجِلِهِ، مَا عَلِمْتُ مِنْهُ وَمَا لَمْ أَعْلَمْ</div>
-        <div class="dua-ref">رواه ابن ماجه وأحمد، وصححه الألباني — علّمه النبي ﷺ عائشة رضي الله عنها</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ أَوْ عَمَلٍ، وَأَعُوذُ بِكَ مِنَ النَّارِ وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ أَوْ عَمَلٍ</div>
-        <div class="dua-ref">رواه ابن ماجه وأحمد، وصححه الألباني — من دعاء علّمه النبي ﷺ عائشة</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ أَصْلِحْ لِي دِينِي الَّذِي هُوَ عِصْمَةُ أَمْرِي، وَأَصْلِحْ لِي دُنْيَايَ الَّتِي فِيهَا مَعَاشِي، وَأَصْلِحْ لِي آخِرَتِي الَّتِي فِيهَا مَعَادِي، وَاجْعَلِ الْحَيَاةَ زِيَادَةً لِي فِي كُلِّ خَيْرٍ، وَاجْعَلِ الْمَوْتَ رَاحَةً لِي مِنْ كُلِّ شَرٍّ</div>
-        <div class="dua-ref">رواه مسلم عن أبي هريرة</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى</div>
-        <div class="dua-ref">رواه مسلم عن ابن مسعود</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ اهْدِنِي وَسَدِّدْنِي</div>
-        <div class="dua-ref">رواه مسلم عن علي رضي الله عنه — وفيه: واذكر بالهدى هدايتك الطريق، وبالسداد سداد السهم</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-    </div>
-
-    <div class="dua-category" id="cat-1" hidden>
-      <h3>😔 أدعية الهم والحزن والكرب</h3>
-
-      <div class="dua-item">
-        <div class="dua-text">لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ</div>
-        <div class="dua-ref">دعوة ذي النون — رواه الترمذي وأحمد، وصححه الألباني: «لم يدعُ بها رجل مسلم في شيء قط إلا استجاب الله له»</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">لَا إِلَهَ إِلَّا اللَّهُ الْعَظِيمُ الْحَلِيمُ، لَا إِلَهَ إِلَّا اللَّهُ رَبُّ الْعَرْشِ الْعَظِيمِ، لَا إِلَهَ إِلَّا اللَّهُ رَبُّ السَّمَاوَاتِ وَرَبُّ الْأَرْضِ وَرَبُّ الْعَرْشِ الْكَرِيمِ</div>
-        <div class="dua-ref">متفق عليه عن ابن عباس — كان النبي ﷺ يدعو بها عند الكرب</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ إِنِّي عَبْدُكَ، ابْنُ عَبْدِكَ، ابْنُ أَمَتِكَ، نَاصِيَتِي بِيَدِكَ، مَاضٍ فِيَّ حُكْمُكَ، عَدْلٌ فِيَّ قَضَاؤُكَ، أَسْأَلُكَ بِكُلِّ اسْمٍ هُوَ لَكَ، سَمَّيْتَ بِهِ نَفْسَكَ، أَوْ أَنْزَلْتَهُ فِي كِتَابِكَ، أَوْ عَلَّمْتَهُ أَحَدًا مِنْ خَلْقِكَ، أَوِ اسْتَأْثَرْتَ بِهِ فِي عِلْمِ الْغَيْبِ عِنْدَكَ، أَنْ تَجْعَلَ الْقُرْآنَ رَبِيعَ قَلْبِي، وَنُورَ صَدْرِي، وَجِلَاءَ حُزْنِي، وَذَهَابَ هَمِّي</div>
-        <div class="dua-ref">رواه أحمد وابن حبان، وصححه الألباني — «إلا أذهب الله همّه وحزنه وأبدله مكانه فرحًا»</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ رَحْمَتَكَ أَرْجُو، فَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ، وَأَصْلِحْ لِي شَأْنِي كُلَّهُ، لَا إِلَهَ إِلَّا أَنْتَ</div>
-        <div class="dua-ref">رواه أبو داود وأحمد، وحسّنه الألباني — دعوات المكروب</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ</div>
-        <div class="dua-ref">رواه الحاكم والنسائي في الكبرى، وحسّنه الألباني</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْبُخْلِ وَالْجُبْنِ، وَضَلَعِ الدَّيْنِ وَغَلَبَةِ الرِّجَالِ</div>
-        <div class="dua-ref">رواه البخاري عن أنس</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ لَا سَهْلَ إِلَّا مَا جَعَلْتَهُ سَهْلًا، وَأَنْتَ تَجْعَلُ الْحَزْنَ إِذَا شِئْتَ سَهْلًا</div>
-        <div class="dua-ref">رواه ابن حبان، وصححه الألباني</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ ۖ عَلَيْهِ تَوَكَّلْتُ ۖ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ</div>
-        <div class="dua-ref">التوبة ١٢٩</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-    </div>
-
-    <div class="dua-category" id="cat-2" hidden>
-      <h3>🤲 أدعية المغفرة والتوبة</h3>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي، فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ</div>
-        <div class="dua-ref">سيد الاستغفار — رواه البخاري عن شداد بن أوس</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ إِنِّي ظَلَمْتُ نَفْسِي ظُلْمًا كَثِيرًا، وَلَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ، فَاغْفِرْ لِي مَغْفِرَةً مِنْ عِنْدِكَ، وَارْحَمْنِي، إِنَّكَ أَنْتَ الْغَفُورُ الرَّحِيمُ</div>
-        <div class="dua-ref">متفق عليه — علّمه النبي ﷺ أبا بكر ليدعو به في صلاته</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ، إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ</div>
-        <div class="dua-ref">رواه أبو داود والترمذي وابن ماجه، وصححه الألباني — قال ابن عمر: كنا نعدّها للنبي ﷺ في المجلس الواحد مئة مرة</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ اغْفِرْ لِي خَطِيئَتِي وَجَهْلِي وَإِسْرَافِي فِي أَمْرِي وَمَا أَنْتَ أَعْلَمُ بِهِ مِنِّي، اللَّهُمَّ اغْفِرْ لِي جِدِّي وَهَزْلِي وَخَطَئِي وَعَمْدِي وَكُلُّ ذَلِكَ عِنْدِي، اللَّهُمَّ اغْفِرْ لِي مَا قَدَّمْتُ وَمَا أَخَّرْتُ وَمَا أَسْرَرْتُ وَمَا أَعْلَنْتُ، أَنْتَ الْمُقَدِّمُ وَأَنْتَ الْمُؤَخِّرُ وَأَنْتَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ</div>
-        <div class="dua-ref">متفق عليه عن أبي موسى الأشعري</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ</div>
-        <div class="dua-ref">الأعراف ٢٣</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">رَبَّنَا اغْفِرْ لَنَا ذُنُوبَنَا وَإِسْرَافَنَا فِي أَمْرِنَا وَثَبِّتْ أَقْدَامَنَا وَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ</div>
-        <div class="dua-ref">آل عمران ١٤٧</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">رَبَّنَا إِنَّنَا آمَنَّا فَاغْفِرْ لَنَا ذُنُوبَنَا وَقِنَا عَذَابَ النَّارِ</div>
-        <div class="dua-ref">آل عمران ١٦</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">رَبَّنَا آمَنَّا فَاغْفِرْ لَنَا وَارْحَمْنَا وَأَنتَ خَيْرُ الرَّاحِمِينَ</div>
-        <div class="dua-ref">المؤمنون ١٠٩</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ، أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا أَنْتَ، أَسْتَغْفِرُكَ وَأَتُوبُ إِلَيْكَ</div>
-        <div class="dua-ref">كفارة المجلس — رواه أبو داود والترمذي والنسائي، وصححه الألباني (من حديث عائشة)</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-    </div>
-
-    <div class="dua-category" id="cat-3" hidden>
-      <h3>🛡️ أدعية الثبات والهداية وحسن الخلق</h3>
-
-      <div class="dua-item">
-        <div class="dua-text">يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ</div>
-        <div class="dua-ref">رواه الترمذي وأحمد، وصححه الألباني — كان أكثر دعاء النبي ﷺ (من حديث أم سلمة)</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ مُصَرِّفَ الْقُلُوبِ صَرِّفْ قُلُوبَنَا عَلَى طَاعَتِكَ</div>
-        <div class="dua-ref">رواه مسلم عن عبد الله بن عمرو</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِنْ لَدُنْكَ رَحْمَةً إِنَّكَ أَنْتَ الْوَهَّابُ</div>
-        <div class="dua-ref">آل عمران ٨</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَثَبِّتْ أَقْدَامَنَا وَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ</div>
-        <div class="dua-ref">البقرة ٢٥٠</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ إِنِّي أَسْأَلُكَ حُبَّكَ، وَحُبَّ مَنْ يُحِبُّكَ، وَالْعَمَلَ الَّذِي يُبَلِّغُنِي حُبَّكَ</div>
-        <div class="dua-ref">رواه الترمذي وأحمد، وصححه الألباني</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ كَمَا أَحْسَنْتَ خَلْقِي فَأَحْسِنْ خُلُقِي</div>
-        <div class="dua-ref">رواه أحمد، وصححه الألباني</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ مُنْكَرَاتِ الْأَخْلَاقِ وَالْأَعْمَالِ وَالْأَهْوَاءِ</div>
-        <div class="dua-ref">رواه الترمذي، وصححه الألباني</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-    </div>
-
-    <div class="dua-category" id="cat-4" hidden>
-      <h3>💚 أدعية العافية والشفاء</h3>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ، اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي دِينِي وَدُنْيَايَ وَأَهْلِي وَمَالِي</div>
-        <div class="dua-ref">رواه أبو داود وابن ماجه، وصححه الألباني (من حديث ابن عمر)</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">أَسْأَلُ اللَّهَ الْعَظِيمَ رَبَّ الْعَرْشِ الْعَظِيمِ أَنْ يَشْفِيَكَ</div>
-        <div class="dua-ref">تُقال سبع مرات عند المريض — رواه أبو داود والترمذي، وصححه الألباني</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ رَبَّ النَّاسِ، أَذْهِبِ الْبَاسَ، اشْفِهِ وَأَنْتَ الشَّافِي، لَا شِفَاءَ إِلَّا شِفَاؤُكَ، شِفَاءً لَا يُغَادِرُ سَقَمًا</div>
-        <div class="dua-ref">متفق عليه عن عائشة — كان النبي ﷺ يرقي به بعض أهله</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">بِسْمِ اللَّهِ (ثَلَاثًا) ثُمَّ: أَعُوذُ بِاللَّهِ وَقُدْرَتِهِ مِنْ شَرِّ مَا أَجِدُ وَأُحَاذِرُ (سَبْعَ مَرَّاتٍ)</div>
-        <div class="dua-ref">رواه مسلم عن عثمان بن أبي العاص — يضع يده على موضع الألم من جسده</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-    </div>
-
-    <div class="dua-category" id="cat-5" hidden>
-      <h3>💰 أدعية الرزق والعلم</h3>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ</div>
-        <div class="dua-ref">رواه الترمذي وأحمد، وحسّنه الألباني (من حديث علي)</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْفَقْرِ وَالْقِلَّةِ وَالذِّلَّةِ، وَأَعُوذُ بِكَ مِنْ أَنْ أَظْلِمَ أَوْ أُظْلَمَ</div>
-        <div class="dua-ref">رواه أبو داود والنسائي، وصححه الألباني (من حديث أبي هريرة)</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">رَبِّ إِنِّي لِمَا أَنزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ</div>
-        <div class="dua-ref">القصص ٢٤</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">رَبِّ زِدْنِي عِلْمًا</div>
-        <div class="dua-ref">طه ١١٤</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">رَبِّ اشْرَحْ لِي صَدْرِي ۝ وَيَسِّرْ لِي أَمْرِي ۝ وَاحْلُلْ عُقْدَةً مِّن لِّسَانِي ۝ يَفْقَهُوا قَوْلِي</div>
-        <div class="dua-ref">طه ٢٥ – ٢٨</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عِلْمٍ لَا يَنْفَعُ، وَمِنْ قَلْبٍ لَا يَخْشَعُ، وَمِنْ نَفْسٍ لَا تَشْبَعُ، وَمِنْ دَعْوَةٍ لَا يُسْتَجَابُ لَهَا</div>
-        <div class="dua-ref">رواه مسلم عن زيد بن أرقم</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-    </div>
-
-    <div class="dua-category" id="cat-6" hidden>
-      <h3>👨‍👩‍👧 أدعية الوالدين والأهل والذرية</h3>
-
-      <div class="dua-item">
-        <div class="dua-text">رَّبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا</div>
-        <div class="dua-ref">الإسراء ٢٤ — للوالدين</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">رَبَّنَا اغْفِرْ لِي وَلِوَالِدَيَّ وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ الْحِسَابُ</div>
-        <div class="dua-ref">إبراهيم ٤١</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِن ذُرِّيَّتِي ۚ رَبَّنَا وَتَقَبَّلْ دُعَاءِ</div>
-        <div class="dua-ref">إبراهيم ٤٠</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا</div>
-        <div class="dua-ref">الفرقان ٧٤</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَىٰ وَالِدَيَّ وَأَنْ أَعْمَلَ صَالِحًا تَرْضَاهُ وَأَصْلِحْ لِي فِي ذُرِّيَّتِي ۖ إِنِّي تُبْتُ إِلَيْكَ وَإِنِّي مِنَ الْمُسْلِمِينَ</div>
-        <div class="dua-ref">الأحقاف ١٥</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">بَارَكَ اللَّهُ لَكَ، وَبَارَكَ عَلَيْكَ، وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ</div>
-        <div class="dua-ref">للمتزوّج — رواه أبو داود والترمذي، وصححه الألباني</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-    </div>
-
-    <div class="dua-category" id="cat-7" hidden>
-      <h3>🕌 أدعية الصلاة والعبادة</h3>
-
-      <div class="dua-item">
-        <div class="dua-text">رَبِّ اغْفِرْ لِي، رَبِّ اغْفِرْ لِي</div>
-        <div class="dua-ref">بين السجدتين — رواه أبو داود والنسائي وابن ماجه، وصححه الألباني (من حديث حذيفة)</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ اغْفِرْ لِي ذَنْبِي كُلَّهُ، دِقَّهُ وَجِلَّهُ، وَأَوَّلَهُ وَآخِرَهُ، وَعَلَانِيَتَهُ وَسِرَّهُ</div>
-        <div class="dua-ref">في السجود — رواه مسلم عن أبي هريرة</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عَذَابِ جَهَنَّمَ، وَمِنْ عَذَابِ الْقَبْرِ، وَمِنْ فِتْنَةِ الْمَحْيَا وَالْمَمَاتِ، وَمِنْ شَرِّ فِتْنَةِ الْمَسِيحِ الدَّجَّالِ</div>
-        <div class="dua-ref">بعد التشهد الأخير قبل السلام — رواه مسلم عن أبي هريرة</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ اهْدِنِي فِيمَنْ هَدَيْتَ، وَعَافِنِي فِيمَنْ عَافَيْتَ، وَتَوَلَّنِي فِيمَنْ تَوَلَّيْتَ، وَبَارِكْ لِي فِيمَا أَعْطَيْتَ، وَقِنِي شَرَّ مَا قَضَيْتَ، فَإِنَّكَ تَقْضِي وَلَا يُقْضَى عَلَيْكَ، وَإِنَّهُ لَا يَذِلُّ مَنْ وَالَيْتَ، تَبَارَكْتَ رَبَّنَا وَتَعَالَيْتَ</div>
-        <div class="dua-ref">قنوت الوتر — رواه أبو داود والترمذي والنسائي، وصححه الألباني (من حديث الحسن بن علي)</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ</div>
-        <div class="dua-ref">رواه أبو داود والنسائي، وصححه الألباني — أوصى به النبي ﷺ معاذًا في دبر كل صلاة</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي</div>
-        <div class="dua-ref">ليلة القدر — رواه الترمذي وابن ماجه، وصححه الألباني (من حديث عائشة)</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-    </div>
-
-    <div class="dua-category" id="cat-8" hidden>
-      <h3>🔒 أدعية الاستعاذة</h3>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْعَجْزِ وَالْكَسَلِ، وَالْجُبْنِ وَالْبُخْلِ وَالْهَرَمِ، وَأَعُوذُ بِكَ مِنْ عَذَابِ الْقَبْرِ، وَمِنْ فِتْنَةِ الْمَحْيَا وَالْمَمَاتِ</div>
-        <div class="dua-ref">متفق عليه عن أنس</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ جَهْدِ الْبَلَاءِ، وَدَرَكِ الشَّقَاءِ، وَسُوءِ الْقَضَاءِ، وَشَمَاتَةِ الْأَعْدَاءِ</div>
-        <div class="dua-ref">متفق عليه عن أبي هريرة</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ زَوَالِ نِعْمَتِكَ، وَتَحَوُّلِ عَافِيَتِكَ، وَفُجَاءَةِ نِقْمَتِكَ، وَجَمِيعِ سَخَطِكَ</div>
-        <div class="dua-ref">رواه مسلم عن ابن عمر</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ إِنِّي أَعُوذُ بِرِضَاكَ مِنْ سَخَطِكَ، وَبِمُعَافَاتِكَ مِنْ عُقُوبَتِكَ، وَأَعُوذُ بِكَ مِنْكَ، لَا أُحْصِي ثَنَاءً عَلَيْكَ، أَنْتَ كَمَا أَثْنَيْتَ عَلَى نَفْسِكَ</div>
-        <div class="dua-ref">رواه مسلم عن عائشة</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ مَا عَمِلْتُ، وَمِنْ شَرِّ مَا لَمْ أَعْمَلْ</div>
-        <div class="dua-ref">رواه مسلم عن عائشة</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ</div>
-        <div class="dua-ref">عند الغضب — متفق عليه عن سليمان بن صرد: «إني لأعلم كلمة لو قالها لذهب عنه ما يجد»</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ إِنَّا نَجْعَلُكَ فِي نُحُورِهِمْ، وَنَعُوذُ بِكَ مِنْ شُرُورِهِمْ</div>
-        <div class="dua-ref">عند خوف قوم — رواه أبو داود والنسائي، وصححه الألباني (من حديث أبي موسى)</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">رَبِّ أَعُوذُ بِكَ مِنْ هَمَزَاتِ الشَّيَاطِينِ ۝ وَأَعُوذُ بِكَ رَبِّ أَن يَحْضُرُونِ</div>
-        <div class="dua-ref">المؤمنون ٩٧ – ٩٨</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-    </div>
-
-    <div class="dua-category" id="cat-9" hidden>
-      <h3>✈️ أدعية السفر</h3>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ، وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ، اللَّهُمَّ إِنَّا نَسْأَلُكَ فِي سَفَرِنَا هَذَا الْبِرَّ وَالتَّقْوَى، وَمِنَ الْعَمَلِ مَا تَرْضَى، اللَّهُمَّ هَوِّنْ عَلَيْنَا سَفَرَنَا هَذَا وَاطْوِ عَنَّا بُعْدَهُ، اللَّهُمَّ أَنْتَ الصَّاحِبُ فِي السَّفَرِ، وَالْخَلِيفَةُ فِي الْأَهْلِ، اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ وَعْثَاءِ السَّفَرِ، وَكَآبَةِ الْمَنْظَرِ، وَسُوءِ الْمُنْقَلَبِ فِي الْمَالِ وَالْأَهْلِ</div>
-        <div class="dua-ref">رواه مسلم عن ابن عمر — وإذا رجع قالها وزاد: آيِبُونَ تَائِبُونَ عَابِدُونَ لِرَبِّنَا حَامِدُونَ</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-    </div>
-
-    <div class="dua-category" id="cat-10" hidden>
-      <h3>🌙 أدعية النوم والاستيقاظ</h3>
-
-      <div class="dua-item">
-        <div class="dua-text">بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا</div>
-        <div class="dua-ref">عند النوم — رواه البخاري عن حذيفة</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ</div>
-        <div class="dua-ref">عند الاستيقاظ — رواه البخاري عن حذيفة</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-    </div>
-
-    <div class="dua-category" id="cat-11" hidden>
-      <h3>🌧️ أدعية المطر والرعد والريح</h3>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ صَيِّبًا نَافِعًا</div>
-        <div class="dua-ref">عند نزول المطر — رواه البخاري عن عائشة</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">مُطِرْنَا بِفَضْلِ اللَّهِ وَرَحْمَتِهِ</div>
-        <div class="dua-ref">بعد نزول المطر — متفق عليه عن زيد بن خالد الجهني</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ أَغِثْنَا، اللَّهُمَّ أَغِثْنَا، اللَّهُمَّ أَغِثْنَا</div>
-        <div class="dua-ref">دعاء الاستسقاء — متفق عليه عن أنس</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَهَا، وَخَيْرَ مَا فِيهَا، وَخَيْرَ مَا أُرْسِلَتْ بِهِ، وَأَعُوذُ بِكَ مِنْ شَرِّهَا، وَشَرِّ مَا فِيهَا، وَشَرِّ مَا أُرْسِلَتْ بِهِ</div>
-        <div class="dua-ref">عند هبوب الريح — رواه مسلم عن عائشة</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">سُبْحَانَ الَّذِي يُسَبِّحُ الرَّعْدُ بِحَمْدِهِ وَالْمَلَائِكَةُ مِنْ خِيفَتِهِ</div>
-        <div class="dua-ref">عند سماع الرعد — رواه مالك في الموطأ موقوفًا على عبد الله بن الزبير، وإسناده صحيح</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-    </div>
-
-    <div class="dua-category" id="cat-12" hidden>
-      <h3>✨ أدعية المواقف والأحوال</h3>
-
-      <div class="dua-item">
-        <div class="dua-text">إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ، اللَّهُمَّ أْجُرْنِي فِي مُصِيبَتِي وَأَخْلِفْ لِي خَيْرًا مِنْهَا</div>
-        <div class="dua-ref">عند المصيبة — رواه مسلم عن أم سلمة</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ إِنِّي أَسْتَخِيرُكَ بِعِلْمِكَ، وَأَسْتَقْدِرُكَ بِقُدْرَتِكَ، وَأَسْأَلُكَ مِنْ فَضْلِكَ الْعَظِيمِ، فَإِنَّكَ تَقْدِرُ وَلَا أَقْدِرُ، وَتَعْلَمُ وَلَا أَعْلَمُ، وَأَنْتَ عَلَّامُ الْغُيُوبِ، اللَّهُمَّ إِنْ كُنْتَ تَعْلَمُ أَنَّ هَذَا الْأَمْرَ خَيْرٌ لِي فِي دِينِي وَمَعَاشِي وَعَاقِبَةِ أَمْرِي - أَوْ قَالَ: عَاجِلِ أَمْرِي وَآجِلِهِ - فَاقْدُرْهُ لِي وَيَسِّرْهُ لِي ثُمَّ بَارِكْ لِي فِيهِ، وَإِنْ كُنْتَ تَعْلَمُ أَنَّ هَذَا الْأَمْرَ شَرٌّ لِي فِي دِينِي وَمَعَاشِي وَعَاقِبَةِ أَمْرِي - أَوْ قَالَ: فِي عَاجِلِ أَمْرِي وَآجِلِهِ - فَاصْرِفْهُ عَنِّي وَاصْرِفْنِي عَنْهُ، وَاقْدُرْ لِيَ الْخَيْرَ حَيْثُ كَانَ ثُمَّ أَرْضِنِي بِهِ</div>
-        <div class="dua-ref">دعاء الاستخارة بعد ركعتين من غير الفريضة — رواه البخاري عن جابر، ويسمّي حاجته عند قوله «هذا الأمر»</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ اغْفِرْ لَهُ وَارْحَمْهُ وَعَافِهِ وَاعْفُ عَنْهُ، وَأَكْرِمْ نُزُلَهُ وَوَسِّعْ مُدْخَلَهُ، وَاغْسِلْهُ بِالْمَاءِ وَالثَّلْجِ وَالْبَرَدِ، وَنَقِّهِ مِنَ الْخَطَايَا كَمَا نَقَّيْتَ الثَّوْبَ الْأَبْيَضَ مِنَ الدَّنَسِ، وَأَبْدِلْهُ دَارًا خَيْرًا مِنْ دَارِهِ، وَأَهْلًا خَيْرًا مِنْ أَهْلِهِ، وَزَوْجًا خَيْرًا مِنْ زَوْجِهِ، وَأَدْخِلْهُ الْجَنَّةَ، وَأَعِذْهُ مِنْ عَذَابِ الْقَبْرِ وَمِنْ عَذَابِ النَّارِ</div>
-        <div class="dua-ref">الدعاء للميت في صلاة الجنازة — رواه مسلم عن عوف بن مالك</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">اللَّهُمَّ أَهِلَّهُ عَلَيْنَا بِالْأَمْنِ وَالْإِيمَانِ، وَالسَّلَامَةِ وَالْإِسْلَامِ، رَبِّي وَرَبُّكَ اللَّهُ</div>
-        <div class="dua-ref">عند رؤية الهلال — رواه الترمذي والدارمي، وصححه الألباني</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">ذَهَبَ الظَّمَأُ، وَابْتَلَّتِ الْعُرُوقُ، وَثَبَتَ الْأَجْرُ إِنْ شَاءَ اللَّهُ</div>
-        <div class="dua-ref">عند الإفطار — رواه أبو داود، وحسّنه الألباني</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">الْحَمْدُ لِلَّهِ الَّذِي كَسَانِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ</div>
-        <div class="dua-ref">عند لبس الثوب — رواه أبو داود والترمذي، وحسّنه الألباني</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">يَهْدِيكُمُ اللَّهُ وَيُصْلِحُ بَالَكُمْ</div>
-        <div class="dua-ref">جواب من شمّتك بعد العطاس (يقول العاطس «الحمد لله»، فيقال له «يرحمك الله») — رواه البخاري عن أبي هريرة</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-
-      <div class="dua-item">
-        <div class="dua-text">جَزَاكَ اللَّهُ خَيْرًا</div>
-        <div class="dua-ref">لمن صنع إليك معروفًا — رواه الترمذي، وصححه الألباني: «فقد أبلغ في الثناء»</div>
-        <div class="dua-actions"><button type="button" onclick="copyDua(this)">📋 نسخ</button></div>
-      </div>
-    </div>
-
-    <div class="dua-empty" id="duaEmpty">لا توجد نتائج مطابقة.</div>
   </div>
+
+  <!-- وضع القراءة -->
+  <div class="reader" id="reader" hidden role="dialog" aria-modal="true" aria-label="وضع القراءة">
+    <div class="rd-top">
+      <button class="rd-x" type="button" id="rdClose" aria-label="إغلاق">✕</button>
+      <div class="rd-title" id="rdTitle"></div>
+      <div class="rd-count" id="rdCount"></div>
+    </div>
+    <div class="rd-bar"><i id="rdFill"></i></div>
+    <div class="rd-body" id="rdBody">
+      <span class="badge" id="rdBadge"></span>
+      <p class="rd-text" id="rdText"></p>
+      <p class="rd-ref" id="rdRef"></p>
+    </div>
+    <div class="rd-foot">
+      <button type="button" id="rdPrev">› السابق</button>
+      <button type="button" id="rdFav" aria-label="المفضلة">☆</button>
+      <button type="button" id="rdCopy">📋</button>
+      <button type="button" id="rdMinus" aria-label="تصغير الخط">A−</button>
+      <button type="button" id="rdPlus" aria-label="تكبير الخط">A+</button>
+      <button type="button" class="main" id="rdNext">التالي ‹</button>
+    </div>
+  </div>
+
+  <!-- نافذة الصورة -->
+  <div class="imodal" id="imodal" hidden>
+    <div class="im-box">
+      <img id="imImg" alt="بطاقة الدعاء">
+      <div class="im-actions">
+        <button type="button" id="imDl">⬇ تحميل</button>
+        <button type="button" id="imShare" hidden>🔗 مشاركة</button>
+        <button type="button" class="alt" id="imClose">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="wtoast" id="wToast" role="status" aria-live="polite"></div>
 </main>
 
 <footer>
@@ -648,87 +406,494 @@
 <script>
 document.getElementById('year').textContent = new Date().getFullYear();
 
-function toast(msg) { if (typeof showToast === 'function') showToast(msg); }
-
-function copyDua(btn) {
-  var item = btn.closest('.dua-item');
-  var text = item.querySelector('.dua-text').textContent.trim();
-  var done = function () { toast('تم نسخ الدعاء ✓'); };
-  var fail = function () { toast('تعذّر النسخ'); };
-  if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(text).then(done, fail);
-  } else {
-    try {
-      var ta = document.createElement('textarea');
-      ta.value = text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;opacity:0;top:0';
-      document.body.appendChild(ta); ta.select();
-      document.execCommand('copy') ? done() : fail();
-      ta.remove();
-    } catch (e) { fail(); }
-  }
-}
-
 (function () {
-  function $(id) { return document.getElementById(id); }
+  'use strict';
+
+  /* ================== البيانات (مستخرجة حرفياً من الصفحة الأصلية) ================== */
+  const D = {"cats": [{"i": "📿", "n": "الأدعية الجامعة"}, {"i": "😔", "n": "أدعية الهم والحزن والكرب"}, {"i": "🤲", "n": "أدعية المغفرة والتوبة"}, {"i": "🛡️", "n": "أدعية الثبات والهداية وحسن الخلق"}, {"i": "💚", "n": "أدعية العافية والشفاء"}, {"i": "💰", "n": "أدعية الرزق والعلم"}, {"i": "👨‍👩‍👧", "n": "أدعية الوالدين والأهل والذرية"}, {"i": "🕌", "n": "أدعية الصلاة والعبادة"}, {"i": "🔒", "n": "أدعية الاستعاذة"}, {"i": "✈️", "n": "أدعية السفر"}, {"i": "🌙", "n": "أدعية النوم والاستيقاظ"}, {"i": "🌧️", "n": "أدعية المطر والرعد والريح"}, {"i": "✨", "n": "أدعية المواقف والأحوال"}], "duas": [{"id": "6577dd2e", "c": 0, "t": "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ", "r": "البقرة ٢٠١ — وكان أكثر دعاء النبي ﷺ (متفق عليه من حديث أنس)", "b": "قرآن كريم", "k": "quran"}, {"id": "50189443", "c": 0, "t": "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنَ الْخَيْرِ كُلِّهِ عَاجِلِهِ وَآجِلِهِ، مَا عَلِمْتُ مِنْهُ وَمَا لَمْ أَعْلَمْ، وَأَعُوذُ بِكَ مِنَ الشَّرِّ كُلِّهِ عَاجِلِهِ وَآجِلِهِ، مَا عَلِمْتُ مِنْهُ وَمَا لَمْ أَعْلَمْ", "r": "رواه ابن ماجه وأحمد، وصححه الألباني — علّمه النبي ﷺ عائشة رضي الله عنها", "b": "صححه الألباني", "k": "sahih"}, {"id": "12919ca9", "c": 0, "t": "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ أَوْ عَمَلٍ، وَأَعُوذُ بِكَ مِنَ النَّارِ وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ أَوْ عَمَلٍ", "r": "رواه ابن ماجه وأحمد، وصححه الألباني — من دعاء علّمه النبي ﷺ عائشة", "b": "صححه الألباني", "k": "sahih"}, {"id": "455bc88a", "c": 0, "t": "اللَّهُمَّ أَصْلِحْ لِي دِينِي الَّذِي هُوَ عِصْمَةُ أَمْرِي، وَأَصْلِحْ لِي دُنْيَايَ الَّتِي فِيهَا مَعَاشِي، وَأَصْلِحْ لِي آخِرَتِي الَّتِي فِيهَا مَعَادِي، وَاجْعَلِ الْحَيَاةَ زِيَادَةً لِي فِي كُلِّ خَيْرٍ، وَاجْعَلِ الْمَوْتَ رَاحَةً لِي مِنْ كُلِّ شَرٍّ", "r": "رواه مسلم عن أبي هريرة", "b": "رواه مسلم", "k": "sahih"}, {"id": "d5b58382", "c": 0, "t": "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى", "r": "رواه مسلم عن ابن مسعود", "b": "رواه مسلم", "k": "sahih"}, {"id": "feb48661", "c": 0, "t": "اللَّهُمَّ اهْدِنِي وَسَدِّدْنِي", "r": "رواه مسلم عن علي رضي الله عنه — وفيه: واذكر بالهدى هدايتك الطريق، وبالسداد سداد السهم", "b": "رواه مسلم", "k": "sahih"}, {"id": "ca468d1f", "c": 1, "t": "لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ", "r": "دعوة ذي النون — رواه الترمذي وأحمد، وصححه الألباني: «لم يدعُ بها رجل مسلم في شيء قط إلا استجاب الله له»", "b": "صححه الألباني", "k": "sahih"}, {"id": "0a70630f", "c": 1, "t": "لَا إِلَهَ إِلَّا اللَّهُ الْعَظِيمُ الْحَلِيمُ، لَا إِلَهَ إِلَّا اللَّهُ رَبُّ الْعَرْشِ الْعَظِيمِ، لَا إِلَهَ إِلَّا اللَّهُ رَبُّ السَّمَاوَاتِ وَرَبُّ الْأَرْضِ وَرَبُّ الْعَرْشِ الْكَرِيمِ", "r": "متفق عليه عن ابن عباس — كان النبي ﷺ يدعو بها عند الكرب", "b": "متفق عليه", "k": "agreed"}, {"id": "2826c1ce", "c": 1, "t": "اللَّهُمَّ إِنِّي عَبْدُكَ، ابْنُ عَبْدِكَ، ابْنُ أَمَتِكَ، نَاصِيَتِي بِيَدِكَ، مَاضٍ فِيَّ حُكْمُكَ، عَدْلٌ فِيَّ قَضَاؤُكَ، أَسْأَلُكَ بِكُلِّ اسْمٍ هُوَ لَكَ، سَمَّيْتَ بِهِ نَفْسَكَ، أَوْ أَنْزَلْتَهُ فِي كِتَابِكَ، أَوْ عَلَّمْتَهُ أَحَدًا مِنْ خَلْقِكَ، أَوِ اسْتَأْثَرْتَ بِهِ فِي عِلْمِ الْغَيْبِ عِنْدَكَ، أَنْ تَجْعَلَ الْقُرْآنَ رَبِيعَ قَلْبِي، وَنُورَ صَدْرِي، وَجِلَاءَ حُزْنِي، وَذَهَابَ هَمِّي", "r": "رواه أحمد وابن حبان، وصححه الألباني — «إلا أذهب الله همّه وحزنه وأبدله مكانه فرحًا»", "b": "صححه الألباني", "k": "sahih"}, {"id": "3f418fc0", "c": 1, "t": "اللَّهُمَّ رَحْمَتَكَ أَرْجُو، فَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ، وَأَصْلِحْ لِي شَأْنِي كُلَّهُ، لَا إِلَهَ إِلَّا أَنْتَ", "r": "رواه أبو داود وأحمد، وحسّنه الألباني — دعوات المكروب", "b": "حسّنه الألباني", "k": "hasan"}, {"id": "b029fe67", "c": 1, "t": "يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ", "r": "رواه الحاكم والنسائي في الكبرى، وحسّنه الألباني", "b": "حسّنه الألباني", "k": "hasan"}, {"id": "4e8f228e", "c": 1, "t": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْبُخْلِ وَالْجُبْنِ، وَضَلَعِ الدَّيْنِ وَغَلَبَةِ الرِّجَالِ", "r": "رواه البخاري عن أنس", "b": "رواه البخاري", "k": "sahih"}, {"id": "2fa98e54", "c": 1, "t": "اللَّهُمَّ لَا سَهْلَ إِلَّا مَا جَعَلْتَهُ سَهْلًا، وَأَنْتَ تَجْعَلُ الْحَزْنَ إِذَا شِئْتَ سَهْلًا", "r": "رواه ابن حبان، وصححه الألباني", "b": "صححه الألباني", "k": "sahih"}, {"id": "45c06662", "c": 1, "t": "حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ ۖ عَلَيْهِ تَوَكَّلْتُ ۖ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ", "r": "التوبة ١٢٩", "b": "قرآن كريم", "k": "quran"}, {"id": "45903f83", "c": 2, "t": "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي، فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ", "r": "سيد الاستغفار — رواه البخاري عن شداد بن أوس", "b": "رواه البخاري", "k": "sahih"}, {"id": "4c1040bb", "c": 2, "t": "اللَّهُمَّ إِنِّي ظَلَمْتُ نَفْسِي ظُلْمًا كَثِيرًا، وَلَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ، فَاغْفِرْ لِي مَغْفِرَةً مِنْ عِنْدِكَ، وَارْحَمْنِي، إِنَّكَ أَنْتَ الْغَفُورُ الرَّحِيمُ", "r": "متفق عليه — علّمه النبي ﷺ أبا بكر ليدعو به في صلاته", "b": "متفق عليه", "k": "agreed"}, {"id": "c05e0311", "c": 2, "t": "رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ، إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ", "r": "رواه أبو داود والترمذي وابن ماجه، وصححه الألباني — قال ابن عمر: كنا نعدّها للنبي ﷺ في المجلس الواحد مئة مرة", "b": "صححه الألباني", "k": "sahih"}, {"id": "633bae8d", "c": 2, "t": "اللَّهُمَّ اغْفِرْ لِي خَطِيئَتِي وَجَهْلِي وَإِسْرَافِي فِي أَمْرِي وَمَا أَنْتَ أَعْلَمُ بِهِ مِنِّي، اللَّهُمَّ اغْفِرْ لِي جِدِّي وَهَزْلِي وَخَطَئِي وَعَمْدِي وَكُلُّ ذَلِكَ عِنْدِي، اللَّهُمَّ اغْفِرْ لِي مَا قَدَّمْتُ وَمَا أَخَّرْتُ وَمَا أَسْرَرْتُ وَمَا أَعْلَنْتُ، أَنْتَ الْمُقَدِّمُ وَأَنْتَ الْمُؤَخِّرُ وَأَنْتَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ", "r": "متفق عليه عن أبي موسى الأشعري", "b": "متفق عليه", "k": "agreed"}, {"id": "6f23bec8", "c": 2, "t": "رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ", "r": "الأعراف ٢٣", "b": "قرآن كريم", "k": "quran"}, {"id": "83f4bd3f", "c": 2, "t": "رَبَّنَا اغْفِرْ لَنَا ذُنُوبَنَا وَإِسْرَافَنَا فِي أَمْرِنَا وَثَبِّتْ أَقْدَامَنَا وَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ", "r": "آل عمران ١٤٧", "b": "قرآن كريم", "k": "quran"}, {"id": "86442e63", "c": 2, "t": "رَبَّنَا إِنَّنَا آمَنَّا فَاغْفِرْ لَنَا ذُنُوبَنَا وَقِنَا عَذَابَ النَّارِ", "r": "آل عمران ١٦", "b": "قرآن كريم", "k": "quran"}, {"id": "a0a772ce", "c": 2, "t": "رَبَّنَا آمَنَّا فَاغْفِرْ لَنَا وَارْحَمْنَا وَأَنتَ خَيْرُ الرَّاحِمِينَ", "r": "المؤمنون ١٠٩", "b": "قرآن كريم", "k": "quran"}, {"id": "7cf4dcab", "c": 2, "t": "سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ، أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا أَنْتَ، أَسْتَغْفِرُكَ وَأَتُوبُ إِلَيْكَ", "r": "كفارة المجلس — رواه أبو داود والترمذي والنسائي، وصححه الألباني (من حديث عائشة)", "b": "صححه الألباني", "k": "sahih"}, {"id": "a4dc97c8", "c": 3, "t": "يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ", "r": "رواه الترمذي وأحمد، وصححه الألباني — كان أكثر دعاء النبي ﷺ (من حديث أم سلمة)", "b": "صححه الألباني", "k": "sahih"}, {"id": "8142378d", "c": 3, "t": "اللَّهُمَّ مُصَرِّفَ الْقُلُوبِ صَرِّفْ قُلُوبَنَا عَلَى طَاعَتِكَ", "r": "رواه مسلم عن عبد الله بن عمرو", "b": "رواه مسلم", "k": "sahih"}, {"id": "22729449", "c": 3, "t": "رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِنْ لَدُنْكَ رَحْمَةً إِنَّكَ أَنْتَ الْوَهَّابُ", "r": "آل عمران ٨", "b": "قرآن كريم", "k": "quran"}, {"id": "83c818b2", "c": 3, "t": "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَثَبِّتْ أَقْدَامَنَا وَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ", "r": "البقرة ٢٥٠", "b": "قرآن كريم", "k": "quran"}, {"id": "f157687a", "c": 3, "t": "اللَّهُمَّ إِنِّي أَسْأَلُكَ حُبَّكَ، وَحُبَّ مَنْ يُحِبُّكَ، وَالْعَمَلَ الَّذِي يُبَلِّغُنِي حُبَّكَ", "r": "رواه الترمذي وأحمد، وصححه الألباني", "b": "صححه الألباني", "k": "sahih"}, {"id": "dd074809", "c": 3, "t": "اللَّهُمَّ كَمَا أَحْسَنْتَ خَلْقِي فَأَحْسِنْ خُلُقِي", "r": "رواه أحمد، وصححه الألباني", "b": "صححه الألباني", "k": "sahih"}, {"id": "51d71de5", "c": 3, "t": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ مُنْكَرَاتِ الْأَخْلَاقِ وَالْأَعْمَالِ وَالْأَهْوَاءِ", "r": "رواه الترمذي، وصححه الألباني", "b": "صححه الألباني", "k": "sahih"}, {"id": "eef4c0e3", "c": 4, "t": "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ، اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي دِينِي وَدُنْيَايَ وَأَهْلِي وَمَالِي", "r": "رواه أبو داود وابن ماجه، وصححه الألباني (من حديث ابن عمر)", "b": "صححه الألباني", "k": "sahih"}, {"id": "389a5aad", "c": 4, "t": "أَسْأَلُ اللَّهَ الْعَظِيمَ رَبَّ الْعَرْشِ الْعَظِيمِ أَنْ يَشْفِيَكَ", "r": "تُقال سبع مرات عند المريض — رواه أبو داود والترمذي، وصححه الألباني", "b": "صححه الألباني", "k": "sahih"}, {"id": "557dd176", "c": 4, "t": "اللَّهُمَّ رَبَّ النَّاسِ، أَذْهِبِ الْبَاسَ، اشْفِهِ وَأَنْتَ الشَّافِي، لَا شِفَاءَ إِلَّا شِفَاؤُكَ، شِفَاءً لَا يُغَادِرُ سَقَمًا", "r": "متفق عليه عن عائشة — كان النبي ﷺ يرقي به بعض أهله", "b": "متفق عليه", "k": "agreed"}, {"id": "1566533a", "c": 4, "t": "بِسْمِ اللَّهِ (ثَلَاثًا) ثُمَّ: أَعُوذُ بِاللَّهِ وَقُدْرَتِهِ مِنْ شَرِّ مَا أَجِدُ وَأُحَاذِرُ (سَبْعَ مَرَّاتٍ)", "r": "رواه مسلم عن عثمان بن أبي العاص — يضع يده على موضع الألم من جسده", "b": "رواه مسلم", "k": "sahih"}, {"id": "2e537224", "c": 5, "t": "اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ", "r": "رواه الترمذي وأحمد، وحسّنه الألباني (من حديث علي)", "b": "حسّنه الألباني", "k": "hasan"}, {"id": "408d02d3", "c": 5, "t": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْفَقْرِ وَالْقِلَّةِ وَالذِّلَّةِ، وَأَعُوذُ بِكَ مِنْ أَنْ أَظْلِمَ أَوْ أُظْلَمَ", "r": "رواه أبو داود والنسائي، وصححه الألباني (من حديث أبي هريرة)", "b": "صححه الألباني", "k": "sahih"}, {"id": "747b1011", "c": 5, "t": "رَبِّ إِنِّي لِمَا أَنزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ", "r": "القصص ٢٤", "b": "قرآن كريم", "k": "quran"}, {"id": "50039dc0", "c": 5, "t": "رَبِّ زِدْنِي عِلْمًا", "r": "طه ١١٤", "b": "قرآن كريم", "k": "quran"}, {"id": "988903e4", "c": 5, "t": "رَبِّ اشْرَحْ لِي صَدْرِي ۝ وَيَسِّرْ لِي أَمْرِي ۝ وَاحْلُلْ عُقْدَةً مِّن لِّسَانِي ۝ يَفْقَهُوا قَوْلِي", "r": "طه ٢٥ – ٢٨", "b": "قرآن كريم", "k": "quran"}, {"id": "0324b86f", "c": 5, "t": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عِلْمٍ لَا يَنْفَعُ، وَمِنْ قَلْبٍ لَا يَخْشَعُ، وَمِنْ نَفْسٍ لَا تَشْبَعُ، وَمِنْ دَعْوَةٍ لَا يُسْتَجَابُ لَهَا", "r": "رواه مسلم عن زيد بن أرقم", "b": "رواه مسلم", "k": "sahih"}, {"id": "dafa2fa0", "c": 6, "t": "رَّبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا", "r": "الإسراء ٢٤ — للوالدين", "b": "قرآن كريم", "k": "quran"}, {"id": "f0655e9c", "c": 6, "t": "رَبَّنَا اغْفِرْ لِي وَلِوَالِدَيَّ وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ الْحِسَابُ", "r": "إبراهيم ٤١", "b": "قرآن كريم", "k": "quran"}, {"id": "3c2027c6", "c": 6, "t": "رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِن ذُرِّيَّتِي ۚ رَبَّنَا وَتَقَبَّلْ دُعَاءِ", "r": "إبراهيم ٤٠", "b": "قرآن كريم", "k": "quran"}, {"id": "a4810523", "c": 6, "t": "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا", "r": "الفرقان ٧٤", "b": "قرآن كريم", "k": "quran"}, {"id": "92b0c08d", "c": 6, "t": "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَىٰ وَالِدَيَّ وَأَنْ أَعْمَلَ صَالِحًا تَرْضَاهُ وَأَصْلِحْ لِي فِي ذُرِّيَّتِي ۖ إِنِّي تُبْتُ إِلَيْكَ وَإِنِّي مِنَ الْمُسْلِمِينَ", "r": "الأحقاف ١٥", "b": "قرآن كريم", "k": "quran"}, {"id": "52228133", "c": 6, "t": "بَارَكَ اللَّهُ لَكَ، وَبَارَكَ عَلَيْكَ، وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ", "r": "للمتزوّج — رواه أبو داود والترمذي، وصححه الألباني", "b": "صححه الألباني", "k": "sahih"}, {"id": "0fed7f09", "c": 7, "t": "رَبِّ اغْفِرْ لِي، رَبِّ اغْفِرْ لِي", "r": "بين السجدتين — رواه أبو داود والنسائي وابن ماجه، وصححه الألباني (من حديث حذيفة)", "b": "صححه الألباني", "k": "sahih"}, {"id": "19c80efa", "c": 7, "t": "اللَّهُمَّ اغْفِرْ لِي ذَنْبِي كُلَّهُ، دِقَّهُ وَجِلَّهُ، وَأَوَّلَهُ وَآخِرَهُ، وَعَلَانِيَتَهُ وَسِرَّهُ", "r": "في السجود — رواه مسلم عن أبي هريرة", "b": "رواه مسلم", "k": "sahih"}, {"id": "e2da1fff", "c": 7, "t": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عَذَابِ جَهَنَّمَ، وَمِنْ عَذَابِ الْقَبْرِ، وَمِنْ فِتْنَةِ الْمَحْيَا وَالْمَمَاتِ، وَمِنْ شَرِّ فِتْنَةِ الْمَسِيحِ الدَّجَّالِ", "r": "بعد التشهد الأخير قبل السلام — رواه مسلم عن أبي هريرة", "b": "رواه مسلم", "k": "sahih"}, {"id": "6cbf4485", "c": 7, "t": "اللَّهُمَّ اهْدِنِي فِيمَنْ هَدَيْتَ، وَعَافِنِي فِيمَنْ عَافَيْتَ، وَتَوَلَّنِي فِيمَنْ تَوَلَّيْتَ، وَبَارِكْ لِي فِيمَا أَعْطَيْتَ، وَقِنِي شَرَّ مَا قَضَيْتَ، فَإِنَّكَ تَقْضِي وَلَا يُقْضَى عَلَيْكَ، وَإِنَّهُ لَا يَذِلُّ مَنْ وَالَيْتَ، تَبَارَكْتَ رَبَّنَا وَتَعَالَيْتَ", "r": "قنوت الوتر — رواه أبو داود والترمذي والنسائي، وصححه الألباني (من حديث الحسن بن علي)", "b": "صححه الألباني", "k": "sahih"}, {"id": "a0a2b2e4", "c": 7, "t": "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ", "r": "رواه أبو داود والنسائي، وصححه الألباني — أوصى به النبي ﷺ معاذًا في دبر كل صلاة", "b": "صححه الألباني", "k": "sahih"}, {"id": "fa675a4e", "c": 7, "t": "اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي", "r": "ليلة القدر — رواه الترمذي وابن ماجه، وصححه الألباني (من حديث عائشة)", "b": "صححه الألباني", "k": "sahih"}, {"id": "25d1dc7e", "c": 8, "t": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْعَجْزِ وَالْكَسَلِ، وَالْجُبْنِ وَالْبُخْلِ وَالْهَرَمِ، وَأَعُوذُ بِكَ مِنْ عَذَابِ الْقَبْرِ، وَمِنْ فِتْنَةِ الْمَحْيَا وَالْمَمَاتِ", "r": "متفق عليه عن أنس", "b": "متفق عليه", "k": "agreed"}, {"id": "42033eab", "c": 8, "t": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ جَهْدِ الْبَلَاءِ، وَدَرَكِ الشَّقَاءِ، وَسُوءِ الْقَضَاءِ، وَشَمَاتَةِ الْأَعْدَاءِ", "r": "متفق عليه عن أبي هريرة", "b": "متفق عليه", "k": "agreed"}, {"id": "0c7ff866", "c": 8, "t": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ زَوَالِ نِعْمَتِكَ، وَتَحَوُّلِ عَافِيَتِكَ، وَفُجَاءَةِ نِقْمَتِكَ، وَجَمِيعِ سَخَطِكَ", "r": "رواه مسلم عن ابن عمر", "b": "رواه مسلم", "k": "sahih"}, {"id": "35352924", "c": 8, "t": "اللَّهُمَّ إِنِّي أَعُوذُ بِرِضَاكَ مِنْ سَخَطِكَ، وَبِمُعَافَاتِكَ مِنْ عُقُوبَتِكَ، وَأَعُوذُ بِكَ مِنْكَ، لَا أُحْصِي ثَنَاءً عَلَيْكَ، أَنْتَ كَمَا أَثْنَيْتَ عَلَى نَفْسِكَ", "r": "رواه مسلم عن عائشة", "b": "رواه مسلم", "k": "sahih"}, {"id": "17d6c45d", "c": 8, "t": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ مَا عَمِلْتُ، وَمِنْ شَرِّ مَا لَمْ أَعْمَلْ", "r": "رواه مسلم عن عائشة", "b": "رواه مسلم", "k": "sahih"}, {"id": "fc6c3243", "c": 8, "t": "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ", "r": "عند الغضب — متفق عليه عن سليمان بن صرد: «إني لأعلم كلمة لو قالها لذهب عنه ما يجد»", "b": "متفق عليه", "k": "agreed"}, {"id": "a4a2de1c", "c": 8, "t": "اللَّهُمَّ إِنَّا نَجْعَلُكَ فِي نُحُورِهِمْ، وَنَعُوذُ بِكَ مِنْ شُرُورِهِمْ", "r": "عند خوف قوم — رواه أبو داود والنسائي، وصححه الألباني (من حديث أبي موسى)", "b": "صححه الألباني", "k": "sahih"}, {"id": "026354a8", "c": 8, "t": "رَبِّ أَعُوذُ بِكَ مِنْ هَمَزَاتِ الشَّيَاطِينِ ۝ وَأَعُوذُ بِكَ رَبِّ أَن يَحْضُرُونِ", "r": "المؤمنون ٩٧ – ٩٨", "b": "قرآن كريم", "k": "quran"}, {"id": "c289f53c", "c": 9, "t": "اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ، وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ، اللَّهُمَّ إِنَّا نَسْأَلُكَ فِي سَفَرِنَا هَذَا الْبِرَّ وَالتَّقْوَى، وَمِنَ الْعَمَلِ مَا تَرْضَى، اللَّهُمَّ هَوِّنْ عَلَيْنَا سَفَرَنَا هَذَا وَاطْوِ عَنَّا بُعْدَهُ، اللَّهُمَّ أَنْتَ الصَّاحِبُ فِي السَّفَرِ، وَالْخَلِيفَةُ فِي الْأَهْلِ، اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ وَعْثَاءِ السَّفَرِ، وَكَآبَةِ الْمَنْظَرِ، وَسُوءِ الْمُنْقَلَبِ فِي الْمَالِ وَالْأَهْلِ", "r": "رواه مسلم عن ابن عمر — وإذا رجع قالها وزاد: آيِبُونَ تَائِبُونَ عَابِدُونَ لِرَبِّنَا حَامِدُونَ", "b": "رواه مسلم", "k": "sahih"}, {"id": "cda88bd5", "c": 10, "t": "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا", "r": "عند النوم — رواه البخاري عن حذيفة", "b": "رواه البخاري", "k": "sahih"}, {"id": "b496f73e", "c": 10, "t": "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ", "r": "عند الاستيقاظ — رواه البخاري عن حذيفة", "b": "رواه البخاري", "k": "sahih"}, {"id": "ac8a9088", "c": 11, "t": "اللَّهُمَّ صَيِّبًا نَافِعًا", "r": "عند نزول المطر — رواه البخاري عن عائشة", "b": "رواه البخاري", "k": "sahih"}, {"id": "63f3349d", "c": 11, "t": "مُطِرْنَا بِفَضْلِ اللَّهِ وَرَحْمَتِهِ", "r": "بعد نزول المطر — متفق عليه عن زيد بن خالد الجهني", "b": "متفق عليه", "k": "agreed"}, {"id": "62ded8fa", "c": 11, "t": "اللَّهُمَّ أَغِثْنَا، اللَّهُمَّ أَغِثْنَا، اللَّهُمَّ أَغِثْنَا", "r": "دعاء الاستسقاء — متفق عليه عن أنس", "b": "متفق عليه", "k": "agreed"}, {"id": "6d8ed272", "c": 11, "t": "اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَهَا، وَخَيْرَ مَا فِيهَا، وَخَيْرَ مَا أُرْسِلَتْ بِهِ، وَأَعُوذُ بِكَ مِنْ شَرِّهَا، وَشَرِّ مَا فِيهَا، وَشَرِّ مَا أُرْسِلَتْ بِهِ", "r": "عند هبوب الريح — رواه مسلم عن عائشة", "b": "رواه مسلم", "k": "sahih"}, {"id": "c5f0a4cf", "c": 11, "t": "سُبْحَانَ الَّذِي يُسَبِّحُ الرَّعْدُ بِحَمْدِهِ وَالْمَلَائِكَةُ مِنْ خِيفَتِهِ", "r": "عند سماع الرعد — رواه مالك في الموطأ موقوفًا على عبد الله بن الزبير، وإسناده صحيح", "b": "إسناده صحيح", "k": "sahih"}, {"id": "17170c4a", "c": 12, "t": "إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ، اللَّهُمَّ أْجُرْنِي فِي مُصِيبَتِي وَأَخْلِفْ لِي خَيْرًا مِنْهَا", "r": "عند المصيبة — رواه مسلم عن أم سلمة", "b": "رواه مسلم", "k": "sahih"}, {"id": "df1a4646", "c": 12, "t": "اللَّهُمَّ إِنِّي أَسْتَخِيرُكَ بِعِلْمِكَ، وَأَسْتَقْدِرُكَ بِقُدْرَتِكَ، وَأَسْأَلُكَ مِنْ فَضْلِكَ الْعَظِيمِ، فَإِنَّكَ تَقْدِرُ وَلَا أَقْدِرُ، وَتَعْلَمُ وَلَا أَعْلَمُ، وَأَنْتَ عَلَّامُ الْغُيُوبِ، اللَّهُمَّ إِنْ كُنْتَ تَعْلَمُ أَنَّ هَذَا الْأَمْرَ خَيْرٌ لِي فِي دِينِي وَمَعَاشِي وَعَاقِبَةِ أَمْرِي - أَوْ قَالَ: عَاجِلِ أَمْرِي وَآجِلِهِ - فَاقْدُرْهُ لِي وَيَسِّرْهُ لِي ثُمَّ بَارِكْ لِي فِيهِ، وَإِنْ كُنْتَ تَعْلَمُ أَنَّ هَذَا الْأَمْرَ شَرٌّ لِي فِي دِينِي وَمَعَاشِي وَعَاقِبَةِ أَمْرِي - أَوْ قَالَ: فِي عَاجِلِ أَمْرِي وَآجِلِهِ - فَاصْرِفْهُ عَنِّي وَاصْرِفْنِي عَنْهُ، وَاقْدُرْ لِيَ الْخَيْرَ حَيْثُ كَانَ ثُمَّ أَرْضِنِي بِهِ", "r": "دعاء الاستخارة بعد ركعتين من غير الفريضة — رواه البخاري عن جابر، ويسمّي حاجته عند قوله «هذا الأمر»", "b": "رواه البخاري", "k": "sahih"}, {"id": "e4c351e6", "c": 12, "t": "اللَّهُمَّ اغْفِرْ لَهُ وَارْحَمْهُ وَعَافِهِ وَاعْفُ عَنْهُ، وَأَكْرِمْ نُزُلَهُ وَوَسِّعْ مُدْخَلَهُ، وَاغْسِلْهُ بِالْمَاءِ وَالثَّلْجِ وَالْبَرَدِ، وَنَقِّهِ مِنَ الْخَطَايَا كَمَا نَقَّيْتَ الثَّوْبَ الْأَبْيَضَ مِنَ الدَّنَسِ، وَأَبْدِلْهُ دَارًا خَيْرًا مِنْ دَارِهِ، وَأَهْلًا خَيْرًا مِنْ أَهْلِهِ، وَزَوْجًا خَيْرًا مِنْ زَوْجِهِ، وَأَدْخِلْهُ الْجَنَّةَ، وَأَعِذْهُ مِنْ عَذَابِ الْقَبْرِ وَمِنْ عَذَابِ النَّارِ", "r": "الدعاء للميت في صلاة الجنازة — رواه مسلم عن عوف بن مالك", "b": "رواه مسلم", "k": "sahih"}, {"id": "dc2dc42e", "c": 12, "t": "اللَّهُمَّ أَهِلَّهُ عَلَيْنَا بِالْأَمْنِ وَالْإِيمَانِ، وَالسَّلَامَةِ وَالْإِسْلَامِ، رَبِّي وَرَبُّكَ اللَّهُ", "r": "عند رؤية الهلال — رواه الترمذي والدارمي، وصححه الألباني", "b": "صححه الألباني", "k": "sahih"}, {"id": "c4acb759", "c": 12, "t": "ذَهَبَ الظَّمَأُ، وَابْتَلَّتِ الْعُرُوقُ، وَثَبَتَ الْأَجْرُ إِنْ شَاءَ اللَّهُ", "r": "عند الإفطار — رواه أبو داود، وحسّنه الألباني", "b": "حسّنه الألباني", "k": "hasan"}, {"id": "33bf90eb", "c": 12, "t": "الْحَمْدُ لِلَّهِ الَّذِي كَسَانِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ", "r": "عند لبس الثوب — رواه أبو داود والترمذي، وحسّنه الألباني", "b": "حسّنه الألباني", "k": "hasan"}, {"id": "f1c3c351", "c": 12, "t": "يَهْدِيكُمُ اللَّهُ وَيُصْلِحُ بَالَكُمْ", "r": "جواب من شمّتك بعد العطاس (يقول العاطس «الحمد لله»، فيقال له «يرحمك الله») — رواه البخاري عن أبي هريرة", "b": "رواه البخاري", "k": "sahih"}, {"id": "1e0838c7", "c": 12, "t": "جَزَاكَ اللَّهُ خَيْرًا", "r": "لمن صنع إليك معروفًا — رواه الترمذي، وصححه الألباني: «فقد أبلغ في الثناء»", "b": "صححه الألباني", "k": "sahih"}]};
+  const CATS = D.cats, DUAS = D.duas;
+
+  const COLORS = ['#0f8a6a', '#6b5bd2', '#2b8a9e', '#c2762b', '#2e9d5b', '#b8860b', '#d1507a', '#0b6b53', '#5a6b7b', '#2f80c9', '#4a5bb5', '#3b8fb5', '#c9893a'];
+
+  // حالات المستخدم: كل عنصر [قسم] أو [قسم، رقم الدعاء داخله]
+  const MOODS = [
+    { e: '😔', n: 'حزين أو مهموم',            s: [[1]] },
+    { e: '😰', n: 'أصابتني مصيبة',            s: [[12, 0], [1, 0], [1, 1], [1, 3], [1, 6], [1, 7]] },
+    { e: '🤲', n: 'أذنبت وأريد التوبة',        s: [[2]] },
+    { e: '💚', n: 'مريض أو أعود مريضاً',       s: [[4]] },
+    { e: '💰', n: 'أطلب الرزق والعلم',         s: [[5]] },
+    { e: '🛡️', n: 'أريد الحماية والتحصين',     s: [[8]] },
+    { e: '🧭', n: 'أريد الثبات والهداية',       s: [[3]] },
+    { e: '✈️', n: 'مسافر',                     s: [[9]] },
+    { e: '🌙', n: 'النوم والاستيقاظ',           s: [[10]] },
+    { e: '🌿', n: 'أريد خير الدنيا والآخرة',    s: [[0]] }
+  ];
+
+  /* ================== أدوات ================== */
+  const $ = id => document.getElementById(id);
+  const page = $('duasPage');
+  const esc = s => String(s).replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
+  const load = (k, d) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } };
+  const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+  const buzz = ms => { try { navigator.vibrate && navigator.vibrate(ms); } catch (e) {} };
+  const canShare = typeof navigator.share === 'function';
+
   function norm(s) {
     return String(s || '')
       .replace(/[ً-ٰٟۖ-ۭـ]/g, '')
       .replace(/[أإآٱ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه')
+      .replace(/ؤ/g, 'و').replace(/ئ/g, 'ي')
       .toLowerCase().replace(/\s+/g, ' ').trim();
   }
-  var cats = Array.prototype.slice.call(document.querySelectorAll('.dua-category'));
-  var items = Array.prototype.slice.call(document.querySelectorAll('.dua-item'));
-  var keys = items.map(function (el) { return norm(el.textContent); });
-  var index = $('duaIndex'), bar = $('duaBar'), cur = $('duaCurrent');
-  var count = $('duaCount'), empty = $('duaEmpty'), search = $('duaSearch');
+  function cnt(n) {
+    if (n === 1) return 'دعاء واحد';
+    if (n === 2) return 'دعاءان';
+    if (n >= 3 && n <= 10) return n + ' أدعية';
+    return n + ' دعاءً';
+  }
 
-  function resetItems() { items.forEach(function (el) { el.style.display = ''; }); empty.style.display = 'none'; }
+  let toastTimer;
+  function toast(msg) {
+    const t = $('wToast');
+    t.textContent = msg; t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+  }
+
+  /* ================== الوضع الليلي (يتبع موقعك تلقائياً) ================== */
+  function syncMode() {
+    let dark = false;
+    const els = [document.body, document.documentElement];
+    for (const el of els) {
+      const m = getComputedStyle(el).backgroundColor.match(/[\d.]+/g);
+      if (m && m.length >= 3) {
+        const a = m[3] === undefined ? 1 : Number(m[3]);
+        if (a > 0.5) { dark = (0.299 * m[0] + 0.587 * m[1] + 0.114 * m[2]) < 110; break; }
+      }
+    }
+    page.dataset.mode = dark ? 'dark' : 'light';
+  }
+  syncMode();
+  try {
+    const mo = new MutationObserver(syncMode);
+    mo.observe(document.documentElement, { attributes: true });
+    mo.observe(document.body, { attributes: true });
+  } catch (e) {}
+  const tt = $('themeToggle');
+  if (tt) tt.addEventListener('click', () => { setTimeout(syncMode, 60); setTimeout(syncMode, 500); });
+
+  /* ================== التهيئة ================== */
+  const byId = {}, byCat = CATS.map(() => []);
+  DUAS.forEach(d => { byId[d.id] = d; byCat[d.c].push(d); d.key = norm(d.t + ' ' + d.r + ' ' + CATS[d.c].n); });
+
+  let fav = new Set(load('zad_duas_fav', []));
+  let memo = new Set(load('zad_duas_memo', []));
+  let lastCat = load('zad_duas_last', null);
+  let fs = Number(load('zad_duas_fs', 1.5)) || 1.5;
+  const counters = {};
+  let curList = [];
+  let view = { type: 'index' };
+
+  function applyFs() { page.style.setProperty('--dfs', fs + 'rem'); save('zad_duas_fs', fs); }
+  function bumpFs(step) { fs = Math.min(2.4, Math.max(1.1, Math.round((fs + step) * 10) / 10)); applyFs(); }
+  applyFs();
+
+  const persist = () => { save('zad_duas_fav', Array.from(fav)); save('zad_duas_memo', Array.from(memo)); };
+
+  /* ================== بناء العناصر ================== */
+  function badge(d) { return '<span class="badge k-' + d.k + '">' + esc(d.b) + '</span>'; }
+
+  function card(d, showCat) {
+    const f = fav.has(d.id), m = memo.has(d.id), long = d.t.length > 200;
+    return '<article class="dcard' + (m ? ' is-memo' : '') + '" data-id="' + d.id + '" style="--ac:' + COLORS[d.c % COLORS.length] + '">' +
+      '<div class="dc-top">' + badge(d) +
+      (showCat ? '<a class="dc-cat" href="#cat-' + d.c + '">' + CATS[d.c].i + ' ' + esc(CATS[d.c].n) + '</a>' : '') +
+      '<span class="sp"></span>' +
+      '<button class="ib' + (f ? ' on' : '') + '" data-act="fav" type="button" aria-label="المفضلة" aria-pressed="' + f + '">' + (f ? '★' : '☆') + '</button></div>' +
+      '<p class="dc-text' + (long ? ' long' : '') + '">' + esc(d.t) + '</p>' +
+      '<div class="dc-ref">' + esc(d.r) + '</div>' +
+      '<div class="dc-actions">' +
+      '<button data-act="copy" type="button">📋 نسخ</button>' +
+      '<button data-act="img" type="button">🖼️ صورة</button>' +
+      (canShare ? '<button data-act="share" type="button">🔗 مشاركة</button>' : '') +
+      '<button data-act="count" type="button">🔢 عدّاد</button>' +
+      '<button data-act="memo" type="button" class="' + (m ? 'on' : '') + '">' + (m ? '✅ محفوظ' : '☐ حفظته') + '</button>' +
+      '<button data-act="read" type="button">⛶ قراءة</button>' +
+      '</div>' +
+      '<div class="dc-counter" hidden><button class="tap" data-act="tap" type="button"><b>' + (counters[d.id] || 0) + '</b><span>اضغط للعدّ</span></button><button class="rs" data-act="resetc" type="button">↺ تصفير</button></div>' +
+      '</article>';
+  }
+
+  function paintCard(el) {
+    const d = byId[el.dataset.id]; if (!d) return;
+    const f = fav.has(d.id), m = memo.has(d.id);
+    el.classList.toggle('is-memo', m);
+    const fb = el.querySelector('[data-act="fav"]');
+    if (fb) {
+      fb.classList.toggle('on', f); fb.setAttribute('aria-pressed', f);
+      fb.textContent = fb.dataset.long ? (f ? '★ في المفضلة' : '☆ أضف للمفضلة') : (f ? '★' : '☆');
+    }
+    const mb = el.querySelector('[data-act="memo"]');
+    if (mb) { mb.classList.toggle('on', m); mb.textContent = m ? '✅ محفوظ' : '☐ حفظته'; }
+  }
+
+  /* ---- دعاء اليوم ---- */
+  const dayNum = Math.floor(Date.UTC(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()) / 864e5);
+  const pool = DUAS.filter(d => d.t.length <= 230);
+  const DOD = pool[dayNum % pool.length];
+
+  function dodHtml() {
+    const d = DOD, f = fav.has(d.id);
+    return '<article class="card dod" data-id="' + d.id + '"><div class="dod-lab">✦ دعاء اليوم ✦</div>' +
+      '<p class="dod-text">' + esc(d.t) + '</p>' +
+      '<div class="dod-ref">' + badge(d) + '<span>' + esc(d.r) + '</span></div>' +
+      '<div class="dod-act"><button data-act="copy" type="button">📋 نسخ</button>' +
+      '<button data-act="img" type="button">🖼️ صورة</button>' +
+      '<button data-act="fav" data-long="1" type="button" class="' + (f ? 'on' : '') + '" aria-pressed="' + f + '">' + (f ? '★ في المفضلة' : '☆ أضف للمفضلة') + '</button>' +
+      '<button data-act="read" type="button">⛶ قراءة</button></div></article>';
+  }
+
+  /* ---- الصفحة الرئيسية ---- */
+  function renderIndex() {
+    $('dodBox').innerHTML = dodHtml();
+    $('moods').innerHTML = MOODS.map((m, i) => '<button class="mood" type="button" data-go="#mood-' + i + '"><span>' + m.e + '</span>' + esc(m.n) + '</button>').join('');
+    $('cgrid').innerHTML = CATS.map((c, i) => {
+      const peek = byCat[i][0].t.split(/\s+/).slice(0, 6).join(' ') + '…';
+      return '<a class="ccard" href="#cat-' + i + '" style="--ac:' + COLORS[i % COLORS.length] + ';animation-delay:' + (i * 35) + 'ms">' +
+        '<span class="cc-head"><span class="cc-ic">' + c.i + '</span><span class="cc-name">' + esc(c.n) + '</span></span>' +
+        '<span class="cc-peek">' + esc(peek) + '</span>' +
+        '<span class="cc-meta"><span>' + cnt(byCat[i].length) + '</span><span data-prog="' + i + '"></span></span>' +
+        '<span class="cc-bar"><i data-bar="' + i + '"></i></span></a>';
+    }).join('');
+    $('duaCount').textContent = 'اختر قسماً — ' + DUAS.length + ' دعاءً في ' + CATS.length + ' قسماً';
+    updateJourney();
+  }
+
+  function updateJourney() {
+    const n = DUAS.length, m = DUAS.filter(d => memo.has(d.id)).length;
+    $('jFill').style.width = (m / n * 100) + '%';
+    $('jNote').textContent = m
+      ? 'حفظت ' + m + ' من ' + n + ' دعاءً — بارك الله فيك وزادك علماً'
+      : 'ابدأ بحفظ دعاء واحد اليوم، فالقليل الدائم خير من الكثير المنقطع';
+    $('favN').textContent = DUAS.filter(d => fav.has(d.id)).length;
+    $('memoN').textContent = m;
+    CATS.forEach((c, i) => {
+      const tot = byCat[i].length, mm = byCat[i].filter(d => memo.has(d.id)).length;
+      const p = document.querySelector('[data-prog="' + i + '"]'), b = document.querySelector('[data-bar="' + i + '"]');
+      if (p) p.textContent = mm ? 'حفظت ' + mm + ' من ' + tot : '';
+      if (b) b.style.width = (mm / tot * 100) + '%';
+    });
+    const cb = $('contBtn');
+    if (lastCat !== null && CATS[lastCat]) { cb.hidden = false; cb.textContent = '↩ تابع: ' + CATS[lastCat].n; cb.dataset.go = '#cat-' + lastCat; }
+    else cb.hidden = true;
+  }
+
+  /* ================== العروض ================== */
+  const hero = $('hero'), indexView = $('indexView'), listView = $('listView'), search = $('duaSearch');
 
   function showIndex() {
-    resetItems();
-    cats.forEach(function (c) { c.hidden = true; });
-    index.hidden = false; bar.hidden = true;
-    count.textContent = 'اختر قسمًا — ' + items.length + ' دعاءً في ' + cats.length + ' قسمًا';
-  }
-  function showCat(i) {
-    resetItems();
-    cats.forEach(function (c, j) { c.hidden = (j !== i); });
-    index.hidden = true; bar.hidden = false;
-    cur.textContent = cats[i].querySelector('h3').textContent;
-    count.textContent = 'عدد الأدعية في هذا القسم: ' + cats[i].querySelectorAll('.dua-item').length;
+    view = { type: 'index' };
+    curList = [];
+    hero.classList.remove('compact');
+    listView.hidden = true; indexView.hidden = false;
+    renderIndex();
     window.scrollTo({ top: 0 });
   }
+
+  function emptyHtml(type) {
+    if (type === 'fav') return '<div class="empty"><b>⭐</b>لم تضف أي دعاء إلى المفضلة بعد.<br>اضغط على النجمة في أي دعاء ليظهر هنا.</div>';
+    if (type === 'memo') return '<div class="empty"><b>✅</b>لم تحدّد أي دعاء كمحفوظ بعد.<br>اضغط «حفظته» أسفل أي دعاء لتتابع تقدمك.</div>';
+    return '<div class="empty"><b>🔎</b>لا توجد نتائج مطابقة.<br>جرّب كلمة أخرى أو أقل تشكيلاً.</div>';
+  }
+
+  function showList(type, arg, listOverride, titleOverride, showCat) {
+    let list, title;
+    if (type === 'cat') {
+      list = byCat[arg]; title = CATS[arg].i + ' ' + CATS[arg].n;
+      lastCat = arg; save('zad_duas_last', arg);
+      listView.style.setProperty('--ac', COLORS[arg % COLORS.length]);
+    } else if (type === 'fav') { list = DUAS.filter(d => fav.has(d.id)); title = '⭐ المفضلة'; showCat = true; }
+    else if (type === 'memo') { list = DUAS.filter(d => memo.has(d.id)); title = '✅ الأدعية المحفوظة'; showCat = true; }
+    else if (type === 'mood') {
+      const seen = {}; list = [];
+      MOODS[arg].s.forEach(s => {
+        const arr = s.length === 1 ? byCat[s[0]] : [byCat[s[0]][s[1]]];
+        arr.forEach(d => { if (d && !seen[d.id]) { seen[d.id] = 1; list.push(d); } });
+      });
+      title = MOODS[arg].e + ' ' + MOODS[arg].n; showCat = true;
+    } else { list = listOverride; title = titleOverride; }
+    view = { type: type, arg: arg };
+    curList = list;
+    hero.classList.add('compact');
+    indexView.hidden = true; listView.hidden = false;
+    $('lvTitle').textContent = title;
+    $('lvCount').textContent = cnt(list.length);
+    $('readAll').hidden = !list.length;
+    $('lvBody').innerHTML = list.length ? list.map(d => card(d, !!showCat)).join('') : emptyHtml(type);
+    window.scrollTo({ top: 0 });
+  }
+
   function route() {
     search.value = '';
-    var m = /^#cat-(\d+)$/.exec(location.hash);
-    var i = m ? parseInt(m[1], 10) : -1;
-    if (i >= 0 && i < cats.length) showCat(i); else showIndex();
+    const h = location.hash; let m;
+    if ((m = /^#cat-(\d+)$/.exec(h)) && +m[1] < CATS.length) showList('cat', +m[1]);
+    else if (h === '#fav') showList('fav');
+    else if (h === '#memo') showList('memo');
+    else if ((m = /^#mood-(\d+)$/.exec(h)) && +m[1] < MOODS.length) showList('mood', +m[1]);
+    else showIndex();
   }
+
   function runSearch(q) {
-    var shown = 0;
-    items.forEach(function (el, k) {
-      var ok = keys[k].indexOf(q) !== -1;
-      el.style.display = ok ? '' : 'none';
-      if (ok) shown++;
-    });
-    cats.forEach(function (c) {
-      c.hidden = !Array.prototype.some.call(c.querySelectorAll('.dua-item'), function (el) { return el.style.display !== 'none'; });
-    });
-    index.hidden = true; bar.hidden = false;
-    cur.textContent = 'نتائج البحث';
-    empty.style.display = shown ? 'none' : 'block';
-    count.textContent = 'النتائج: ' + shown + ' من ' + items.length;
+    const words = q.split(' ');
+    const res = DUAS.filter(d => words.every(w => d.key.indexOf(w) !== -1));
+    showList('search', null, res, 'نتائج البحث', true);
+    $('lvCount').textContent = res.length ? 'النتائج: ' + res.length + ' من ' + DUAS.length : '';
   }
 
   search.addEventListener('input', function () {
-    var q = norm(this.value);
+    const q = norm(this.value);
     if (q) runSearch(q); else route();
   });
-  $('duaBack').addEventListener('click', function () {
+  $('duaBack').addEventListener('click', () => {
     search.value = '';
-    if (location.hash) { location.hash = ''; } else { route(); }
+    if (location.hash) location.hash = ''; else route();
   });
   window.addEventListener('hashchange', route);
+  $('fsMinus').addEventListener('click', () => bumpFs(-0.1));
+  $('fsPlus').addEventListener('click', () => bumpFs(0.1));
+  $('readAll').addEventListener('click', () => { if (curList.length) openReader(curList, 0); });
+
+  /* ================== الإجراءات ================== */
+  function fmt(d) { return d.t + '\n\n— ' + d.r + '\n(زاد عبيدة)'; }
+
+  function copyText(text) {
+    const done = () => toast('تم نسخ الدعاء ✓');
+    const fail = () => toast('تعذّر النسخ');
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(done, fail);
+    } else {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;opacity:0;top:0';
+        document.body.appendChild(ta); ta.select();
+        document.execCommand('copy') ? done() : fail();
+        ta.remove();
+      } catch (e) { fail(); }
+    }
+  }
+
+  function syncCards(id) {
+    document.querySelectorAll('[data-id="' + id + '"]').forEach(paintCard);
+    if (view.type === 'index') updateJourney();
+    if (!$('reader').hidden) paintReaderBtns();
+    // إزالة البطاقة من المفضلة/المحفوظة عند إلغائها
+    if ((view.type === 'fav' && !fav.has(id)) || (view.type === 'memo' && !memo.has(id))) {
+      const el = $('lvBody').querySelector('[data-id="' + id + '"]');
+      if (el) el.remove();
+      curList = curList.filter(d => d.id !== id);
+      $('lvCount').textContent = cnt(curList.length);
+      $('readAll').hidden = !curList.length;
+      if (!curList.length) $('lvBody').innerHTML = emptyHtml(view.type);
+    }
+  }
+
+  function toggleFav(id) {
+    if (fav.has(id)) { fav.delete(id); toast('أُزيل من المفضلة'); } else { fav.add(id); toast('أُضيف إلى المفضلة ⭐'); }
+    persist(); buzz(10); syncCards(id);
+  }
+  function toggleMemo(id) {
+    if (memo.has(id)) { memo.delete(id); toast('أُلغي علامة الحفظ'); } else { memo.add(id); toast('ما شاء الله، بارك الله في حفظك ✅'); }
+    persist(); buzz(10); syncCards(id);
+  }
+
+  document.addEventListener('click', e => {
+    const go = e.target.closest('[data-go]');
+    if (go && page.contains(go)) { location.hash = go.dataset.go; return; }
+    const b = e.target.closest('[data-act]');
+    if (!b || !page.contains(b) || b.closest('#reader') || b.closest('#imodal')) return;
+    const el = b.closest('[data-id]'); if (!el) return;
+    const d = byId[el.dataset.id]; if (!d) return;
+    switch (b.dataset.act) {
+      case 'copy': copyText(fmt(d)); break;
+      case 'fav': toggleFav(d.id); break;
+      case 'memo': toggleMemo(d.id); break;
+      case 'img': makeImage(d); break;
+      case 'share': navigator.share({ title: 'دعاء — زاد عبيدة', text: fmt(d) }).catch(() => {}); break;
+      case 'count': { const p = el.querySelector('.dc-counter'); if (p) p.hidden = !p.hidden; break; }
+      case 'tap': counters[d.id] = (counters[d.id] || 0) + 1; el.querySelector('.tap b').textContent = counters[d.id]; buzz(8); break;
+      case 'resetc': counters[d.id] = 0; el.querySelector('.tap b').textContent = 0; break;
+      case 'read': {
+        let list = curList, i = list.findIndex(x => x.id === d.id);
+        if (i < 0) { list = DUAS; i = DUAS.indexOf(d); }
+        openReader(list, i); break;
+      }
+    }
+  });
+
+  /* ================== وضع القراءة ================== */
+  const rd = { list: [], i: 0 };
+  function lock(on) { document.body.style.overflow = on ? 'hidden' : ''; }
+
+  function openReader(list, i) {
+    rd.list = list; rd.i = i;
+    $('reader').hidden = false; lock(true);
+    paintReader();
+  }
+  function closeReader() { $('reader').hidden = true; lock(false); }
+
+  function paintReaderBtns() {
+    const d = rd.list[rd.i]; if (!d) return;
+    $('rdFav').textContent = fav.has(d.id) ? '★' : '☆';
+  }
+  function paintReader() {
+    const d = rd.list[rd.i]; if (!d) return;
+    $('rdTitle').textContent = CATS[d.c].i + ' ' + CATS[d.c].n;
+    $('rdCount').textContent = (rd.i + 1) + ' / ' + rd.list.length;
+    $('rdFill').style.width = ((rd.i + 1) / rd.list.length * 100) + '%';
+    const bd = $('rdBadge'); bd.className = 'badge k-' + d.k; bd.textContent = d.b;
+    const tx = $('rdText'); tx.textContent = d.t; tx.className = 'rd-text' + (d.t.length > 200 ? ' long' : '');
+    $('rdRef').textContent = d.r;
+    $('rdPrev').disabled = rd.i === 0;
+    $('rdNext').disabled = rd.i === rd.list.length - 1;
+    paintReaderBtns();
+    const body = $('rdBody'); body.classList.remove('in'); void body.offsetWidth; body.classList.add('in'); body.scrollTop = 0;
+  }
+  function rdGo(n) {
+    const j = rd.i + n;
+    if (j < 0 || j >= rd.list.length) return;
+    rd.i = j; paintReader(); buzz(8);
+  }
+  $('rdClose').addEventListener('click', closeReader);
+  $('rdPrev').addEventListener('click', () => rdGo(-1));
+  $('rdNext').addEventListener('click', () => rdGo(1));
+  $('rdFav').addEventListener('click', () => { const d = rd.list[rd.i]; if (d) toggleFav(d.id); });
+  $('rdCopy').addEventListener('click', () => { const d = rd.list[rd.i]; if (d) copyText(fmt(d)); });
+  $('rdMinus').addEventListener('click', () => bumpFs(-0.1));
+  $('rdPlus').addEventListener('click', () => bumpFs(0.1));
+  let tx0 = null;
+  $('rdBody').addEventListener('touchstart', e => { tx0 = e.changedTouches[0].clientX; }, { passive: true });
+  $('rdBody').addEventListener('touchend', e => {
+    if (tx0 === null) return;
+    const dx = e.changedTouches[0].clientX - tx0; tx0 = null;
+    if (Math.abs(dx) > 70) rdGo(dx > 0 ? 1 : -1);   // اتجاه RTL: السحب نحو اليمين = التالي
+  }, { passive: true });
+
+  /* ================== صورة الدعاء ================== */
+  let imgBlob = null, imgUrl = null;
+
+  function star(x, cx, cy, r) {
+    for (let k = 0; k < 2; k++) {
+      x.save(); x.translate(cx, cy); x.rotate(k * Math.PI / 4); x.strokeRect(-r, -r, r * 2, r * 2); x.restore();
+    }
+  }
+  function wrap(x, text, maxW) {
+    const words = text.split(/\s+/), lines = []; let cur = '';
+    words.forEach(w => {
+      const t = cur ? cur + ' ' + w : w;
+      if (x.measureText(t).width > maxW && cur) { lines.push(cur); cur = w; } else cur = t;
+    });
+    if (cur) lines.push(cur);
+    return lines;
+  }
+
+  async function makeImage(d) {
+    toast('جارٍ تجهيز البطاقة…');
+    try {
+      await Promise.all([
+        document.fonts.load('40px Amiri', d.t),
+        document.fonts.load('700 30px Cairo', 'زاد عبيدة أدعية من القرآن والسنة ' + d.b + ' ' + d.r)
+      ]);
+    } catch (e) {}
+    const W = 1080, H = 1350;
+    const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+    const x = cv.getContext('2d');
+    x.direction = 'rtl'; x.textAlign = 'center'; x.textBaseline = 'middle';
+
+    const g = x.createLinearGradient(0, 0, W, H);
+    g.addColorStop(0, '#053d30'); g.addColorStop(.55, '#0b6b53'); g.addColorStop(1, '#14956f');
+    x.fillStyle = g; x.fillRect(0, 0, W, H);
+
+    x.strokeStyle = 'rgba(255,255,255,.07)'; x.lineWidth = 1.6;
+    for (let py = 40; py < H; py += 100) for (let px = 40; px < W; px += 100) star(x, px, py, 30);
+
+    const rg = x.createRadialGradient(W / 2, 0, 0, W / 2, 0, 620);
+    rg.addColorStop(0, 'rgba(243,208,122,.30)'); rg.addColorStop(1, 'rgba(243,208,122,0)');
+    x.fillStyle = rg; x.fillRect(0, 0, W, H);
+
+    x.strokeStyle = '#d9a441'; x.lineWidth = 4;
+    if (x.roundRect) { x.beginPath(); x.roundRect(46, 46, W - 92, H - 92, 42); x.stroke(); } else x.strokeRect(46, 46, W - 92, H - 92);
+    x.strokeStyle = 'rgba(217,164,65,.45)'; x.lineWidth = 1.6;
+    if (x.roundRect) { x.beginPath(); x.roundRect(62, 62, W - 124, H - 124, 32); x.stroke(); } else x.strokeRect(62, 62, W - 124, H - 124);
+
+    x.fillStyle = '#f3d07a'; x.font = "700 36px Cairo, 'Noto Naskh Arabic', sans-serif";
+    x.fillText(CATS[d.c].n, W / 2, 150);
+
+    x.strokeStyle = '#d9a441'; x.lineWidth = 2.4;
+    x.beginPath(); x.moveTo(W / 2 - 170, 205); x.lineTo(W / 2 - 22, 205); x.moveTo(W / 2 + 22, 205); x.lineTo(W / 2 + 170, 205); x.stroke();
+    x.save(); x.translate(W / 2, 205); x.rotate(Math.PI / 4); x.fillStyle = '#d9a441'; x.fillRect(-8, -8, 16, 16); x.restore();
+
+    // نص الدعاء: تصغير تلقائي حتى يتّسع
+    const maxW = W - 2 * 140, top = 250, availH = 700;
+    let fsz = 68, lines = [], lh = 0;
+    for (; fsz >= 26; fsz -= 2) {
+      x.font = fsz + "px Amiri, 'Noto Naskh Arabic', serif";
+      lines = wrap(x, d.t, maxW); lh = fsz * 1.9;
+      if (lines.length * lh <= availH) break;
+    }
+    x.fillStyle = '#ffffff';
+    const y0 = top + (availH - lines.length * lh) / 2 + lh / 2;
+    lines.forEach((ln, k) => x.fillText(ln, W / 2, y0 + k * lh));
+
+    // الشارة والمصدر
+    x.fillStyle = '#f3d07a'; x.font = "800 30px Cairo, 'Noto Naskh Arabic', sans-serif";
+    x.fillText(d.b, W / 2, 990);
+    x.fillStyle = 'rgba(255,255,255,.80)'; x.font = "600 25px Cairo, 'Noto Naskh Arabic', sans-serif";
+    let rl = wrap(x, d.r, maxW);
+    if (rl.length > 3) { rl = rl.slice(0, 3); rl[2] = rl[2].replace(/\s*\S*$/, '') + ' …'; }
+    rl.forEach((ln, k) => x.fillText(ln, W / 2, 1042 + k * 40));
+
+    x.fillStyle = '#d9a441'; x.font = "800 36px Cairo, 'Noto Naskh Arabic', sans-serif";
+    x.fillText('زاد عبيدة', W / 2, 1232);
+    x.fillStyle = 'rgba(255,255,255,.65)'; x.font = "600 24px Cairo, 'Noto Naskh Arabic', sans-serif";
+    x.fillText('أدعية من القرآن والسنة', W / 2, 1276);
+
+    cv.toBlob(b => {
+      if (!b) { toast('تعذّر إنشاء الصورة'); return; }
+      if (imgUrl) URL.revokeObjectURL(imgUrl);
+      imgBlob = b; imgUrl = URL.createObjectURL(b);
+      $('imImg').src = imgUrl;
+      let ok = false;
+      try { ok = !!(navigator.canShare && navigator.canShare({ files: [new File([b], 'dua.png', { type: 'image/png' })] })); } catch (e) {}
+      $('imShare').hidden = !ok;
+      $('imodal').hidden = false; lock(true);
+    }, 'image/png');
+  }
+  function closeImg() { $('imodal').hidden = true; if ($('reader').hidden) lock(false); }
+  $('imClose').addEventListener('click', closeImg);
+  $('imodal').addEventListener('click', e => { if (e.target === $('imodal')) closeImg(); });
+  $('imDl').addEventListener('click', () => {
+    if (!imgUrl) return;
+    const a = document.createElement('a'); a.href = imgUrl; a.download = 'zad-obaida-dua.png';
+    document.body.appendChild(a); a.click(); a.remove();
+    toast('جارٍ تحميل الصورة ⬇');
+  });
+  $('imShare').addEventListener('click', () => {
+    if (!imgBlob) return;
+    const f = new File([imgBlob], 'zad-obaida-dua.png', { type: 'image/png' });
+    navigator.share({ files: [f], title: 'دعاء — زاد عبيدة' }).catch(() => {});
+  });
+
+  /* ================== لوحة المفاتيح ================== */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      if (!$('imodal').hidden) closeImg();
+      else if (!$('reader').hidden) closeReader();
+    } else if (!$('reader').hidden) {
+      if (e.key === 'ArrowLeft') rdGo(1);
+      else if (e.key === 'ArrowRight') rdGo(-1);
+    }
+  });
+
   route();
 })();
 </script>

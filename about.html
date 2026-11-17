@@ -1,79 +1,160 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="dark">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0d7a5f">
-  <meta name="description" content="حكاية زاد عبيدة: مشروع إسلامي مجاني بدأه شاب في السادسة عشرة ليجمع القرآن والأذكار والأحاديث في مكان واحد وبطريقة بسيطة.">
-  <meta property="og:type" content="website">
-  <meta property="og:locale" content="ar_AR">
-  <meta property="og:site_name" content="زاد عبيدة">
-  <meta property="og:title" content="عن الموقع — زاد عبيدة">
-  <meta property="og:description" content="حكاية بدأت من قلب طفل في السادسة عشرة: مساحة إسلامية مجانية تجمع الفائدة والبساطة.">
-  <title>عن الموقع — زاد عبيدة</title>
-  <link rel="icon" type="image/png" href="./logo-zad-almuslim.webp.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./assets/style.css">
-  <style>
-    /* رابط تخطي التنقل (لمستخدمي لوحة المفاتيح وقارئات الشاشة) */
-    .skip-link {
-      position: absolute; top: -60px; inset-inline-start: 12px; z-index: 1000;
-      background: var(--primary); color: #fff; padding: 10px 16px;
-      border-radius: 8px; font-family: 'Cairo', sans-serif; text-decoration: none;
-    }
-    .skip-link:focus { top: 12px; }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a1713">
+<meta name="description" content="حكاية زاد عبيدة: مشروع إسلامي مجاني بدأه شاب في السادسة عشرة ليجمع القرآن والأذكار والأحاديث في مكان واحد وبطريقة بسيطة.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_AR">
+<meta property="og:site_name" content="زاد عبيدة">
+<meta property="og:title" content="عن الموقع — زاد عبيدة">
+<meta property="og:description" content="حكاية بدأت من قلب طفل في السادسة عشرة: مساحة إسلامية مجانية تجمع الفائدة والبساطة.">
+<title>عن الموقع — زاد عبيدة</title>
+<link rel="icon" type="image/png" href="./logo-zad-almuslim.webp.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<script>
+/* تطبيق الثيم قبل الرسم لتفادي الوميض (الافتراضي: ليلي مثل الصفحة الرئيسية) */
+(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();
+</script>
+<style>
+:root{
+  --bg:#0a1713;--card:#10231c;--card2:#143027;--line:#21402f;--text:#e8f3ee;--muted:#9db8ac;
+  --primary:#1f9174;--mint:#9be8c9;--gold:#e3ad3f;--ink:#fff;--shadow:0 12px 34px rgba(0,0,0,.4);
+  --tile:.07;--r:18px;
+}
+[data-theme="light"]{
+  --bg:#f5f8f3;--card:#fff;--card2:#eef5ef;--line:#dde7df;--text:#15251e;--muted:#5a6d63;
+  --primary:#0d7a5f;--mint:#0d6e56;--gold:#a97612;--shadow:0 10px 28px rgba(13,60,45,.1);--tile:.1;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{font-family:'Cairo',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.8;overflow-x:hidden;transition:background .3s,color .3s}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:var(--tile);
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' fill='none' stroke='%233fbf98'%3E%3Crect x='18' y='18' width='36' height='36'/%3E%3Crect x='18' y='18' width='36' height='36' transform='rotate(45 36 36)'/%3E%3Ccircle cx='36' cy='36' r='5'/%3E%3C/svg%3E")}
+a{color:inherit}
+.wrap{width:min(1080px,92%);margin-inline:auto}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+.skip{position:absolute;top:-60px;inset-inline-start:12px;z-index:1000;background:var(--primary);color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none}
+.skip:focus{top:12px}
+#bar{position:fixed;top:0;inset-inline:0;height:3px;z-index:200;background:linear-gradient(90deg,var(--primary),var(--gold));transform-origin:right;transform:scaleX(0)}
 
-    .about-main { padding: 40px 0; }
-    .about-main:focus { outline: none; }
+/* الشريط العلوي */
+.nav{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand img{width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--line)}
+.brand b{display:block;color:var(--mint);font-family:'Amiri',serif;font-size:1.35rem;line-height:1.2}
+.brand small{display:block;color:var(--muted);font-size:.72rem}
+.links{display:flex;gap:4px}
+.links a{padding:7px 14px;border-radius:10px;text-decoration:none;font-size:.92rem;font-weight:600;color:var(--text);transition:background .2s,color .2s}
+.links a:hover{background:var(--card2);color:var(--mint)}
+.links a[aria-current]{background:var(--card2);color:var(--mint)}
+.tools{display:flex;gap:8px}
+.ibtn{width:40px;height:40px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--text);cursor:pointer;font-size:1.1rem}
+.ibtn:hover{border-color:var(--primary)}
+.ibtn svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round}
+[data-theme="dark"] .moon,[data-theme="light"] .sun{display:none}
+#menu{display:none}
 
-    .about-section {
-      background: var(--card); padding: 30px; border-radius: var(--radius);
-      box-shadow: var(--shadow); margin-bottom: 24px; border: 1px solid var(--line);
-    }
-    .about-section h3 { color: var(--primary); margin-bottom: 12px; font-family: 'Cairo', sans-serif; }
-    .about-section p { line-height: 1.9; color: var(--text); margin-bottom: 10px; }
-    .about-section ul { list-style: none; margin: 0; padding: 0; line-height: 2; color: var(--text); }
-    .about-section a { color: var(--primary); font-weight: bold; text-decoration: none; }
-    .about-section a:hover { text-decoration: underline; }
-    .about-section a:focus-visible {
-      outline: 2px solid var(--primary); outline-offset: 3px; border-radius: 4px;
-    }
+/* الواجهة العلوية */
+.hero{position:relative;text-align:center;padding:72px 0 88px;overflow:hidden;border-bottom:1px solid var(--line)}
+.orn{position:absolute;width:340px;height:340px;opacity:.5;pointer-events:none}
+.o1{top:-110px;inset-inline-start:-90px;color:var(--primary)}
+.o2{bottom:-120px;inset-inline-end:-80px;color:var(--gold)}
+.hero .wrap{position:relative}
+.bism{font-family:'Amiri',serif;color:var(--gold);font-size:1.4rem}
+h1{font-family:'Amiri',serif;font-weight:700;font-size:clamp(2.2rem,6.4vw,4rem);line-height:1.45;color:var(--mint);margin:6px 0 14px;text-wrap:balance}
+.lead{max-width:620px;margin:0 auto 28px;color:var(--muted);font-size:1.08rem}
+.cta{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;align-items:center}
+.btn{display:inline-flex;gap:10px;align-items:center;padding:13px 26px;border-radius:14px;background:var(--primary);color:var(--ink);font-weight:700;text-decoration:none;box-shadow:0 8px 22px rgba(31,145,116,.3);transition:transform .2s,filter .2s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.1)}
+.ghost{color:var(--mint);text-decoration:none;border-bottom:1px solid var(--mint);padding-bottom:2px;font-weight:600}
+.checks{display:flex;flex-wrap:wrap;gap:8px 26px;justify-content:center;margin-top:30px;font-size:.9rem;color:var(--muted)}
+.checks span::before{content:"✓";color:var(--mint);margin-inline-end:7px}
 
-    .contact-links { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
-    .contact-item { display: flex; align-items: center; gap: 10px; font-size: 1.05rem; }
-    .contact-item .icon { font-size: 1.3rem; flex-shrink: 0; }
-    .contact-item span:not(.icon) { min-width: 0; overflow-wrap: anywhere; }
+/* الأقسام */
+section{padding:58px 0 0}
+.head{margin-bottom:26px}
+.head h2{font-family:'Amiri',serif;font-size:clamp(1.7rem,4vw,2.3rem);color:var(--mint);line-height:1.5}
+.head p{color:var(--muted)}
+.chip{display:inline-block;background:var(--card2);color:var(--gold);border:1px solid var(--line);padding:2px 14px;border-radius:99px;font-size:.78rem;font-weight:700;margin-bottom:8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:30px;box-shadow:var(--shadow)}
+.prose{max-width:70ch}
+.prose p+p{margin-top:12px}
+.prose p{line-height:2.05}
+.story{display:grid;gap:22px;grid-template-columns:1fr 1fr;align-items:start}
+.story h3{font-family:'Amiri',serif;font-size:1.5rem;color:var(--mint);margin-bottom:10px}
+.quote{position:relative;margin-top:22px;padding:22px 26px;border-radius:var(--r);background:var(--card2);border-inline-start:4px solid var(--gold);font-family:'Amiri',serif;font-size:1.3rem;font-weight:700;line-height:2}
+.quote::after{content:"”";position:absolute;top:-6px;inset-inline-end:16px;font-size:4.4rem;line-height:1;color:var(--gold);opacity:.25}
+.full{grid-column:1/-1}
+.full .quote{margin-top:0}
 
-    .about-section p { max-width: 72ch; }
-    .about-quote {
-      margin: 16px 0; padding: 12px 18px; max-width: 72ch;
-      border-inline-start: 4px solid var(--primary);
-      color: var(--text); font-weight: 700; line-height: 1.9;
-    }
-    .about-section p.about-dua {
-      max-width: none; margin-top: 16px; text-align: center;
-      font-family: 'Amiri', 'Noto Naskh Arabic', serif; font-size: 1.2rem; line-height: 2;
-    }
+/* بطاقات الأقسام */
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.feat{display:block;text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px;transition:transform .2s,border-color .2s}
+a.feat:hover{transform:translateY(-4px);border-color:var(--primary)}
+.feat i{display:grid;place-items:center;width:46px;height:46px;border-radius:12px;background:var(--card2);font-style:normal;font-size:1.4rem;margin-bottom:12px}
+.feat b{display:block;color:var(--mint);font-size:1.05rem}
+.feat span{color:var(--muted);font-size:.93rem}
 
-    @media (max-width: 600px) {
-      .about-main { padding: 28px 0; }
-      .about-section { padding: 20px; }
-    }
-  </style>
+/* الدعاء والتواصل */
+.dua{margin-top:26px;padding-top:22px;border-top:1px dashed var(--line);text-align:center;font-family:'Amiri',serif;line-height:2.1}
+.dua strong{display:block;color:var(--gold);font-size:1.5rem;margin-bottom:6px}
+.dua span{color:var(--muted);font-size:1.15rem}
+.contact{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.c{display:flex;align-items:center;gap:14px;padding:20px;background:var(--card);border:1px solid var(--line);border-radius:var(--r)}
+.c i{font-style:normal;font-size:1.7rem}
+.c div{flex:1;min-width:0}
+.c small{display:block;color:var(--muted)}
+.c a{color:var(--mint);font-weight:700;text-decoration:none;overflow-wrap:anywhere;unicode-bidi:plaintext}
+.c a:hover{text-decoration:underline}
+.cp{border:1px solid var(--line);background:transparent;color:var(--text);border-radius:10px;padding:6px 12px;cursor:pointer;font:600 .82rem 'Cairo',sans-serif}
+.cp:hover{border-color:var(--primary);color:var(--mint)}
+
+footer{margin-top:70px;border-top:1px solid var(--line);background:var(--card);padding:36px 0 18px}
+.fi{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+footer h4{color:var(--mint);font-family:'Amiri',serif;font-size:1.2rem;margin-bottom:6px}
+footer p{color:var(--muted);font-size:.92rem}
+footer a{text-decoration:none}footer a:hover{color:var(--mint)}
+.fb{text-align:center;margin-top:24px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+
+#top{position:fixed;bottom:20px;inset-inline-start:20px;opacity:0;pointer-events:none;transition:opacity .25s;background:var(--primary);color:#fff;border:0;font-size:1.2rem}
+#top.on{opacity:1;pointer-events:auto}
+#toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,30px);background:var(--primary);color:#fff;padding:10px 20px;border-radius:12px;opacity:0;transition:.3s;z-index:300;pointer-events:none}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+
+.js .rv{opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s}
+.js .rv.in{opacity:1;transform:none}
+
+@media(max-width:820px){
+  #menu{display:grid}
+  .links{display:none;position:absolute;top:68px;inset-inline:0;flex-direction:column;padding:12px 4%;background:var(--bg);border-bottom:1px solid var(--line)}
+  .links.open{display:flex}
+  .story{grid-template-columns:1fr}
+  .hero{padding:52px 0 64px}
+  .card{padding:22px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}.js .rv{opacity:1;transform:none}}
+</style>
 </head>
 <body>
+<a href="#main" class="skip">تخطَّ إلى المحتوى</a>
+<div id="bar" aria-hidden="true"></div>
 
-<a href="#main" class="skip-link">تخطَّ إلى المحتوى</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<g id="orn" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="100" cy="100" r="96"/><circle cx="100" cy="100" r="30"/><rect x="40" y="40" width="120" height="120"/><rect x="40" y="40" width="120" height="120" transform="rotate(45 100 100)"/><rect x="62" y="62" width="76" height="76"/></g>
+</defs></svg>
 
-<nav class="navbar" aria-label="التنقل الرئيسي">
-  <div class="wrap nav-inner">
-    <a href="./index.html" class="brand" aria-label="زاد عبيدة">
+<nav class="nav" aria-label="التنقل الرئيسي">
+  <div class="wrap nav-in">
+    <a href="./index.html" class="brand" aria-label="زاد عبيدة — الرئيسية">
       <img src="./logo-zad-almuslim.webp.png" alt="شعار زاد عبيدة">
-      <span>زاد عبيدة</span>
+      <span><b>زاد عبيدة</b><small>ذكر نافع بمصدر موثوق</small></span>
     </a>
-    <div class="nav-links" id="navLinks">
+    <div class="links" id="links">
       <a href="./index.html">الرئيسية</a>
       <a href="./adhkar.html">الأذكار</a>
       <a href="./azkar-morning.html">الصباح</a>
@@ -81,100 +162,157 @@
       <a href="./nawawi.html">الأحاديث</a>
       <a href="./quran.html">القرآن</a>
       <a href="./articles.html">المقالات</a>
-      <a href="./about.html" class="active" aria-current="page">عن الموقع</a>
+      <a href="./about.html" aria-current="page">عن الموقع</a>
     </div>
-    <div class="nav-tools">
-      <button class="icon-btn" id="themeToggle" type="button" aria-label="الوضع الليلي" title="الوضع الليلي">🌙</button>
-      <button class="icon-btn mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="القائمة" aria-controls="navLinks">☰</button>
+    <div class="tools">
+      <button class="ibtn" id="theme" type="button" aria-label="تبديل الوضع الليلي والنهاري" title="تبديل الوضع">
+        <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+      </button>
+      <button class="ibtn" id="menu" type="button" aria-label="القائمة" aria-controls="links" aria-expanded="false">☰</button>
     </div>
   </div>
 </nav>
 
-<main id="main" class="wrap about-main" tabindex="-1">
-  <div class="section-head">
-    <h2><span aria-hidden="true">ℹ️</span> عن زاد عبيدة</h2>
-    <p>حكاية بدأت من قلب طفل في السادسة عشرة</p>
-  </div>
-
-  <div class="about-section">
-    <h3>كيف بدأت الحكاية؟</h3>
-    <p>لم أكن أملك شركة، ولا فريق عمل، ولا ميزانية ضخمة، ولم أكن خبيرًا في البرمجة أو التكنولوجيا... كنت مجرد طفل في السادسة عشرة من عمري، يحمل في قلبه فكرة، وفي عقله حلمًا، وفي نفسه رغبة صادقة في أن يترك أثرًا طيبًا.</p>
-    <p>بدأت الحكاية عندما أصبحت ألاحظ شيئًا يتكرر أمامي؛ كثير من الناس يريدون معرفة أمور دينهم، لكنهم لا يعرفون من أين يبدأون. هناك من لا يعرف أذكار الصباح والمساء، ومن يبحث عن حديث فلا يعرف مدى صحته، ومن يريد قراءة القرآن لكنه لا يجد وسيلة بسيطة تجمع له ما يحتاجه. رأيت كيف يمكن لقلة المعرفة أن تجعل الإنسان بعيدًا عن أمور كان من الممكن أن يتعلمها بسهولة.</p>
-    <p>لم أكن أقول إنني أفضل من أحد، فأنا نفسي ما زلت أتعلم، وما زلت أبحث وأسأل وأخطئ وأصحح. لكن سؤالًا ظل يرافقني:</p>
-    <blockquote class="about-quote">لماذا لا أصنع مكانًا يجمع للمسلم ما يحتاجه من أمور دينه، بطريقة بسيطة ومنظمة ومجانية؟</blockquote>
-  </div>
-
-  <div class="about-section">
-    <h3>ولادة المشروع</h3>
-    <p>ومن هنا بدأت الفكرة...</p>
-    <p>فتحت حاسوبي، وبدأت أتعلم شيئًا لم أكن أعرف عنه الكثير: البرمجة وتصميم المواقع. واجهت صعوبات كثيرة، وأخطاء لم أفهمها، وأيامًا كنت أظن فيها أن المشروع لن يكتمل. لم يكن لدي فريق يساعدني، ولا إمكانيات كبيرة، لكنني كنت أعود في كل مرة وأحاول من جديد.</p>
-    <p>وهكذا وُلد مشروع <strong>«زاد عبيدة»</strong>.</p>
-    <p>لم يكن الهدف إنشاء موقع آخر على الإنترنت، ولم تكن الغاية الشهرة أو جمع المتابعين، بل أردت إنشاء مساحة إسلامية مجانية تجمع بين الفائدة والبساطة، وتساعد المسلم على الاقتراب من دينه.</p>
-  </div>
-
-  <div class="about-section">
-    <h3>ماذا أردت أن أقدم من خلال زاد عبيدة؟</h3>
-    <p>أردت أن يجد الزائر في مكان واحد:</p>
-    <ul>
-      <li><span aria-hidden="true">📖</span> <strong>القرآن الكريم:</strong> ليكون قريبًا من المسلم في يومه.</li>
-      <li><span aria-hidden="true">📿</span> <strong>الأذكار:</strong> أذكار الصباح والمساء وغيرها من الأذكار اليومية.</li>
-      <li><span aria-hidden="true">📜</span> <strong>الأحاديث النبوية:</strong> للتعرف على سنة رسول الله ﷺ من مصادر موثوقة.</li>
-      <li><span aria-hidden="true">🕌</span> <strong>مواقيت الصلاة:</strong> لمساعدة المسلم على المحافظة على صلاته.</li>
-      <li><span aria-hidden="true">✍️</span> <strong>المقالات الإسلامية:</strong> لنشر العلم والمعرفة بأسلوب واضح ومبسط.</li>
-      <li><span aria-hidden="true">✅</span> <strong>الورد اليومي:</strong> لمساعدة المستخدم على تنظيم عباداته ومتابعة إنجازه.</li>
-      <li><span aria-hidden="true">🤲</span> <strong>أذكاري:</strong> مساحة شخصية يستطيع فيها المستخدم حفظ أذكاره الخاصة والعودة إليها.</li>
-    </ul>
-    <p>وما زال المشروع قابلًا للتطوير، فكل فكرة جديدة يمكن أن تجعل تجربة الزائر أفضل وأكثر فائدة.</p>
-  </div>
-
-  <div class="about-section">
-    <h3>حلم أكبر من مجرد موقع</h3>
-    <p>أنا لا أدّعي أنني عالم أو طالب علم متخصص، ولا أريد أن أقدم نفسي على أنني صاحب علم واسع. أنا شاب مسلم ما زلت في بداية الطريق، أحاول أن أتعلم وأستفيد وأشارك ما أستطيع تقديمه، مع الحرص على الاعتماد على المصادر الإسلامية الموثوقة.</p>
-    <p>أؤمن أن نشر الخير لا يحتاج دائمًا إلى إمكانيات كبيرة، وأن الإنسان يستطيع أن يبدأ بما يملكه، مهما كان بسيطًا.</p>
-    <p>قد يكون زاد عبيدة اليوم مجرد موقع إلكتروني، لكنه بالنسبة إليّ مشروع يحمل رسالة أتمنى أن تصل إلى أبعد مدى.</p>
-    <blockquote class="about-quote">رسالتي بسيطة: أن نجعل الوصول إلى الخير والعلم الشرعي أسهل، وأن نساهم في نشر الوعي الديني، وأن يكون هذا العمل سببًا في نفع الناس بإذن الله.</blockquote>
-    <p>وفي النهاية، لست صاحب هذه الحكاية لأقول إنني حققت إنجازًا عظيمًا، بل لأقول لكل شاب لديه فكرة نافعة: لا تنتظر أن تصبح كبيرًا، ولا تنتظر أن تمتلك كل الإمكانيات. ابدأ بما تستطيع، وتعلم في طريقك، واجعل نيتك صادقة.</p>
-    <p>فربما تبدأ بخطوة صغيرة، ولا تعلم إلى أين يمكن أن تصل.</p>
-    <p class="about-dua"><strong>زاد عبيدة | زادٌ من الخير، وأثرٌ نرجو أن يبقى.</strong></p>
-    <p class="about-dua">نسأل الله الإخلاص والقبول، وأن يجعل هذا المشروع علمًا نافعًا وصدقة جارية، وأن ينفع به كل من زاره أو استفاد منه.</p>
-  </div>
-
-  <div class="about-section">
-    <h3>تواصل معنا</h3>
-    <p>يمكنك التواصل معنا مباشرة عبر:</p>
-    <div class="contact-links">
-      <div class="contact-item">
-        <span class="icon" aria-hidden="true">📸</span>
-        <span>إنستغرام: <a dir="ltr" href="https://www.instagram.com/oubaida.muslim/" target="_blank" rel="noopener noreferrer">@oubaida.muslim</a></span>
-      </div>
-      <div class="contact-item">
-        <span class="icon" aria-hidden="true">✉️</span>
-        <span>البريد الإلكتروني: <a dir="ltr" href="mailto:oubaidakuolal@gmail.com">oubaidakuolal@gmail.com</a></span>
-      </div>
+<header class="hero">
+  <svg class="orn o1" viewBox="0 0 200 200" aria-hidden="true"><use href="#orn"/></svg>
+  <svg class="orn o2" viewBox="0 0 200 200" aria-hidden="true"><use href="#orn"/></svg>
+  <div class="wrap">
+    <p class="bism">بسم الله الرحمن الرحيم</p>
+    <h1>زادٌ من الخير، وأثرٌ نرجو أن يبقى</h1>
+    <p class="lead">حكاية بدأت من قلب طفل في السادسة عشرة: مساحة إسلامية مجانية تجمع الفائدة والبساطة، وتقرّب المسلم من دينه.</p>
+    <div class="cta">
+      <a class="btn" href="#story">اقرأ الحكاية <span aria-hidden="true">←</span></a>
+      <a class="ghost" href="./index.html">أو تصفّح الموقع</a>
     </div>
+    <div class="checks"><span>مجاني للجميع</span><span>مصادر إسلامية موثوقة</span><span>مشروع قابل للتطوير</span></div>
   </div>
+</header>
+
+<main id="main" class="wrap" tabindex="-1">
+
+  <section id="story">
+    <div class="head rv"><span class="chip">عن زاد عبيدة</span><h2>كيف بدأت الحكاية؟</h2><p>حكاية بدأت من قلب طفل في السادسة عشرة</p></div>
+    <div class="story">
+      <article class="card prose rv">
+        <h3>البداية</h3>
+        <p>لم أكن أملك شركة، ولا فريق عمل، ولا ميزانية ضخمة، ولم أكن خبيرًا في البرمجة أو التكنولوجيا... كنت مجرد طفل في السادسة عشرة من عمري، يحمل في قلبه فكرة، وفي عقله حلمًا، وفي نفسه رغبة صادقة في أن يترك أثرًا طيبًا.</p>
+        <p>بدأت الحكاية عندما أصبحت ألاحظ شيئًا يتكرر أمامي؛ كثير من الناس يريدون معرفة أمور دينهم، لكنهم لا يعرفون من أين يبدأون. هناك من لا يعرف أذكار الصباح والمساء، ومن يبحث عن حديث فلا يعرف مدى صحته، ومن يريد قراءة القرآن لكنه لا يجد وسيلة بسيطة تجمع له ما يحتاجه. رأيت كيف يمكن لقلة المعرفة أن تجعل الإنسان بعيدًا عن أمور كان من الممكن أن يتعلمها بسهولة.</p>
+        <p>لم أكن أقول إنني أفضل من أحد، فأنا نفسي ما زلت أتعلم، وما زلت أبحث وأسأل وأخطئ وأصحح. لكن سؤالًا ظل يرافقني:</p>
+      </article>
+      <article class="card prose rv">
+        <h3>ولادة المشروع</h3>
+        <p>ومن هنا بدأت الفكرة...</p>
+        <p>فتحت حاسوبي، وبدأت أتعلم شيئًا لم أكن أعرف عنه الكثير: البرمجة وتصميم المواقع. واجهت صعوبات كثيرة، وأخطاء لم أفهمها، وأيامًا كنت أظن فيها أن المشروع لن يكتمل. لم يكن لدي فريق يساعدني، ولا إمكانيات كبيرة، لكنني كنت أعود في كل مرة وأحاول من جديد.</p>
+        <p>وهكذا وُلد مشروع <strong style="color:var(--gold)">«زاد عبيدة»</strong>.</p>
+        <p>لم يكن الهدف إنشاء موقع آخر على الإنترنت، ولم تكن الغاية الشهرة أو جمع المتابعين، بل أردت إنشاء مساحة إسلامية مجانية تجمع بين الفائدة والبساطة، وتساعد المسلم على الاقتراب من دينه.</p>
+      </article>
+      <blockquote class="quote full rv">لماذا لا أصنع مكانًا يجمع للمسلم ما يحتاجه من أمور دينه، بطريقة بسيطة ومنظمة ومجانية؟</blockquote>
+    </div>
+  </section>
+
+  <section id="offer">
+    <div class="head rv"><h2>ماذا أردت أن أقدم من خلال زاد عبيدة؟</h2><p>أردت أن يجد الزائر في مكان واحد:</p></div>
+    <div class="grid">
+      <a class="feat rv" href="./quran.html"><i aria-hidden="true">📖</i><b>القرآن الكريم</b><span>ليكون قريبًا من المسلم في يومه.</span></a>
+      <a class="feat rv" href="./adhkar.html"><i aria-hidden="true">📿</i><b>الأذكار</b><span>أذكار الصباح والمساء وغيرها من الأذكار اليومية.</span></a>
+      <a class="feat rv" href="./nawawi.html"><i aria-hidden="true">📜</i><b>الأحاديث النبوية</b><span>للتعرف على سنة رسول الله ﷺ من مصادر موثوقة.</span></a>
+      <div class="feat rv"><i aria-hidden="true">🕌</i><b>مواقيت الصلاة</b><span>لمساعدة المسلم على المحافظة على صلاته.</span></div>
+      <a class="feat rv" href="./articles.html"><i aria-hidden="true">✍️</i><b>المقالات الإسلامية</b><span>لنشر العلم والمعرفة بأسلوب واضح ومبسط.</span></a>
+      <div class="feat rv"><i aria-hidden="true">✅</i><b>الورد اليومي</b><span>لمساعدة المستخدم على تنظيم عباداته ومتابعة إنجازه.</span></div>
+      <div class="feat rv"><i aria-hidden="true">🤲</i><b>أذكاري</b><span>مساحة شخصية يستطيع فيها المستخدم حفظ أذكاره الخاصة والعودة إليها.</span></div>
+    </div>
+    <p class="rv" style="margin-top:18px;color:var(--muted)">وما زال المشروع قابلًا للتطوير، فكل فكرة جديدة يمكن أن تجعل تجربة الزائر أفضل وأكثر فائدة.</p>
+  </section>
+
+  <section id="dream">
+    <div class="head rv"><h2>حلم أكبر من مجرد موقع</h2></div>
+    <div class="card prose rv" style="max-width:none">
+      <div class="prose">
+        <p>أنا لا أدّعي أنني عالم أو طالب علم متخصص، ولا أريد أن أقدم نفسي على أنني صاحب علم واسع. أنا شاب مسلم ما زلت في بداية الطريق، أحاول أن أتعلم وأستفيد وأشارك ما أستطيع تقديمه، مع الحرص على الاعتماد على المصادر الإسلامية الموثوقة.</p>
+        <p>أؤمن أن نشر الخير لا يحتاج دائمًا إلى إمكانيات كبيرة، وأن الإنسان يستطيع أن يبدأ بما يملكه، مهما كان بسيطًا.</p>
+        <p>قد يكون زاد عبيدة اليوم مجرد موقع إلكتروني، لكنه بالنسبة إليّ مشروع يحمل رسالة أتمنى أن تصل إلى أبعد مدى.</p>
+      </div>
+      <blockquote class="quote">رسالتي بسيطة: أن نجعل الوصول إلى الخير والعلم الشرعي أسهل، وأن نساهم في نشر الوعي الديني، وأن يكون هذا العمل سببًا في نفع الناس بإذن الله.</blockquote>
+      <div class="prose" style="margin-top:22px">
+        <p>وفي النهاية، لست صاحب هذه الحكاية لأقول إنني حققت إنجازًا عظيمًا، بل لأقول لكل شاب لديه فكرة نافعة: لا تنتظر أن تصبح كبيرًا، ولا تنتظر أن تمتلك كل الإمكانيات. ابدأ بما تستطيع، وتعلم في طريقك، واجعل نيتك صادقة.</p>
+        <p>فربما تبدأ بخطوة صغيرة، ولا تعلم إلى أين يمكن أن تصل.</p>
+      </div>
+      <p class="dua"><strong>زاد عبيدة | زادٌ من الخير، وأثرٌ نرجو أن يبقى.</strong><span>نسأل الله الإخلاص والقبول، وأن يجعل هذا المشروع علمًا نافعًا وصدقة جارية، وأن ينفع به كل من زاره أو استفاد منه.</span></p>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="head rv"><h2>تواصل معنا</h2><p>يمكنك التواصل معنا مباشرة عبر:</p></div>
+    <div class="contact">
+      <div class="c rv"><i aria-hidden="true">📸</i><div><small>إنستغرام</small><a dir="ltr" href="https://www.instagram.com/oubaida.muslim/" target="_blank" rel="noopener noreferrer">@oubaida.muslim</a></div></div>
+      <div class="c rv"><i aria-hidden="true">✉️</i><div><small>البريد الإلكتروني</small><a dir="ltr" href="mailto:oubaidakuolal@gmail.com">oubaidakuolal@gmail.com</a></div><button class="cp" type="button" data-copy="oubaidakuolal@gmail.com">نسخ</button></div>
+    </div>
+  </section>
 </main>
 
 <footer>
   <div class="wrap">
-    <div class="footer-inner">
+    <div class="fi">
       <div><h4>زاد عبيدة</h4><p>محتوى إسلامي نافع مع توضيح المصادر.</p></div>
       <div><h4>روابط</h4><p><a href="./index.html">الرئيسية</a><br><a href="./adhkar.html">الأذكار</a><br><a href="./quran.html">القرآن</a></p></div>
       <div><h4>تواصل</h4><p><a href="https://www.instagram.com/oubaida.muslim/" target="_blank" rel="noopener noreferrer">إنستغرام</a></p></div>
     </div>
-    <div class="footer-bottom">© <span id="year">2026</span> زاد عبيدة</div>
+    <div class="fb">© <span id="year">2026</span> زاد عبيدة</div>
   </div>
 </footer>
 
-<div id="toast" class="toast" role="status" aria-live="polite"></div>
-<button class="back-to-top" id="backToTop" type="button" aria-label="العودة للأعلى">↑</button>
+<div id="toast" role="status" aria-live="polite"></div>
+<button class="ibtn" id="top" type="button" aria-label="العودة للأعلى">↑</button>
 
-<script src="./assets/data.js"></script>
-<script src="./assets/app.js"></script>
 <script>
-(function () {
-  var year = document.getElementById('year');
-  if (year) year.textContent = new Date().getFullYear();
+(function(){
+  var d=document,root=d.documentElement,$=function(i){return d.getElementById(i)};
+  root.classList.add('js');
+  d.getElementById('year').textContent=new Date().getFullYear();
+
+  /* الثيم */
+  function meta(){var m=d.querySelector('meta[name=theme-color]');if(m)m.content=root.getAttribute('data-theme')==='light'?'#f5f8f3':'#0a1713'}
+  meta();
+  $('theme').onclick=function(){
+    var n=root.getAttribute('data-theme')==='light'?'dark':'light';
+    root.setAttribute('data-theme',n);meta();
+    try{localStorage.setItem('theme',n)}catch(e){}
+  };
+
+  /* قائمة الجوال */
+  var mb=$('menu'),ln=$('links');
+  function close(){ln.classList.remove('open');mb.setAttribute('aria-expanded','false')}
+  mb.onclick=function(){var o=ln.classList.toggle('open');mb.setAttribute('aria-expanded',o)};
+  ln.addEventListener('click',function(e){if(e.target.tagName==='A')close()});
+  d.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+
+  /* شريط التقدم وزر الأعلى */
+  var bar=$('bar'),top=$('top');
+  function sc(){
+    var h=root.scrollHeight-innerHeight,y=scrollY;
+    bar.style.transform='scaleX('+(h>0?y/h:0)+')';
+    top.classList.toggle('on',y>600);
+  }
+  addEventListener('scroll',sc,{passive:true});sc();
+  top.onclick=function(){scrollTo({top:0})};
+
+  /* الظهور عند التمرير */
+  var els=d.querySelectorAll('.rv');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+    els.forEach(function(el){io.observe(el)});
+  }else els.forEach(function(el){el.classList.add('in')});
+
+  /* نسخ البريد */
+  var t=$('toast'),tm;
+  function toast(s){t.textContent=s;t.classList.add('on');clearTimeout(tm);tm=setTimeout(function(){t.classList.remove('on')},2000)}
+  d.querySelectorAll('[data-copy]').forEach(function(b){
+    b.onclick=function(){
+      var v=b.getAttribute('data-copy');
+      (navigator.clipboard?navigator.clipboard.writeText(v):Promise.reject()).then(function(){toast('تم نسخ البريد الإلكتروني')},function(){toast('تعذّر النسخ، انسخه يدويًا')});
+    };
+  });
 })();
 </script>
 </body>

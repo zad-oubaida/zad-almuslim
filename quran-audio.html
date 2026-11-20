@@ -14,8 +14,7 @@
   <style>
     :root {
       --bg-base: #061813;
-      --bg-surface: rgba(13, 38, 30, 0.84);
-      --bg-glass: rgba(18, 49, 39, 0.72);
+      --bg-surface: rgba(13, 38, 30, 0.9);
       --text-main: #f7faf8;
       --text-muted: #a6c0b5;
       --gold: #e6c274;
@@ -26,8 +25,7 @@
 
     body.light-mode {
       --bg-base: #f5f7f2;
-      --bg-surface: rgba(255, 255, 255, 0.92);
-      --bg-glass: rgba(255, 255, 255, 0.95);
+      --bg-surface: rgba(255, 255, 255, 0.95);
       --text-main: #122d24;
       --text-muted: #526b61;
       --gold: #b88928;
@@ -52,7 +50,7 @@
         radial-gradient(circle at 85% 85%, rgba(230, 194, 116, 0.22), transparent 48%),
         radial-gradient(circle at 50% 45%, rgba(9, 55, 42, 0.35), transparent 75%);
       overflow-x: hidden;
-      padding-bottom: 120px;
+      padding-bottom: 135px;
       position: relative;
     }
 
@@ -76,15 +74,15 @@
       z-index: 50;
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
-      background: rgba(6, 24, 19, 0.88);
+      background: rgba(6, 24, 19, 0.9);
       border-bottom: 1px solid var(--border-gold);
     }
     body.light-mode .main-header {
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.93);
     }
 
     .header-top {
-      max-width: 1320px;
+      max-width: 1340px;
       margin: 0 auto;
       padding: 10px 18px;
       display: flex;
@@ -108,17 +106,15 @@
       box-shadow: 0 0 14px rgba(230, 194, 116, 0.35);
     }
     .brand-only span {
-      font: 700 1.45rem/1 'Amiri', serif;
+      font: 700 1.48rem/1 'Amiri', serif;
       color: var(--gold-bright);
-      letter-spacing: 0.01em;
     }
     body.light-mode .brand-only span {
       color: #0b6b50;
     }
 
-    /* شريط الوصول السريع لباقي المزايا والصفحات */
     .features-nav {
-      max-width: 1320px;
+      max-width: 1340px;
       margin: 0 auto;
       padding: 0 18px 10px;
       display: flex;
@@ -165,12 +161,12 @@
     }
 
     /* =========================================================
-       التخطيط المتجاوب للهاتف والحاسوب
+       التخطيط المتجاوب + لوحة السور المرافقة للمستخدم بانسيابية
        ========================================================= */
     .app-container {
       position: relative;
       z-index: 2;
-      max-width: 1320px;
+      max-width: 1340px;
       margin: 0 auto;
       padding: 16px 18px;
     }
@@ -179,16 +175,19 @@
       .app-container {
         display: grid;
         grid-template-columns: 1.45fr 0.95fr;
-        gap: 26px;
+        gap: 28px;
         align-items: start;
       }
       .crates-section { display: block !important; }
+
+      /* في الحاسوب: تتحرك اللوحة مع المستخدم بانسيابية دون إزعاج */
       .wheel-section {
         display: flex !important;
         position: sticky;
         top: 108px;
-        height: calc(100vh - 230px);
-        min-height: 530px;
+        height: calc(100vh - 235px);
+        min-height: 500px;
+        max-height: 680px;
       }
       .mobile-back-btn { display: none !important; }
 
@@ -196,23 +195,36 @@
         display: grid !important;
         grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
         gap: 18px;
-        overflow: visible !important;
-        padding: 6px 0 !important;
       }
       .reciter-card {
-        min-width: 0 !important;
-        max-width: none !important;
         height: 335px !important;
       }
     }
 
-    /* =========================================================
-       قسم القرّاء (Crates Section)
-       ========================================================= */
-    .crates-section.hide-on-mobile {
-      display: none;
+    /* في الهاتف: شاشة اختيار السور تنزلق من الأسفل دون إضاعة مكان التمرير */
+    @media (max-width: 959px) {
+      .wheel-section {
+        position: fixed !important;
+        inset: 0;
+        z-index: 85;
+        height: 100dvh !important;
+        min-height: 100dvh !important;
+        border-radius: 0 !important;
+        padding: 14px 16px 135px !important;
+        transform: translateY(100%);
+        transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+        display: flex !important;
+        pointer-events: none;
+      }
+      .wheel-section.show-on-mobile {
+        transform: translateY(0);
+        pointer-events: auto;
+      }
     }
 
+    /* =========================================================
+       قسم القرّاء
+       ========================================================= */
     .section-intro {
       display: flex;
       flex-wrap: wrap;
@@ -272,25 +284,17 @@
       outline: none;
     }
 
-    /* حاوية بطاقات القرّاء في الهاتف (سحب أفقي سلس) */
     .crates-grid {
-      display: flex;
-      gap: 16px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      padding: 8px 6px 22px;
-      scrollbar-width: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 14px;
+      padding-bottom: 20px;
     }
-    .crates-grid::-webkit-scrollbar { display: none; }
 
-    /* بطاقة القارئ المزخرفة */
     .reciter-card {
-      min-width: 270px;
-      max-width: 300px;
-      height: 375px;
-      scroll-snap-align: center;
-      border-radius: 28px;
-      padding: 20px 18px;
+      height: 295px;
+      border-radius: 26px;
+      padding: 16px 14px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -299,57 +303,56 @@
       user-select: none;
       overflow: hidden;
       border: 1px solid rgba(230, 194, 116, 0.32);
-      box-shadow: 0 20px 42px rgba(0, 0, 0, 0.38);
-      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.35);
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease;
     }
 
     .reciter-card::after {
       content: '۞';
       position: absolute;
-      bottom: -26px;
-      left: -16px;
-      font: 140px/1 'Amiri', serif;
+      bottom: -24px;
+      left: -14px;
+      font: 125px/1 'Amiri', serif;
       opacity: 0.08;
       pointer-events: none;
     }
 
-    /* تدرجات ألوان البطاقات الفخمة */
     .reciter-card[data-style="0"] { background: linear-gradient(155deg, #0f6e53, #07382a); color: #fff; }
     .reciter-card[data-style="1"] { background: linear-gradient(155deg, #b85665, #6f2b36); color: #fff; }
     .reciter-card[data-style="2"] { background: linear-gradient(155deg, #6b4e71, #3b2640); color: #fff; }
     .reciter-card[data-style="3"] { background: linear-gradient(155deg, #9c742b, #5c4111); color: #fff; }
 
     .reciter-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 26px 50px rgba(0, 0, 0, 0.48);
+      transform: translateY(-5px);
+      box-shadow: 0 24px 44px rgba(0, 0, 0, 0.45);
     }
     .reciter-card.is-selected {
       outline: 3px solid var(--gold-bright);
-      outline-offset: 3px;
+      outline-offset: 2px;
     }
 
     .card-top-meta {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.78rem;
+      font-size: 0.74rem;
       font-weight: 700;
       z-index: 2;
     }
     .surah-count-pill {
-      background: rgba(0, 0, 0, 0.25);
-      padding: 4px 11px;
+      background: rgba(0, 0, 0, 0.28);
+      padding: 3px 10px;
       border-radius: 99px;
       border: 1px solid rgba(255, 255, 255, 0.14);
     }
     .fav-btn {
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       border: 0;
-      background: rgba(0, 0, 0, 0.25);
+      background: rgba(0, 0, 0, 0.28);
       color: #fff;
-      font-size: 1rem;
+      font-size: 0.95rem;
       cursor: pointer;
       display: grid;
       place-items: center;
@@ -357,20 +360,23 @@
     .fav-btn.active { color: #ffd166; }
 
     /* =========================================================
-       صورة القارئ الدوّارة داخل إطار ذهبي متوهج
+       صورة القارئ: ثابتة في الوضع العادي، وتدور فقط عند الاختيار!
        ========================================================= */
     .gold-spinning-frame {
-      width: 136px;
-      height: 136px;
-      margin: 6px auto;
+      width: 118px;
+      height: 118px;
+      margin: 4px auto;
       border-radius: 50%;
-      padding: 5px;
+      padding: 4px;
       background: conic-gradient(from 0deg, #e6c274, #fff0bd, #b88928, #e6c274);
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5), 0 0 22px rgba(230, 194, 116, 0.35);
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5), 0 0 18px rgba(230, 194, 116, 0.32);
       display: grid;
       place-items: center;
       position: relative;
       z-index: 2;
+    }
+    @media (min-width: 960px) {
+      .gold-spinning-frame { width: 132px; height: 132px; }
     }
 
     .spinning-photo-inner {
@@ -378,44 +384,26 @@
       height: 100%;
       border-radius: 50%;
       overflow: hidden;
-      background: radial-gradient(circle at 30% 30%, #1d5c49, #09241c);
+      background: #09241c;
       border: 2px solid #09221a;
       display: grid;
       place-items: center;
-      animation: photoSpin 18s linear infinite;
+      /* لا تدور افتراضياً */
+      animation: photoSpin 14s linear infinite;
+      animation-play-state: paused;
     }
 
-    .reciter-card:hover .spinning-photo-inner {
-      animation-duration: 7s; /* تدور أسرع عند اللمس */
+    /* تبدأ بالدوران فقط عندما يتم اختيار القارئ */
+    .reciter-card.is-selected .spinning-photo-inner {
+      animation-play-state: running;
     }
 
     .spinning-photo-inner img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center top;
       display: block;
-    }
-
-    /* الشعار الفني المزخرف للقراء الذين ليس لديهم صورة فوتوغرافية */
-    .artistic-monogram {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: radial-gradient(circle, #184e3e 0%, #09221b 100%);
-      color: var(--gold-bright);
-      text-align: center;
-      padding: 8px;
-    }
-    .artistic-monogram span {
-      font: 700 1.9rem/1 'Amiri', serif;
-    }
-    .artistic-monogram small {
-      font: 700 0.62rem/1.2 'Tajawal', sans-serif;
-      color: #d8ece3;
-      margin-top: 3px;
     }
 
     @keyframes photoSpin {
@@ -424,9 +412,13 @@
 
     .card-reciter-title {
       text-align: center;
-      font: 800 1.25rem/1.35 'Tajawal', sans-serif;
+      font: 800 1.05rem/1.3 'Tajawal', sans-serif;
       margin: 4px 0 0;
       z-index: 2;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     .card-bottom-info {
@@ -434,30 +426,30 @@
       z-index: 2;
     }
     .card-rewaya-text {
-      font-size: 0.82rem;
+      font-size: 0.74rem;
       opacity: 0.88;
-      margin: 0 0 10px;
+      margin: 0 0 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .open-list-badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      background: rgba(255, 255, 255, 0.92);
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.94);
       color: #0b261e;
-      padding: 7px 18px;
+      padding: 5px 14px;
       border-radius: 99px;
-      font: 800 0.82rem 'Tajawal', sans-serif;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+      font: 800 0.76rem 'Tajawal', sans-serif;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
     }
 
     /* =========================================================
-       شاشة العجلة الدائرية للسور مع صورة القارئ في الخلفية!
+       شاشة العجلة الدائرية للسور مع صورة القارئ في الخلفية
        ========================================================= */
     .wheel-section {
-      display: none;
       flex-direction: column;
-      height: calc(100vh - 185px);
-      min-height: 490px;
       background: var(--bg-surface);
       border: 1px solid var(--border-gold);
       border-radius: 30px;
@@ -467,27 +459,19 @@
       box-shadow: 0 24px 54px rgba(0, 0, 0, 0.45);
     }
 
-    .wheel-section.show-on-mobile {
-      display: flex;
-    }
-
-    /* صورة القارئ الشفافة في خلفية شاشة التشغيل */
     .wheel-bg-portrait {
       position: absolute;
       inset: 0;
       background-size: cover;
       background-position: center top;
-      opacity: 0.16;
+      opacity: 0.17;
       filter: blur(2px) saturate(1.1);
       pointer-events: none;
       z-index: 0;
-      transition: background-image 0.5s ease, opacity 0.5s ease;
+      transition: background-image 0.5s ease;
     }
-    body.light-mode .wheel-bg-portrait {
-      opacity: 0.12;
-    }
+    body.light-mode .wheel-bg-portrait { opacity: 0.12; }
 
-    /* طبقة تدرج فوق صورة الخلفية لضمان وضوح القراءة 100% */
     .wheel-bg-overlay {
       position: absolute;
       inset: 0;
@@ -511,7 +495,7 @@
     .wheel-reciter-info {
       display: flex;
       align-items: center;
-      gap: 11px;
+      gap: 10px;
       min-width: 0;
     }
 
@@ -520,7 +504,7 @@
       height: 38px;
       border-radius: 50%;
       border: 1px solid var(--border-gold);
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(0, 0, 0, 0.35);
       color: #fff;
       font-size: 1.2rem;
       cursor: pointer;
@@ -534,8 +518,8 @@
     }
 
     .wheel-mini-avatar {
-      width: 48px;
-      height: 48px;
+      width: 46px;
+      height: 46px;
       border-radius: 50%;
       border: 2.5px solid var(--gold);
       overflow: hidden;
@@ -543,13 +527,12 @@
       display: grid;
       place-items: center;
       flex-shrink: 0;
-      font: 700 1.25rem 'Amiri', serif;
-      color: var(--gold);
     }
     .wheel-mini-avatar img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center top;
     }
 
     .surah-search-box {
@@ -558,22 +541,21 @@
       color: var(--text-main);
       border-radius: 12px;
       padding: 7px 12px;
-      width: 130px;
+      width: 125px;
       font: 600 0.82rem 'Tajawal', sans-serif;
       outline: none;
     }
     body.light-mode .surah-search-box {
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.85);
     }
 
-    /* حاوية القائمة المقوّسة */
     .wheel-scroll-area {
       flex: 1;
       position: relative;
       z-index: 2;
       overflow-y: scroll;
       scroll-snap-type: y mandatory;
-      padding: 170px 4px;
+      padding: 165px 4px;
       scrollbar-width: none;
       mask-image: linear-gradient(to bottom, transparent 0%, black 16%, black 84%, transparent 100%);
       -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 16%, black 84%, transparent 100%);
@@ -690,14 +672,17 @@
       font: 700 1.2rem 'Amiri', serif;
       color: var(--gold);
       flex-shrink: 0;
+      animation: photoSpin 12s linear infinite;
+      animation-play-state: paused;
     }
     .player-thumb img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center top;
     }
     .player-thumb.spinning {
-      animation: photoSpin 12s linear infinite;
+      animation-play-state: running;
     }
 
     .player-controls {
@@ -744,7 +729,7 @@
 
   <div class="islamic-pattern" aria-hidden="true"></div>
 
-  <!-- الشريط العلوي: الشعار + زاد عبيدة فقط + شريط الوصول للمزايا -->
+  <!-- الشريط العلوي: الشعار + زاد عبيدة فقط + شريط المزايا -->
   <header class="main-header">
     <div class="header-top">
       <a href="./index.html" class="brand-only">
@@ -755,7 +740,6 @@
       <button class="theme-btn" id="themeToggleBtn" type="button" title="تبديل المظهر">☀️</button>
     </div>
 
-    <!-- شريط المزايا للوصول السريع لباقي الصفحات -->
     <nav class="features-nav" aria-label="أبواب ومزايا الموقع">
       <a href="./index.html" class="feat-link">الرئيسية</a>
       <a href="./wird.html" class="feat-link">🌿 وردك اليومي</a>
@@ -771,12 +755,12 @@
   <!-- مساحة العمل الرئيسية -->
   <main class="app-container">
 
-    <!-- القسم الأول: بطاقات القرّاء وصورهم الدوّارة -->
+    <!-- القسم الأول: بطاقات القرّاء -->
     <section id="cratesSection" class="crates-section">
       <div class="section-intro">
         <div>
           <h1>تلاوات القرآن الكريم</h1>
-          <p>اختر القارئ واستمع بتصميم تفاعلي مع دعم التشغيل في الخلفية</p>
+          <p>اختر القارئ لتبدأ أسطوانته بالدوران وتظهر لك السور المباركة</p>
         </div>
 
         <div class="filter-tabs" id="filterTabs">
@@ -788,11 +772,11 @@
 
       <div class="search-input-wrap">
         <span>🔍</span>
-        <input id="reciterSearchInput" type="search" placeholder="ابحث عن قارئ (مثال: العفاسي، المنشاوي، السديس، الحصري...)">
+        <input id="reciterSearchInput" type="search" placeholder="ابحث عن قارئ (مثال: ياسر الدوسري، محمد اللحيدان، ماهر المعيقلي...)">
       </div>
 
       <div id="cratesGrid" class="crates-grid">
-        <div style="padding:50px;text-align:center;width:100%;color:var(--text-muted);">
+        <div style="padding:50px;text-align:center;width:100%;color:var(--text-muted);grid-column:1/-1;">
           جارٍ تحميل القرّاء وصورهم...
         </div>
       </div>
@@ -800,13 +784,12 @@
 
     <!-- القسم الثاني: العجلة الدائرية للسور مع صورة القارئ في الخلفية -->
     <section id="wheelSection" class="wheel-section">
-      <!-- صورة القارئ الشفافة في الخلفية -->
       <div id="wheelBgPortrait" class="wheel-bg-portrait"></div>
       <div class="wheel-bg-overlay"></div>
 
       <div class="wheel-top-bar">
         <div class="wheel-reciter-info">
-          <button id="mobileBackBtn" class="mobile-back-btn" type="button" title="العودة للقرّاء">→</button>
+          <button id="mobileBackBtn" class="mobile-back-btn" type="button" title="العودة للقرّاء">↓</button>
           <div class="wheel-mini-avatar" id="wheelMiniAvatar">۞</div>
           <div style="min-width:0;">
             <h2 id="wheelReciterName" style="margin:0;font-size:1.15rem;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">اختر قارئاً</h2>
@@ -865,35 +848,36 @@
     "المسد","الإخلاص","الفلق","الناس"
   ];
 
-  // قاموس صور شامل لأشهر القرّاء في العالم الإسلامي
-  const RECITER_PHOTOS = [
-    { keys: ["العفاسي", "مشاري"], url: "https://static.qurancdn.com/images/reciters/6/mishary-rashid-alafasy-profile.jpeg" },
-    { keys: ["عبد الباسط", "عبدالباسط"], url: "https://static.qurancdn.com/images/reciters/1/abdulbaset-abdulsamad-profile.jpeg" },
-    { keys: ["السديس"], url: "https://static.qurancdn.com/images/reciters/2/abdurrahman-as-sudais-profile.jpeg" },
-    { keys: ["الشاطري"], url: "https://static.qurancdn.com/images/reciters/3/abu-bakr-ash-shaatree-profile.jpeg" },
-    { keys: ["الرفاعي"], url: "https://static.qurancdn.com/images/reciters/4/hani-ar-rifai-profile.jpeg" },
-    { keys: ["الحصري"], url: "https://static.qurancdn.com/images/reciters/5/mahmoud-khalil-al-husary-profile.jpeg" },
-    { keys: ["الغامدي"], url: "https://static.qurancdn.com/images/reciters/7/saad-al-ghamdi-profile.jpeg" },
-    { keys: ["المنشاوي"], url: "https://static.qurancdn.com/images/reciters/8/mohamed-siddiq-al-minshawi-profile.jpeg" },
-    { keys: ["الشريم"], url: "https://static.qurancdn.com/images/reciters/9/saud-ash-shuraym-profile.jpeg" },
-    { keys: ["المعيقلي"], url: "https://static.qurancdn.com/images/reciters/10/maher-al-muaiqly-profile.jpeg" },
-    { keys: ["الدوسري"], url: "https://static.qurancdn.com/images/reciters/11/yasser-ad-dussary-profile.jpeg" },
-    { keys: ["القطامي"], url: "https://static.qurancdn.com/images/reciters/12/nasser-al-qatami-profile.jpeg" },
-    { keys: ["العجمي"], url: "https://i1.sndcdn.com/artworks-000105396336-62598a-t500x500.jpg" },
-    { keys: ["فارس عباد"], url: "https://i1.sndcdn.com/artworks-000083654454-7w9p7m-t500x500.jpg" },
-    { keys: ["إدريس أبكر", "ادريس ابكر"], url: "https://i1.sndcdn.com/artworks-000116448935-5v5b6p-t500x500.jpg" },
-    { keys: ["بندر بليلة"], url: "https://i1.sndcdn.com/artworks-000237502987-7u8f9j-t500x500.jpg" },
-    { keys: ["عبدالله الجهني", "الجهني"], url: "https://i1.sndcdn.com/artworks-000095674321-8x9y2z-t500x500.jpg" },
-    { keys: ["محمد أيوب", "محمد ايوب"], url: "https://i1.sndcdn.com/artworks-000161448392-3k4l5m-t500x500.jpg" },
-    { keys: ["علي جابر"], url: "https://i1.sndcdn.com/artworks-000142556789-9p0q1r-t500x500.jpg" },
-    { keys: ["خالد الجليل"], url: "https://i1.sndcdn.com/artworks-000198765432-2s3t4u-t500x500.jpg" },
-    { keys: ["هزاع البلوشي"], url: "https://i1.sndcdn.com/artworks-000245678901-5v6w7x-t500x500.jpg" },
-    { keys: ["إسلام صبحي", "اسلام صبحي"], url: "https://i1.sndcdn.com/artworks-000512345678-8y9z0a-t500x500.jpg" },
-    { keys: ["وديع اليمني"], url: "https://i1.sndcdn.com/artworks-000312345678-1b2c3d-t500x500.jpg" },
-    { keys: ["رعد الكردي"], url: "https://i1.sndcdn.com/artworks-000412345678-4e5f6g-t500x500.jpg" }
+  // قاموس صور دقيق يمنع الخلط بين الشيوخ (كل شيخ بصورته الخاصة فقط)
+  const EXACT_RECITER_PHOTOS = [
+    { match: ["ياسر الدوسري"], url: "https://static.qurancdn.com/images/reciters/11/yasser-ad-dussary-profile.jpeg" },
+    { match: ["محمد اللحيدان"], url: "https://media.way2quran.com/imgs/mohammed-al-luhaydan.jpg" },
+    { match: ["ماهر المعيقلي"], url: "https://static.qurancdn.com/images/reciters/10/maher-al-muaiqly-profile.jpeg" },
+    { match: ["مشاري راشد العفاسي", "مشاري العفاسي"], url: "https://static.qurancdn.com/images/reciters/6/mishary-rashid-alafasy-profile.jpeg" },
+    { match: ["عبد الباسط عبد الصمد", "عبدالباسط عبدالصمد"], url: "https://static.qurancdn.com/images/reciters/1/abdulbaset-abdulsamad-profile.jpeg" },
+    { match: ["عبدالرحمن السديس", "عبد الرحمن السديس"], url: "https://static.qurancdn.com/images/reciters/2/abdurrahman-as-sudais-profile.jpeg" },
+    { match: ["أبو بكر الشاطري", "ابو بكر الشاطري"], url: "https://static.qurancdn.com/images/reciters/3/abu-bakr-ash-shaatree-profile.jpeg" },
+    { match: ["هاني الرفاعي"], url: "https://static.qurancdn.com/images/reciters/4/hani-ar-rifai-profile.jpeg" },
+    { match: ["محمود خليل الحصري"], url: "https://static.qurancdn.com/images/reciters/5/mahmoud-khalil-al-husary-profile.jpeg" },
+    { match: ["سعد الغامدي"], url: "https://static.qurancdn.com/images/reciters/7/saad-al-ghamdi-profile.jpeg" },
+    { match: ["محمد صديق المنشاوي"], url: "https://static.qurancdn.com/images/reciters/8/mohamed-siddiq-al-minshawi-profile.jpeg" },
+    { match: ["سعود الشريم"], url: "https://static.qurancdn.com/images/reciters/9/saud-ash-shuraym-profile.jpeg" },
+    { match: ["ناصر القطامي"], url: "https://static.qurancdn.com/images/reciters/12/nasser-al-qatami-profile.jpeg" },
+    { match: ["فارس عباد"], url: "https://media.way2quran.com/imgs/fares-abbad.jpg" },
+    { match: ["إدريس أبكر", "ادريس ابكر"], url: "https://media.way2quran.com/imgs/idrees-abkar.jpg" },
+    { match: ["خالد الجليل"], url: "https://media.way2quran.com/imgs/khalid-al-jaleel.jpg" },
+    { match: ["أحمد العجمي", "احمد العجمي", "أحمد بن علي العجمي"], url: "https://media.way2quran.com/imgs/ahmed-al-ajmi.jpg" },
+    { match: ["بندر بليلة"], url: "https://media.way2quran.com/imgs/bandar-baleela.jpg" },
+    { match: ["عبدالله عواد الجهني", "عبد الله عواد الجهني"], url: "https://media.way2quran.com/imgs/abdullah-al-juhany.jpg" },
+    { match: ["محمد أيوب", "محمد ايوب"], url: "https://media.way2quran.com/imgs/mohammed-ayyub.jpg" },
+    { match: ["علي جابر"], url: "https://media.way2quran.com/imgs/ali-jaber.jpg" },
+    { match: ["هزاع البلوشي"], url: "https://media.way2quran.com/imgs/hazza-al-balushi.jpg" },
+    { match: ["إسلام صبحي", "اسلام صبحي"], url: "https://media.way2quran.com/imgs/islam-sobhi.jpg" },
+    { match: ["وديع اليمني"], url: "https://media.way2quran.com/imgs/wadee-al-yamani.jpg" },
+    { match: ["رعد الكردي", "رعد محمد الكردي"], url: "https://media.way2quran.com/imgs/raad-al-kurdi.jpg" }
   ];
 
-  // توليد أيقونة فنية مذهّبة مزخرفة لأي قارئ لا تتوفر له صورة خارجية
+  // توليد أيقونة فنية مزخرفة باسم القارئ لمن لا تتوفر صورته
   function generateIslamicAvatarDataUrl(name) {
     const clean = name.replace(/^الشيخ\s+/, '').trim();
     const parts = clean.split(/\s+/);
@@ -908,20 +892,25 @@
         </radialGradient>
       </defs>
       <rect width="240" height="240" fill="url(#g)"/>
-      <g fill="none" stroke="#e6c274" stroke-opacity="0.25" stroke-width="2">
+      <g fill="none" stroke="#e6c274" stroke-opacity="0.26" stroke-width="2">
         <polygon points="120,18 222,120 120,222 18,120"/>
         <rect x="48" y="48" width="144" height="144"/>
         <circle cx="120" cy="120" r="88"/>
       </g>
-      <text x="120" y="128" text-anchor="middle" fill="#ffe094" font-family="Amiri, serif" font-size="68" font-weight="bold">${initial}</text>
+      <text x="120" y="126" text-anchor="middle" fill="#ffe094" font-family="Amiri, serif" font-size="68" font-weight="bold">${initial}</text>
       <text x="120" y="168" text-anchor="middle" fill="#e8f3ee" font-family="Tajawal, sans-serif" font-size="16" font-weight="bold">${shortName.slice(0, 18)}</text>
     </svg>`;
     return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
   }
 
-  function findReciterPhoto(name) {
-    for (const entry of RECITER_PHOTOS) {
-      if (entry.keys.some(k => name.includes(k))) {
+  function normalizeArabic(str) {
+    return str.replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').trim();
+  }
+
+  function getExactReciterPhoto(name) {
+    const normName = normalizeArabic(name);
+    for (const entry of EXACT_RECITER_PHOTOS) {
+      if (entry.match.some(m => normName === normalizeArabic(m) || normName.includes(normalizeArabic(m)))) {
         return entry.url;
       }
     }
@@ -938,7 +927,6 @@
   let activeSurahs = [];
   let currentTrackIndex = -1;
 
-  const cratesSection = document.getElementById('cratesSection');
   const wheelSection = document.getElementById('wheelSection');
   const cratesGrid = document.getElementById('cratesGrid');
   const wheelScrollArea = document.getElementById('wheelScrollArea');
@@ -955,14 +943,14 @@
     themeBtn.textContent = document.body.classList.contains('light-mode') ? '🌙' : '☀️';
   });
 
-  // 1. تحميل جميع القرّاء من MP3Quran
+  // 1. تحميل جميع القرّاء من MP3Quran API
   async function loadAllReciters() {
     try {
       const res = await fetch('https://www.mp3quran.net/api/v3/reciters?language=ar');
       const data = await res.json();
       allReciters = (data.reciters || []).map(r => {
         const m = r.moshaf && r.moshaf[0] ? r.moshaf[0] : null;
-        const photoUrl = findReciterPhoto(r.name);
+        const photoUrl = getExactReciterPhoto(r.name);
         const hasRealPhoto = !photoUrl.startsWith('data:image');
         return {
           id: r.id,
@@ -977,7 +965,7 @@
         };
       }).filter(r => r.server && r.surahList.length > 0);
 
-      // إظهار القرّاء ذوي الصور الحقيقية أولاً ثم البقية
+      // إظهار القرّاء ذوي الصور الحقيقية في المقدمة
       allReciters.sort((a, b) => (b.hasRealPhoto ? 1 : 0) - (a.hasRealPhoto ? 1 : 0));
 
       filterReciters();
@@ -986,29 +974,29 @@
         selectReciter(allReciters[0], false);
       }
     } catch (err) {
-      cratesGrid.innerHTML = `<div style="padding:40px;text-align:center;width:100%;">تعذّر تحميل القرّاء. تحقق من اتصال الإنترنت.</div>`;
+      cratesGrid.innerHTML = `<div style="padding:40px;text-align:center;grid-column:1/-1;">تعذّر تحميل القرّاء. تأكد من اتصال الإنترنت.</div>`;
     }
   }
 
   function filterReciters() {
-    const q = reciterSearchInput.value.trim();
+    const q = normalizeArabic(reciterSearchInput.value);
     filteredReciters = allReciters.filter(r => {
       if (currentFilter === 'complete' && r.surahTotal < 114) return false;
       if (currentFilter === 'favorites' && !favorites.includes(r.id)) return false;
-      if (q && !r.name.includes(q) && !r.rewaya.includes(q)) return false;
+      if (q && !normalizeArabic(r.name).includes(q) && !normalizeArabic(r.rewaya).includes(q)) return false;
       return true;
     });
     renderReciterCards();
   }
 
-  // 2. عرض بطاقات القرّاء مع صورهم الدوّارة داخل الإطار الذهبي
+  // 2. رسم البطاقات (الصورة ثابتة، وتدور فقط عند اختيار القارئ)
   function renderReciterCards() {
     if (!filteredReciters.length) {
-      cratesGrid.innerHTML = `<div style="padding:40px;text-align:center;width:100%;color:var(--text-muted);">لا توجد نتائج مطابقة لبحثك.</div>`;
+      cratesGrid.innerHTML = `<div style="padding:40px;text-align:center;color:var(--text-muted);grid-column:1/-1;">لا توجد نتائج مطابقة لبحثك.</div>`;
       return;
     }
 
-    const list = filteredReciters.slice(0, 90);
+    const list = filteredReciters.slice(0, 100);
     cratesGrid.innerHTML = list.map((r, i) => {
       const isFav = favorites.includes(r.id);
       const isSelected = activeReciter && activeReciter.id === r.id;
@@ -1032,7 +1020,7 @@
 
           <div class="card-bottom-info">
             <p class="card-rewaya-text">${r.rewaya}</p>
-            <span class="open-list-badge">استمع للتلاوات ←</span>
+            <span class="open-list-badge">${isSelected ? '● مختار حالياً' : 'استمع للتلاوات ←'}</span>
           </div>
         </article>
       `;
@@ -1057,47 +1045,49 @@
     if (reciter) selectReciter(reciter, true);
   });
 
-  // 3. عند اختيار القارئ: وضع صورته في خلفية شاشة التشغيل وفتح قائمة السور
-  function selectReciter(reciter, switchOnMobile) {
+  // 3. عند اختيار القارئ: تبدأ صورته بالدوران + تظهر صورته في خلفية السور
+  function selectReciter(reciter, openSheetOnMobile) {
     activeReciter = reciter;
 
+    // تفعيل الدوران على البطاقة المختارة فقط وإيقافه عن البقية
     cratesGrid.querySelectorAll('.reciter-card').forEach(c => {
-      c.classList.toggle('is-selected', Number(c.dataset.id) === reciter.id);
+      const selected = Number(c.dataset.id) === reciter.id;
+      c.classList.toggle('is-selected', selected);
+      const badge = c.querySelector('.open-list-badge');
+      if (badge) badge.textContent = selected ? '● مختار حالياً' : 'استمع للتلاوات ←';
     });
 
     document.getElementById('wheelReciterName').textContent = reciter.name;
     document.getElementById('wheelReciterSub').textContent = `${reciter.surahTotal} سورة · ${reciter.rewaya}`;
 
-    // وضع صورة القارئ كخلفية شفافة لشاشة التشغيل
+    // وضع صورة القارئ الشفافة في خلفية شاشة التشغيل
     const bgEl = document.getElementById('wheelBgPortrait');
     bgEl.style.backgroundImage = `url("${reciter.photo}")`;
 
-    // وضع صورة القارئ في الترويسة الصغيرة
     const miniAv = document.getElementById('wheelMiniAvatar');
     miniAv.innerHTML = `<img src="${reciter.photo}" alt="${reciter.name}" onerror="this.onerror=null;this.src='${reciter.fallbackSvg}';">`;
 
     surahSearchInput.value = '';
     renderWheelSurahs('');
 
-    if (switchOnMobile && window.innerWidth < 960) {
-      cratesSection.classList.add('hide-on-mobile');
+    // في الهاتف: تنزلق قائمة السور فوق الشاشة دون تغيير مكانك في قائمة القرّاء
+    if (openSheetOnMobile && window.innerWidth < 960) {
       wheelSection.classList.add('show-on-mobile');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
 
   document.getElementById('mobileBackBtn').addEventListener('click', () => {
     wheelSection.classList.remove('show-on-mobile');
-    cratesSection.classList.remove('hide-on-mobile');
   });
 
   function renderWheelSurahs(query) {
     if (!activeReciter) return;
+    const q = normalizeArabic(query);
     activeSurahs = activeReciter.surahList.map(num => ({
       number: num,
       name: SURAH_NAMES[num - 1] || `سورة ${num}`,
       url: `${activeReciter.server}${String(num).padStart(3, '0')}.mp3`
-    })).filter(s => !query || s.name.includes(query) || String(s.number) === query);
+    })).filter(s => !q || normalizeArabic(s.name).includes(q) || String(s.number) === q);
 
     wheelScrollArea.innerHTML = activeSurahs.map((s, idx) => `
       <div class="surah-wheel-row" data-idx="${idx}">
@@ -1155,7 +1145,7 @@
     playSurahAtIndex(idx);
   });
 
-  // 4. تشغيل الصوت + تفعيل خاصية التشغيل في الخلفية (MediaSession API)
+  // 4. تشغيل الصوت + التشغيل في الخلفية وشاشة القفل (MediaSession API)
   function updateMediaSession(track, reciter) {
     if ('mediaSession' in navigator) {
       navigator.mediaSession.metadata = new MediaMetadata({

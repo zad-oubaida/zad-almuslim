@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#07221a">
+  <meta name="theme-color" content="#061d17">
   <meta name="description" content="استمع إلى القرآن الكريم بأصوات القراء — زاد عبيدة">
   <title>الاستماع للقرآن الكريم — زاد عبيدة</title>
   <link rel="icon" href="./logo-zad-almuslim.webp.png">
@@ -13,25 +13,25 @@
 
   <style>
     :root {
-      --bg-base: #061813;
-      --bg-surface: rgba(13, 38, 30, 0.9);
+      --bg-base: #051611;
+      --bg-surface: rgba(11, 35, 28, 0.88);
       --text-main: #f7faf8;
       --text-muted: #a6c0b5;
       --gold: #e6c274;
-      --gold-bright: #ffe094;
+      --gold-bright: #ffe39c;
       --emerald: #0e7a5d;
-      --border-gold: rgba(230, 194, 116, 0.28);
+      --border-gold: rgba(230, 194, 116, 0.3);
     }
 
     body.light-mode {
-      --bg-base: #f5f7f2;
-      --bg-surface: rgba(255, 255, 255, 0.95);
+      --bg-base: #f3f5ee;
+      --bg-surface: rgba(255, 255, 255, 0.94);
       --text-main: #122d24;
       --text-muted: #526b61;
       --gold: #b88928;
       --gold-bright: #d4a33b;
       --emerald: #0b6b50;
-      --border-gold: rgba(11, 107, 80, 0.18);
+      --border-gold: rgba(11, 107, 80, 0.2);
     }
 
     * {
@@ -45,25 +45,49 @@
       font-family: 'Tajawal', sans-serif;
       color: var(--text-main);
       background-color: var(--bg-base);
+      /* خلفية فخمة متعددة الطبقات بألوان زمردية وذهبية دافئة */
       background-image:
-        radial-gradient(circle at 15% 10%, rgba(14, 122, 93, 0.42), transparent 45%),
-        radial-gradient(circle at 85% 85%, rgba(230, 194, 116, 0.22), transparent 48%),
-        radial-gradient(circle at 50% 45%, rgba(9, 55, 42, 0.35), transparent 75%);
+        radial-gradient(ellipse 80% 50% at 20% 0%, rgba(16, 130, 98, 0.45), transparent 60%),
+        radial-gradient(ellipse 70% 55% at 85% 15%, rgba(230, 194, 116, 0.24), transparent 55%),
+        radial-gradient(ellipse 90% 60% at 50% 100%, rgba(11, 88, 66, 0.5), transparent 65%),
+        linear-gradient(180deg, #061b15 0%, #09261d 50%, #04120e 100%);
       overflow-x: hidden;
       padding-bottom: 135px;
       position: relative;
     }
 
-    /* زخارف هندسية إسلامية في الخلفية */
+    body.light-mode {
+      background-image:
+        radial-gradient(ellipse 80% 50% at 20% 0%, rgba(14, 122, 93, 0.14), transparent 60%),
+        radial-gradient(ellipse 70% 55% at 85% 15%, rgba(212, 163, 59, 0.16), transparent 55%),
+        linear-gradient(180deg, #f6f8f2 0%, #ebf0e8 100%);
+    }
+
+    /* زخارف أرابيسك هندسية ذهبية واضحة وأنيقة في الخلفية */
     .islamic-pattern {
       position: fixed;
       inset: 0;
       z-index: 0;
       pointer-events: none;
-      opacity: 0.075;
-      background-image: url("data:image/svg+xml,%3Csvg width='84' height='84' viewBox='0 0 84 84' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23e6c274' stroke-width='1.2'%3E%3Cpath d='M42 4L80 42L42 80L4 42Z'/%3E%3Cpath d='M68.8 15.2L68.8 68.8L15.2 68.8L15.2 15.2Z'/%3E%3Ccircle cx='42' cy='42' r='15'/%3E%3Ccircle cx='42' cy='42' r='38'/%3E%3C/g%3E%3C/svg%3E");
-      background-size: 92px 92px;
+      opacity: 0.13;
+      background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23e6c274' stroke-width='1.1'%3E%3Cpath d='M60 6L114 60L60 114L6 60Z'/%3E%3Cpath d='M98.2 21.8L98.2 98.2L21.8 98.2L21.8 21.8Z'/%3E%3Ccircle cx='60' cy='60' r='22'/%3E%3Ccircle cx='60' cy='60' r='54'/%3E%3Cpath d='M60 0V12M60 108V120M0 60H12M108 60H120'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 120px 120px;
     }
+
+    /* نجوم ثمانية إسلامية كبيرة تدور ببطء في زوايا الخلفية */
+    .bg-mandala {
+      position: fixed;
+      width: 520px;
+      height: 520px;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.14;
+      color: var(--gold);
+    }
+    .bg-mandala.m-right { top: -160px; right: -160px; animation: slowRotate 120s linear infinite; }
+    .bg-mandala.m-left { bottom: -140px; left: -160px; animation: slowRotate 150s linear infinite reverse; }
+
+    @keyframes slowRotate { 100% { transform: rotate(360deg); } }
 
     /* =========================================================
        الشريط العلوي: الشعار + زاد عبيدة فقط + شريط المزايا
@@ -72,13 +96,14 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      background: rgba(6, 24, 19, 0.9);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(5, 22, 17, 0.88);
       border-bottom: 1px solid var(--border-gold);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
     }
     body.light-mode .main-header {
-      background: rgba(255, 255, 255, 0.93);
+      background: rgba(255, 255, 255, 0.92);
     }
 
     .header-top {
@@ -99,14 +124,14 @@
       color: var(--text-main);
     }
     .brand-only img {
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       border: 2px solid var(--gold);
-      box-shadow: 0 0 14px rgba(230, 194, 116, 0.35);
+      box-shadow: 0 0 16px rgba(230, 194, 116, 0.4);
     }
     .brand-only span {
-      font: 700 1.48rem/1 'Amiri', serif;
+      font: 700 1.55rem/1 'Amiri', serif;
       color: var(--gold-bright);
     }
     body.light-mode .brand-only span {
@@ -140,10 +165,10 @@
       background: rgba(11, 107, 80, 0.06);
     }
     .feat-link:hover, .feat-link.active {
-      background: linear-gradient(135deg, var(--gold), #c89d42);
+      background: linear-gradient(135deg, var(--gold-bright), var(--gold));
       color: #071e17;
       border-color: var(--gold);
-      box-shadow: 0 4px 12px rgba(230, 194, 116, 0.25);
+      box-shadow: 0 4px 14px rgba(230, 194, 116, 0.3);
     }
 
     .theme-btn {
@@ -168,7 +193,7 @@
       z-index: 2;
       max-width: 1340px;
       margin: 0 auto;
-      padding: 16px 18px;
+      padding: 18px 18px;
     }
 
     @media (min-width: 960px) {
@@ -180,14 +205,13 @@
       }
       .crates-section { display: block !important; }
 
-      /* في الحاسوب: تتحرك اللوحة مع المستخدم بانسيابية دون إزعاج */
       .wheel-section {
         display: flex !important;
         position: sticky;
         top: 108px;
         height: calc(100vh - 235px);
-        min-height: 500px;
-        max-height: 680px;
+        min-height: 510px;
+        max-height: 690px;
       }
       .mobile-back-btn { display: none !important; }
 
@@ -201,7 +225,6 @@
       }
     }
 
-    /* في الهاتف: شاشة اختيار السور تنزلق من الأسفل دون إضاعة مكان التمرير */
     @media (max-width: 959px) {
       .wheel-section {
         position: fixed !important;
@@ -235,10 +258,11 @@
     }
     .section-intro h1 {
       margin: 0;
-      font: 700 clamp(1.7rem, 3.5vw, 2.3rem)/1.2 'Amiri', serif;
+      font: 700 clamp(1.8rem, 3.5vw, 2.4rem)/1.2 'Amiri', serif;
       color: var(--gold-bright);
+      text-shadow: 0 2px 12px rgba(230, 194, 116, 0.25);
     }
-    body.light-mode .section-intro h1 { color: #0b6b50; }
+    body.light-mode .section-intro h1 { color: #0b6b50; text-shadow: none; }
     .section-intro p {
       margin: 2px 0 0;
       color: var(--text-muted);
@@ -274,6 +298,7 @@
       border-radius: 16px;
       padding: 11px 16px;
       margin-bottom: 18px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
     }
     .search-input-wrap input {
       flex: 1;
@@ -302,8 +327,8 @@
       cursor: pointer;
       user-select: none;
       overflow: hidden;
-      border: 1px solid rgba(230, 194, 116, 0.32);
-      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(230, 194, 116, 0.35);
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.4);
       transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease;
     }
 
@@ -324,7 +349,7 @@
 
     .reciter-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 24px 44px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 24px 44px rgba(0, 0, 0, 0.48);
     }
     .reciter-card.is-selected {
       outline: 3px solid var(--gold-bright);
@@ -359,9 +384,7 @@
     }
     .fav-btn.active { color: #ffd166; }
 
-    /* =========================================================
-       صورة القارئ: ثابتة في الوضع العادي، وتدور فقط عند الاختيار!
-       ========================================================= */
+    /* صورة القارئ: ثابتة في الوضع العادي، وتدور فقط عند الاختيار */
     .gold-spinning-frame {
       width: 118px;
       height: 118px;
@@ -369,7 +392,7 @@
       border-radius: 50%;
       padding: 4px;
       background: conic-gradient(from 0deg, #e6c274, #fff0bd, #b88928, #e6c274);
-      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5), 0 0 18px rgba(230, 194, 116, 0.32);
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5), 0 0 18px rgba(230, 194, 116, 0.35);
       display: grid;
       place-items: center;
       position: relative;
@@ -388,12 +411,10 @@
       border: 2px solid #09221a;
       display: grid;
       place-items: center;
-      /* لا تدور افتراضياً */
       animation: photoSpin 14s linear infinite;
       animation-play-state: paused;
     }
 
-    /* تبدأ بالدوران فقط عندما يتم اختيار القارئ */
     .reciter-card.is-selected .spinning-photo-inner {
       animation-play-state: running;
     }
@@ -451,12 +472,12 @@
     .wheel-section {
       flex-direction: column;
       background: var(--bg-surface);
-      border: 1px solid var(--border-gold);
+      border: 1.5px solid var(--border-gold);
       border-radius: 30px;
       padding: 18px;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 24px 54px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 24px 54px rgba(0, 0, 0, 0.5);
     }
 
     .wheel-bg-portrait {
@@ -464,19 +485,19 @@
       inset: 0;
       background-size: cover;
       background-position: center top;
-      opacity: 0.17;
-      filter: blur(2px) saturate(1.1);
+      opacity: 0.2;
+      filter: blur(1.5px) saturate(1.15);
       pointer-events: none;
       z-index: 0;
       transition: background-image 0.5s ease;
     }
-    body.light-mode .wheel-bg-portrait { opacity: 0.12; }
+    body.light-mode .wheel-bg-portrait { opacity: 0.14; }
 
     .wheel-bg-overlay {
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at center, transparent 15%, var(--bg-base) 92%);
-      opacity: 0.78;
+      background: radial-gradient(circle at center, transparent 10%, var(--bg-base) 90%);
+      opacity: 0.76;
       pointer-events: none;
       z-index: 0;
     }
@@ -518,8 +539,8 @@
     }
 
     .wheel-mini-avatar {
-      width: 46px;
-      height: 46px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       border: 2.5px solid var(--gold);
       overflow: hidden;
@@ -575,7 +596,7 @@
       transition: background 0.2s;
     }
     .surah-wheel-row:hover {
-      background: rgba(230, 194, 116, 0.12);
+      background: rgba(230, 194, 116, 0.14);
     }
 
     .surah-row-main {
@@ -635,10 +656,10 @@
       transform: translateX(-50%);
       width: calc(100% - 24px);
       max-width: 840px;
-      background: rgba(9, 32, 25, 0.95);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border: 1px solid var(--border-gold);
+      background: rgba(8, 29, 23, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1.5px solid var(--border-gold);
       border-radius: 22px;
       padding: 10px 16px;
       z-index: 100;
@@ -727,7 +748,20 @@
 </head>
 <body>
 
+  <!-- خلفية الأرابيسك والنجوم الإسلامية الدوّارة -->
   <div class="islamic-pattern" aria-hidden="true"></div>
+  <svg class="bg-mandala m-right" viewBox="-100 -100 200 200" aria-hidden="true">
+    <g fill="none" stroke="currentColor" stroke-width="1.3">
+      <path d="M0 -96L96 0L0 96L-96 0Z"/><path d="M67.9 -67.9L67.9 67.9L-67.9 67.9L-67.9 -67.9Z"/>
+      <path d="M22.2 -53.6L53.6 22.2L-22.2 53.6L-53.6 -22.2Z"/><circle r="28"/><circle r="68"/><circle r="96"/>
+    </g>
+  </svg>
+  <svg class="bg-mandala m-left" viewBox="-100 -100 200 200" aria-hidden="true">
+    <g fill="none" stroke="currentColor" stroke-width="1.3">
+      <path d="M0 -96L96 0L0 96L-96 0Z"/><path d="M67.9 -67.9L67.9 67.9L-67.9 67.9L-67.9 -67.9Z"/>
+      <circle r="32"/><circle r="74"/><circle r="96"/>
+    </g>
+  </svg>
 
   <!-- الشريط العلوي: الشعار + زاد عبيدة فقط + شريط المزايا -->
   <header class="main-header">
@@ -760,7 +794,7 @@
       <div class="section-intro">
         <div>
           <h1>تلاوات القرآن الكريم</h1>
-          <p>اختر القارئ لتبدأ أسطوانته بالدوران وتظهر لك السور المباركة</p>
+          <p>اختر القارئ لتبدأ صورته بالدوران وتظهر لك السور المباركة</p>
         </div>
 
         <div class="filter-tabs" id="filterTabs">
@@ -772,7 +806,7 @@
 
       <div class="search-input-wrap">
         <span>🔍</span>
-        <input id="reciterSearchInput" type="search" placeholder="ابحث عن قارئ (مثال: ياسر الدوسري، محمد اللحيدان، ماهر المعيقلي...)">
+        <input id="reciterSearchInput" type="search" placeholder="ابحث عن قارئ (ياسر الدوسري، محمد اللحيدان، ماهر المعيقلي...)">
       </div>
 
       <div id="cratesGrid" class="crates-grid">
@@ -848,36 +882,141 @@
     "المسد","الإخلاص","الفلق","الناس"
   ];
 
-  // قاموس صور دقيق يمنع الخلط بين الشيوخ (كل شيخ بصورته الخاصة فقط)
-  const EXACT_RECITER_PHOTOS = [
-    { match: ["ياسر الدوسري"], url: "https://static.qurancdn.com/images/reciters/11/yasser-ad-dussary-profile.jpeg" },
-    { match: ["محمد اللحيدان"], url: "https://media.way2quran.com/imgs/mohammed-al-luhaydan.jpg" },
-    { match: ["ماهر المعيقلي"], url: "https://static.qurancdn.com/images/reciters/10/maher-al-muaiqly-profile.jpeg" },
-    { match: ["مشاري راشد العفاسي", "مشاري العفاسي"], url: "https://static.qurancdn.com/images/reciters/6/mishary-rashid-alafasy-profile.jpeg" },
-    { match: ["عبد الباسط عبد الصمد", "عبدالباسط عبدالصمد"], url: "https://static.qurancdn.com/images/reciters/1/abdulbaset-abdulsamad-profile.jpeg" },
-    { match: ["عبدالرحمن السديس", "عبد الرحمن السديس"], url: "https://static.qurancdn.com/images/reciters/2/abdurrahman-as-sudais-profile.jpeg" },
-    { match: ["أبو بكر الشاطري", "ابو بكر الشاطري"], url: "https://static.qurancdn.com/images/reciters/3/abu-bakr-ash-shaatree-profile.jpeg" },
-    { match: ["هاني الرفاعي"], url: "https://static.qurancdn.com/images/reciters/4/hani-ar-rifai-profile.jpeg" },
-    { match: ["محمود خليل الحصري"], url: "https://static.qurancdn.com/images/reciters/5/mahmoud-khalil-al-husary-profile.jpeg" },
-    { match: ["سعد الغامدي"], url: "https://static.qurancdn.com/images/reciters/7/saad-al-ghamdi-profile.jpeg" },
-    { match: ["محمد صديق المنشاوي"], url: "https://static.qurancdn.com/images/reciters/8/mohamed-siddiq-al-minshawi-profile.jpeg" },
-    { match: ["سعود الشريم"], url: "https://static.qurancdn.com/images/reciters/9/saud-ash-shuraym-profile.jpeg" },
-    { match: ["ناصر القطامي"], url: "https://static.qurancdn.com/images/reciters/12/nasser-al-qatami-profile.jpeg" },
-    { match: ["فارس عباد"], url: "https://media.way2quran.com/imgs/fares-abbad.jpg" },
-    { match: ["إدريس أبكر", "ادريس ابكر"], url: "https://media.way2quran.com/imgs/idrees-abkar.jpg" },
-    { match: ["خالد الجليل"], url: "https://media.way2quran.com/imgs/khalid-al-jaleel.jpg" },
-    { match: ["أحمد العجمي", "احمد العجمي", "أحمد بن علي العجمي"], url: "https://media.way2quran.com/imgs/ahmed-al-ajmi.jpg" },
-    { match: ["بندر بليلة"], url: "https://media.way2quran.com/imgs/bandar-baleela.jpg" },
-    { match: ["عبدالله عواد الجهني", "عبد الله عواد الجهني"], url: "https://media.way2quran.com/imgs/abdullah-al-juhany.jpg" },
-    { match: ["محمد أيوب", "محمد ايوب"], url: "https://media.way2quran.com/imgs/mohammed-ayyub.jpg" },
-    { match: ["علي جابر"], url: "https://media.way2quran.com/imgs/ali-jaber.jpg" },
-    { match: ["هزاع البلوشي"], url: "https://media.way2quran.com/imgs/hazza-al-balushi.jpg" },
-    { match: ["إسلام صبحي", "اسلام صبحي"], url: "https://media.way2quran.com/imgs/islam-sobhi.jpg" },
-    { match: ["وديع اليمني"], url: "https://media.way2quran.com/imgs/wadee-al-yamani.jpg" },
-    { match: ["رعد الكردي", "رعد محمد الكردي"], url: "https://media.way2quran.com/imgs/raad-al-kurdi.jpg" }
+  // قاعدة بيانات صور مفتوحة وموثوقة بدون حظر Hotlink مع تعدد المصادر الاحتياطية لكل قارئ
+  const RECITER_PHOTO_SOURCES = [
+    {
+      match: ["ياسر الدوسري"],
+      urls: [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Yasser_Al-Dosari.jpg/480px-Yasser_Al-Dosari.jpg",
+        "https://static.qurancdn.com/images/reciters/11/yasser-ad-dussary-profile.jpeg"
+      ]
+    },
+    {
+      match: ["محمد اللحيدان"],
+      urls: [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Mohammed_Al-Luhaidan.jpg/480px-Mohammed_Al-Luhaidan.jpg",
+        "https://archive.org/download/Mohammed_Al-Luhaidan_Photo/luhaydan.jpg"
+      ]
+    },
+    {
+      match: ["ماهر المعيقلي"],
+      urls: [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Maher_Al_Mueaqly.jpg/480px-Maher_Al_Mueaqly.jpg",
+        "https://static.qurancdn.com/images/reciters/10/maher-al-muaiqly-profile.jpeg"
+      ]
+    },
+    {
+      match: ["مشاري راشد العفاسي", "مشاري العفاسي"],
+      urls: [
+        "https://static.qurancdn.com/images/reciters/6/mishary-rashid-alafasy-profile.jpeg",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Mishary_Rashid_Alafasy.jpg/480px-Mishary_Rashid_Alafasy.jpg"
+      ]
+    },
+    {
+      match: ["عبدالرحمن السديس", "عبد الرحمن السديس"],
+      urls: [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Abdul_Rahman_Al-Sudais.jpg/480px-Abdul_Rahman_Al-Sudais.jpg",
+        "https://static.qurancdn.com/images/reciters/2/abdurrahman-as-sudais-profile.jpeg"
+      ]
+    },
+    {
+      match: ["سعود الشريم"],
+      urls: [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Saud_Al-Shuraim.jpg/480px-Saud_Al-Shuraim.jpg",
+        "https://static.qurancdn.com/images/reciters/9/saud-ash-shuraym-profile.jpeg"
+      ]
+    },
+    {
+      match: ["عبد الباسط عبد الصمد", "عبدالباسط عبدالصمد"],
+      urls: [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Abdul_Basit_%27Abd_us-Samad.jpg/480px-Abdul_Basit_%27Abd_us-Samad.jpg",
+        "https://static.qurancdn.com/images/reciters/1/abdulbaset-abdulsamad-profile.jpeg"
+      ]
+    },
+    {
+      match: ["محمد صديق المنشاوي"],
+      urls: [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Mohamed_Siddiq_El-Minshawi.jpg/480px-Mohamed_Siddiq_El-Minshawi.jpg",
+        "https://static.qurancdn.com/images/reciters/8/mohamed-siddiq-al-minshawi-profile.jpeg"
+      ]
+    },
+    {
+      match: ["محمود خليل الحصري"],
+      urls: [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Mahmoud_Khalil_Al-Hussary.jpg/480px-Mahmoud_Khalil_Al-Hussary.jpg",
+        "https://static.qurancdn.com/images/reciters/5/mahmoud-khalil-al-husary-profile.jpeg"
+      ]
+    },
+    {
+      match: ["سعد الغامدي"],
+      urls: [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Saad_Al_Ghamdi.jpg/480px-Saad_Al_Ghamdi.jpg",
+        "https://static.qurancdn.com/images/reciters/7/saad-al-ghamdi-profile.jpeg"
+      ]
+    },
+    {
+      match: ["أبو بكر الشاطري", "ابو بكر الشاطري"],
+      urls: [
+        "https://static.qurancdn.com/images/reciters/3/abu-bakr-ash-shaatree-profile.jpeg"
+      ]
+    },
+    {
+      match: ["هاني الرفاعي"],
+      urls: [
+        "https://static.qurancdn.com/images/reciters/4/hani-ar-rifai-profile.jpeg"
+      ]
+    },
+    {
+      match: ["ناصر القطامي"],
+      urls: [
+        "https://static.qurancdn.com/images/reciters/12/nasser-al-qatami-profile.jpeg"
+      ]
+    },
+    {
+      match: ["بندر بليلة"],
+      urls: [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Bandar_Baleela.jpg/480px-Bandar_Baleela.jpg"
+      ]
+    },
+    {
+      match: ["عبدالله عواد الجهني", "عبد الله عواد الجهني"],
+      urls: [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Abdullah_Awad_Al_Juhany.jpg/480px-Abdullah_Awad_Al_Juhany.jpg"
+      ]
+    },
+    {
+      match: ["علي جابر"],
+      urls: [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Ali_Abdullah_Jaber.jpg/480px-Ali_Abdullah_Jaber.jpg"
+      ]
+    },
+    {
+      match: ["محمد أيوب", "محمد ايوب"],
+      urls: [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Muhammad_Ayyub.jpg/480px-Muhammad_Ayyub.jpg"
+      ]
+    },
+    {
+      match: ["مصطفى إسماعيل", "مصطفى اسماعيل"],
+      urls: [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Mustafa_Ismail.jpg/480px-Mustafa_Ismail.jpg"
+      ]
+    },
+    {
+      match: ["محمد محمود الطبلاوي"],
+      urls: [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Mohamed_Mahmoud_Al-Tablawi.jpg/480px-Mohamed_Mahmoud_Al-Tablawi.jpg"
+      ]
+    },
+    {
+      match: ["محمود علي البنا"],
+      urls: [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Mahmoud_Ali_Al-Banna.jpg/480px-Mahmoud_Ali_Al-Banna.jpg"
+      ]
+    }
   ];
 
-  // توليد أيقونة فنية مزخرفة باسم القارئ لمن لا تتوفر صورته
+  // توليد أيقونة فنية مزخرفة باسم القارئ عند تعذر تحميل الصورة
   function generateIslamicAvatarDataUrl(name) {
     const clean = name.replace(/^الشيخ\s+/, '').trim();
     const parts = clean.split(/\s+/);
@@ -892,7 +1031,7 @@
         </radialGradient>
       </defs>
       <rect width="240" height="240" fill="url(#g)"/>
-      <g fill="none" stroke="#e6c274" stroke-opacity="0.26" stroke-width="2">
+      <g fill="none" stroke="#e6c274" stroke-opacity="0.28" stroke-width="2">
         <polygon points="120,18 222,120 120,222 18,120"/>
         <rect x="48" y="48" width="144" height="144"/>
         <circle cx="120" cy="120" r="88"/>
@@ -907,15 +1046,28 @@
     return str.replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').trim();
   }
 
-  function getExactReciterPhoto(name) {
+  function getPhotoCandidates(name) {
     const normName = normalizeArabic(name);
-    for (const entry of EXACT_RECITER_PHOTOS) {
+    for (const entry of RECITER_PHOTO_SOURCES) {
       if (entry.match.some(m => normName === normalizeArabic(m) || normName.includes(normalizeArabic(m)))) {
-        return entry.url;
+        return entry.urls;
       }
     }
-    return generateIslamicAvatarDataUrl(name);
+    return [];
   }
+
+  // معالج ذكي يجرب الروابط الاحتياطية بالترتيب قبل اللجوء للرسمة المزخرفة
+  window.handleImgFallback = function(imgEl) {
+    const fallbacks = JSON.parse(imgEl.dataset.fallbacks || '[]');
+    if (fallbacks.length > 0) {
+      const nextUrl = fallbacks.shift();
+      imgEl.dataset.fallbacks = JSON.stringify(fallbacks);
+      imgEl.src = nextUrl;
+    } else {
+      imgEl.onerror = null;
+      imgEl.src = imgEl.dataset.svg;
+    }
+  };
 
   let allReciters = [];
   let filteredReciters = [];
@@ -936,28 +1088,27 @@
   const playBtn = document.getElementById('qaPlay');
   const playerThumb = document.getElementById('playerThumb');
 
-  // تبديل الوضع الليلي / النهاري
   const themeBtn = document.getElementById('themeToggleBtn');
   themeBtn.addEventListener('click', () => {
     document.body.classList.toggle('light-mode');
     themeBtn.textContent = document.body.classList.contains('light-mode') ? '🌙' : '☀️';
   });
 
-  // 1. تحميل جميع القرّاء من MP3Quran API
   async function loadAllReciters() {
     try {
       const res = await fetch('https://www.mp3quran.net/api/v3/reciters?language=ar');
       const data = await res.json();
       allReciters = (data.reciters || []).map(r => {
         const m = r.moshaf && r.moshaf[0] ? r.moshaf[0] : null;
-        const photoUrl = getExactReciterPhoto(r.name);
-        const hasRealPhoto = !photoUrl.startsWith('data:image');
+        const candidates = getPhotoCandidates(r.name);
+        const svgFallback = generateIslamicAvatarDataUrl(r.name);
         return {
           id: r.id,
           name: r.name,
-          photo: photoUrl,
-          fallbackSvg: generateIslamicAvatarDataUrl(r.name),
-          hasRealPhoto,
+          primaryPhoto: candidates[0] || svgFallback,
+          backupPhotos: candidates.slice(1),
+          fallbackSvg: svgFallback,
+          hasRealPhoto: candidates.length > 0,
           rewaya: m ? m.name : 'حفص عن عاصم',
           server: m ? m.server : '',
           surahTotal: m ? m.surah_total : 0,
@@ -965,7 +1116,7 @@
         };
       }).filter(r => r.server && r.surahList.length > 0);
 
-      // إظهار القرّاء ذوي الصور الحقيقية في المقدمة
+      // إظهار القرّاء ذوي الصور الفوتوغرافية أولاً
       allReciters.sort((a, b) => (b.hasRealPhoto ? 1 : 0) - (a.hasRealPhoto ? 1 : 0));
 
       filterReciters();
@@ -989,7 +1140,11 @@
     renderReciterCards();
   }
 
-  // 2. رسم البطاقات (الصورة ثابتة، وتدور فقط عند اختيار القارئ)
+  function buildImgTag(r, extraAttrs = '') {
+    const backupsAttr = JSON.stringify(r.backupPhotos).replace(/"/g, '&quot;');
+    return `<img src="${r.primaryPhoto}" data-fallbacks="${backupsAttr}" data-svg="${r.fallbackSvg}" alt="${r.name}" ${extraAttrs} onerror="handleImgFallback(this)">`;
+  }
+
   function renderReciterCards() {
     if (!filteredReciters.length) {
       cratesGrid.innerHTML = `<div style="padding:40px;text-align:center;color:var(--text-muted);grid-column:1/-1;">لا توجد نتائج مطابقة لبحثك.</div>`;
@@ -1012,7 +1167,7 @@
 
           <div class="gold-spinning-frame">
             <div class="spinning-photo-inner">
-              <img src="${r.photo}" alt="${r.name}" loading="lazy" onerror="this.onerror=null;this.src='${r.fallbackSvg}';">
+              ${buildImgTag(r, 'loading="lazy"')}
             </div>
           </div>
 
@@ -1045,11 +1200,9 @@
     if (reciter) selectReciter(reciter, true);
   });
 
-  // 3. عند اختيار القارئ: تبدأ صورته بالدوران + تظهر صورته في خلفية السور
   function selectReciter(reciter, openSheetOnMobile) {
     activeReciter = reciter;
 
-    // تفعيل الدوران على البطاقة المختارة فقط وإيقافه عن البقية
     cratesGrid.querySelectorAll('.reciter-card').forEach(c => {
       const selected = Number(c.dataset.id) === reciter.id;
       c.classList.toggle('is-selected', selected);
@@ -1060,17 +1213,16 @@
     document.getElementById('wheelReciterName').textContent = reciter.name;
     document.getElementById('wheelReciterSub').textContent = `${reciter.surahTotal} سورة · ${reciter.rewaya}`;
 
-    // وضع صورة القارئ الشفافة في خلفية شاشة التشغيل
-    const bgEl = document.getElementById('wheelBgPortrait');
-    bgEl.style.backgroundImage = `url("${reciter.photo}")`;
+    // استخدام الصورة الفعلية المحمّلة في البطاقة كخلفية لشاشة السور
+    const selectedCardImg = cratesGrid.querySelector(`.reciter-card[data-id="${reciter.id}"] img`);
+    const activeSrc = selectedCardImg ? selectedCardImg.currentSrc || selectedCardImg.src : reciter.primaryPhoto;
 
-    const miniAv = document.getElementById('wheelMiniAvatar');
-    miniAv.innerHTML = `<img src="${reciter.photo}" alt="${reciter.name}" onerror="this.onerror=null;this.src='${reciter.fallbackSvg}';">`;
+    document.getElementById('wheelBgPortrait').style.backgroundImage = `url("${activeSrc}")`;
+    document.getElementById('wheelMiniAvatar').innerHTML = buildImgTag(reciter);
 
     surahSearchInput.value = '';
     renderWheelSurahs('');
 
-    // في الهاتف: تنزلق قائمة السور فوق الشاشة دون تغيير مكانك في قائمة القرّاء
     if (openSheetOnMobile && window.innerWidth < 960) {
       wheelSection.classList.add('show-on-mobile');
     }
@@ -1145,15 +1297,14 @@
     playSurahAtIndex(idx);
   });
 
-  // 4. تشغيل الصوت + التشغيل في الخلفية وشاشة القفل (MediaSession API)
-  function updateMediaSession(track, reciter) {
+  function updateMediaSession(track, reciter, activeSrc) {
     if ('mediaSession' in navigator) {
       navigator.mediaSession.metadata = new MediaMetadata({
         title: `سورة ${track.name}`,
         artist: reciter.name,
         album: 'زاد عبيدة · المكتبة القرآنية',
         artwork: [
-          { src: reciter.photo, sizes: '256x256', type: 'image/jpeg' },
+          { src: activeSrc, sizes: '256x256', type: 'image/jpeg' },
           { src: './logo-zad-almuslim.webp.png', sizes: '512x512', type: 'image/png' }
         ]
       });
@@ -1185,13 +1336,14 @@
     document.getElementById('qaNowTitle').textContent = `سورة ${track.name}`;
     document.getElementById('qaNowSub').textContent = `${activeReciter.name} · ${activeReciter.rewaya}`;
 
-    playerThumb.innerHTML = `<img src="${activeReciter.photo}" alt="${activeReciter.name}" onerror="this.onerror=null;this.src='${activeReciter.fallbackSvg}';">`;
+    playerThumb.innerHTML = buildImgTag(activeReciter);
+    const activeSrc = playerThumb.querySelector('img')?.src || activeReciter.primaryPhoto;
 
     audio.src = track.url;
     audio.play().then(() => {
       playBtn.textContent = '⏸';
       playerThumb.classList.add('spinning');
-      updateMediaSession(track, activeReciter);
+      updateMediaSession(track, activeReciter, activeSrc);
     }).catch(() => {});
 
     wheelScrollArea.querySelectorAll('.surah-wheel-row').forEach((el, i) => {

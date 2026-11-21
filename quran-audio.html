@@ -40,10 +40,14 @@ button{font-family:inherit}
 .hero{padding:14px 0 18px}
 .hero small{display:block;font:400 1.15rem Amiri,serif;color:var(--gold);margin-bottom:4px}
 .hero h1{margin:0;font:700 clamp(2rem,4vw,3rem)/1.2 Amiri,serif}
-.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
 .chip{background:#ffffff1a;color:#fff;border:0;border-radius:99px;padding:8px 16px;font:500 .9rem Tajawal;cursor:pointer;transition:background .2s}
 .chip:hover{background:#ffffff2e}
 .chip.on{background:#fff;color:#000}
+.qsurahs{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:20px;padding-top:4px}
+.qsurahs small{color:var(--gold);font:700 .82rem Tajawal;margin-inline-end:4px}
+.qchip{background:#e6c27418;color:#ffe39c;border:1px solid #e6c27444;border-radius:99px;padding:5px 13px;font:600 .8rem Tajawal;cursor:pointer;transition:.2s}
+.qchip:hover{background:var(--gold);color:#071e17}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:6px}
 .msg{grid-column:1/-1;padding:40px;text-align:center;color:var(--mut)}
 .card{position:relative;padding:14px;border-radius:8px;background:transparent;cursor:pointer;transition:background .3s}
@@ -105,18 +109,26 @@ button{font-family:inherit}
 #qaNowTitle{display:block;font:700 1.05rem Amiri,serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #qaNowSub{font-size:.78rem;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
 .p-mid{display:flex;flex-direction:column;align-items:center;gap:6px;max-width:640px;width:100%;margin:0 auto}
-.ctrl{display:flex;align-items:center;gap:20px}
-.ctrl button{background:0;border:0;color:var(--mut);font-size:1.1rem;cursor:pointer;transition:.15s}
+.ctrl{display:flex;align-items:center;gap:16px}
+.ctrl button{background:0;border:0;color:var(--mut);font-size:1.05rem;cursor:pointer;transition:.15s}
 .ctrl button:hover{color:#fff;transform:scale(1.08)}
 #qaPlay{width:36px;height:36px;border-radius:50%;background:#fff;color:#000;font-size:.95rem}
 .seekrow{display:flex;align-items:center;gap:8px;width:100%;font-size:.72rem;color:var(--mut)}
 .p-vol{display:flex;align-items:center;justify-content:flex-end;gap:8px;color:var(--mut)}
-.p-vol input{width:100px}
+.p-vol input{width:76px;flex:none}
+.p-tools{display:flex;align-items:center;gap:6px}
+.tbtn{background:#ffffff14;border:1px solid #e6c27433;color:#fff;height:32px;min-width:32px;padding:0 9px;border-radius:99px;font:700 .75rem Tajawal;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:4px;text-decoration:none;transition:.2s}
+.tbtn:hover{background:var(--gold);color:#071e17}
 input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:4px;border-radius:2px;outline:0;cursor:pointer;background:linear-gradient(to left,#fff var(--v,0%),#4d4d4d var(--v,0%))}
 input[type=range]:hover{background:linear-gradient(to left,var(--g) var(--v,0%),#4d4d4d var(--v,0%))}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:#fff;opacity:0}
 input[type=range]:hover::-webkit-slider-thumb{opacity:1}
 input[type=range]::-moz-range-thumb{width:12px;height:12px;border:0;border-radius:50%;background:#fff}
+
+/* وضع التركيز / الخشوع (Zen Mode) */
+body.zen .side,body.zen .main{display:none!important}
+body.zen .app{grid-template-columns:1fr;grid-template-rows:1fr 90px;max-width:680px;margin:0 auto}
+body.zen .panel{display:flex!important;transform:none!important;pointer-events:auto!important;border-radius:18px}
 
 /* ثلاثية الألوان: زمردي · ذهبي · لازوردي */
 :root{--base:#0a1a16;--lap:#1f5fa8}
@@ -152,7 +164,7 @@ body::before{content:'';position:fixed;inset:0;opacity:.09;pointer-events:none;b
 select.chip{-webkit-appearance:none;appearance:none;padding-inline:16px;outline:0}
 select.chip option{background:#181818;color:#fff}
 .cnt{color:var(--gold)!important;font-size:.78rem!important;margin-top:2px!important}
-.ctrl button.on{color:var(--g)}
+.ctrl button.on,.tbtn.on{color:var(--g);border-color:var(--g)}
 .toast{position:fixed;bottom:112px;left:50%;transform:translate(-50%,16px);background:#fff;color:#000;padding:10px 22px;border-radius:99px;font:700 1rem Amiri,serif;opacity:0;pointer-events:none;transition:.3s;z-index:200;white-space:nowrap}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 @media(max-height:640px){.cover{width:68px;height:68px;font-size:1.6rem}.phead h2{font-size:1.3rem}}
@@ -162,22 +174,22 @@ select.chip option{background:#181818;color:#fff}
 .side{display:flex;align-items:center;gap:8px;overflow-x:auto;padding:8px 12px}
 .brand{padding:0 4px 0 8px;flex:none}.brand span{font-size:1.3rem}
 .nav{flex-direction:row;gap:6px}
-.nav a{padding:6px 14px;gap:6px;white-space:nowrap;background:#ffffff14;border-radius:99px;font-size:.85rem}
-.nav a.on{background:#fff;color:#000}
+.nav a{padding:6px 14px;gap:6px;white-space:nowrap;background:#ffffff14;border:0;border-radius:99px;font-size:.85rem}
+.nav a.on{background:var(--gold);color:#071e17}
 .scroll{padding:0 14px 20px}
 .grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
 .panel{position:fixed;inset:0;z-index:90;border-radius:0;padding-bottom:104px;transform:translateY(100%);transition:transform .35s cubic-bezier(.22,1,.36,1);pointer-events:none}
 .panel.open{transform:none;pointer-events:auto}
 .back{display:grid}
 .phead{padding-top:60px}
-.player{grid-template-columns:1fr auto;gap:6px 10px;padding:10px 14px}
+.player{grid-template-columns:1fr auto;gap:6px 10px;padding:10px 14px;border-radius:0}
 .p-mid{display:contents}
-.ctrl{grid-column:2;gap:14px}
+.ctrl{grid-column:2;gap:10px}
 .seekrow{grid-column:1/-1;grid-row:2}
-.p-vol{display:none}
+.p-vol .vol-hide{display:none}
+.p-vol{grid-column:1/-1;grid-row:3;justify-content:center;padding-top:2px}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-@media(max-width:959px){.nav a{border:0}.nav a.on{background:var(--gold);color:#071e17}.player{border-radius:0}}
 </style>
 </head>
 <body>
@@ -215,6 +227,17 @@ select.chip option{background:#181818;color:#fff}
       <button class="chip" id="copyList" type="button" title="نسخ قائمة القرّاء بترتيب العرض الحالي">📋 نسخ القائمة</button>
       <select class="chip" id="rwFilter" title="القراءة والرواية"><option value="all">كل القراءات</option></select>
     </div>
+
+    <!-- مختارات سريعة للسور الأكثر استماعاً -->
+    <div class="qsurahs" id="quickSurahs">
+      <small>مختارات سريعة:</small>
+      <button class="qchip" data-s="18" type="button">سورة الكهف</button>
+      <button class="qchip" data-s="67" type="button">سورة الملك</button>
+      <button class="qchip" data-s="2" type="button">سورة البقرة</button>
+      <button class="qchip" data-s="36" type="button">سورة يس</button>
+      <button class="qchip" data-s="56" type="button">سورة الواقعة</button>
+    </div>
+
     <div id="cratesGrid" class="grid"><div class="msg">جارٍ تحميل القرّاء وصورهم...</div></div>
   </div></main>
 
@@ -261,7 +284,16 @@ select.chip option{background:#181818;color:#fff}
         <span id="qaDuration">0:00</span>
       </div>
     </div>
-    <div class="p-vol">🔊<input id="qaVol" type="range" min="0" max="100" value="100"></div>
+    <div class="p-vol">
+      <div class="p-tools">
+        <button class="tbtn" id="qaSpeed" type="button" title="سرعة التلاوة">1x</button>
+        <a class="tbtn" id="qaDown" href="#" download title="تحميل السورة MP3">⬇</a>
+        <a class="tbtn" id="qaRead" href="./quran.html" title="قراءة السورة في المصحف">📖</a>
+        <button class="tbtn" id="qaShare" type="button" title="مشاركة التلاوة">📤</button>
+        <button class="tbtn" id="qaZen" type="button" title="وضع الخشوع والتركيز">🧘</button>
+      </div>
+      <span class="vol-hide">🔊</span><input class="vol-hide" id="qaVol" type="range" min="0" max="100" value="100">
+    </div>
     <audio id="qaAudio" preload="metadata" playsinline></audio>
   </footer>
   <div class="toast" id="toast"></div>
@@ -311,7 +343,6 @@ select.chip option{background:#181818;color:#fff}
   const nz = s => norm(s).replace(/\s+/g, '');
   const ar = x => Number(x).toLocaleString('ar-EG');
 
-  // إصلاح روابط السيرفر لتحويلها إلى HTTPS وضمان وجود / في النهاية حتى يعمل الصوت بدون حظر
   function fixSrv(u) {
     let s = String(u || '').trim().replace(/^http:\/\//i, 'https://');
     if (s && !s.endsWith('/')) s += '/';
@@ -354,6 +385,9 @@ select.chip option{background:#181818;color:#fff}
 
   let all = [], list = [], favs = [], filter = 'all', rwf = 'all', act = null, surahs = [];
   let queue = [], qr = null, qi = -1, cur = '', rep = false, sleepT = null, sleepI = 0, tt;
+  const SPEEDS = [1, 1.25, 1.5, 0.75];
+  let speedI = 0;
+
   try { favs = JSON.parse(localStorage.getItem('zad_fav_reciters') || '[]'); } catch (e) {}
 
   const audio = $('qaAudio'), grid = $('cratesGrid'), tl = $('wheelScrollArea'), panel = $('wheelSection'), thumb = $('playerThumb');
@@ -412,7 +446,6 @@ select.chip option{background:#181818;color:#fff}
     render();
   }
 
-  // عرض جميع القرّاء المتاحين (أكثر من 100 قارئ بالكامل بدون أي اقتصاص)
   function render() {
     if (!list.length) { grid.innerHTML = '<div class="msg">لا توجد نتائج مطابقة لبحثك.</div>'; return; }
     grid.innerHTML = list.map((r, i) => {
@@ -522,6 +555,26 @@ select.chip option{background:#181818;color:#fff}
     go(surahs, act, Number(row.dataset.i));
   });
 
+  // المختارات السريعة للسور
+  $('quickSurahs').addEventListener('click', e => {
+    const btn = e.target.closest('[data-s]');
+    if (!btn) return;
+    const targetSurah = Number(btn.dataset.s);
+    const chosenReciter = act || list[0] || all[0];
+    if (!chosenReciter) return;
+    if (!act || act.id !== chosenReciter.id) pick(chosenReciter, true);
+    else if (innerWidth < 960) panel.classList.add('open');
+
+    const idx = surahs.findIndex(s => s.num === targetSurah);
+    if (idx >= 0) {
+      go(surahs, chosenReciter, idx);
+      const rowEl = tl.querySelector(`.row[data-i="${idx}"]`);
+      if (rowEl) rowEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else {
+      toast('هذه السورة غير متوفرة في رواية القارئ الحالية');
+    }
+  });
+
   function media(s, r, art) {
     if (!('mediaSession' in navigator)) return;
     navigator.mediaSession.metadata = new MediaMetadata({
@@ -539,12 +592,20 @@ select.chip option{background:#181818;color:#fff}
     const s = queue[i]; cur = s.url;
     $('qaNowTitle').textContent = 'سورة ' + s.name;
     $('qaNowSub').textContent = r.name + ' · ' + s.rw;
+
+    // تحديث روابط التحميل وقراءة المصحف
+    const dlBtn = $('qaDown');
+    dlBtn.href = s.url;
+    dlBtn.setAttribute('download', `سورة_${s.name}_${r.name}.mp3`);
+    $('qaRead').href = `./quran.html?surah=${s.num}`;
+
     thumb.innerHTML = img(r);
     const tImg = thumb.querySelector('img');
     const art = tImg ? (tImg.currentSrc || tImg.src) : r.s;
 
     audio.pause();
     audio.src = s.url;
+    audio.playbackRate = SPEEDS[speedI];
     audio.load();
     const p = audio.play();
     if (p && typeof p.then === 'function') {
@@ -582,6 +643,41 @@ select.chip option{background:#181818;color:#fff}
   audio.addEventListener('ended', () => {
     toast('صَدَقَ اللَّهُ الْعَظِيمُ');
     if (rep) { audio.currentTime = 0; audio.play().catch(() => {}); } else go(queue, qr, qi + 1);
+  });
+
+  // سرعة التلاوة
+  $('qaSpeed').addEventListener('click', e => {
+    speedI = (speedI + 1) % SPEEDS.length;
+    const sp = SPEEDS[speedI];
+    audio.playbackRate = sp;
+    e.currentTarget.textContent = sp + 'x';
+    e.currentTarget.classList.toggle('on', sp !== 1);
+    toast(`سرعة التلاوة: ${sp}x`);
+  });
+
+  // زر التحميل
+  $('qaDown').addEventListener('click', e => {
+    if (!cur) { e.preventDefault(); toast('اختر سورة أولاً للتحميل'); }
+    else toast('جارٍ بدء تحميل السورة...');
+  });
+
+  // زر المشاركة
+  $('qaShare').addEventListener('click', async () => {
+    const title = $('qaNowTitle').textContent;
+    const sub = $('qaNowSub').textContent;
+    const text = cur ? `استمع إلى ${title} بصوت ${sub} عبر زاد عبيدة:\n${location.href}` : `المكتبة القرآنية — زاد عبيدة:\n${location.href}`;
+    if (navigator.share) {
+      try { await navigator.share({ title: 'زاد عبيدة', text, url: location.href }); return; } catch (e) {}
+    }
+    try { await navigator.clipboard.writeText(text); toast('تم نسخ رابط التلاوة للمشاركة'); } catch (e) {}
+  });
+
+  // زر وضع التركيز والخشوع (Zen Mode)
+  $('qaZen').addEventListener('click', e => {
+    const activeZen = document.body.classList.toggle('zen');
+    e.currentTarget.classList.toggle('on', activeZen);
+    requestAnimationFrame(arc);
+    toast(activeZen ? 'تم تفعيل وضع الخشوع والتركيز' : 'تم الخروج من وضع التركيز');
   });
 
   $('qaRep').addEventListener('click', e => {

@@ -199,6 +199,9 @@ footer a:hover{transform:translateX(-5px)}
       <p class="dt" id="pd">جارٍ تحميل المواقيت…</p>
       <ul id="pt"></ul>
       <div class="cd" hidden id="cdb" role="timer"><div><span id="cl"></span><b id="cv">00:00:00</b></div><div class="pb"><i id="pg"></i></div></div>
+      <div class="cta"><button class="btn s" id="adhanToggle" type="button">تفعيل الأذان قبل الصلاة بدقيقة</button><button class="btn s" id="adhanTest" type="button">تجربة الأذان</button></div>
+      <p class="dt" id="adhanStatus">فعّل الأذان ليعمل قبل كل صلاة بدقيقة عند إبقاء الصفحة مفتوحة.</p>
+      <audio id="adhanAudio" preload="none" src="./assets/adhan-ibrahim-almadani.mp3"></audio>
     </section>
   </div>
 
@@ -324,8 +327,65 @@ for(i=0;i<O.length;i++){var s=ts(S.t[O[i]]);if(s>now){nk=O[i];ni=s-now;break}pv=
 if(!nk){nk='Fajr';ni=86400-now+ts(S.t.Fajr);pv=ts(S.t.Isha)}else if(pv===null)pv=ts(S.t.Isha)-86400;
 [].forEach.call(pt.children,function(li){li.classList.toggle('on',li.dataset.k===nk)});
 $('#cl').textContent='متبقٍ لصلاة '+nm(nk);$('#cv').textContent=p2(Math.floor(ni/3600))+':'+p2(Math.floor(ni%3600/60))+':'+p2(ni%60);
-$('#pg').style.width=Math.max(0,Math.min(100,(now-pv)/(now+ni-pv)*100))+'%';$('#cdb').hidden=false}
+$('#pg').style.width=Math.max(0,Math.min(100,(now-pv)/(now+ni-pv)*100))+'%';$('#cdb').hidden=false;checkAdhan()}
 function use(d,label){S={t:d.t,tz:d.tz,date:d.date};var dt=new Date().toLocaleDateString('ar-DZ',{weekday:'long',day:'numeric',month:'long',year:'numeric'});$('#pd').textContent=(label?label+' · ':'')+dt;draw();tick()}
+
+/* الأذان قبل الصلاة بدقيقة — يستعمل مواقيت الصلاة الحالية */
+var adhanAudio=$('#adhanAudio'),adhanEnabled=ls.get('zad_adhan_enabled')==='1';
+function adhanStatus(){
+  $('#adhanToggle').textContent=adhanEnabled?'إيقاف الأذان':'تفعيل الأذان قبل الصلاة بدقيقة';
+  $('#adhanStatus').textContent=adhanEnabled
+    ?'الأذان مفعّل للصلوات الخمس. يجب إبقاء الصفحة مفتوحة؛ التشغيل في الخلفية أو بعد إغلاق التطبيق غير مضمون.'
+    :'فعّل الأذان ليعمل قبل كل صلاة بدقيقة عند إبقاء الصفحة مفتوحة.';
+}
+function playAdhan(){
+  if(!adhanAudio)return;
+  var start=function(){
+    try{adhanAudio.currentTime=0;var p=adhanAudio.play();if(p&&p.catch)p.catch(function(){toast('تعذّر التشغيل التلقائي. استخدم «تجربة الأذان» وتأكد من مستوى الصوت.')})}
+    catch(e){toast('تعذّر تشغيل ملف الأذان.')}
+  };
+  if(adhanAudio.readyState>=1)start();
+  else{adhanAudio.addEventListener('loadedmetadata',start,{once:true});adhanAudio.load()}
+}
+function checkAdhan(){
+  if(!S||!adhanEnabled)return;
+  var now=sec(S.tz),date=S.date||ds();
+  O.forEach(function(k){
+    var target=ts(S.t[k])-60;
+    var key=date+'-'+k;
+    if(now>=target&&now<target+3&&ls.get('zad_adhan_last')!==key){
+      ls.set('zad_adhan_last',key);
+      playAdhan();
+      if('Notification' in window&&Notification.permission==='granted'&&'serviceWorker' in navigator){
+        navigator.serviceWorker.ready.then(function(reg){
+          return reg.showNotification('اقترب وقت الصلاة',{
+            body:'بقيت دقيقة واحدة على صلاة '+nm(k),
+            icon:'./logo-zad-almuslim.webp.png',badge:'./logo-zad-almuslim.webp.png',
+            lang:'ar',dir:'rtl',tag:'zad-adhan-'+key,data:{local:true,url:'./'}
+          });
+        }).catch(function(){});
+      }
+    }
+  });
+}
+function enableAdhan(){
+  if(!('Notification' in window)){toast('متصفحك لا يدعم إشعارات الأذان.');return}
+  var done=function(permission){
+    if(permission!=='granted'){toast('لم تُمنح صلاحية الإشعارات؛ لم يتم تفعيل الأذان.');return}
+    adhanEnabled=true;ls.set('zad_adhan_enabled','1');adhanStatus();
+    toast('تم التفعيل. جرّب الصوت للتأكد من عمله على جهازك.');
+  };
+  if(Notification.permission==='granted')done('granted');
+  else if(Notification.permission==='denied')toast('الإشعارات محظورة من إعدادات المتصفح.');
+  else Notification.requestPermission().then(done).catch(function(){toast('تعذّر طلب صلاحية الإشعارات.')});
+}
+$('#adhanToggle').addEventListener('click',function(){
+  if(adhanEnabled){adhanEnabled=false;ls.set('zad_adhan_enabled','0');adhanStatus();toast('تم إيقاف الأذان.')}
+  else enableAdhan();
+});
+$('#adhanTest').addEventListener('click',playAdhan);
+adhanAudio.addEventListener('error',function(){$('#adhanStatus').textContent='ملف الأذان غير مرفوع بعد إلى assets/adhan-ibrahim-almadani.mp3.'});
+adhanStatus();
 setInterval(tick,1000);document.addEventListener('visibilitychange',function(){if(!document.hidden)tick()});
 function estData(){var g=ls.get('zad_geo'),la=36.7538,lo=3.0588,tz=1,z='Africa/Algiers';if(g&&/^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/.test(g)){g=g.split(',');la=+g[0];lo=+g[1];tz=-new Date().getTimezoneOffset()/60;z=null}return{t:est(la,lo,tz),tz:z,date:ds()}}
 function load(url,label,key,silent,eo){var t=++tok;reload=function(){load(url,label,key,true,eo)};

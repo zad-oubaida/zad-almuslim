@@ -211,6 +211,8 @@ select.chip option{background:#181818;color:#fff}
       <button class="chip on" data-filter="all" type="button">الكل</button>
       <button class="chip" data-filter="complete" type="button">مصحف كامل</button>
       <button class="chip" data-filter="favorites" type="button">المفضلة ♥</button>
+      <button class="chip" data-filter="dz" type="button">🇩🇿 جزائريون</button>
+      <button class="chip" id="copyList" type="button" title="نسخ قائمة القرّاء بترتيب العرض الحالي">📋 نسخ القائمة</button>
       <select class="chip" id="rwFilter" title="القراءة والرواية"><option value="all">كل القراءات</option></select>
     </div>
     <div id="cratesGrid" class="grid"><div class="msg">جارٍ تحميل القرّاء وصورهم...</div></div>
@@ -294,6 +296,16 @@ select.chip option{background:#181818;color:#fff}
     ["محمود علي البنا", W+"d/d3/Mahmoud_Ali_Al-Banna.jpg/480px-Mahmoud_Ali_Al-Banna.jpg"]
   ];
 
+  // صور القرّاء المحلية: ضع المجلد reciters بجانب هذا الملف. الترتيب هنا = ترتيب ظهورهم أولاً في الصفحة
+  const PHOTO_DIR = './reciters/';
+  const LOC = [ // [الأسماء المطابقة مفصولة بـ | ، اسم ملف الصورة]
+    ['ياسر الدوسري', 'yasser-dosari.jpg'],
+    ['ماهر المعيقلي|ماهر معيقلي', 'maher-muaiqly.jpg'],
+    ['عبدالرحمن السديس|عبدالرحمان السديس', 'abdulrahman-sudais.jpg'],
+    ['عبدالباسط عبدالصمد', 'abdulbasit-abdulsamad.jpg'],
+    ['علي جابر|علي عبدالله جابر|علي بن عبدالله جابر', 'ali-jaber.jpg']
+  ];
+
   const $ = id => document.getElementById(id);
   const n = s => s.replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').trim();
   const nz = s => n(s).replace(/\s+/g, '');
@@ -324,6 +336,15 @@ select.chip option{background:#181818;color:#fff}
   const fam = nm => FAM.find(f => nm.includes(f)) || 'أخرى';
   const MR = r => r.ms[r.mi];
 
+  // القرّاء الجزائريون: رقم القارئ في mp3quran (رقم) أو جزء من اسمه (نص)
+  const DZ = [14]; // 14 = ياسين الجزائري (يظهر في الموقع باسم «القارئ ياسين»)
+  const isDZ = r => DZ.some(x => typeof x === 'number' ? x === r.id : nz(r.name).includes(nz(x)));
+
+  // قرّاء من خارج mp3quran: server = مجلد الملفات بأسماء 001.mp3 … 114.mp3، و id رقم فريد يبدأ من 900001
+  const CUSTOM = [
+    // { id: 900001, name: 'اسم القارئ', rewaya: 'ورش عن نافع', server: 'https://example.com/audio/name/', photo: './reciters/name.jpg', dz: true }
+  ];
+
   let all = [], list = [], favs = [], filter = 'all', rwf = 'all', act = null, surahs = [];
   let queue = [], qr = null, qi = -1, cur = '', rep = false, sleepT = null, sleepI = 0, tt;
   try { favs = JSON.parse(localStorage.getItem('zad_fav_reciters') || '[]'); } catch (e) {}
@@ -343,10 +364,16 @@ select.chip option{background:#181818;color:#fff}
         const ms = (r.moshaf || []).filter(m => m.server && m.surah_list)
           .map(m => ({ name: m.name, srv: m.server, tot: Number(m.surah_total) || 0, sl: m.surah_list.split(',').map(Number) }))
           .sort((a, b) => b.tot - a.tot);
-        const c = photos(r.name), ph = ['./reciters/' + r.id + '.jpg', ...c];
-        return { id: r.id, name: r.name, ms, mi: 0, p: ph[0], b: ph.slice(1), s: avatar(r.name), real: c.length > 0 };
+        const c = photos(r.name), li = LOC.findIndex(l => l[0].split('|').some(m => nz(r.name).includes(nz(m))));
+        const ph = [...(li >= 0 ? [PHOTO_DIR + LOC[li][1]] : []), PHOTO_DIR + r.id + '.jpg', ...c];
+        return { id: r.id, name: r.name, ms, mi: 0, p: ph[0], b: ph.slice(1), s: avatar(r.name), real: c.length > 0 || li >= 0, lo: li >= 0 ? li : 999, dz: isDZ(r) };
       }).filter(r => r.ms.length);
-      all.sort((a, b) => b.real - a.real);
+      all = all.concat(CUSTOM.map(c => ({
+        id: c.id, name: c.name, mi: 0, p: c.photo || avatar(c.name), b: [], s: avatar(c.name), real: !!c.photo, lo: 999, dz: !!c.dz,
+        ms: [{ name: c.rewaya || 'حفص عن عاصم', srv: c.server, tot: 114, sl: Array.from({ length: 114 }, (_, i) => i + 1) }]
+      })));
+      all.sort((a, b) => (a.lo - b.lo) || (b.real - a.real));
+      LOC.forEach((l, i) => { if (!all.some(r => r.lo === i)) console.warn('صورة بلا قارئ مطابق: ' + l[0]); });
       const cnt = {};
       all.forEach(r => new Set(r.ms.map(m => fam(m.name))).forEach(f => cnt[f] = (cnt[f] || 0) + 1));
       $('rwFilter').innerHTML = '<option value="all">كل القراءات</option>' + Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a])
@@ -364,6 +391,7 @@ select.chip option{background:#181818;color:#fff}
     list = all.filter(r =>
       !(filter === 'complete' && MR(r).tot < 114 && r.ms.every(m => m.tot < 114)) &&
       !(filter === 'favorites' && !favs.includes(r.id)) &&
+      !(filter === 'dz' && !r.dz) &&
       (rwf === 'all' || r.ms.some(m => fam(m.name) === rwf)) &&
       (!t || n(r.name).includes(t) || r.ms.some(m => n(m.name).includes(t))));
     if (rwf !== 'all') list.forEach(r => { const i = r.ms.findIndex(m => fam(m.name) === rwf); if (i >= 0) r.mi = i; });
@@ -372,12 +400,12 @@ select.chip option{background:#181818;color:#fff}
 
   function render() {
     if (!list.length) { grid.innerHTML = '<div class="msg">لا توجد نتائج مطابقة لبحثك.</div>'; return; }
-    grid.innerHTML = list.slice(0, 150).map((r, i) => {
+    grid.innerHTML = list.map((r, i) => {
       const f = favs.includes(r.id), m = MR(r);
       return `<article class="card c${i % 3}${act && act.id === r.id ? ' sel' : ''}" data-id="${r.id}">
         <button class="fav${f ? ' on' : ''}" data-fav="${r.id}" type="button" title="المفضلة">${f ? '♥' : '♡'}</button>
         <div class="phw"><div class="ph">${img(r, 'loading="lazy"')}</div><span class="pb">▶</span></div>
-        <h3>${r.name}</h3>
+        <h3>${r.dz ? '🇩🇿 ' : ''}${r.name}</h3>
         <p>${m.name}</p>
         <p class="cnt">${ar(m.tot)} سورة${r.ms.length > 1 ? ' · ' + ar(r.ms.length) + ' روايات' : ''}</p>
       </article>`;
@@ -550,6 +578,18 @@ select.chip option{background:#181818;color:#fff}
     b.classList.add('on');
     filter = b.dataset.filter;
     apply();
+  });
+
+  $('copyList').addEventListener('click', async () => {
+    const txt = list.map((r, i) => `${i + 1}. ${r.name} (${r.id}) — ${MR(r).name}`).join('\n');
+    try { await navigator.clipboard.writeText(txt); }
+    catch (e) {
+      const ta = document.createElement('textarea');
+      ta.value = txt; document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); } catch (x) {}
+      ta.remove();
+    }
+    toast(`نُسخت قائمة ${ar(list.length)} قارئ`);
   });
 
   load();

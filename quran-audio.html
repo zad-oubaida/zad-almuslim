@@ -156,6 +156,7 @@ body::before{content:'';position:fixed;inset:0;opacity:.09;pointer-events:none;b
 .panel::after{content:attr(data-w);position:absolute;inset-inline-end:-6px;top:120px;font:700 330px/1 Amiri,serif;color:var(--gold);opacity:.06;pointer-events:none}
 .row.mid{background:linear-gradient(270deg,#1f5fa860,#0f6e5360);box-shadow:inset 0 0 0 1px #e6c27455}
 .player{background:linear-gradient(100deg,#04140f,#0b2542 60%,#04140f);border:1px solid #e6c27433;border-radius:14px}
+
 /* تفاصيل إضافية */
 .hd{margin:10px 0 0;font:400 1.2rem/1.8 Amiri,serif;color:#ffffffd9}
 .orn{display:flex;align-items:center;gap:12px;max-width:420px;margin-top:12px;color:var(--gold);font-size:1.3rem}
@@ -228,7 +229,6 @@ select.chip option{background:#181818;color:#fff}
       <select class="chip" id="rwFilter" title="القراءة والرواية"><option value="all">كل القراءات</option></select>
     </div>
 
-    <!-- مختارات سريعة للسور الأكثر استماعاً -->
     <div class="qsurahs" id="quickSurahs">
       <small>مختارات سريعة:</small>
       <button class="qchip" data-s="18" type="button">سورة الكهف</button>
@@ -301,41 +301,58 @@ select.chip option{background:#181818;color:#fff}
 
 <script>
 (() => {
-  const N = "الفاتحة,البقرة,آل عمران,النساء,المائدة,الأنعام,الأعراف,الأنفال,التوبة,يونس,هود,يوسف,الرعد,إبراهيم,الحجر,النحل,الإسراء,الكهف,مريم,طه,الأنبياء,الحج,المؤمنون,النور,الفرقان,الشعراء,النمل,القصص,العنكبوت,الروم,لقمان,السجدة,الأحزاب,سبأ,فاطر,يس,الصافات,ص,الزمر,غافر,فصلت,الشورى,الزخرف,الدخان,الجاثية,الأحقاف,محمد,الفتح,الحجرات,ق,الذاريات,الطور,النجم,القمر,الرحمن,الواقعة,الحديد,المجادلة,الحشر,الممتحنة,الصف,الجمعة,المنافقون,التغابن,الطلاق,التحريم,الملك,القلم,الحاقة,المعارج,نوح,الجن,المزمل,المدثر,القيامة,الإنسان,المرسلات,النبأ,النازعات,عبس,التكوير,الانفطار,المطففين,الانشقاق,البروج,الطارق,الأعلى,الغاشية,الفجر,البلد,الشمس,الليل,الضحى,الشرح,التين,العلق,القدر,البينة,الزلزلة,العاديات,القارعة,التكاثر,العصر,الهمزة,الفيل,قريش,الماعون,الكوثر,الكافرون,النصر,المسد,الإخلاص,الفلق,الناس".split(',');
-
-  // صور القرّاء: [الأسماء المطابقة مفصولة بـ |، الروابط بالترتيب الاحتياطي]
-  const W = "https://upload.wikimedia.org/wikipedia/commons/thumb/", Q = "https://static.qurancdn.com/images/reciters/";
-  const PHOTOS = [
-    ["ياسر الدوسري", W+"4/4e/Yasser_Al-Dosari.jpg/480px-Yasser_Al-Dosari.jpg", Q+"11/yasser-ad-dussary-profile.jpeg"],
-    ["محمد اللحيدان", W+"1/19/Mohammed_Al-Luhaidan.jpg/480px-Mohammed_Al-Luhaidan.jpg"],
-    ["ماهر المعيقلي", W+"a/a2/Maher_Al_Mueaqly.jpg/480px-Maher_Al_Mueaqly.jpg", Q+"10/maher-al-muaiqly-profile.jpeg"],
-    ["مشاري العفاسي|مشاري راشد العفاسي", Q+"6/mishary-rashid-alafasy-profile.jpeg", W+"8/87/Mishary_Rashid_Alafasy.jpg/480px-Mishary_Rashid_Alafasy.jpg"],
-    ["عبدالرحمن السديس", W+"5/5d/Abdul_Rahman_Al-Sudais.jpg/480px-Abdul_Rahman_Al-Sudais.jpg", Q+"2/abdurrahman-as-sudais-profile.jpeg"],
-    ["سعود الشريم", W+"3/3e/Saud_Al-Shuraim.jpg/480px-Saud_Al-Shuraim.jpg", Q+"9/saud-ash-shuraym-profile.jpeg"],
-    ["عبدالباسط عبدالصمد", W+"5/5f/Abdul_Basit_%27Abd_us-Samad.jpg/480px-Abdul_Basit_%27Abd_us-Samad.jpg", Q+"1/abdulbaset-abdulsamad-profile.jpeg"],
-    ["محمد صديق المنشاوي", W+"4/49/Mohamed_Siddiq_El-Minshawi.jpg/480px-Mohamed_Siddiq_El-Minshawi.jpg", Q+"8/mohamed-siddiq-al-minshawi-profile.jpeg"],
-    ["محمود خليل الحصري", W+"0/0a/Mahmoud_Khalil_Al-Hussary.jpg/480px-Mahmoud_Khalil_Al-Hussary.jpg", Q+"5/mahmoud-khalil-al-husary-profile.jpeg"],
-    ["سعد الغامدي", W+"e/e5/Saad_Al_Ghamdi.jpg/480px-Saad_Al_Ghamdi.jpg", Q+"7/saad-al-ghamdi-profile.jpeg"],
-    ["أبو بكر الشاطري", Q+"3/abu-bakr-ash-shaatree-profile.jpeg"],
-    ["هاني الرفاعي", Q+"4/hani-ar-rifai-profile.jpeg"],
-    ["ناصر القطامي", Q+"12/nasser-al-qatami-profile.jpeg"],
-    ["بندر بليلة", W+"6/64/Bandar_Baleela.jpg/480px-Bandar_Baleela.jpg"],
-    ["عبدالله عواد الجهني", W+"9/91/Abdullah_Awad_Al_Juhany.jpg/480px-Abdullah_Awad_Al_Juhany.jpg"],
-    ["علي جابر", W+"a/a8/Ali_Abdullah_Jaber.jpg/480px-Ali_Abdullah_Jaber.jpg"],
-    ["محمد أيوب", W+"8/88/Muhammad_Ayyub.jpg/480px-Muhammad_Ayyub.jpg"],
-    ["مصطفى إسماعيل", W+"3/36/Mustafa_Ismail.jpg/480px-Mustafa_Ismail.jpg"],
-    ["محمد محمود الطبلاوي", W+"2/29/Mohamed_Mahmoud_Al-Tablawi.jpg/480px-Mohamed_Mahmoud_Al-Tablawi.jpg"],
-    ["محمود علي البنا", W+"d/d3/Mahmoud_Ali_Al-Banna.jpg/480px-Mahmoud_Ali_Al-Banna.jpg"]
+  const N = [
+    "الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس",
+    "هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه",
+    "الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم",
+    "لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات","ص","الزمر","غافر",
+    "فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد","الفتح","الحجرات","ق",
+    "الذاريات","الطور","النجم","القمر","الرحمن","الواقعة","الحديد","المجادلة","الحشر","الممتحنة",
+    "الصف","الجمعة","المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة","المعارج",
+    "نوح","الجن","المزمل","المدثر","القيامة","الإنسان","المرسلات","النبأ","النازعات","عبس",
+    "التكوير","الانفطار","المطففين","الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد",
+    "الشمس","الليل","الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات",
+    "القارعة","التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر",
+    "المسد","الإخلاص","الفلق","الناس"
   ];
 
-  // صور القرّاء المحلية: ضع المجلد reciters بجانب هذا الملف. الترتيب هنا = ترتيب ظهورهم أولاً في الصفحة
+  const W = "https://upload.wikimedia.org/wikipedia/commons/thumb/";
+  const Q = "https://static.qurancdn.com/images/reciters/";
+  const PHOTOS = [
+    ["ياسر الدوسري", W + "4/4e/Yasser_Al-Dosari.jpg/480px-Yasser_Al-Dosari.jpg", Q + "11/yasser-ad-dussary-profile.jpeg"],
+    ["محمد اللحيدان", W + "1/19/Mohammed_Al-Luhaidan.jpg/480px-Mohammed_Al-Luhaidan.jpg"],
+    ["ماهر المعيقلي", W + "a/a2/Maher_Al_Mueaqly.jpg/480px-Maher_Al_Mueaqly.jpg", Q + "10/maher-al-muaiqly-profile.jpeg"],
+    ["مشاري العفاسي|مشاري راشد العفاسي", Q + "6/mishary-rashid-alafasy-profile.jpeg", W + "8/87/Mishary_Rashid_Alafasy.jpg/480px-Mishary_Rashid_Alafasy.jpg"],
+    ["عبدالرحمن السديس", W + "5/5d/Abdul_Rahman_Al-Sudais.jpg/480px-Abdul_Rahman_Al-Sudais.jpg", Q + "2/abdurrahman-as-sudais-profile.jpeg"],
+    ["سعود الشريم", W + "3/3e/Saud_Al-Shuraim.jpg/480px-Saud_Al-Shuraim.jpg", Q + "9/saud-ash-shuraym-profile.jpeg"],
+    ["عبدالباسط عبدالصمد", W + "5/5f/Abdul_Basit_%27Abd_us-Samad.jpg/480px-Abdul_Basit_%27Abd_us-Samad.jpg", Q + "1/abdulbaset-abdulsamad-profile.jpeg"],
+    ["محمد صديق المنشاوي", W + "4/49/Mohamed_Siddiq_El-Minshawi.jpg/480px-Mohamed_Siddiq_El-Minshawi.jpg", Q + "8/mohamed-siddiq-al-minshawi-profile.jpeg"],
+    ["محمود خليل الحصري", W + "0/0a/Mahmoud_Khalil_Al-Hussary.jpg/480px-Mahmoud_Khalil_Al-Hussary.jpg", Q + "5/mahmoud-khalil-al-husary-profile.jpeg"],
+    ["سعد الغامدي", W + "e/e5/Saad_Al_Ghamdi.jpg/480px-Saad_Al_Ghamdi.jpg", Q + "7/saad-al-ghamdi-profile.jpeg"],
+    ["أبو بكر الشاطري", Q + "3/abu-bakr-ash-shaatree-profile.jpeg"],
+    ["هاني الرفاعي", Q + "4/hani-ar-rifai-profile.jpeg"],
+    ["ناصر القطامي", Q + "12/nasser-al-qatami-profile.jpeg"],
+    ["بندر بليلة", W + "6/64/Bandar_Baleela.jpg/480px-Bandar_Baleela.jpg"],
+    ["عبدالله عواد الجهني", W + "9/91/Abdullah_Awad_Al_Juhany.jpg/480px-Abdullah_Awad_Al_Juhany.jpg"],
+    ["علي جابر", W + "a/a8/Ali_Abdullah_Jaber.jpg/480px-Ali_Abdullah_Jaber.jpg"],
+    ["محمد أيوب", W + "8/88/Muhammad_Ayyub.jpg/480px-Muhammad_Ayyub.jpg"],
+    ["مصطفى إسماعيل", W + "3/36/Mustafa_Ismail.jpg/480px-Mustafa_Ismail.jpg"],
+    ["محمد محمود الطبلاوي", W + "2/29/Mohamed_Mahmoud_Al-Tablawi.jpg/480px-Mohamed_Mahmoud_Al-Tablawi.jpg"],
+    ["محمود علي البنا", W + "d/d3/Mahmoud_Ali_Al-Banna.jpg/480px-Mahmoud_Ali_Al-Banna.jpg"]
+  ];
+
   const PHOTO_DIR = './assets/reciters/';
-  const LOC = [ // [الأسماء المطابقة مفصولة بـ | ، اسم ملف الصورة]
+  const LOC = [
     ['ياسر الدوسري', 'yasser-dosari.jpg'],
+    ['محمد اللحيدان|محمد اليحدان', 'mohammed-luhaydan.jpg'],
     ['ماهر المعيقلي|ماهر معيقلي', 'maher-muaiqly.jpg'],
+    ['علي جابر|علي عبدالله جابر|علي بن عبدالله جابر', 'ali-jaber.jpg'],
+    ['القارئ ياسين|ياسين الجزائري', 'yassin-aljazairi.jpg'],
     ['عبدالرحمن السديس|عبدالرحمان السديس', 'abdulrahman-sudais.jpg'],
     ['عبدالباسط عبدالصمد', 'abdulbasit-abdulsamad.jpg'],
-    ['علي جابر|علي عبدالله جابر|علي بن عبدالله جابر', 'ali-jaber.jpg']
+    ['محمد أيوب', 'mohammed-ayyub.jpg'],
+    ['محمد صديق المنشاوي', 'mohammed-minshawi.jpg'],
+    ['محمود خليل الحصري', 'mahmoud-husary.jpg']
   ];
 
   const $ = id => document.getElementById(id);
@@ -356,32 +373,56 @@ select.chip option{background:#181818;color:#fff}
   }
 
   function avatar(name) {
-    const c = name.replace(/^الشيخ\s+/, '').trim(), p = c.split(/\s+/);
-    const s = p.length > 1 ? p[0] + ' ' + p[p.length - 1] : c, i = c.replace(/^ال/, '').charAt(0) || '۞';
-    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240"><defs><radialGradient id="g" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#1c7a5e"/><stop offset="1" stop-color="#06231a"/></radialGradient></defs><rect width="240" height="240" fill="url(#g)"/><g fill="none" stroke="#e6c274" stroke-opacity=".3" stroke-width="2"><path d="M120 18L222 120L120 222L18 120Z"/><rect x="48" y="48" width="144" height="144"/><circle cx="120" cy="120" r="88"/></g><text x="120" y="130" text-anchor="middle" fill="#ffe39c" font-family="Amiri,serif" font-size="72" font-weight="bold">${i}</text><text x="120" y="172" text-anchor="middle" fill="#fff" font-family="Tajawal,sans-serif" font-size="16" font-weight="bold">${s.slice(0, 18)}</text></svg>`);
+    const c = name.replace(/^الشيخ\s+/, '').trim();
+    const p = c.split(/\s+/);
+    const s = p.length > 1 ? p[0] + ' ' + p[p.length - 1] : c;
+    const i = c.replace(/^ال/, '').charAt(0) || '۞';
+    const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">' +
+      '<defs><radialGradient id="g" cx="35%" cy="30%" r="75%">' +
+      '<stop offset="0" stop-color="#1c7a5e"/><stop offset="1" stop-color="#06231a"/>' +
+      '</radialGradient></defs>' +
+      '<rect width="240" height="240" fill="url(#g)"/>' +
+      '<g fill="none" stroke="#e6c274" stroke-opacity=".3" stroke-width="2">' +
+      '<path d="M120 18L222 120L120 222L18 120Z"/>' +
+      '<rect x="48" y="48" width="144" height="144"/>' +
+      '<circle cx="120" cy="120" r="88"/></g>' +
+      '<text x="120" y="130" text-anchor="middle" fill="#ffe39c" font-family="Amiri,serif" font-size="72" font-weight="bold">' + i + '</text>' +
+      '<text x="120" y="172" text-anchor="middle" fill="#fff" font-family="Tajawal,sans-serif" font-size="16" font-weight="bold">' + s.slice(0, 18) + '</text>' +
+      '</svg>';
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
   }
 
-  const img = (r, x = '') => `<img src="${r.p}" data-f="${JSON.stringify(r.b).replace(/"/g, '&quot;')}" data-s="${r.s}" alt="" ${x} onerror="zadFb(this)">`;
-  window.zadFb = i => {
-    const f = JSON.parse(i.dataset.f || '[]');
-    if (f.length) { i.src = f.shift(); i.dataset.f = JSON.stringify(f); }
-    else { i.onerror = null; i.src = i.dataset.s; }
+  const img = (r, x = '') => {
+    const fb = JSON.stringify(r.b).replace(/"/g, '&quot;');
+    return `<img src="${r.p}" data-f="${fb}" data-s="${r.s}" alt="" ${x} onerror="zadFb(this)">`;
   };
 
-  const AY = "7,286,200,176,120,165,206,75,129,109,123,111,43,52,99,128,111,110,98,135,112,78,118,64,77,227,93,88,69,60,34,30,73,54,45,83,182,88,75,85,54,53,89,59,37,35,38,29,18,45,60,49,62,55,78,96,29,22,24,13,14,11,11,18,12,12,30,52,52,44,28,28,20,56,40,31,50,40,46,42,29,19,36,25,22,17,19,26,30,20,15,21,11,8,8,19,5,8,8,11,11,8,3,9,5,4,7,3,6,3,5,4,5,6".split(',').map(Number);
+  window.zadFb = i => {
+    const f = JSON.parse(i.dataset.f || '[]');
+    if (f.length) {
+      i.src = f.shift();
+      i.dataset.f = JSON.stringify(f);
+    } else {
+      i.onerror = null;
+      i.src = i.dataset.s;
+    }
+  };
+
+  const AY = [
+    7,286,200,176,120,165,206,75,129,109,123,111,43,52,99,128,111,110,98,135,
+    112,78,118,64,77,227,93,88,69,60,34,30,73,54,45,83,182,88,75,85,54,53,89,59,
+    37,35,38,29,18,45,60,49,62,55,78,96,29,22,24,13,14,11,11,18,12,12,30,52,52,
+    44,28,28,20,56,40,31,50,40,46,42,29,19,36,25,22,17,19,26,30,20,15,21,11,8,8,
+    19,5,8,8,11,11,8,3,9,5,4,7,3,6,3,5,4,5,6
+  ];
   const MD = [2,3,4,5,8,9,13,22,24,33,47,48,49,55,57,58,59,60,61,62,63,64,65,66,76,98,99,110];
   const FAM = ['حفص','ورش','قالون','شعبة','الدوري','السوسي','البزي','قنبل','خلف','خلاد','ابن ذكوان','هشام','رويس','روح'];
   const fam = nm => FAM.find(f => nm.includes(f)) || 'أخرى';
   const MR = r => r.ms[r.mi];
 
-  // القرّاء الجزائريون: رقم القارئ في mp3quran (رقم) أو جزء من اسمه (نص)
-  const DZ = [14]; // 14 = ياسين الجزائري (يظهر في الموقع باسم «القارئ ياسين»)
+  const DZ = [14];
   const isDZ = r => DZ.some(x => typeof x === 'number' ? x === r.id : nz(r.name).includes(nz(x)));
-
-  // قرّاء من خارج mp3quran
-  const CUSTOM = [
-    // { id: 900001, name: 'اسم القارئ', rewaya: 'ورش عن نافع', server: 'https://example.com/audio/name/', photo: './reciters/name.jpg', dz: true }
-  ];
+  const CUSTOM = [];
 
   let all = [], list = [], favs = [], filter = 'all', rwf = 'all', act = null, surahs = [];
   let queue = [], qr = null, qi = -1, cur = '', rep = false, sleepT = null, sleepI = 0, tt;
@@ -390,19 +431,28 @@ select.chip option{background:#181818;color:#fff}
 
   try { favs = JSON.parse(localStorage.getItem('zad_fav_reciters') || '[]'); } catch (e) {}
 
-  const audio = $('qaAudio'), grid = $('cratesGrid'), tl = $('wheelScrollArea'), panel = $('wheelSection'), thumb = $('playerThumb');
+  const audio = $('qaAudio');
+  const grid = $('cratesGrid');
+  const tl = $('wheelScrollArea');
+  const panel = $('wheelSection');
+  const thumb = $('playerThumb');
 
   function toast(m) {
-    const t = $('toast'); t.textContent = m; t.classList.add('show');
-    clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 3200);
+    const t = $('toast');
+    t.textContent = m;
+    t.classList.add('show');
+    clearTimeout(tt);
+    tt = setTimeout(() => t.classList.remove('show'), 3200);
   }
 
   async function load() {
     grid.innerHTML = '<div class="msg">جارٍ تحميل القرّاء وصورهم...</div>';
     try {
-      const d = await (await fetch('https://www.mp3quran.net/api/v3/reciters?language=ar')).json();
+      const res = await fetch('https://www.mp3quran.net/api/v3/reciters?language=ar');
+      const d = await res.json();
       all = (d.reciters || []).map(r => {
-        const ms = (r.moshaf || []).filter(m => m.server && m.surah_list)
+        const ms = (r.moshaf || [])
+          .filter(m => m.server && m.surah_list)
           .map(m => ({
             name: m.name,
             srv: fixSrv(m.server),
@@ -410,22 +460,56 @@ select.chip option{background:#181818;color:#fff}
             sl: String(m.surah_list).split(',').map(Number).filter(Boolean)
           }))
           .sort((a, b) => b.tot - a.tot);
-        const c = photos(r.name), li = LOC.findIndex(l => l[0].split('|').some(m => nz(r.name).includes(nz(m))));
-        const ph = [...(li >= 0 ? [PHOTO_DIR + LOC[li][1]] : []), PHOTO_DIR + r.id + '.jpg', ...c];
-        return { id: r.id, name: r.name, ms, mi: 0, p: ph[0], b: ph.slice(1), s: avatar(r.name), real: c.length > 0 || li >= 0, lo: li >= 0 ? li : 999, dz: isDZ(r) };
+
+        const c = photos(r.name);
+        const li = LOC.findIndex(l => l[0].split('|').some(m => nz(r.name).includes(nz(m))));
+        const localCandidates = li >= 0 ? [
+          PHOTO_DIR + LOC[li][1],
+          PHOTO_DIR + LOC[li][1].replace(/\.jpg$/i, '.png')
+        ] : [];
+        const ph = [...localCandidates, PHOTO_DIR + r.id + '.jpg', PHOTO_DIR + r.id + '.png', ...c];
+        return {
+          id: r.id,
+          name: r.name,
+          ms,
+          mi: 0,
+          p: ph[0],
+          b: ph.slice(1),
+          s: avatar(r.name),
+          real: c.length > 0 || li >= 0,
+          lo: li >= 0 ? li : 999,
+          dz: isDZ(r)
+        };
       }).filter(r => r.ms.length);
 
       all = all.concat(CUSTOM.map(c => ({
-        id: c.id, name: c.name, mi: 0, p: c.photo || avatar(c.name), b: [], s: avatar(c.name), real: !!c.photo, lo: 999, dz: !!c.dz,
-        ms: [{ name: c.rewaya || 'حفص عن عاصم', srv: fixSrv(c.server), tot: 114, sl: Array.from({ length: 114 }, (_, i) => i + 1) }]
+        id: c.id,
+        name: c.name,
+        mi: 0,
+        p: c.photo || avatar(c.name),
+        b: [],
+        s: avatar(c.name),
+        real: !!c.photo,
+        lo: 999,
+        dz: !!c.dz,
+        ms: [{
+          name: c.rewaya || 'حفص عن عاصم',
+          srv: fixSrv(c.server),
+          tot: 114,
+          sl: Array.from({ length: 114 }, (_, i) => i + 1)
+        }]
       })));
 
       all.sort((a, b) => (a.lo - b.lo) || (b.real - a.real));
 
       const cnt = {};
-      all.forEach(r => new Set(r.ms.map(m => fam(m.name))).forEach(f => cnt[f] = (cnt[f] || 0) + 1));
-      $('rwFilter').innerHTML = '<option value="all">كل القراءات</option>' + Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a])
-        .map(f => `<option value="${f}">${f === 'أخرى' ? 'قراءات أخرى' : 'رواية ' + f} (${ar(cnt[f])})</option>`).join('');
+      all.forEach(r => new Set(r.ms.map(m => fam(m.name))).forEach(f => { cnt[f] = (cnt[f] || 0) + 1; }));
+      $('rwFilter').innerHTML = '<option value="all">كل القراءات</option>' +
+        Object.keys(cnt)
+          .sort((a, b) => cnt[b] - cnt[a])
+          .map(f => `<option value="${f}">${f === 'أخرى' ? 'قراءات أخرى' : 'رواية ' + f} (${ar(cnt[f])})</option>`)
+          .join('');
+
       apply();
       if (innerWidth >= 960 && all.length) pick(all[0], false);
     } catch (e) {
@@ -441,15 +525,25 @@ select.chip option{background:#181818;color:#fff}
       !(filter === 'favorites' && !favs.includes(r.id)) &&
       !(filter === 'dz' && !r.dz) &&
       (rwf === 'all' || r.ms.some(m => fam(m.name) === rwf)) &&
-      (!t || norm(r.name).includes(t) || r.ms.some(m => norm(m.name).includes(t))));
-    if (rwf !== 'all') list.forEach(r => { const i = r.ms.findIndex(m => fam(m.name) === rwf); if (i >= 0) r.mi = i; });
+      (!t || norm(r.name).includes(t) || r.ms.some(m => norm(m.name).includes(t)))
+    );
+    if (rwf !== 'all') {
+      list.forEach(r => {
+        const i = r.ms.findIndex(m => fam(m.name) === rwf);
+        if (i >= 0) r.mi = i;
+      });
+    }
     render();
   }
 
   function render() {
-    if (!list.length) { grid.innerHTML = '<div class="msg">لا توجد نتائج مطابقة لبحثك.</div>'; return; }
+    if (!list.length) {
+      grid.innerHTML = '<div class="msg">لا توجد نتائج مطابقة لبحثك.</div>';
+      return;
+    }
     grid.innerHTML = list.map((r, i) => {
-      const f = favs.includes(r.id), m = MR(r);
+      const f = favs.includes(r.id);
+      const m = MR(r);
       return `<article class="card c${i % 3}${act && act.id === r.id ? ' sel' : ''}" data-id="${r.id}">
         <button class="fav${f ? ' on' : ''}" data-fav="${r.id}" type="button" title="المفضلة">${f ? '♥' : '♡'}</button>
         <div class="phw"><div class="ph">${img(r, 'loading="lazy"')}</div><span class="pb">▶</span></div>
@@ -476,18 +570,25 @@ select.chip option{background:#181818;color:#fff}
     if (r) pick(r, true);
   });
 
-  function subline() { const m = MR(act); $('wheelReciterSub').textContent = `${ar(m.tot)} سورة · ${m.name}`; }
+  function subline() {
+    const m = MR(act);
+    $('wheelReciterSub').textContent = `${ar(m.tot)} سورة · ${m.name}`;
+  }
 
   function chips() {
     const el = $('rwaChips');
     el.style.display = act.ms.length > 1 ? 'flex' : 'none';
     el.innerHTML = act.ms.map((m, i) => `<button type="button" class="${i === act.mi ? 'on' : ''}" data-m="${i}">${m.name}</button>`).join('');
   }
+
   $('rwaChips').addEventListener('click', e => {
     const b = e.target.closest('[data-m]');
     if (!b || !act) return;
     act.mi = Number(b.dataset.m);
-    chips(); subline(); tracks($('surahSearchInput').value); render();
+    chips();
+    subline();
+    tracks($('surahSearchInput').value);
+    render();
   });
 
   function pick(r, open) {
@@ -495,12 +596,15 @@ select.chip option{background:#181818;color:#fff}
     grid.querySelectorAll('.card').forEach(c => c.classList.toggle('sel', Number(c.dataset.id) === r.id));
     $('wheelReciterName').textContent = r.name;
     panel.dataset.w = r.name.replace(/^الشيخ\s+/, '').replace(/^ال/, '').charAt(0);
-    subline(); chips();
+    subline();
+    chips();
 
     const miniWrap = $('wheelMiniAvatar');
     miniWrap.innerHTML = img(r);
     const miniImg = miniWrap.querySelector('img');
-    const syncBg = () => { $('wheelBgPortrait').style.backgroundImage = `url("${miniImg.currentSrc || miniImg.src}")`; };
+    const syncBg = () => {
+      $('wheelBgPortrait').style.backgroundImage = `url("${miniImg.currentSrc || miniImg.src}")`;
+    };
     miniImg.addEventListener('load', syncBg);
     syncBg();
 
@@ -509,11 +613,13 @@ select.chip option{background:#181818;color:#fff}
     syncPanelBtn();
     if (open && innerWidth < 960) panel.classList.add('open');
   }
+
   $('mobileBackBtn').addEventListener('click', () => panel.classList.remove('open'));
 
   function tracks(t) {
     if (!act) return;
-    const k = norm(t), m = MR(act);
+    const k = norm(t);
+    const m = MR(act);
     surahs = m.sl.map(x => ({
       num: x,
       name: N[x - 1] || 'سورة ' + x,
@@ -534,17 +640,22 @@ select.chip option{background:#181818;color:#fff}
   function arc() {
     const h = tl.clientHeight;
     if (!h) return;
-    const RH = 72, pad = Math.max(0, (h - RH) / 2), bend = Math.min(90, tl.clientWidth * .2);
+    const RH = 72;
+    const pad = Math.max(0, (h - RH) / 2);
+    const bend = Math.min(90, tl.clientWidth * 0.2);
     tl.style.paddingTop = tl.style.paddingBottom = pad + 'px';
-    const mid = tl.scrollTop + h / 2, R = h * .55;
+    const mid = tl.scrollTop + h / 2;
+    const R = h * 0.55;
     tl.querySelectorAll('.row').forEach(el => {
       const c = el.offsetTop + el.offsetHeight / 2;
-      const k = Math.max(-1, Math.min(1, (c - mid) / R)), a = Math.abs(k);
-      el.style.transform = `translateX(${-(1 - Math.cos(k * Math.PI / 2.2)) * bend}px) scale(${1 - a * .22})`;
-      el.style.opacity = Math.max(.15, 1 - Math.pow(a, 1.3) * .75);
-      el.classList.toggle('mid', a < .12);
+      const k = Math.max(-1, Math.min(1, (c - mid) / R));
+      const a = Math.abs(k);
+      el.style.transform = `translateX(${-(1 - Math.cos(k * Math.PI / 2.2)) * bend}px) scale(${1 - a * 0.22})`;
+      el.style.opacity = Math.max(0.15, 1 - Math.pow(a, 1.3) * 0.75);
+      el.classList.toggle('mid', a < 0.12);
     });
   }
+
   tl.addEventListener('scroll', () => requestAnimationFrame(arc), { passive: true });
   addEventListener('resize', () => requestAnimationFrame(arc));
 
@@ -555,7 +666,6 @@ select.chip option{background:#181818;color:#fff}
     go(surahs, act, Number(row.dataset.i));
   });
 
-  // المختارات السريعة للسور
   $('quickSurahs').addEventListener('click', e => {
     const btn = e.target.closest('[data-s]');
     if (!btn) return;
@@ -578,22 +688,31 @@ select.chip option{background:#181818;color:#fff}
   function media(s, r, art) {
     if (!('mediaSession' in navigator)) return;
     navigator.mediaSession.metadata = new MediaMetadata({
-      title: 'سورة ' + s.name, artist: r.name, album: 'زاد عبيدة · المكتبة القرآنية',
-      artwork: [{ src: art, sizes: '256x256' }, { src: './logo-zad-almuslim.webp.png', sizes: '512x512', type: 'image/png' }]
+      title: 'سورة ' + s.name,
+      artist: r.name,
+      album: 'زاد عبيدة · المكتبة القرآنية',
+      artwork: [
+        { src: art, sizes: '256x256' },
+        { src: './logo-zad-almuslim.webp.png', sizes: '512x512', type: 'image/png' }
+      ]
     });
     const h = (a, f) => { try { navigator.mediaSession.setActionHandler(a, f); } catch (e) {} };
-    h('play', () => audio.play()); h('pause', () => audio.pause());
-    h('previoustrack', () => go(queue, qr, qi - 1)); h('nexttrack', () => go(queue, qr, qi + 1));
+    h('play', () => audio.play());
+    h('pause', () => audio.pause());
+    h('previoustrack', () => go(queue, qr, qi - 1));
+    h('nexttrack', () => go(queue, qr, qi + 1));
   }
 
   function go(L, r, i) {
     if (!r || !L || i < 0 || i >= L.length) return;
-    queue = L.slice(); qr = r; qi = i;
-    const s = queue[i]; cur = s.url;
+    queue = L.slice();
+    qr = r;
+    qi = i;
+    const s = queue[i];
+    cur = s.url;
     $('qaNowTitle').textContent = 'سورة ' + s.name;
     $('qaNowSub').textContent = r.name + ' · ' + s.rw;
 
-    // تحديث روابط التحميل وقراءة المصحف
     const dlBtn = $('qaDown');
     dlBtn.href = s.url;
     dlBtn.setAttribute('download', `سورة_${s.name}_${r.name}.mp3`);
@@ -621,8 +740,19 @@ select.chip option{background:#181818;color:#fff}
   function syncPanelBtn() {
     $('panelPlay').textContent = (!audio.paused && qr && act && qr.id === act.id) ? '⏸' : '▶';
   }
-  audio.addEventListener('play', () => { $('qaPlay').textContent = '⏸'; thumb.classList.add('spinning'); syncPanelBtn(); });
-  audio.addEventListener('pause', () => { $('qaPlay').textContent = '▶'; thumb.classList.remove('spinning'); syncPanelBtn(); });
+
+  audio.addEventListener('play', () => {
+    $('qaPlay').textContent = '⏸';
+    thumb.classList.add('spinning');
+    syncPanelBtn();
+  });
+
+  audio.addEventListener('pause', () => {
+    $('qaPlay').textContent = '▶';
+    thumb.classList.remove('spinning');
+    syncPanelBtn();
+  });
+
   audio.addEventListener('error', () => {
     $('qaPlay').textContent = '▶';
     thumb.classList.remove('spinning');
@@ -634,18 +764,25 @@ select.chip option{background:#181818;color:#fff}
     if (audio.src) audio.paused ? audio.play().catch(() => {}) : audio.pause();
     else if (surahs.length && act) go(surahs, act, 0);
   });
+
   $('panelPlay').addEventListener('click', () => {
     if (qr && act && qr.id === act.id && audio.src) audio.paused ? audio.play().catch(() => {}) : audio.pause();
     else go(surahs, act, 0);
   });
+
   $('qaNext').addEventListener('click', () => go(queue, qr, qi + 1));
   $('qaPrev').addEventListener('click', () => go(queue, qr, qi - 1));
+
   audio.addEventListener('ended', () => {
     toast('صَدَقَ اللَّهُ الْعَظِيمُ');
-    if (rep) { audio.currentTime = 0; audio.play().catch(() => {}); } else go(queue, qr, qi + 1);
+    if (rep) {
+      audio.currentTime = 0;
+      audio.play().catch(() => {});
+    } else {
+      go(queue, qr, qi + 1);
+    }
   });
 
-  // سرعة التلاوة
   $('qaSpeed').addEventListener('click', e => {
     speedI = (speedI + 1) % SPEEDS.length;
     const sp = SPEEDS[speedI];
@@ -655,24 +792,33 @@ select.chip option{background:#181818;color:#fff}
     toast(`سرعة التلاوة: ${sp}x`);
   });
 
-  // زر التحميل
   $('qaDown').addEventListener('click', e => {
-    if (!cur) { e.preventDefault(); toast('اختر سورة أولاً للتحميل'); }
-    else toast('جارٍ بدء تحميل السورة...');
+    if (!cur) {
+      e.preventDefault();
+      toast('اختر سورة أولاً للتحميل');
+    } else {
+      toast('جارٍ بدء تحميل السورة...');
+    }
   });
 
-  // زر المشاركة
   $('qaShare').addEventListener('click', async () => {
     const title = $('qaNowTitle').textContent;
     const sub = $('qaNowSub').textContent;
-    const text = cur ? `استمع إلى ${title} بصوت ${sub} عبر زاد عبيدة:\n${location.href}` : `المكتبة القرآنية — زاد عبيدة:\n${location.href}`;
+    const text = cur
+      ? `استمع إلى ${title} بصوت ${sub} عبر زاد عبيدة:\n${location.href}`
+      : `المكتبة القرآنية — زاد عبيدة:\n${location.href}`;
     if (navigator.share) {
-      try { await navigator.share({ title: 'زاد عبيدة', text, url: location.href }); return; } catch (e) {}
+      try {
+        await navigator.share({ title: 'زاد عبيدة', text, url: location.href });
+        return;
+      } catch (e) {}
     }
-    try { await navigator.clipboard.writeText(text); toast('تم نسخ رابط التلاوة للمشاركة'); } catch (e) {}
+    try {
+      await navigator.clipboard.writeText(text);
+      toast('تم نسخ رابط التلاوة للمشاركة');
+    } catch (e) {}
   });
 
-  // زر وضع التركيز والخشوع (Zen Mode)
   $('qaZen').addEventListener('click', e => {
     const activeZen = document.body.classList.toggle('zen');
     e.currentTarget.classList.toggle('on', activeZen);
@@ -681,32 +827,58 @@ select.chip option{background:#181818;color:#fff}
   });
 
   $('qaRep').addEventListener('click', e => {
-    rep = !rep; e.currentTarget.classList.toggle('on', rep);
+    rep = !rep;
+    e.currentTarget.classList.toggle('on', rep);
     toast(rep ? 'تكرار السورة: مفعّل' : 'تكرار السورة: متوقف');
   });
+
   const SL = [0, 15, 30, 60];
   $('qaSleep').addEventListener('click', () => {
     const b = $('qaSleep');
-    sleepI = (sleepI + 1) % SL.length; clearTimeout(sleepT);
+    sleepI = (sleepI + 1) % SL.length;
+    clearTimeout(sleepT);
     const m = SL[sleepI];
-    b.classList.toggle('on', !!m); b.textContent = m ? '⏲' + ar(m) : '⏲';
+    b.classList.toggle('on', !!m);
+    b.textContent = m ? '⏲' + ar(m) : '⏲';
     if (m) {
-      sleepT = setTimeout(() => { audio.pause(); b.classList.remove('on'); b.textContent = '⏲'; sleepI = 0; toast('تصبح على خير 🌙'); }, m * 60000);
+      sleepT = setTimeout(() => {
+        audio.pause();
+        b.classList.remove('on');
+        b.textContent = '⏲';
+        sleepI = 0;
+        toast('تصبح على خير 🌙');
+      }, m * 60000);
       toast(`سيتوقف التشغيل بعد ${ar(m)} دقيقة`);
-    } else toast('أُلغي مؤقت النوم');
+    } else {
+      toast('أُلغي مؤقت النوم');
+    }
   });
 
-  const seek = $('qaSeek'), vol = $('qaVol');
+  const seek = $('qaSeek');
+  const vol = $('qaVol');
   const fmt = s => isFinite(s) ? `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}` : '0:00';
   const fill = el => el.style.setProperty('--v', (el.value / el.max * 100) + '%');
+
   audio.addEventListener('timeupdate', () => {
     $('qaCurrentTime').textContent = fmt(audio.currentTime);
     $('qaDuration').textContent = fmt(audio.duration);
-    if (audio.duration) { seek.value = Math.floor(audio.currentTime / audio.duration * 1000); fill(seek); }
+    if (audio.duration) {
+      seek.value = Math.floor(audio.currentTime / audio.duration * 1000);
+      fill(seek);
+    }
   });
-  seek.addEventListener('input', () => { if (audio.duration) audio.currentTime = seek.value / 1000 * audio.duration; fill(seek); });
-  vol.addEventListener('input', () => { audio.volume = vol.value / 100; fill(vol); });
-  fill(seek); fill(vol);
+
+  seek.addEventListener('input', () => {
+    if (audio.duration) audio.currentTime = seek.value / 1000 * audio.duration;
+    fill(seek);
+  });
+
+  vol.addEventListener('input', () => {
+    audio.volume = vol.value / 100;
+    fill(vol);
+  });
+  fill(seek);
+  fill(vol);
 
   $('reciterSearchInput').addEventListener('input', apply);
   $('surahSearchInput').addEventListener('input', e => tracks(e.target.value));
@@ -722,10 +894,13 @@ select.chip option{background:#181818;color:#fff}
 
   $('copyList').addEventListener('click', async () => {
     const txt = list.map((r, i) => `${i + 1}. ${r.name} (${r.id}) — ${MR(r).name}`).join('\n');
-    try { await navigator.clipboard.writeText(txt); }
-    catch (e) {
+    try {
+      await navigator.clipboard.writeText(txt);
+    } catch (e) {
       const ta = document.createElement('textarea');
-      ta.value = txt; document.body.appendChild(ta); ta.select();
+      ta.value = txt;
+      document.body.appendChild(ta);
+      ta.select();
       try { document.execCommand('copy'); } catch (x) {}
       ta.remove();
     }

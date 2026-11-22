@@ -140,6 +140,18 @@ footer a:hover{transform:translateX(-5px)}
 .st{grid-template-columns:1fr}.sh h2,.tr h2{font-size:2.2rem}.band{padding:24px}.vt{font-size:1.8rem}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/* تنسيق قائمة الصفحة الرئيسية */
+.hd .nav{flex-wrap:nowrap;white-space:nowrap;gap:2px}
+.hd .nav>a,.hd .nav>.dropdown>.dropdown-trigger{padding:7px 8px;font-size:.88rem}
+.hd .nav .dropdown{position:relative}
+.hd .nav .dropdown-content{display:none;position:absolute;top:100%;right:0;z-index:30;min-width:180px;padding:8px 0;background:var(--sf);border:1px solid var(--ln);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+.hd .nav .dropdown-content a{display:block;padding:9px 14px;text-align:right}
+.hd .nav .dropdown:focus-within .dropdown-content,.hd .nav .dropdown.open .dropdown-content{display:block}
+@media(hover:hover){.hd .nav .dropdown:hover .dropdown-content{display:block}}
+@media(max-width:1100px) and (min-width:901px){.hd .nav>a,.hd .nav>.dropdown>.dropdown-trigger{padding:6px 5px;font-size:.78rem}.hd .w{padding:0 10px}.hd .w{gap:8px}}
+@media(max-width:900px){.hd .nav{white-space:normal;flex-wrap:nowrap;align-items:stretch}.hd .nav .dropdown-content{position:static;box-shadow:none;border:0;background:var(--mint);margin-top:4px}.hd .nav .dropdown-content a{text-align:center}.hd .nav>a,.hd .nav>.dropdown>.dropdown-trigger{padding:12px 16px;font-size:1rem}}
+
 </style>
 </head>
 <body>

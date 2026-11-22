@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0d7a5f">
+  <meta name="theme-color" content="#061b15">
   <meta name="description" content="القرآن الكريم كاملاً مع فهرس السور والبحث السريع — زاد عبيدة">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="زاد عبيدة">
@@ -19,35 +19,41 @@
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Amiri+Quran&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/style.css">
   <style>
-    /* ===== صفحة القرآن — تصميم مهيب (v52) ===== */
-    body.q-page{--q-bg:#faf7ee;--q-paper:#fffdf7;--q-ink:#064733;--q-green:#0b6b4f;--q-gold:#c9a13b;--q-gold-soft:#f2c14e;--q-text:#1f2a26;--q-muted:#5d6b65;--q-line:#e5dcc2;--q-tint:#e8f1ec;--q-shadow:0 1px 2px rgba(6,71,51,.05),0 10px 30px rgba(6,71,51,.08)}
-    body.q-page.dark{--q-bg:#0e1815;--q-paper:#15221e;--q-ink:#e6f3ec;--q-green:#3fbf98;--q-gold:#d8b45a;--q-gold-soft:#f0c35a;--q-text:#ece8da;--q-muted:#a3b0a9;--q-line:#27382f;--q-tint:#1b2d27;--q-shadow:none}
-    body.q-page{background:var(--q-bg)!important;color:var(--q-text)!important;font-family:'Cairo','Noto Naskh Arabic',system-ui,sans-serif}
-    body.q-page .navbar{background:color-mix(in srgb,var(--q-paper) 94%,transparent)!important;border-bottom:1px solid var(--q-line)!important;box-shadow:none!important}
+    /* ===== صفحة القرآن — تصميم مهيب بالألوان الثلاثة (الذهبي + الأزرق اللازوردي + الزمردي) ===== */
+    body.q-page{--q-bg:#071c24;--q-paper:rgba(11,37,66,.86);--q-ink:#ffe39c;--q-green:#e6c274;--q-gold:#e6c274;--q-gold-soft:#ffe39c;--q-text:#f4f7f6;--q-muted:#b5cbd2;--q-line:rgba(230,194,116,.34);--q-tint:rgba(31,95,168,.38);--q-shadow:0 12px 34px rgba(0,0,0,.4)}
+    body.q-page.dark{--q-bg:#051318;--q-paper:rgba(8,26,44,.92);--q-ink:#ffe39c;--q-green:#e6c274;--q-gold:#e6c274;--q-gold-soft:#ffe39c;--q-text:#f4f7f6;--q-muted:#9eb6be;--q-line:rgba(230,194,116,.28);--q-tint:rgba(31,95,168,.45);--q-shadow:0 14px 40px rgba(0,0,0,.55)}
+    body.q-page{background:radial-gradient(ellipse 75% 45% at 12% 0%,rgba(31,95,168,.42),transparent 60%),radial-gradient(ellipse 70% 50% at 92% 8%,rgba(230,194,116,.24),transparent 55%),linear-gradient(180deg,#061b15 0%,#08242e 52%,#041218 100%)!important;color:var(--q-text)!important;font-family:'Cairo','Noto Naskh Arabic',system-ui,sans-serif;min-height:100vh;position:relative}
+    body.q-page::before{content:'';position:fixed;inset:0;opacity:.08;pointer-events:none;z-index:0;background:url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23e6c274' stroke-width='1.1'%3E%3Cpath d='M60 6L114 60L60 114L6 60Z'/%3E%3Cpath d='M98.2 21.8L98.2 98.2L21.8 98.2L21.8 21.8Z'/%3E%3Ccircle cx='60' cy='60' r='22'/%3E%3C/g%3E%3C/svg%3E");background-size:120px}
+    body.q-page .navbar{background:rgba(8,28,38,.88)!important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--q-line)!important;box-shadow:none!important}
+    body.q-page .navbar .brand span{font-family:'Amiri',serif!important;color:var(--q-gold)!important;font-weight:700}
+    body.q-page .navbar .brand img{border:2px solid var(--q-gold);border-radius:50%}
+    body.q-page .navbar .nav-links a{color:#d6e4ea!important;font-weight:700}
+    body.q-page .navbar .nav-links a:hover,body.q-page .navbar .nav-links a.active{color:var(--q-gold-soft)!important;background:rgba(31,95,168,.4)!important;border-radius:8px}
     #readProg{position:fixed;top:0;inset-inline:0;height:3px;z-index:9999;background:transparent;pointer-events:none}
-    #readProg i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--q-gold),var(--q-gold-soft))}
+    #readProg i{display:block;height:100%;width:0;background:linear-gradient(90deg,#1f5fa8,var(--q-gold),var(--q-gold-soft))}
 
     /* الترويسة */
-    .q-hero{position:relative;overflow:hidden;text-align:center;color:#f7f1e3;padding:46px 20px 52px;
-      background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23e6c46d' stroke-opacity='.16' stroke-width='1'%3E%3Crect x='16' y='16' width='32' height='32'/%3E%3Crect x='16' y='16' width='32' height='32' transform='rotate(45 32 32)'/%3E%3C/g%3E%3C/svg%3E"),linear-gradient(165deg,#14705c 0%,#0b5a45 50%,#06382b 100%)}
+    .q-hero{position:relative;z-index:1;overflow:hidden;text-align:center;color:#f7f1e3;padding:46px 20px 52px;
+      background:radial-gradient(ellipse 65% 90% at 15% 10%,rgba(31,95,168,.65),transparent 70%),linear-gradient(165deg,rgba(15,107,81,.88) 0%,rgba(11,37,66,.92) 55%,rgba(6,27,21,.96) 100%)!important}
     .q-hero::after{content:"";position:absolute;inset-inline:0;bottom:0;height:4px;background:linear-gradient(90deg,transparent,var(--q-gold),var(--q-gold-soft),var(--q-gold),transparent)}
     .q-bism{font-family:'Amiri Quran','Amiri',serif;color:#f2d98a;font-size:1.35rem;margin:0 0 .3rem}
     .q-hero h1{font-family:'Amiri',serif;font-size:clamp(2.2rem,6vw,3.5rem);color:#fff;margin:0;line-height:1.5;text-shadow:0 2px 14px rgba(0,0,0,.25)}
     .q-hero h1::before,.q-hero h1::after{content:"❖";color:var(--q-gold-soft);font-size:.45em;margin:0 .7em;vertical-align:middle}
     .q-hero p.sub{color:#dcebe4;margin:.4rem 0 0}
 
-    .quran-main{padding:22px 0 56px;max-width:900px}
+    .quran-main{position:relative;z-index:1;padding:22px 0 56px;max-width:900px}
     .note-box{background:transparent;border:0;border-bottom:1px dashed var(--q-line);border-radius:0;padding:4px 8px 14px;margin-bottom:16px;font-size:.88rem;color:var(--q-muted);text-align:center}
 
     /* الأدوات */
-    .quran-controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px;align-items:center;justify-content:center;background:var(--q-paper);padding:14px;border-radius:20px;box-shadow:var(--q-shadow);border:1px solid var(--q-line);position:sticky;top:var(--nav-h,72px);z-index:100}
-    .quran-controls select,.quran-controls input{flex:1;min-width:170px;padding:10px 14px;border-radius:12px;border:1px solid var(--q-line);background:var(--q-bg);color:var(--q-text);font-family:inherit;font-size:1rem;max-width:none}
+    .quran-controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px;align-items:center;justify-content:center;background:var(--q-paper);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:14px;border-radius:20px;box-shadow:var(--q-shadow);border:1px solid var(--q-line);position:sticky;top:var(--nav-h,72px);z-index:100}
+    .quran-controls select,.quran-controls input{flex:1;min-width:170px;padding:10px 14px;border-radius:12px;border:1px solid var(--q-line);background:rgba(6,20,28,.75);color:var(--q-text);font-family:inherit;font-size:1rem;max-width:none}
+    .quran-controls select option{background:#0b2542;color:#fff}
     .quran-controls input#ayahJump{flex:0 0 120px;min-width:100px}
-    .quran-controls select:focus,.quran-controls input:focus{outline:none;border-color:var(--q-green)}
-    .quran-controls button{padding:10px 16px;border-radius:12px;border:0;background:var(--q-green);color:#fff;font-family:inherit;font-weight:700;cursor:pointer;transition:filter .2s}
-    body.q-page.dark .quran-controls button{color:#06251b}
-    .quran-controls button:hover{filter:brightness(1.1)}
-    .quran-controls .tool-btn{background:var(--q-tint);color:var(--q-ink);padding:10px 14px;min-width:44px}
+    .quran-controls select:focus,.quran-controls input:focus{outline:none;border-color:var(--q-gold)}
+    .quran-controls button{padding:10px 16px;border-radius:12px;border:0;background:linear-gradient(135deg,#ffe39c,#e6c274);color:#071e17;font-family:inherit;font-weight:700;cursor:pointer;transition:filter .2s}
+    body.q-page.dark .quran-controls button{color:#071e17}
+    .quran-controls button:hover{filter:brightness(1.08)}
+    .quran-controls .tool-btn{background:var(--q-tint);border:1px solid var(--q-line);color:var(--q-ink);padding:10px 14px;min-width:44px}
     .tools-row{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}
     .ctl-row{display:flex;gap:10px;flex-wrap:wrap;width:100%;align-items:center;justify-content:center}
 
@@ -57,54 +63,58 @@
     .resume-btn[hidden]{display:none}
 
     /* صفحة المصحف */
-    .surah-block{position:relative;background:var(--q-paper);border-radius:22px;padding:34px 30px 28px;box-shadow:var(--q-shadow);border:1px solid var(--q-line);margin-bottom:20px}
+    .surah-block{position:relative;background:var(--q-paper);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:22px;padding:34px 30px 28px;box-shadow:var(--q-shadow);border:1px solid var(--q-line);margin-bottom:20px}
     .surah-block::before{content:"";position:absolute;inset:8px;border:1.5px solid color-mix(in srgb,var(--q-gold) 55%,transparent);border-radius:16px;pointer-events:none}
-    .surah-banner{position:relative;text-align:center;margin:0 auto 18px;padding:14px 18px 12px;max-width:560px;border-radius:14px;background:linear-gradient(160deg,#0d7a5a,#064733);color:#fff;box-shadow:inset 0 0 0 2px rgba(242,193,78,.55),inset 0 0 0 5px rgba(6,71,51,.9),inset 0 0 0 6px rgba(242,193,78,.35)}
-    .surah-block h2{font-family:'Amiri',serif;font-weight:700;font-size:clamp(1.9rem,4.5vw,2.5rem);margin:0;color:#fff;border:0;padding:0;line-height:1.6}
-    .sb-chips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:2px}
-    .sb-chips span{background:rgba(255,255,255,.14);color:#f6e7b1;border-radius:999px;padding:.05rem .8rem;font-size:.82rem;font-weight:600}
+    .surah-banner{position:relative;text-align:center;margin:0 auto 18px;padding:14px 18px 12px;max-width:580px;border-radius:14px;background:linear-gradient(135deg,#1f5fa8 0%,#0b2542 52%,#0f6b51 100%)!important;color:#fff;box-shadow:inset 0 0 0 2px rgba(242,193,78,.55),inset 0 0 0 5px rgba(8,28,38,.85),inset 0 0 0 6px rgba(242,193,78,.35)}
+    .surah-block h2{font-family:'Amiri',serif;font-weight:700;font-size:clamp(1.9rem,4.5vw,2.5rem);margin:0;color:var(--q-gold-soft);border:0;padding:0;line-height:1.6}
+    .sb-chips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:4px;align-items:center}
+    .sb-chips span,.sb-chips a{background:rgba(255,255,255,.14);border:1px solid rgba(230,194,116,.38);color:#f6e7b1;border-radius:999px;padding:.1rem .85rem;font-size:.82rem;font-weight:600;text-decoration:none;transition:.2s}
+    .sb-chips a:hover{background:var(--q-gold);color:#071e17}
     .basmala{text-align:center;font-family:'Amiri Quran','Amiri',serif;font-size:calc(var(--ayah-size,1.5rem) * 1.1);color:var(--q-ink);margin:6px 0 20px;line-height:2.2}
-    .ayah-text{font-family:'Amiri Quran','Amiri','Noto Naskh Arabic',serif;font-size:var(--ayah-size,1.5rem);line-height:2.5;margin-bottom:10px;color:var(--q-text);text-align:justify;scroll-margin-top:160px;cursor:pointer;border-radius:10px;transition:background .25s}
+    .ayah-text{font-family:'Amiri Quran','Amiri','Noto Naskh Arabic',serif;font-size:var(--ayah-size,1.5rem);line-height:2.5;margin-bottom:10px;color:var(--q-text);text-align:justify;scroll-margin-top:160px;cursor:pointer;border-radius:10px;padding:2px 6px;transition:background .25s}
     .ayah-text:hover{background:color-mix(in srgb,var(--q-tint) 55%,transparent)}
     .ayah-text.sel{background:var(--q-tint)}
     .ayah-text.bm{background:linear-gradient(transparent 62%,rgba(242,193,78,.35) 0)}
     .ayah-text.flash{animation:qflash 1.8s ease-out}
     @keyframes qflash{0%,40%{background:rgba(242,193,78,.45)}100%{background:transparent}}
-    .ayah-text .ayah-number{display:inline-flex;align-items:center;justify-content:center;min-width:2em;height:2em;padding:0 .15em;margin:0 6px;border:1.5px solid var(--q-gold);border-radius:50%;background:radial-gradient(circle,var(--q-paper) 55%,rgba(201,161,59,.2));box-shadow:0 0 0 2px var(--q-paper),0 0 0 3px rgba(201,161,59,.45);color:var(--q-green);font-family:'Cairo',sans-serif;font-size:.5em;font-weight:700;line-height:1;vertical-align:middle;font-variant-numeric:lining-nums}
-    .surah-block.flow .ayah-text{display:inline;margin:0}
+    .ayah-text .ayah-number{display:inline-flex;align-items:center;justify-content:center;min-width:2em;height:2em;padding:0 .15em;margin:0 6px;border:1.5px solid var(--q-gold);border-radius:50%;background:radial-gradient(circle,rgba(11,37,66,.95) 55%,rgba(201,161,59,.25));box-shadow:0 0 0 2px rgba(230,194,116,.35);color:var(--q-gold-soft);font-family:'Cairo',sans-serif;font-size:.5em;font-weight:700;line-height:1;vertical-align:middle;font-variant-numeric:lining-nums}
+    .surah-block.flow .ayah-text{display:inline;margin:0;padding:0}
     .surah-block.flow .flow-wrap{text-align:justify;line-height:2.5}
 
     .surah-nav{display:flex;justify-content:space-between;gap:10px;margin-top:24px;flex-wrap:wrap}
     .surah-nav button{padding:10px 20px;border-radius:12px;border:1px solid var(--q-line);background:var(--q-tint);color:var(--q-ink);font-weight:700;font-family:inherit;cursor:pointer;transition:background .2s,color .2s}
-    .surah-nav button:hover:not(:disabled){background:var(--q-green);color:#fff}
+    .surah-nav button:hover:not(:disabled){background:var(--q-gold);color:#071e17}
     .surah-nav button:disabled{opacity:.4;cursor:default}
 
     .loading-indicator{text-align:center;padding:40px;color:var(--q-muted);font-style:italic}
-    .error-box{text-align:center;padding:30px;color:#b3261e;font-weight:600}
-    body.dark .error-box{color:#ff8a80}
-    .error-box button{margin-top:14px;padding:10px 20px;border-radius:12px;border:0;background:var(--q-green);color:#fff;font-weight:700;cursor:pointer}
+    .error-box{text-align:center;padding:30px;color:#ff8a80;font-weight:600}
+    .error-box button{margin-top:14px;padding:10px 20px;border-radius:12px;border:0;background:var(--q-gold);color:#071e17;font-weight:700;cursor:pointer}
     .suggest-list{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
     .suggest-list button{padding:8px 14px;border-radius:12px;border:1px solid var(--q-line);background:var(--q-tint);color:var(--q-ink);font-family:inherit;font-weight:600;cursor:pointer}
 
     /* شريط الآية المحددة */
-    #ayahBar{position:fixed;inset-inline:12px;bottom:14px;margin-inline:auto;max-width:460px;z-index:300;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;background:#064733;color:#fff;padding:10px 14px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+    #ayahBar{position:fixed;inset-inline:12px;bottom:14px;margin-inline:auto;max-width:460px;z-index:300;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;background:linear-gradient(135deg,#0b2542,#061b15);border:1px solid var(--q-gold);color:#fff;padding:10px 14px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.45)}
     #ayahBar[hidden]{display:none}
     #ayahBar .ab-t{font-weight:700;color:#f6e7b1;width:100%;text-align:center;font-size:.9rem}
-    #ayahBar button{background:rgba(255,255,255,.14);color:#fff;border:0;border-radius:10px;padding:.4rem .9rem;font:600 .9rem 'Cairo',sans-serif;cursor:pointer}
-    #ayahBar button:hover{background:rgba(255,255,255,.25)}
+    #ayahBar button{background:rgba(31,95,168,.55);border:1px solid rgba(230,194,116,.38);color:#fff;border-radius:10px;padding:.4rem .9rem;font:600 .9rem 'Cairo',sans-serif;cursor:pointer}
+    #ayahBar button:hover{background:var(--q-gold);color:#071e17}
 
     /* فهرس السور */
-    #idxDlg{width:min(920px,94vw);max-height:84vh;border:1px solid var(--q-line);border-radius:22px;padding:0;background:var(--q-paper);color:var(--q-text);box-shadow:0 20px 60px rgba(0,0,0,.35)}
-    #idxDlg::backdrop{background:rgba(6,40,30,.55)}
-    .idx-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--q-line);position:sticky;top:0;background:var(--q-paper)}
+    #idxDlg{width:min(920px,94vw);max-height:84vh;border:1px solid var(--q-gold);border-radius:22px;padding:0;background:linear-gradient(165deg,#0b2542,#061b15);color:var(--q-text);box-shadow:0 20px 60px rgba(0,0,0,.55)}
+    #idxDlg::backdrop{background:rgba(6,27,21,.75)}
+    .idx-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--q-line);position:sticky;top:0;background:rgba(8,28,38,.95)}
     .idx-head h3{margin:0;font-family:'Amiri',serif;font-size:1.5rem;color:var(--q-ink)}
-    .idx-head button{border:0;background:var(--q-tint);color:var(--q-ink);border-radius:10px;padding:.4rem .9rem;font:700 .95rem 'Cairo',sans-serif;cursor:pointer}
+    .idx-head button{border:0;background:var(--q-gold);color:#071e17;border-radius:10px;padding:.4rem .9rem;font:700 .95rem 'Cairo',sans-serif;cursor:pointer}
     #idxGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:16px 20px 22px;overflow:auto;max-height:68vh}
-    .idx-item{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:10px;align-items:center;text-align:start;padding:10px 12px;border-radius:14px;border:1px solid var(--q-line);background:var(--q-bg);color:var(--q-text);cursor:pointer;font-family:inherit}
-    .idx-item:hover{border-color:var(--q-green)}
-    .idx-item .n{grid-row:1/3;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--q-gold);color:var(--q-green);font-weight:700;font-size:.85rem}
+    .idx-item{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:10px;align-items:center;text-align:start;padding:10px 12px;border-radius:14px;border:1px solid var(--q-line);background:rgba(15,50,74,.55);color:var(--q-text);cursor:pointer;font-family:inherit}
+    .idx-item:hover{border-color:var(--q-gold);background:rgba(31,95,168,.55)}
+    .idx-item .n{grid-row:1/3;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--q-gold);color:var(--q-gold-soft);font-weight:700;font-size:.85rem}
     .idx-item .nm{font-family:'Amiri',serif;font-size:1.15rem;font-weight:700;color:var(--q-ink)}
     .idx-item .ct{font-size:.78rem;color:var(--q-muted)}
+
+    body.q-page footer{position:relative;z-index:1;background:rgba(5,18,26,.92)!important;border-top:1px solid var(--q-line);color:#cfe0e6}
+    body.q-page footer h4{color:var(--q-gold-soft)}
+    body.q-page footer a{color:#cfe0e6}
 
     a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #e0a82e;outline-offset:2px;border-radius:8px}
     @media (max-width:768px){
@@ -133,6 +143,7 @@
       <a href="./index.html">الرئيسية</a>
       <a href="./adhkar.html">الأذكار</a>
       <a href="./quran.html" class="active" aria-current="page">القرآن</a>
+      <a href="./quran-audio.html">الاستماع</a>
       <a href="./nawawi.html">الأحاديث</a>
       <a href="./duas.html">الأدعية</a>
       <a href="./articles.html">المقالات</a>
@@ -150,7 +161,7 @@
         </div>
       </div>
     </div>
-<div class="nav-tools">
+    <div class="nav-tools">
       <button class="icon-btn" id="themeToggle" type="button" aria-label="تبديل الوضع الليلي">🌙</button>
       <button class="icon-btn mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="القائمة" aria-expanded="false" aria-controls="navLinks">☰</button>
     </div>
@@ -178,7 +189,7 @@
       <select id="surahSelect" aria-label="اختر السورة">
         <option value="">-- اختر سورة --</option>
       </select>
-      <input type="search" id="searchInput" list="surahList" placeholder="اسم السورة أو رقمها، أو 2:255 (سورة:آية)" aria-label="بحث عن سورة" autocomplete="off">
+      <input type="search" id="searchInput" list="surahList" placeholder="اسم السورة أو رقمها، أو 2:255 (سورة:آية)، أو كلمة من آية" aria-label="بحث عن سورة" autocomplete="off">
       <datalist id="surahList"></datalist>
       <button type="button" id="searchBtn">🔍 بحث</button>
     </div>
@@ -438,6 +449,12 @@
     chips.appendChild(el('span', '', isMadani(id) ? 'مدنية' : 'مكية'));
     chips.appendChild(el('span', '', 'عدد الآيات: ' + num(list.length)));
     chips.appendChild(el('span', '', 'ترتيبها: ' + num(id)));
+
+    var listenLink = document.createElement('a');
+    listenLink.href = './quran-audio.html';
+    listenLink.textContent = '🎧 استمع للسورة';
+    chips.appendChild(listenLink);
+
     banner.appendChild(chips);
     block.appendChild(banner);
 
@@ -514,7 +531,7 @@
     scrollT = setTimeout(function () { store.set('zad_scroll_' + currentId, String(Math.round(window.scrollY))); }, 400);
   }, { passive: true });
 
-  /* ---------- البحث ---------- */
+  /* ---------- البحث (في أسماء السور ونص الآيات) ---------- */
   function searchSurah() {
     var raw = searchInput.value.trim();
     if (!raw) { toast('اكتب اسم السورة أو رقمها'); return; }
@@ -555,6 +572,29 @@
       container.replaceChildren(box);
       return;
     }
+
+    var ayahHits = [];
+    bySurah.forEach(function (arr, sid) {
+      for (var j = 0; j < arr.length; j++) {
+        if (norm(arr[j].t).indexOf(q) !== -1) {
+          ayahHits.push({ s: sid, n: arr[j].n, t: arr[j].t });
+          if (ayahHits.length >= 25) break;
+        }
+      }
+    });
+    if (ayahHits.length) {
+      var resBox = el('div', 'surah-block');
+      resBox.appendChild(el('div', 'basmala', 'نتائج البحث في الآيات (' + ayahHits.length + '):'));
+      ayahHits.forEach(function (hit) {
+        var item = el('div', 'ayah-text');
+        item.innerHTML = '<strong>سورة ' + surahName(hit.s) + ' (' + hit.n + '):</strong> ' + hit.t;
+        item.addEventListener('click', function () { go(hit.s, false, hit.n); });
+        resBox.appendChild(item);
+      });
+      container.replaceChildren(resBox);
+      return;
+    }
+
     toast('لم يتم العثور على السورة. تأكد من الاسم.');
   }
 
@@ -618,9 +658,7 @@
 
   var yEl = $('year'); if (yEl) yEl.textContent = new Date().getFullYear();
 
-  /* ---------- الوضع الليلي + قائمة الموبايل + العودة للأعلى ----------
-     نستبدل الأزرار بنسخ نظيفة عند اكتمال التحميل لنتفادى تكرار المستمعات
-     إن كان app.js يربطها أيضاً، ونستخدم نفس مفتاح الحفظ في الصفحة الرئيسية. */
+  /* ---------- الوضع الليلي + قائمة الموبايل + العودة للأعلى ---------- */
   if (store.get('zad_theme') === 'dark') document.body.classList.add('dark');
   function fresh(id) {
     var old = $(id); if (!old) return null;
@@ -636,7 +674,7 @@
       var dark = document.body.classList.contains('dark');
       theme.textContent = dark ? '☀️' : '🌙';
       theme.setAttribute('aria-pressed', dark ? 'true' : 'false');
-      if (meta) meta.setAttribute('content', dark ? '#121212' : '#0d7a5f');
+      if (meta) meta.setAttribute('content', dark ? '#051318' : '#061b15');
     }
     paintTheme();
     theme.addEventListener('click', function () {
@@ -677,7 +715,8 @@
       .then(function (data) {
         if (!buildIndex(data)) throw new Error('تنسيق البيانات غير متوقع');
         paintBm();
-        var p = parseHash();
+        var qSurah = parseInt(new URLSearchParams(location.search).get('surah'), 10);
+        var p = (qSurah >= 1 && qSurah <= 114) ? { s: qSurah, a: 0 } : parseHash();
         var last = parseInt(store.get(LAST_KEY), 10);
         if (p) { renderSurah(p.s, !p.a, p.a); return; }
         if (last >= 1 && last <= 114) {

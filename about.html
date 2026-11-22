@@ -138,6 +138,19 @@ footer a{text-decoration:none}footer a:hover{color:var(--mint)}
   .card{padding:22px}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}.js .rv{opacity:1;transform:none}}
+
+/* تنسيق موحد للتنقل */
+.nav-in{flex-wrap:nowrap}
+.links{align-items:center;flex-wrap:nowrap;white-space:nowrap;gap:2px}
+.links>a,.links>.dropdown>.dropdown-trigger{padding:6px 7px;font-size:.82rem}
+.dropdown{position:relative}
+.dropdown-content{display:none;position:absolute;top:100%;right:0;z-index:20;min-width:180px;padding:8px 0;background:var(--bg);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 25px rgba(0,0,0,.12)}
+.dropdown-content a{display:block;padding:9px 14px;text-align:right}
+.dropdown:focus-within .dropdown-content,.dropdown.open .dropdown-content{display:block}
+@media(hover:hover){.dropdown:hover .dropdown-content{display:block}}
+@media(max-width:1100px) and (min-width:821px){.links>a,.links>.dropdown>.dropdown-trigger{padding:5px 4px;font-size:.75rem}.nav-in{gap:8px}}
+@media(max-width:820px){.links{white-space:normal;align-items:stretch;gap:4px}.links>a,.links>.dropdown>.dropdown-trigger{padding:12px 16px;font-size:.95rem}.dropdown-content{position:static;box-shadow:none;border:0;background:var(--card2);margin-top:4px}.dropdown-content a{text-align:center}}
+
 </style>
 </head>
 <body>
@@ -149,12 +162,9 @@ footer a{text-decoration:none}footer a:hover{color:var(--mint)}
 </defs></svg>
 
 <nav class="nav" aria-label="التنقل الرئيسي">
-  <div class="wrap nav-inner">
-    <a href="./index.html" class="brand" aria-label="زاد عبيدة">
-      <img src="./logo-zad-almuslim.webp.png" alt="شعار زاد عبيدة">
-      <span>زاد عبيدة</span>
-    </a>
-    <div class="nav-links" id="navLinks">
+  <div class="wrap nav-in">
+    <a href="./index.html" class="brand" aria-label="زاد عبيدة"><img src="./logo-zad-almuslim.webp.png" alt="شعار زاد عبيدة"><b>زاد عبيدة</b></a>
+    <div class="links" id="links">
       <a href="./index.html">الرئيسية</a>
       <a href="./adhkar.html">الأذكار</a>
       <a href="./quran.html">القرآن</a>
@@ -163,19 +173,11 @@ footer a{text-decoration:none}footer a:hover{color:var(--mint)}
       <a href="./articles.html">المقالات</a>
       <a href="./wird.html">وردك اليومي</a>
       <a href="./sahihayn.html">الصحيحان</a>
-      <a href="./about.html" class="active" aria-current="page">عن الموقع</a>
+      <a href="./about.html" aria-current="page">عن الموقع</a>
       <a href="./opinions.html">آراؤكم</a>
-      <div class="dropdown">
-        <a href="#" role="button" aria-haspopup="true" aria-expanded="false">أذكار المسلم <span class="caret">⌄</span></a>
-        <div class="dropdown-content">
-          <a href="./adhkar.html">الأذكار العامة</a>
-          <a href="./azkar-morning.html">أذكار الصباح</a>
-          <a href="./azkar-evening.html">أذكار المساء</a>
-          <a href="./azkar-sleep.html">أذكار النوم</a>
-        </div>
-      </div>
+      <div class="dropdown"><a href="./adhkar.html" class="dropdown-trigger" aria-haspopup="true" aria-expanded="false">أذكار المسلم <span class="caret">⌄</span></a><div class="dropdown-content"><a href="./adhkar.html">الأذكار العامة</a><a href="./azkar-morning.html">أذكار الصباح</a><a href="./azkar-evening.html">أذكار المساء</a><a href="./azkar-sleep.html">أذكار النوم</a></div></div>
     </div>
-    <div class="nav-tools"><button class="icon-btn" id="themeToggle" type="button" aria-label="الوضع الليلي">تبديل الوضع</button><button class="icon-btn mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="القائمة" aria-expanded="false" aria-controls="navLinks">☰</button></div>
+    <div class="tools"><button class="ibtn" id="theme" type="button" aria-label="الوضع الليلي">◐</button><button class="ibtn" id="menu" type="button" aria-label="القائمة" aria-expanded="false">☰</button></div>
   </div>
 </nav>
 

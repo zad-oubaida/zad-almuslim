@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#7c1d24">
+  <meta name="theme-color" content="#155c47">
   <meta name="description" content="أذكار وأدعية من القرآن والسنة الصحيحة مع مصادرها — زاد عبيدة">
   <title>الأذكار — زاد عبيدة</title>
   <link rel="canonical" href="https://zad-oubaida.github.io/zad-almuslim/adhkar.html">
@@ -13,44 +13,42 @@
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/style.css">
   <style>
-    /* ===== المتغيرات اللونية: الوضع النهاري (الأندلسي الملكي: أبيض عاجي + عنابي + ذهبي) ===== */
+    /* ===== الوضع النهاري: ورق عاجي دافئ مريح للعين + زمردي هادئ + ذهبي ===== */
     :root {
       --bg-grad:
-        radial-gradient(ellipse 75% 45% at 15% 0%, rgba(124, 29, 36, 0.11), transparent 60%),
-        radial-gradient(ellipse 70% 50% at 90% 8%, rgba(197, 150, 50, 0.16), transparent 55%),
-        linear-gradient(180deg, #fdfaf3 0%, #f8f2e4 55%, #f3ead6 100%);
-      --nav-bg: rgba(124, 29, 36, 0.94);
-      --nav-border: rgba(230, 194, 116, 0.45);
-      --nav-link: #fff6e5;
-      --nav-active-bg: rgba(230, 194, 116, 0.24);
-      --primary-accent: #7c1d24;
-      --primary-deep: #561117;
-      --gold: #b88928;
+        radial-gradient(ellipse 75% 45% at 15% 0%, rgba(21, 92, 71, 0.08), transparent 60%),
+        radial-gradient(ellipse 70% 50% at 90% 8%, rgba(179, 135, 40, 0.12), transparent 55%),
+        linear-gradient(180deg, #f3eee1 0%, #ede6d5 55%, #e7dec9 100%);
+      --nav-bg: rgba(21, 92, 71, 0.94);
+      --nav-border: rgba(230, 194, 116, 0.4);
+      --nav-link: #f4f1e6;
+      --nav-active-bg: rgba(230, 194, 116, 0.22);
+      --gold: #a67c21;
       --gold-light: #e6c274;
-      --card-bg: rgba(255, 255, 255, 0.92);
-      --card-done-bg: linear-gradient(160deg, rgba(238, 250, 244, 0.96), rgba(255, 255, 255, 0.96));
-      --card-border: rgba(184, 137, 40, 0.38);
-      --card-shadow: 0 10px 28px rgba(124, 29, 36, 0.08);
-      --title-color: #7c1d24;
-      --text-main: #231819;
-      --text-box-bg: rgba(250, 245, 234, 0.85);
-      --text-box-hover: rgba(124, 29, 36, 0.06);
-      --text-muted: #5e4b4d;
-      --dash-bg: rgba(255, 255, 255, 0.88);
-      --btn-bg: rgba(124, 29, 36, 0.08);
-      --btn-text: #7c1d24;
-      --btn-active-bg: linear-gradient(135deg, #8e222a, #63141a);
-      --btn-active-text: #ffe7b3;
-      --ring-bg: radial-gradient(circle, #fffdf9, #f6eedc);
-      --ring-track: rgba(124, 29, 36, 0.14);
-      --ring-stroke: #8e222a;
-      --ring-text: #7c1d24;
-      --done-color: #0f7a56;
-      --footer-bg: #4d1015;
+      --card-bg: rgba(249, 245, 235, 0.92);
+      --card-done-bg: linear-gradient(160deg, rgba(228, 243, 236, 0.96), rgba(249, 245, 235, 0.96));
+      --card-border: rgba(166, 124, 33, 0.32);
+      --card-shadow: 0 8px 24px rgba(21, 92, 71, 0.07);
+      --title-color: #13523f;
+      --text-main: #1e2925;
+      --text-box-bg: rgba(239, 232, 216, 0.72);
+      --text-box-hover: rgba(21, 92, 71, 0.07);
+      --text-muted: #51615b;
+      --dash-bg: rgba(249, 245, 235, 0.88);
+      --btn-bg: rgba(21, 92, 71, 0.09);
+      --btn-text: #13523f;
+      --btn-active-bg: linear-gradient(135deg, #196b53, #114b3a);
+      --btn-active-text: #f9f3e3;
+      --ring-bg: radial-gradient(circle, #faf6ec, #ebe2ce);
+      --ring-track: rgba(21, 92, 71, 0.14);
+      --ring-stroke: #b38728;
+      --ring-text: #13523f;
+      --done-color: #15805d;
+      --footer-bg: #104535;
       --dhikr-size: 1.38rem;
     }
 
-    /* ===== الوضع الليلي (اللازوردي الملكي: أزرق لازوردي + زمردي + ذهبي) ===== */
+    /* ===== الوضع الليلي: لازوردي ملكي + زمردي داكن + ذهبي ===== */
     body.dark {
       --bg-grad:
         radial-gradient(ellipse 75% 45% at 12% 0%, rgba(31, 95, 168, 0.42), transparent 60%),
@@ -60,8 +58,6 @@
       --nav-border: rgba(230, 194, 116, 0.3);
       --nav-link: #d6e4ea;
       --nav-active-bg: rgba(31, 95, 168, 0.4);
-      --primary-accent: #e6c274;
-      --primary-deep: #0b2542;
       --gold: #e6c274;
       --gold-light: #ffe39c;
       --card-bg: linear-gradient(160deg, rgba(14, 48, 74, 0.84), rgba(7, 30, 26, 0.92));
@@ -69,7 +65,7 @@
       --card-border: rgba(230, 194, 116, 0.32);
       --card-shadow: 0 12px 32px rgba(0, 0, 0, 0.38);
       --title-color: #ffe39c;
-      --text-main: #ffffff;
+      --text-main: #f4f7f6;
       --text-box-bg: rgba(4, 16, 22, 0.42);
       --text-box-hover: rgba(31, 95, 168, 0.22);
       --text-muted: #b8cdd4;
@@ -86,38 +82,34 @@
       --footer-bg: rgba(5, 18, 26, 0.94);
     }
 
+    /* انتقال لوني هادئ وانسيابي بين النهار والليل */
+    body, .navbar, .dhikr-dashboard, .search-box input, .filter-btn,
+    .azkar-item, .azkar-item h3, .azkar-text, .azkar-ref, .action-btn,
+    .ring-btn, .ring-reset, footer {
+      transition:
+        background-color 0.55s ease,
+        background 0.55s ease,
+        color 0.55s ease,
+        border-color 0.55s ease,
+        box-shadow 0.55s ease;
+    }
+
     body {
       background: var(--bg-grad) !important;
       color: var(--text-main) !important;
       font-family: 'Tajawal', sans-serif !important;
       min-height: 100vh;
       position: relative;
-      transition: color 0.45s ease;
-    }
-
-    /* موجة الأنيماسيون عند تبديل الوضع الليلي / النهاري */
-    .theme-ripple {
-      position: fixed;
-      inset: 0;
-      z-index: 9998;
-      pointer-events: none;
-      opacity: 0;
-      clip-path: circle(0% at var(--rx, 85%) var(--ry, 35px));
-      transition: clip-path 0.75s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
-    }
-    .theme-ripple.active {
-      opacity: 1;
-      clip-path: circle(150% at var(--rx, 85%) var(--ry, 35px));
     }
 
     body::before {
       content: '';
       position: fixed;
       inset: 0;
-      opacity: 0.08;
+      opacity: 0.07;
       pointer-events: none;
       z-index: 0;
-      background: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23b88928' stroke-width='1.1'%3E%3Cpath d='M60 6L114 60L60 114L6 60Z'/%3E%3Cpath d='M98.2 21.8L98.2 98.2L21.8 98.2L21.8 21.8Z'/%3E%3Ccircle cx='60' cy='60' r='22'/%3E%3C/g%3E%3C/svg%3E");
+      background: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23a67c21' stroke-width='1.1'%3E%3Cpath d='M60 6L114 60L60 114L6 60Z'/%3E%3Cpath d='M98.2 21.8L98.2 98.2L21.8 98.2L21.8 21.8Z'/%3E%3Ccircle cx='60' cy='60' r='22'/%3E%3C/g%3E%3C/svg%3E");
       background-size: 120px;
     }
 
@@ -130,7 +122,6 @@
       position: sticky;
       top: 0;
       z-index: 200;
-      transition: background 0.45s ease, border-color 0.45s ease;
     }
     .navbar .brand span {
       font-family: 'Amiri', serif !important;
@@ -144,7 +135,6 @@
     .navbar .nav-links a {
       color: var(--nav-link) !important;
       font-weight: 700;
-      transition: 0.25s;
     }
     .navbar .nav-links a:hover,
     .navbar .nav-links a.active {
@@ -153,12 +143,12 @@
       border-radius: 8px;
     }
 
-    /* أنيماسيون دوران أيقونة القمر والشمس */
     #themeToggle {
-      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s;
+      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
     }
-    #themeToggle.spin {
-      transform: rotate(360deg) scale(1.15);
+    #themeToggle.switching {
+      transform: scale(0.75) rotate(180deg);
+      opacity: 0.4;
     }
 
     main.wrap {
@@ -186,12 +176,10 @@
       font-size: clamp(2.1rem, 4.5vw, 3rem);
       color: var(--title-color);
       margin: 0 0 8px;
-      transition: color 0.45s ease;
     }
     .section-head p {
       color: var(--text-muted);
       margin: 0 auto 14px;
-      transition: color 0.45s ease;
     }
     .orn {
       display: flex;
@@ -226,7 +214,6 @@
       padding: 14px 20px;
       margin-bottom: 22px;
       box-shadow: var(--card-shadow);
-      transition: background 0.45s ease, border-color 0.45s ease;
     }
     .dash-stat {
       display: flex;
@@ -252,7 +239,6 @@
       font-weight: 700;
       font-size: 0.86rem;
       cursor: pointer;
-      transition: 0.22s;
     }
     .dash-btn:hover {
       background: var(--btn-active-bg);
@@ -274,11 +260,10 @@
       font-family: inherit;
       font-size: 1rem;
       outline: none;
-      transition: 0.3s;
     }
     .search-box input:focus {
       border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(184, 137, 40, 0.2);
+      box-shadow: 0 0 0 3px rgba(166, 124, 33, 0.18);
     }
 
     .filter-row {
@@ -298,17 +283,14 @@
       font-weight: 700;
       font-size: 0.9rem;
       cursor: pointer;
-      transition: 0.25s;
     }
     .filter-btn:hover {
       border-color: var(--gold);
-      transform: translateY(-1px);
     }
     .filter-btn.active {
       background: var(--btn-active-bg);
       color: var(--btn-active-text);
       border-color: transparent;
-      box-shadow: 0 4px 14px rgba(124, 29, 36, 0.22);
     }
 
     /* بطاقات الأذكار */
@@ -327,7 +309,6 @@
       border-radius: 22px !important;
       padding: 24px 26px !important;
       box-shadow: var(--card-shadow) !important;
-      transition: background 0.45s ease, border-color 0.35s ease, transform 0.25s ease;
       overflow: hidden;
     }
     .azkar-item.completed {
@@ -357,7 +338,6 @@
       font-size: 1.48rem !important;
       color: var(--title-color) !important;
       margin: 0 !important;
-      transition: color 0.45s ease;
     }
     .fav-star {
       background: var(--btn-bg);
@@ -370,17 +350,12 @@
       cursor: pointer;
       display: grid;
       place-items: center;
-      transition: 0.2s;
       flex: none;
     }
     .fav-star.on {
-      background: rgba(124, 29, 36, 0.14);
-      color: #c82333;
+      background: rgba(166, 124, 33, 0.16);
+      color: #d64560;
       border-color: var(--gold);
-    }
-    body.dark .fav-star.on {
-      background: rgba(230, 194, 116, 0.22);
-      color: #ff6b8b;
     }
 
     .azkar-text {
@@ -396,7 +371,6 @@
       margin-bottom: 12px;
       cursor: pointer;
       user-select: none;
-      transition: background 0.35s ease, color 0.45s ease;
     }
     .azkar-text:hover {
       background: var(--text-box-hover);
@@ -408,7 +382,6 @@
       margin-bottom: 16px !important;
       padding-inline-start: 8px;
       border-inline-start: 3px solid var(--gold);
-      transition: color 0.45s ease;
     }
 
     /* شريط الأزرار + الدائرة التفاعلية */
@@ -438,7 +411,6 @@
       font-weight: 700 !important;
       font-size: 0.85rem !important;
       cursor: pointer;
-      transition: 0.22s;
     }
     .action-btn:hover {
       background: var(--btn-active-bg) !important;
@@ -459,16 +431,16 @@
       border-radius: 50%;
       border: none;
       background: var(--ring-bg);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14), inset 0 0 0 1px var(--card-border);
+      box-shadow: 0 5px 16px rgba(0, 0, 0, 0.12), inset 0 0 0 1px var(--card-border);
       cursor: pointer;
       padding: 0;
       display: grid;
       place-items: center;
-      transition: transform 0.14s cubic-bezier(0.22, 1, 0.36, 1), background 0.45s ease;
+      transition: transform 0.14s cubic-bezier(0.22, 1, 0.36, 1), background 0.55s ease;
       -webkit-tap-highlight-color: transparent;
     }
     .ring-btn:active {
-      transform: scale(0.91);
+      transform: scale(0.92);
     }
     .ring-btn svg {
       position: absolute;
@@ -487,7 +459,7 @@
       stroke: var(--ring-stroke);
       stroke-width: 5.5;
       stroke-linecap: round;
-      transition: stroke-dashoffset 0.28s ease, stroke 0.3s ease;
+      transition: stroke-dashoffset 0.28s ease, stroke 0.35s ease;
     }
     .ring-btn.done .ring-fill {
       stroke: var(--done-color);
@@ -524,7 +496,6 @@
       cursor: pointer;
       display: grid;
       place-items: center;
-      transition: 0.2s;
     }
     .ring-reset:hover {
       background: var(--btn-active-bg);
@@ -536,11 +507,10 @@
       z-index: 1;
       background: var(--footer-bg) !important;
       border-top: 1.5px solid var(--gold);
-      color: #f6ead6;
-      transition: background 0.45s ease;
+      color: #f4efe2;
     }
     footer h4 { color: var(--gold-light); }
-    footer a { color: #f6ead6; }
+    footer a { color: #f4efe2; }
 
     @media (max-width: 640px) {
       .azkar-item { padding: 18px 16px !important; }
@@ -550,7 +520,6 @@
   </style>
 </head>
 <body>
-<div class="theme-ripple" id="themeRipple"></div>
 
 <nav class="navbar">
   <div class="wrap nav-inner">
@@ -641,10 +610,9 @@
 <script>
 document.getElementById('year').textContent = new Date().getFullYear();
 
-/* ===== أنيماسيون الانتقال السلس بين الوضع النهاري (العنابي والذهبي) والليلي (اللازوردي) ===== */
+/* ===== انتقال هادئ وناعم بين الوضع النهاري (العاجي والزمردي) والليلي (اللازوردي) ===== */
 window.addEventListener('load', function(){
   const oldBtn = document.getElementById('themeToggle');
-  const ripple = document.getElementById('themeRipple');
   const metaTheme = document.querySelector('meta[name="theme-color"]');
   if (!oldBtn) return;
 
@@ -654,37 +622,20 @@ window.addEventListener('load', function(){
   function syncThemeUI(){
     const isDark = document.body.classList.contains('dark');
     btn.textContent = isDark ? '☀️' : '🌙';
-    if (metaTheme) metaTheme.setAttribute('content', isDark ? '#061b15' : '#7c1d24');
+    if (metaTheme) metaTheme.setAttribute('content', isDark ? '#061b15' : '#155c47');
   }
   syncThemeUI();
 
   btn.addEventListener('click', function(){
-    const rect = btn.getBoundingClientRect();
-    const x = ((rect.left + rect.width / 2) / window.innerWidth * 100).toFixed(1) + '%';
-    const y = ((rect.top + rect.height / 2) / window.innerHeight * 100).toFixed(1) + '%';
+    btn.classList.add('switching');
     const willBeDark = !document.body.classList.contains('dark');
-
-    btn.classList.add('spin');
-    setTimeout(() => btn.classList.remove('spin'), 520);
-
-    if (ripple) {
-      ripple.style.setProperty('--rx', x);
-      ripple.style.setProperty('--ry', y);
-      ripple.style.background = willBeDark
-        ? 'radial-gradient(circle, rgba(31,95,168,0.45), rgba(6,27,21,0.75))'
-        : 'radial-gradient(circle, rgba(230,194,116,0.45), rgba(253,250,243,0.75))';
-      ripple.classList.add('active');
-    }
 
     setTimeout(() => {
       document.body.classList.toggle('dark', willBeDark);
       try { localStorage.setItem('zad_theme', willBeDark ? 'dark' : 'light'); } catch (e) {}
       syncThemeUI();
-    }, 180);
-
-    setTimeout(() => {
-      if (ripple) ripple.classList.remove('active');
-    }, 680);
+      btn.classList.remove('switching');
+    }, 170);
   });
 });
 

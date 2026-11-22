@@ -3,16 +3,452 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0d7a5f">
+  <meta name="theme-color" content="#061b15">
   <meta name="description" content="أذكار وأدعية من القرآن والسنة الصحيحة مع مصادرها — زاد عبيدة">
   <title>الأذكار — زاد عبيدة</title>
   <link rel="canonical" href="https://zad-oubaida.github.io/zad-almuslim/adhkar.html">
   <link rel="icon" type="image/png" href="./logo-zad-almuslim.webp.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/style.css">
-  <style>.azkar-text{white-space:pre-line}</style>
+  <style>
+    :root {
+      --zad-gold: #e6c274;
+      --zad-gold-light: #ffe39c;
+      --zad-blue: #1f5fa8;
+      --zad-blue-deep: #0b2542;
+      --zad-emerald: #0f6b51;
+      --zad-emerald-glow: #1ed760;
+      --dhikr-size: 1.38rem;
+    }
+
+    body {
+      background:
+        radial-gradient(ellipse 75% 45% at 12% 0%, rgba(31, 95, 168, 0.42), transparent 60%),
+        radial-gradient(ellipse 70% 50% at 92% 8%, rgba(230, 194, 116, 0.24), transparent 55%),
+        linear-gradient(180deg, #061b15 0%, #08242e 52%, #041218 100%) !important;
+      color: #f4f7f6 !important;
+      font-family: 'Tajawal', sans-serif !important;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      opacity: 0.08;
+      pointer-events: none;
+      z-index: 0;
+      background: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23e6c274' stroke-width='1.1'%3E%3Cpath d='M60 6L114 60L60 114L6 60Z'/%3E%3Cpath d='M98.2 21.8L98.2 98.2L21.8 98.2L21.8 21.8Z'/%3E%3Ccircle cx='60' cy='60' r='22'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 120px;
+    }
+
+    /* شريط التنقل البلوري */
+    .navbar {
+      background: rgba(8, 28, 38, 0.88) !important;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(230, 194, 116, 0.3) !important;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+    .navbar .brand span {
+      font-family: 'Amiri', serif !important;
+      color: var(--zad-gold) !important;
+      font-weight: 700;
+    }
+    .navbar .brand img {
+      border: 2px solid var(--zad-gold);
+      border-radius: 50%;
+    }
+    .navbar .nav-links a {
+      color: #d6e4ea !important;
+      font-weight: 700;
+    }
+    .navbar .nav-links a:hover,
+    .navbar .nav-links a.active {
+      color: var(--zad-gold-light) !important;
+      background: rgba(31, 95, 168, 0.4) !important;
+      border-radius: 8px;
+    }
+
+    main.wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1020px;
+      padding: 36px 18px 64px !important;
+    }
+
+    /* الترويسة */
+    .section-head {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+    .section-head small {
+      display: block;
+      font-family: 'Amiri', serif;
+      font-size: 1.25rem;
+      color: var(--zad-gold);
+      margin-bottom: 4px;
+    }
+    .section-head h2 {
+      font-family: 'Amiri', serif;
+      font-size: clamp(2.1rem, 4.5vw, 3rem);
+      color: #fff;
+      margin: 0 0 8px;
+    }
+    .section-head p {
+      color: #cfe0e6;
+      margin: 0 auto 14px;
+    }
+    .orn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      max-width: 340px;
+      margin: 0 auto;
+      color: var(--zad-gold);
+      font-size: 1.3rem;
+    }
+    .orn i {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to left, var(--zad-gold), transparent);
+    }
+    .orn i:last-child {
+      transform: scaleX(-1);
+    }
+
+    /* شريط الإنجاز اليومي والتحكم */
+    .dhikr-dashboard {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: rgba(11, 37, 66, 0.78);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(230, 194, 116, 0.35);
+      border-radius: 18px;
+      padding: 14px 20px;
+      margin-bottom: 22px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+    }
+    .dash-stat {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      color: var(--zad-gold-light);
+      font-size: 0.98rem;
+    }
+    .dash-tools {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .dash-btn {
+      background: rgba(31, 95, 168, 0.42);
+      border: 1px solid rgba(230, 194, 116, 0.38);
+      color: var(--zad-gold-light);
+      border-radius: 10px;
+      padding: 7px 13px;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.86rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .dash-btn:hover {
+      background: var(--zad-gold);
+      color: #071e17;
+    }
+
+    /* البحث والفلاتر */
+    .search-box {
+      max-width: 560px;
+      margin: 0 auto 20px;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 13px 22px;
+      border-radius: 50px;
+      border: 1.5px solid rgba(230, 194, 116, 0.35);
+      background: rgba(8, 28, 38, 0.85);
+      color: #fff;
+      font-family: inherit;
+      font-size: 1rem;
+      outline: none;
+    }
+    .search-box input:focus {
+      border-color: var(--zad-gold);
+      box-shadow: 0 0 0 3px rgba(230, 194, 116, 0.16);
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 28px;
+    }
+    .filter-btn {
+      padding: 9px 18px;
+      border-radius: 99px;
+      border: 1px solid rgba(230, 194, 116, 0.38);
+      background: rgba(11, 37, 66, 0.6);
+      color: #e4eef2;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: 0.22s;
+    }
+    .filter-btn:hover {
+      background: rgba(31, 95, 168, 0.55);
+      border-color: var(--zad-gold);
+    }
+    .filter-btn.active {
+      background: linear-gradient(135deg, #ffe39c, #e6c274);
+      color: #071e17;
+      border-color: #ffe39c;
+    }
+
+    /* بطاقات الأذكار */
+    .azkar-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .azkar-item {
+      position: relative;
+      background: linear-gradient(160deg, rgba(14, 48, 74, 0.84), rgba(7, 30, 26, 0.92)) !important;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1.5px solid rgba(230, 194, 116, 0.32) !important;
+      border-radius: 22px !important;
+      padding: 24px 26px !important;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.38) !important;
+      transition: border-color 0.25s, transform 0.25s;
+      overflow: hidden;
+    }
+    .azkar-item.completed {
+      border-color: rgba(30, 215, 96, 0.55) !important;
+      background: linear-gradient(160deg, rgba(12, 58, 52, 0.88), rgba(6, 27, 21, 0.95)) !important;
+    }
+    .azkar-item::after {
+      content: '۞';
+      position: absolute;
+      bottom: -24px;
+      inset-inline-start: -10px;
+      font: 120px/1 'Amiri', serif;
+      color: var(--zad-gold);
+      opacity: 0.05;
+      pointer-events: none;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .azkar-item h3 {
+      font-family: 'Amiri', serif !important;
+      font-size: 1.45rem !important;
+      color: var(--zad-gold-light) !important;
+      margin: 0 !important;
+    }
+    .fav-star {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(230, 194, 116, 0.35);
+      color: #cfe0e6;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1.05rem;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: 0.2s;
+      flex: none;
+    }
+    .fav-star.on {
+      background: rgba(230, 194, 116, 0.22);
+      color: #ff6b8b;
+      border-color: var(--zad-gold);
+    }
+
+    .azkar-text {
+      white-space: pre-line;
+      font-family: 'Amiri', serif !important;
+      font-size: var(--dhikr-size) !important;
+      line-height: 2.25 !important;
+      color: #ffffff !important;
+      background: rgba(4, 16, 22, 0.42);
+      border: 1px solid rgba(230, 194, 116, 0.16);
+      border-radius: 16px;
+      padding: 18px 20px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.2s;
+    }
+    .azkar-text:hover {
+      background: rgba(31, 95, 168, 0.22);
+    }
+
+    .azkar-ref {
+      font-size: 0.86rem !important;
+      color: #b8cdd4 !important;
+      margin-bottom: 16px !important;
+      padding-inline-start: 6px;
+      border-inline-start: 2.5px solid var(--zad-gold);
+    }
+
+    /* شريط الأزرار + الدائرة التفاعلية */
+    .azkar-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      padding-top: 8px;
+      border-top: 1px dashed rgba(230, 194, 116, 0.22);
+    }
+
+    .azkar-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .action-btn {
+      background: rgba(31, 95, 168, 0.35) !important;
+      border: 1px solid rgba(230, 194, 116, 0.32) !important;
+      color: #eef5f8 !important;
+      border-radius: 10px !important;
+      padding: 8px 13px !important;
+      font-family: inherit !important;
+      font-weight: 700 !important;
+      font-size: 0.85rem !important;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .action-btn:hover {
+      background: var(--zad-gold) !important;
+      color: #071e17 !important;
+    }
+
+    /* الدائرة التفاعلية للعدّ (Circular Progress Counter) */
+    .ring-zone {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-inline-start: auto;
+    }
+    .ring-btn {
+      position: relative;
+      width: 74px;
+      height: 74px;
+      border-radius: 50%;
+      border: none;
+      background: radial-gradient(circle, rgba(11, 37, 66, 0.95), rgba(6, 27, 21, 0.98));
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45), inset 0 0 0 1px rgba(230, 194, 116, 0.3);
+      cursor: pointer;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      transition: transform 0.14s cubic-bezier(0.22, 1, 0.36, 1);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .ring-btn:active {
+      transform: scale(0.91);
+    }
+    .ring-btn svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+    .ring-track {
+      fill: none;
+      stroke: rgba(230, 194, 116, 0.18);
+      stroke-width: 5.5;
+    }
+    .ring-fill {
+      fill: none;
+      stroke: var(--zad-gold-light);
+      stroke-width: 5.5;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.28s ease, stroke 0.3s ease;
+    }
+    .ring-btn.done .ring-fill {
+      stroke: var(--zad-emerald-glow);
+    }
+    .ring-label {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1.15;
+      color: var(--zad-gold-light);
+      font-weight: 800;
+    }
+    .ring-btn.done .ring-label {
+      color: var(--zad-emerald-glow);
+    }
+    .ring-num {
+      font-size: 1.05rem;
+    }
+    .ring-tot {
+      font-size: 0.7rem;
+      opacity: 0.78;
+    }
+
+    .ring-reset {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid rgba(230, 194, 116, 0.32);
+      background: rgba(255, 255, 255, 0.06);
+      color: #cfe0e6;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: 0.2s;
+    }
+    .ring-reset:hover {
+      background: rgba(230, 194, 116, 0.22);
+      color: var(--zad-gold-light);
+    }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      background: rgba(5, 18, 26, 0.92) !important;
+      border-top: 1px solid rgba(230, 194, 116, 0.28);
+      color: #cfe0e6;
+    }
+    footer h4 { color: var(--zad-gold-light); }
+    footer a { color: #cfe0e6; }
+
+    @media (max-width: 640px) {
+      .azkar-item { padding: 18px 16px !important; }
+      .azkar-text { padding: 14px 14px; }
+      .ring-btn { width: 68px; height: 68px; }
+    }
+  </style>
 </head>
 <body>
 
@@ -26,6 +462,7 @@
       <a href="./index.html">الرئيسية</a>
       <a href="./adhkar.html" class="active" aria-current="page">الأذكار</a>
       <a href="./quran.html">القرآن</a>
+      <a href="./quran-audio.html">الاستماع</a>
       <a href="./nawawi.html">الأحاديث</a>
       <a href="./duas.html">الأدعية</a>
       <a href="./articles.html">المقالات</a>
@@ -43,25 +480,38 @@
         </div>
       </div>
     </div>
-<div class="nav-tools">
+    <div class="nav-tools">
       <button class="icon-btn" id="themeToggle" type="button" aria-label="الوضع الليلي">🌙</button>
       <button class="icon-btn mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="القائمة">☰</button>
     </div>
   </div>
 </nav>
 
-<main class="wrap" style="padding:40px 0">
+<main class="wrap">
   <div class="section-head">
+    <small>بسم الله الرحمن الرحيم</small>
     <h2>📿 الأذكار المختارة</h2>
     <p id="azkarSub">أذكار من القرآن والسنة الصحيحة مع نصوصها ومصادرها</p>
+    <div class="orn"><i></i>۞<i></i></div>
+  </div>
+
+  <!-- شريط الإنجاز اليومي وأدوات الخط -->
+  <div class="dhikr-dashboard">
+    <div class="dash-stat" id="dailyProgress">۞ أتممت اليوم: 0 من 0 ذكر</div>
+    <div class="dash-tools">
+      <button type="button" class="dash-btn" id="dhikrFontMinus" title="تصغير الخط">أ−</button>
+      <button type="button" class="dash-btn" id="dhikrFontPlus" title="تكبير الخط">أ+</button>
+      <button type="button" class="dash-btn" id="resetAllBtn" title="تصفير جميع العدادات">↺ تصفير الكل</button>
+    </div>
   </div>
 
   <div class="search-box">
-    <input type="search" id="azkarSearch" placeholder="ابحث في الأذكار..." aria-label="بحث">
+    <input type="search" id="azkarSearch" placeholder="ابحث في الأذكار أو الأدعية..." aria-label="بحث">
   </div>
 
   <div class="filter-row" id="dhikrFilters">
     <button class="filter-btn active" type="button" data-filter="all">الكل</button>
+    <button class="filter-btn" type="button" data-filter="favs">المفضلة ♥</button>
     <button class="filter-btn" type="button" data-filter="quran">من القرآن</button>
     <button class="filter-btn" type="button" data-filter="morning">الصباح والمساء</button>
     <button class="filter-btn" type="button" data-filter="prayer">الصلاة</button>
@@ -76,7 +526,7 @@
   <div class="wrap">
     <div class="footer-inner">
       <div><h4>زاد عبيدة</h4><p>محتوى إسلامي نافع مع توضيح المصادر.</p></div>
-      <div><h4>روابط</h4><p><a href="./index.html">الرئيسية</a><br><a href="./quran.html">القرآن</a><br><a href="./wird.html">وردك اليومي</a></p></div>
+      <div><h4>روابط</h4><p><a href="./index.html">الرئيسية</a><br><a href="./quran.html">القرآن</a><br><a href="./quran-audio.html">الاستماع</a></p></div>
       <div><h4>تواصل</h4><p><a href="https://www.instagram.com/oubaida.muslim/" target="_blank" rel="noopener noreferrer">إنستغرام</a></p></div>
     </div>
     <div class="footer-bottom">© <span id="year"></span> زاد عبيدة</div>
@@ -93,567 +543,78 @@ document.getElementById('year').textContent = new Date().getFullYear();
 
 (function(){
   const AZKAR = [
-  {
-    "id": "ilm",
-    "category": "quran",
-    "title": "دعاء طلب العلم",
-    "text": "رَبِّ زِدْنِي عِلْمًا",
-    "ref": "القرآن الكريم: سورة طه، الآية 114",
-    "target": 1
-  },
-  {
-    "id": "hidaya",
-    "category": "quran",
-    "title": "دعاء الهداية والثبات",
-    "text": "رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِنْ لَدُنْكَ رَحْمَةً إِنَّكَ أَنْتَ الْوَهَّابُ",
-    "ref": "سورة آل عمران، الآية 8",
-    "target": 1
-  },
-  {
-    "id": "hasana",
-    "category": "quran",
-    "title": "دعاء الحسنة في الدنيا والآخرة",
-    "text": "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
-    "ref": "سورة البقرة، الآية 201 — وكان أكثر دعاء النبي ﷺ (متفق عليه)",
-    "target": 1
-  },
-  {
-    "id": "sabr",
-    "category": "quran",
-    "title": "الاستعانة بالصبر والصلاة",
-    "text": "يَا أَيُّهَا الَّذِينَ آمَنُوا اسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ ۚ إِنَّ اللَّهَ مَعَ الصَّابِرِينَ",
-    "ref": "سورة البقرة، الآية 153",
-    "target": 1
-  },
-  {
-    "id": "tawakkul",
-    "category": "quran",
-    "title": "حسبنا الله ونعم الوكيل",
-    "text": "حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ",
-    "ref": "سورة آل عمران، الآية 173 — وقالها إبراهيم عليه السلام حين أُلقي في النار (رواه البخاري)",
-    "target": 1
-  },
-  {
-    "id": "afw",
-    "category": "quran",
-    "title": "دعاء التوبة",
-    "text": "رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ",
-    "ref": "سورة الأعراف، الآية 23",
-    "target": 1
-  },
-  {
-    "id": "hasbiya",
-    "category": "quran",
-    "title": "حسبي الله لا إله إلا هو",
-    "text": "حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ ۖ عَلَيْهِ تَوَكَّلْتُ ۖ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ",
-    "ref": "سورة التوبة، الآية 129",
-    "target": 1
-  },
-  {
-    "id": "taqabbal",
-    "category": "quran",
-    "title": "دعاء قبول العمل",
-    "text": "رَبَّنَا تَقَبَّلْ مِنَّا ۖ إِنَّكَ أَنتَ السَّمِيعُ الْعَلِيمُ",
-    "ref": "سورة البقرة، الآية 127",
-    "target": 1
-  },
-  {
-    "id": "tuakhidh",
-    "category": "quran",
-    "title": "دعاء الخطأ والنسيان",
-    "text": "رَبَّنَا لَا تُؤَاخِذْنَا إِن نَّسِينَا أَوْ أَخْطَأْنَا ۚ رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِن قَبْلِنَا ۚ رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ ۖ وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا ۚ أَنتَ مَوْلَانَا فَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ",
-    "ref": "سورة البقرة، الآية 286",
-    "target": 1
-  },
-  {
-    "id": "sharh",
-    "category": "quran",
-    "title": "دعاء تيسير الأمر",
-    "text": "رَبِّ اشْرَحْ لِي صَدْرِي ۝ وَيَسِّرْ لِي أَمْرِي ۝ وَاحْلُلْ عُقْدَةً مِّن لِّسَانِي ۝ يَفْقَهُوا قَوْلِي",
-    "ref": "سورة طه، الآيات 25 – 28",
-    "target": 1
-  },
-  {
-    "id": "azwaj",
-    "category": "quran",
-    "title": "دعاء صلاح الأهل والذرية",
-    "text": "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا",
-    "ref": "سورة الفرقان، الآية 74",
-    "target": 1
-  },
-  {
-    "id": "walidayn",
-    "category": "quran",
-    "title": "دعاء للوالدين",
-    "text": "رَّبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا",
-    "ref": "سورة الإسراء، الآية 24",
-    "target": 1
-  },
-  {
-    "id": "walidayn2",
-    "category": "quran",
-    "title": "دعاء المغفرة للوالدين والمؤمنين",
-    "text": "رَبَّنَا اغْفِرْ لِي وَلِوَالِدَيَّ وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ الْحِسَابُ",
-    "ref": "سورة إبراهيم، الآية 41",
-    "target": 1
-  },
-  {
-    "id": "istighfar",
-    "category": "morning",
-    "title": "سيد الاستغفار",
-    "text": "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي، فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ.",
-    "ref": "صحيح البخاري، حديث 6306 — مرة واحدة صباحًا ومساءً",
-    "target": 1
-  },
-  {
-    "id": "muawwidhat",
-    "category": "morning",
-    "title": "الإخلاص والمعوذتان صباحًا ومساءً",
-    "text": "قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ\n\nقُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ۝ مِن شَرِّ مَا خَلَقَ ۝ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ۝ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ\n\nقُلْ أَعُوذُ بِرَبِّ النَّاسِ ۝ مَلِكِ النَّاسِ ۝ إِلَٰهِ النَّاسِ ۝ مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ۝ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ۝ مِنَ الْجِنَّةِ وَالنَّاسِ",
-    "ref": "سنن أبي داود (5082) والترمذي (3575)، وصححه الألباني — «تكفيك من كل شيء» — ثلاث مرات",
-    "target": 3
-  },
-  {
-    "id": "asbahna",
-    "category": "morning",
-    "title": "أصبحنا وأصبح الملك لله",
-    "text": "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذَا الْيَوْمِ وَخَيْرَ مَا بَعْدَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذَا الْيَوْمِ وَشَرِّ مَا بَعْدَهُ، رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ، رَبِّ أَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ",
-    "ref": "صحيح مسلم، حديث 2723 — وفي المساء: «أمسينا وأمسى الملك لله… في هذه الليلة وخير ما بعدها… من شر ما في هذه الليلة وشر ما بعدها»",
-    "target": 1
-  },
-  {
-    "id": "bika",
-    "category": "morning",
-    "title": "اللهم بك أصبحنا",
-    "text": "اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ",
-    "ref": "سنن الترمذي، حديث 3391، وصححه الألباني — وفي المساء: «اللهم بك أمسينا وبك أصبحنا وبك نحيا وبك نموت وإليك المصير»",
-    "target": 1
-  },
-  {
-    "id": "alim",
-    "category": "morning",
-    "title": "اللهم عالم الغيب والشهادة",
-    "text": "اللَّهُمَّ عَالِمَ الْغَيْبِ وَالشَّهَادَةِ، فَاطِرَ السَّمَاوَاتِ وَالْأَرْضِ، رَبَّ كُلِّ شَيْءٍ وَمَلِيكَهُ، أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا أَنْتَ، أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي، وَمِنْ شَرِّ الشَّيْطَانِ وَشِرْكِهِ، وَأَنْ أَقْتَرِفَ عَلَى نَفْسِي سُوءًا أَوْ أَجُرَّهُ إِلَى مُسْلِمٍ",
-    "ref": "سنن أبي داود (5067) والترمذي (3392)، وصححه الألباني",
-    "target": 1
-  },
-  {
-    "id": "kifaya",
-    "category": "morning",
-    "title": "بسم الله الذي لا يضر مع اسمه شيء",
-    "text": "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ",
-    "ref": "سنن أبي داود، حديث 5088، والترمذي (3388)، وصححه الألباني — ثلاث مرات صباحًا ومساءً",
-    "target": 3
-  },
-  {
-    "id": "rida",
-    "category": "morning",
-    "title": "الرضا بالله ربًّا",
-    "text": "رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ ﷺ رَسُولًا",
-    "ref": "صحيح مسلم، حديث 1884 — «من قالها وجبت له الجنة»",
-    "target": 1
-  },
-  {
-    "id": "subhan100",
-    "category": "morning",
-    "title": "سبحان الله وبحمده",
-    "text": "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",
-    "ref": "صحيح البخاري (6405) وصحيح مسلم (2691) — مئة مرة",
-    "target": 100
-  },
-  {
-    "id": "tahlil100",
-    "category": "morning",
-    "title": "التهليل مئة مرة",
-    "text": "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
-    "ref": "صحيح البخاري (3293) وصحيح مسلم (2691) — من قالها في يوم مئة مرة كانت له عدل عشر رقاب",
-    "target": 100
-  },
-  {
-    "id": "adadkhalqih",
-    "category": "morning",
-    "title": "سبحان الله وبحمده عدد خلقه",
-    "text": "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ",
-    "ref": "صحيح مسلم، حديث 2726 — ثلاث مرات",
-    "target": 3
-  },
-  {
-    "id": "afw_afiya",
-    "category": "morning",
-    "title": "دعاء العفو والعافية",
-    "text": "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ، اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي دِينِي وَدُنْيَايَ وَأَهْلِي وَمَالِي، اللَّهُمَّ اسْتُرْ عَوْرَاتِي وَآمِنْ رَوْعَاتِي، اللَّهُمَّ احْفَظْنِي مِنْ بَيْنِ يَدَيَّ وَمِنْ خَلْفِي وَعَنْ يَمِينِي وَعَنْ شِمَالِي وَمِنْ فَوْقِي، وَأَعُوذُ بِعَظَمَتِكَ أَنْ أُغْتَالَ مِنْ تَحْتِي",
-    "ref": "سنن أبي داود (5074) وابن ماجه (3871)، وصححه الألباني",
-    "target": 1
-  },
-  {
-    "id": "yahayy",
-    "category": "morning",
-    "title": "يا حي يا قيوم برحمتك أستغيث",
-    "text": "يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ",
-    "ref": "رواه الحاكم والنسائي في الكبرى، وحسّنه الألباني",
-    "target": 1
-  },
-  {
-    "id": "istighfar3",
-    "category": "prayer",
-    "title": "الاستغفار بعد السلام",
-    "text": "أَسْتَغْفِرُ اللَّهَ (ثَلَاثًا)، اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ، تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ",
-    "ref": "صحيح مسلم، حديث 591",
-    "target": 1
-  },
-  {
-    "id": "la_mani",
-    "category": "prayer",
-    "title": "لا مانع لما أعطيت",
-    "text": "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، اللَّهُمَّ لَا مَانِعَ لِمَا أَعْطَيْتَ، وَلَا مُعْطِيَ لِمَا مَنَعْتَ، وَلَا يَنْفَعُ ذَا الْجَدِّ مِنْكَ الْجَدُّ",
-    "ref": "صحيح البخاري (844) وصحيح مسلم (593)",
-    "target": 1
-  },
-  {
-    "id": "tasbih33",
-    "category": "prayer",
-    "title": "التسبيح بعد الصلاة",
-    "text": "سُبْحَانَ اللَّهِ",
-    "ref": "صحيح مسلم، حديث 597 — 33 مرة",
-    "target": 33
-  },
-  {
-    "id": "tahmid33",
-    "category": "prayer",
-    "title": "التحميد بعد الصلاة",
-    "text": "الْحَمْدُ لِلَّهِ",
-    "ref": "صحيح مسلم، حديث 597 — 33 مرة",
-    "target": 33
-  },
-  {
-    "id": "takbir33",
-    "category": "prayer",
-    "title": "التكبير بعد الصلاة",
-    "text": "اللَّهُ أَكْبَرُ",
-    "ref": "صحيح مسلم، حديث 597 — 33 مرة (وفي رواية: 34 مرة)",
-    "target": 33
-  },
-  {
-    "id": "tahlil",
-    "category": "prayer",
-    "title": "التهليل بعد الصلاة",
-    "text": "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
-    "ref": "صحيح مسلم، حديث 597 — به تمام المئة",
-    "target": 1
-  },
-  {
-    "id": "kursi",
-    "category": "prayer",
-    "title": "آية الكرسي بعد الصلاة",
-    "text": "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ",
-    "ref": "رواه النسائي في الكبرى، وصححه الألباني — «لم يمنعه من دخول الجنة إلا أن يموت»",
-    "target": 1
-  },
-  {
-    "id": "muawwidhat_prayer",
-    "category": "prayer",
-    "title": "المعوذات دبر الصلاة",
-    "text": "قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ\n\nقُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ۝ مِن شَرِّ مَا خَلَقَ ۝ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ۝ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ\n\nقُلْ أَعُوذُ بِرَبِّ النَّاسِ ۝ مَلِكِ النَّاسِ ۝ إِلَٰهِ النَّاسِ ۝ مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ۝ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ۝ مِنَ الْجِنَّةِ وَالنَّاسِ",
-    "ref": "رواه أبو داود (1523) والنسائي والترمذي، وصححه الألباني — أمر النبي ﷺ عقبة بن عامر بقراءتها دبر كل صلاة",
-    "target": 1
-  },
-  {
-    "id": "istiftah",
-    "category": "prayer",
-    "title": "دعاء الاستفتاح",
-    "text": "اللَّهُمَّ بَاعِدْ بَيْنِي وَبَيْنَ خَطَايَايَ كَمَا بَاعَدْتَ بَيْنَ الْمَشْرِقِ وَالْمَغْرِبِ، اللَّهُمَّ نَقِّنِي مِنَ الْخَطَايَا كَمَا يُنَقَّى الثَّوْبُ الْأَبْيَضُ مِنَ الدَّنَسِ، اللَّهُمَّ اغْسِلْ خَطَايَايَ بِالْمَاءِ وَالثَّلْجِ وَالْبَرَدِ",
-    "ref": "متفق عليه عن أبي هريرة",
-    "target": 1
-  },
-  {
-    "id": "ruku",
-    "category": "prayer",
-    "title": "التسبيح في الركوع",
-    "text": "سُبْحَانَ رَبِّيَ الْعَظِيمِ",
-    "ref": "رواه مسلم عن حذيفة (772) — ثلاث مرات",
-    "target": 3
-  },
-  {
-    "id": "sujud",
-    "category": "prayer",
-    "title": "التسبيح في السجود",
-    "text": "سُبْحَانَ رَبِّيَ الْأَعْلَى",
-    "ref": "رواه مسلم عن حذيفة (772) — ثلاث مرات",
-    "target": 3
-  },
-  {
-    "id": "ibrahimiyya",
-    "category": "prayer",
-    "title": "الصلاة الإبراهيمية",
-    "text": "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ، اللَّهُمَّ بَارِكْ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا بَارَكْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ",
-    "ref": "صحيح البخاري (3370) وصحيح مسلم (406) عن كعب بن عجرة — وفي صحيح مسلم: «من صلى علي صلاة صلى الله عليه بها عشرًا»",
-    "target": 1
-  },
-  {
-    "id": "istiadha4",
-    "category": "prayer",
-    "title": "الاستعاذة من أربع قبل السلام",
-    "text": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عَذَابِ جَهَنَّمَ، وَمِنْ عَذَابِ الْقَبْرِ، وَمِنْ فِتْنَةِ الْمَحْيَا وَالْمَمَاتِ، وَمِنْ شَرِّ فِتْنَةِ الْمَسِيحِ الدَّجَّالِ",
-    "ref": "صحيح مسلم، حديث 588 — بعد التشهد الأخير",
-    "target": 1
-  },
-  {
-    "id": "qunut",
-    "category": "prayer",
-    "title": "دعاء قنوت الوتر",
-    "text": "اللَّهُمَّ اهْدِنِي فِيمَنْ هَدَيْتَ، وَعَافِنِي فِيمَنْ عَافَيْتَ، وَتَوَلَّنِي فِيمَنْ تَوَلَّيْتَ، وَبَارِكْ لِي فِيمَا أَعْطَيْتَ، وَقِنِي شَرَّ مَا قَضَيْتَ، فَإِنَّكَ تَقْضِي وَلَا يُقْضَى عَلَيْكَ، وَإِنَّهُ لَا يَذِلُّ مَنْ وَالَيْتَ، تَبَارَكْتَ رَبَّنَا وَتَعَالَيْتَ",
-    "ref": "رواه أبو داود والترمذي والنسائي، وصححه الألباني — علّمه النبي ﷺ الحسن بن علي رضي الله عنهما",
-    "target": 1
-  },
-  {
-    "id": "istiana",
-    "category": "daily",
-    "title": "دعاء الاستعانة على العبادة",
-    "text": "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ",
-    "ref": "سنن أبي داود، حديث 1522، والنسائي، وصححه الألباني",
-    "target": 1
-  },
-  {
-    "id": "karb",
-    "category": "daily",
-    "title": "دعاء الكرب",
-    "text": "لَا إِلَهَ إِلَّا اللَّهُ الْعَظِيمُ الْحَلِيمُ، لَا إِلَهَ إِلَّا اللَّهُ رَبُّ الْعَرْشِ الْعَظِيمِ، لَا إِلَهَ إِلَّا اللَّهُ رَبُّ السَّمَاوَاتِ وَرَبُّ الْأَرْضِ وَرَبُّ الْعَرْشِ الْكَرِيمِ",
-    "ref": "صحيح البخاري (6346)، صحيح مسلم (2730)",
-    "target": 1
-  },
-  {
-    "id": "huda",
-    "category": "daily",
-    "title": "اللهم إني أسألك الهدى والتقى",
-    "text": "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى",
-    "ref": "صحيح مسلم، حديث 2721",
-    "target": 1
-  },
-  {
-    "id": "hawla",
-    "category": "daily",
-    "title": "لا حول ولا قوة إلا بالله",
-    "text": "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
-    "ref": "صحيح البخاري (6384)، صحيح مسلم (2704) — كنز من كنوز الجنة",
-    "target": 1
-  },
-  {
-    "id": "kalimatan",
-    "category": "daily",
-    "title": "كلمتان خفيفتان على اللسان",
-    "text": "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، سُبْحَانَ اللَّهِ الْعَظِيمِ",
-    "ref": "صحيح البخاري (6406)، صحيح مسلم (2694) — ثقيلتان في الميزان، حبيبتان إلى الرحمن",
-    "target": 1
-  },
-  {
-    "id": "ahabb",
-    "category": "daily",
-    "title": "أحب الكلام إلى الله",
-    "text": "سُبْحَانَ اللَّهِ، وَالْحَمْدُ لِلَّهِ، وَلَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ",
-    "ref": "رواه مسلم عن سمرة بن جندب — «أحب الكلام إلى الله أربع»",
-    "target": 1
-  },
-  {
-    "id": "afdal",
-    "category": "daily",
-    "title": "أفضل الذكر وأفضل الدعاء",
-    "text": "لَا إِلَهَ إِلَّا اللَّهُ — الْحَمْدُ لِلَّهِ",
-    "ref": "رواه الترمذي وابن ماجه، وحسّنه الألباني — «أفضل الذكر لا إله إلا الله، وأفضل الدعاء الحمد لله»",
-    "target": 1
-  },
-  {
-    "id": "istighfar100",
-    "category": "daily",
-    "title": "الاستغفار والتوبة",
-    "text": "أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ",
-    "ref": "رواه البخاري (أكثر من سبعين مرة في اليوم) ومسلم (2702): «إني أتوب في اليوم إليه مئة مرة»",
-    "target": 100
-  },
-  {
-    "id": "hamm",
-    "category": "daily",
-    "title": "دعاء الهم والحزن",
-    "text": "اللَّهُمَّ إِنِّي عَبْدُكَ، ابْنُ عَبْدِكَ، ابْنُ أَمَتِكَ، نَاصِيَتِي بِيَدِكَ، مَاضٍ فِيَّ حُكْمُكَ، عَدْلٌ فِيَّ قَضَاؤُكَ، أَسْأَلُكَ بِكُلِّ اسْمٍ هُوَ لَكَ، سَمَّيْتَ بِهِ نَفْسَكَ، أَوْ أَنْزَلْتَهُ فِي كِتَابِكَ، أَوْ عَلَّمْتَهُ أَحَدًا مِنْ خَلْقِكَ، أَوِ اسْتَأْثَرْتَ بِهِ فِي عِلْمِ الْغَيْبِ عِنْدَكَ، أَنْ تَجْعَلَ الْقُرْآنَ رَبِيعَ قَلْبِي، وَنُورَ صَدْرِي، وَجِلَاءَ حُزْنِي، وَذَهَابَ هَمِّي",
-    "ref": "رواه أحمد وابن حبان، وصححه الألباني",
-    "target": 1
-  },
-  {
-    "id": "hamm2",
-    "category": "daily",
-    "title": "الاستعاذة من الهم والحزن",
-    "text": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْبُخْلِ وَالْجُبْنِ، وَضَلَعِ الدَّيْنِ وَغَلَبَةِ الرِّجَالِ",
-    "ref": "رواه البخاري عن أنس",
-    "target": 1
-  },
-  {
-    "id": "kaffara",
-    "category": "daily",
-    "title": "كفارة المجلس",
-    "text": "سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ، أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا أَنْتَ، أَسْتَغْفِرُكَ وَأَتُوبُ إِلَيْكَ",
-    "ref": "رواه أبو داود والترمذي والنسائي، وصححه الألباني",
-    "target": 1
-  },
-  {
-    "id": "rizq",
-    "category": "daily",
-    "title": "دعاء الرزق الحلال",
-    "text": "اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ",
-    "ref": "سنن الترمذي، وحسّنه الألباني",
-    "target": 1
-  },
-  {
-    "id": "shifa",
-    "category": "daily",
-    "title": "دعاء الشفاء للمريض",
-    "text": "أَسْأَلُ اللَّهَ الْعَظِيمَ رَبَّ الْعَرْشِ الْعَظِيمِ أَنْ يَشْفِيَكَ",
-    "ref": "رواه أبو داود والترمذي، وصححه الألباني — سبع مرات",
-    "target": 7
-  },
-  {
-    "id": "wudu",
-    "category": "general",
-    "title": "الذكر بعد الوضوء",
-    "text": "أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ",
-    "ref": "صحيح مسلم، حديث 234 — «فُتحت له أبواب الجنة الثمانية يدخل من أيها شاء»",
-    "target": 1
-  },
-  {
-    "id": "adhan1",
-    "category": "general",
-    "title": "عند سماع الأذان",
-    "text": "يَقُولُ مِثْلَ مَا يَقُولُ الْمُؤَذِّنُ، إِلَّا فِي «حَيَّ عَلَى الصَّلَاةِ» وَ«حَيَّ عَلَى الْفَلَاحِ» فَيَقُولُ: لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
-    "ref": "صحيح البخاري (611) وصحيح مسلم (383، 385)",
-    "target": 1
-  },
-  {
-    "id": "adhan2",
-    "category": "general",
-    "title": "الدعاء بعد الأذان",
-    "text": "اللَّهُمَّ رَبَّ هَذِهِ الدَّعْوَةِ التَّامَّةِ وَالصَّلَاةِ الْقَائِمَةِ، آتِ مُحَمَّدًا الْوَسِيلَةَ وَالْفَضِيلَةَ، وَابْعَثْهُ مَقَامًا مَحْمُودًا الَّذِي وَعَدْتَهُ",
-    "ref": "صحيح البخاري، حديث 614 — «حلّت له شفاعتي يوم القيامة»",
-    "target": 1
-  },
-  {
-    "id": "masjid_in",
-    "category": "general",
-    "title": "دعاء دخول المسجد",
-    "text": "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ",
-    "ref": "صحيح مسلم، حديث 713",
-    "target": 1
-  },
-  {
-    "id": "masjid_out",
-    "category": "general",
-    "title": "دعاء الخروج من المسجد",
-    "text": "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ",
-    "ref": "صحيح مسلم، حديث 713",
-    "target": 1
-  },
-  {
-    "id": "khala_in",
-    "category": "general",
-    "title": "دعاء دخول الخلاء",
-    "text": "بِسْمِ اللَّهِ، اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ",
-    "ref": "صحيح البخاري (142) وصحيح مسلم (375) — وزيادة «بسم الله» صحّحها الألباني",
-    "target": 1
-  },
-  {
-    "id": "khala_out",
-    "category": "general",
-    "title": "دعاء الخروج من الخلاء",
-    "text": "غُفْرَانَكَ",
-    "ref": "سنن أبي داود (30) والترمذي (7)، وصححه الألباني",
-    "target": 1
-  },
-  {
-    "id": "home_out",
-    "category": "general",
-    "title": "دعاء الخروج من المنزل",
-    "text": "بِسْمِ اللَّهِ، تَوَكَّلْتُ عَلَى اللَّهِ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
-    "ref": "سنن أبي داود (5095) والترمذي (3426)، وصححه الألباني",
-    "target": 1
-  },
-  {
-    "id": "home_in",
-    "category": "general",
-    "title": "عند دخول المنزل",
-    "text": "بِسْمِ اللَّهِ — وَيُسَلِّمُ عَلَى أَهْلِهِ",
-    "ref": "صحيح مسلم، حديث 2018 — إذا ذكر الله عند دخوله وعند طعامه قال الشيطان: لا مبيت لكم ولا عشاء؛ وانظر قوله تعالى: ﴿فَإِذَا دَخَلْتُم بُيُوتًا فَسَلِّمُوا عَلَىٰ أَنفُسِكُمْ﴾ [النور: 61]",
-    "target": 1
-  },
-  {
-    "id": "safar",
-    "category": "general",
-    "title": "دعاء السفر",
-    "text": "اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ، وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ، اللَّهُمَّ إِنَّا نَسْأَلُكَ فِي سَفَرِنَا هَذَا الْبِرَّ وَالتَّقْوَى، وَمِنَ الْعَمَلِ مَا تَرْضَى، اللَّهُمَّ هَوِّنْ عَلَيْنَا سَفَرَنَا هَذَا وَاطْوِ عَنَّا بُعْدَهُ، اللَّهُمَّ أَنْتَ الصَّاحِبُ فِي السَّفَرِ، وَالْخَلِيفَةُ فِي الْأَهْلِ، اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ وَعْثَاءِ السَّفَرِ، وَكَآبَةِ الْمَنْظَرِ، وَسُوءِ الْمُنْقَلَبِ فِي الْمَالِ وَالْأَهْلِ",
-    "ref": "صحيح مسلم، حديث 1342 — وإذا رجع قالها وزاد: آيِبُونَ تَائِبُونَ عَابِدُونَ لِرَبِّنَا حَامِدُونَ",
-    "target": 1
-  },
-  {
-    "id": "manzil",
-    "category": "general",
-    "title": "عند نزول منزل",
-    "text": "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ",
-    "ref": "صحيح مسلم، حديث 2708 — «لم يضرّه شيء حتى يرتحل من منزله ذلك»",
-    "target": 1
-  },
-  {
-    "id": "food1",
-    "category": "general",
-    "title": "دعاء قبل الطعام",
-    "text": "بِسْمِ اللَّهِ — فَإِنْ نَسِيَ فِي أَوَّلِهِ قَالَ: بِسْمِ اللَّهِ أَوَّلَهُ وَآخِرَهُ",
-    "ref": "متفق عليه (سمِّ الله وكل بيمينك)، ودعاء النسيان رواه أبو داود والترمذي وصححه الألباني",
-    "target": 1
-  },
-  {
-    "id": "food2",
-    "category": "general",
-    "title": "دعاء بعد الطعام",
-    "text": "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِينَ",
-    "ref": "سنن أبي داود (3850) والترمذي (3457)، وصححه الألباني",
-    "target": 1
-  },
-  {
-    "id": "food3",
-    "category": "general",
-    "title": "دعاء آخر بعد الطعام",
-    "text": "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ",
-    "ref": "رواه أبو داود والترمذي، وحسّنه الألباني — «غُفر له ما تقدم من ذنبه»",
-    "target": 1
-  },
-  {
-    "id": "clothes",
-    "category": "general",
-    "title": "دعاء لبس الثوب",
-    "text": "الْحَمْدُ لِلَّهِ الَّذِي كَسَانِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ",
-    "ref": "رواه أبو داود والترمذي، وحسّنه الألباني",
-    "target": 1
-  },
-  {
-    "id": "sneeze",
-    "category": "general",
-    "title": "عند العطاس",
-    "text": "الْحَمْدُ لِلَّهِ — فَيَقُولُ لَهُ أَخُوهُ: يَرْحَمُكَ اللَّهُ — فَيَرُدُّ: يَهْدِيكُمُ اللَّهُ وَيُصْلِحُ بَالَكُمْ",
-    "ref": "صحيح البخاري، حديث 6224",
-    "target": 1
-  },
-  {
-    "id": "istikhara",
-    "category": "general",
-    "title": "دعاء الاستخارة",
-    "text": "اللَّهُمَّ إِنِّي أَسْتَخِيرُكَ بِعِلْمِكَ، وَأَسْتَقْدِرُكَ بِقُدْرَتِكَ، وَأَسْأَلُكَ مِنْ فَضْلِكَ الْعَظِيمِ، فَإِنَّكَ تَقْدِرُ وَلَا أَقْدِرُ، وَتَعْلَمُ وَلَا أَعْلَمُ، وَأَنْتَ عَلَّامُ الْغُيُوبِ، اللَّهُمَّ إِنْ كُنْتَ تَعْلَمُ أَنَّ هَذَا الْأَمْرَ خَيْرٌ لِي فِي دِينِي وَمَعَاشِي وَعَاقِبَةِ أَمْرِي - أَوْ قَالَ: عَاجِلِ أَمْرِي وَآجِلِهِ - فَاقْدُرْهُ لِي وَيَسِّرْهُ لِي ثُمَّ بَارِكْ لِي فِيهِ، وَإِنْ كُنْتَ تَعْلَمُ أَنَّ هَذَا الْأَمْرَ شَرٌّ لِي فِي دِينِي وَمَعَاشِي وَعَاقِبَةِ أَمْرِي - أَوْ قَالَ: فِي عَاجِلِ أَمْرِي وَآجِلِهِ - فَاصْرِفْهُ عَنِّي وَاصْرِفْنِي عَنْهُ، وَاقْدُرْ لِيَ الْخَيْرَ حَيْثُ كَانَ ثُمَّ أَرْضِنِي بِهِ",
-    "ref": "صحيح البخاري، حديث 1162 — بعد ركعتين من غير الفريضة، ويسمّي حاجته عند «هذا الأمر»",
-    "target": 1
-  },
-  {
-    "id": "musiba",
-    "category": "general",
-    "title": "دعاء المصيبة",
-    "text": "إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ، اللَّهُمَّ أْجُرْنِي فِي مُصِيبَتِي وَأَخْلِفْ لِي خَيْرًا مِنْهَا",
-    "ref": "رواه مسلم عن أم سلمة",
-    "target": 1
-  }
-];
+    { id: "ilm", category: "quran", title: "دعاء طلب العلم", text: "رَبِّ زِدْنِي عِلْمًا", ref: "القرآن الكريم: سورة طه، الآية 114", target: 1 },
+    { id: "hidaya", category: "quran", title: "دعاء الهداية والثبات", text: "رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِنْ لَدُنْكَ رَحْمَةً إِنَّكَ أَنْتَ الْوَهَّابُ", ref: "سورة آل عمران، الآية 8", target: 1 },
+    { id: "hasana", category: "quran", title: "دعاء الحسنة في الدنيا والآخرة", text: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ", ref: "سورة البقرة، الآية 201 — وكان أكثر دعاء النبي ﷺ (متفق عليه)", target: 1 },
+    { id: "sabr", category: "quran", title: "الاستعانة بالصبر والصلاة", text: "يَا أَيُّهَا الَّذِينَ آمَنُوا اسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ ۚ إِنَّ اللَّهَ مَعَ الصَّابِرِينَ", ref: "سورة البقرة، الآية 153", target: 1 },
+    { id: "tawakkul", category: "quran", title: "حسبنا الله ونعم الوكيل", text: "حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ", ref: "سورة آل عمران، الآية 173 — وقالها إبراهيم عليه السلام حين أُلقي في النار (رواه البخاري)", target: 1 },
+    { id: "afw", category: "quran", title: "دعاء التوبة", text: "رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ", ref: "سورة الأعراف، الآية 23", target: 1 },
+    { id: "hasbiya", category: "quran", title: "حسبي الله لا إله إلا هو", text: "حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ ۖ عَلَيْهِ تَوَكَّلْتُ ۖ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ", ref: "سورة التوبة، الآية 129", target: 1 },
+    { id: "taqabbal", category: "quran", title: "دعاء قبول العمل", text: "رَبَّنَا تَقَبَّلْ مِنَّا ۖ إِنَّكَ أَنتَ السَّمِيعُ الْعَلِيمُ", ref: "سورة البقرة، الآية 127", target: 1 },
+    { id: "tuakhidh", category: "quran", title: "دعاء الخطأ والنسيان", text: "رَبَّنَا لَا تُؤَاخِذْنَا إِن نَّسِينَا أَوْ أَخْطَأْنَا ۚ رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِن قَبْلِنَا ۚ رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ ۖ وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا ۚ أَنتَ مَوْلَانَا فَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ", ref: "سورة البقرة، الآية 286", target: 1 },
+    { id: "sharh", category: "quran", title: "دعاء تيسير الأمر", text: "رَبِّ اشْرَحْ لِي صَدْرِي ۝ وَيَسِّرْ لِي أَمْرِي ۝ وَاحْلُلْ عُقْدَةً مِّن لِّسَانِي ۝ يَفْقَهُوا قَوْلِي", ref: "سورة طه، الآيات 25 – 28", target: 1 },
+    { id: "azwaj", category: "quran", title: "دعاء صلاح الأهل والذرية", text: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا", ref: "سورة الفرقان، الآية 74", target: 1 },
+    { id: "walidayn", category: "quran", title: "دعاء للوالدين", text: "رَّبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا", ref: "سورة الإسراء، الآية 24", target: 1 },
+    { id: "walidayn2", category: "quran", title: "دعاء المغفرة للوالدين والمؤمنين", text: "رَبَّنَا اغْفِرْ لِي وَلِوَالِدَيَّ وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ الْحِسَابُ", ref: "سورة إبراهيم، الآية 41", target: 1 },
+    { id: "istighfar", category: "morning", title: "سيد الاستغفار", text: "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي، فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ.", ref: "صحيح البخاري، حديث 6306 — مرة واحدة صباحًا ومساءً", target: 1 },
+    { id: "muawwidhat", category: "morning", title: "الإخلاص والمعوذتان صباحًا ومساءً", text: "قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ\n\nقُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ۝ مِن شَرِّ مَا خَلَقَ ۝ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ۝ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ\n\nقُلْ أَعُوذُ بِرَبِّ النَّاسِ ۝ مَلِكِ النَّاسِ ۝ إِلَٰهِ النَّاسِ ۝ مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ۝ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ۝ مِنَ الْجِنَّةِ وَالنَّاسِ", ref: "سنن أبي داود (5082) والترمذي (3575)، وصححه الألباني — «تكفيك من كل شيء» — ثلاث مرات", target: 3 },
+    { id: "asbahna", category: "morning", title: "أصبحنا وأصبح الملك لله", text: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذَا الْيَوْمِ وَخَيْرَ مَا بَعْدَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذَا الْيَوْمِ وَشَرِّ مَا بَعْدَهُ، رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ، رَبِّ أَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ", ref: "صحيح مسلم، حديث 2723 — وفي المساء: «أمسينا وأمسى الملك لله…»", target: 1 },
+    { id: "bika", category: "morning", title: "اللهم بك أصبحنا", text: "اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ", ref: "سنن الترمذي، حديث 3391، وصححه الألباني", target: 1 },
+    { id: "alim", category: "morning", title: "اللهم عالم الغيب والشهادة", text: "اللَّهُمَّ عَالِمَ الْغَيْبِ وَالشَّهَادَةِ، فَاطِرَ السَّمَاوَاتِ وَالْأَرْضِ، رَبَّ كُلِّ شَيْءٍ وَمَلِيكَهُ، أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا أَنْتَ، أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي، وَمِنْ شَرِّ الشَّيْطَانِ وَشِرْكِهِ، وَأَنْ أَقْتَرِفَ عَلَى نَفْسِي سُوءًا أَوْ أَجُرَّهُ إِلَى مُسْلِمٍ", ref: "سنن أبي داود (5067) والترمذي (3392)، وصححه الألباني", target: 1 },
+    { id: "kifaya", category: "morning", title: "بسم الله الذي لا يضر مع اسمه شيء", text: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ", ref: "سنن أبي داود، حديث 5088، والترمذي (3388)، وصححه الألباني — ثلاث مرات صباحًا ومساءً", target: 3 },
+    { id: "rida", category: "morning", title: "الرضا بالله ربًّا", text: "رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ ﷺ رَسُولًا", ref: "صحيح مسلم، حديث 1884 — «من قالها وجبت له الجنة»", target: 1 },
+    { id: "subhan100", category: "morning", title: "سبحان الله وبحمده", text: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ", ref: "صحيح البخاري (6405) وصحيح مسلم (2691) — مئة مرة", target: 100 },
+    { id: "tahlil100", category: "morning", title: "التهليل مئة مرة", text: "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ", ref: "صحيح البخاري (3293) وصحيح مسلم (2691) — من قالها في يوم مئة مرة كانت له عدل عشر رقاب", target: 100 },
+    { id: "adadkhalqih", category: "morning", title: "سبحان الله وبحمده عدد خلقه", text: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ", ref: "صحيح مسلم، حديث 2726 — ثلاث مرات", target: 3 },
+    { id: "afw_afiya", category: "morning", title: "دعاء العفو والعافية", text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ، اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي دِينِي وَدُنْيَايَ وَأَهْلِي وَمَالِي، اللَّهُمَّ اسْتُرْ عَوْرَاتِي وَآمِنْ رَوْعَاتِي، اللَّهُمَّ احْفَظْنِي مِنْ بَيْنِ يَدَيَّ وَمِنْ خَلْفِي وَعَنْ يَمِينِي وَعَنْ شِمَالِي وَمِنْ فَوْقِي، وَأَعُوذُ بِعَظَمَتِكَ أَنْ أُغْتَالَ مِنْ تَحْتِي", ref: "سنن أبي داود (5074) وابن ماجه (3871)، وصححه الألباني", target: 1 },
+    { id: "yahayy", category: "morning", title: "يا حي يا قيوم برحمتك أستغيث", text: "يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ", ref: "رواه الحاكم والنسائي في الكبرى، وحسّنه الألباني", target: 1 },
+    { id: "istighfar3", category: "prayer", title: "الاستغفار بعد السلام", text: "أَسْتَغْفِرُ اللَّهَ (ثَلَاثًا)، اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ، تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ", ref: "صحيح مسلم، حديث 591", target: 1 },
+    { id: "la_mani", category: "prayer", title: "لا مانع لما أعطيت", text: "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، اللَّهُمَّ لَا مَانِعَ لِمَا أَعْطَيْتَ، وَلَا مُعْطِيَ لِمَا مَنَعْتَ، وَلَا يَنْفَعُ ذَا الْجَدِّ مِنْكَ الْجَدُّ", ref: "صحيح البخاري (844) وصحيح مسلم (593)", target: 1 },
+    { id: "tasbih33", category: "prayer", title: "التسبيح بعد الصلاة", text: "سُبْحَانَ اللَّهِ", ref: "صحيح مسلم، حديث 597 — 33 مرة", target: 33 },
+    { id: "tahmid33", category: "prayer", title: "التحميد بعد الصلاة", text: "الْحَمْدُ لِلَّهِ", ref: "صحيح مسلم، حديث 597 — 33 مرة", target: 33 },
+    { id: "takbir33", category: "prayer", title: "التكبير بعد الصلاة", text: "اللَّهُ أَكْبَرُ", ref: "صحيح مسلم، حديث 597 — 33 مرة", target: 33 },
+    { id: "tahlil", category: "prayer", title: "التهليل بعد الصلاة", text: "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ", ref: "صحيح مسلم، حديث 597 — به تمام المئة", target: 1 },
+    { id: "kursi", category: "prayer", title: "آية الكرسي بعد الصلاة", text: "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ", ref: "رواه النسائي في الكبرى، وصححه الألباني — «لم يمنعه من دخول الجنة إلا أن يموت»", target: 1 },
+    { id: "muawwidhat_prayer", category: "prayer", title: "المعوذات دبر الصلاة", text: "قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ\n\nقُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ۝ مِن شَرِّ مَا خَلَقَ ۝ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ۝ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ\n\nقُلْ أَعُوذُ بِرَبِّ النَّاسِ ۝ مَلِكِ النَّاسِ ۝ إِلَٰهِ النَّاسِ ۝ مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ۝ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ۝ مِنَ الْجِنَّةِ وَالنَّاسِ", ref: "رواه أبو داود (1523) والنسائي والترمذي، وصححه الألباني", target: 1 },
+    { id: "istiftah", category: "prayer", title: "دعاء الاستفتاح", text: "اللَّهُمَّ بَاعِدْ بَيْنِي وَبَيْنَ خَطَايَايَ كَمَا بَاعَدْتَ بَيْنَ الْمَشْرِقِ وَالْمَغْرِبِ، اللَّهُمَّ نَقِّنِي مِنَ الْخَطَايَا كَمَا يُنَقَّى الثَّوْبُ الْأَبْيَضُ مِنَ الدَّنَسِ، اللَّهُمَّ اغْسِلْ خَطَايَايَ بِالْمَاءِ وَالثَّلْجِ وَالْبَرَدِ", ref: "متفق عليه عن أبي هريرة", target: 1 },
+    { id: "ruku", category: "prayer", title: "التسبيح في الركوع", text: "سُبْحَانَ رَبِّيَ الْعَظِيمِ", ref: "رواه مسلم عن حذيفة (772) — ثلاث مرات", target: 3 },
+    { id: "sujud", category: "prayer", title: "التسبيح في السجود", text: "سُبْحَانَ رَبِّيَ الْأَعْلَى", ref: "رواه مسلم عن حذيفة (772) — ثلاث مرات", target: 3 },
+    { id: "ibrahimiyya", category: "prayer", title: "الصلاة الإبراهيمية", text: "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ، اللَّهُمَّ بَارِكْ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا بَارَكْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ", ref: "صحيح البخاري (3370) وصحيح مسلم (406)", target: 1 },
+    { id: "istiadha4", category: "prayer", title: "الاستعاذة من أربع قبل السلام", text: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عَذَابِ جَهَنَّمَ، وَمِنْ عَذَابِ الْقَبْرِ، وَمِنْ فِتْنَةِ الْمَحْيَا وَالْمَمَاتِ، وَمِنْ شَرِّ فِتْنَةِ الْمَسِيحِ الدَّجَّالِ", ref: "صحيح مسلم، حديث 588 — بعد التشهد الأخير", target: 1 },
+    { id: "qunut", category: "prayer", title: "دعاء قنوت الوتر", text: "اللَّهُمَّ اهْدِنِي فِيمَنْ هَدَيْتَ، وَعَافِنِي فِيمَنْ عَافَيْتَ، وَتَوَلَّنِي فِيمَنْ تَوَلَّيْتَ، وَبَارِكْ لِي فِيمَا أَعْطَيْتَ، وَقِنِي شَرَّ مَا قَضَيْتَ، فَإِنَّكَ تَقْضِي وَلَا يُقْضَى عَلَيْكَ، وَإِنَّهُ لَا يَذِلُّ مَنْ وَالَيْتَ، تَبَارَكْتَ رَبَّنَا وَتَعَالَيْتَ", ref: "رواه أبو داود والترمذي والنسائي، وصححه الألباني", target: 1 },
+    { id: "istiana", category: "daily", title: "دعاء الاستعانة على العبادة", text: "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ", ref: "سنن أبي داود، حديث 1522، والنسائي، وصححه الألباني", target: 1 },
+    { id: "karb", category: "daily", title: "دعاء الكرب", text: "لَا إِلَهَ إِلَّا اللَّهُ الْعَظِيمُ الْحَلِيمُ، لَا إِلَهَ إِلَّا اللَّهُ رَبُّ الْعَرْشِ الْعَظِيمِ، لَا إِلَهَ إِلَّا اللَّهُ رَبُّ السَّمَاوَاتِ وَرَبُّ الْأَرْضِ وَرَبُّ الْعَرْشِ الْكَرِيمِ", ref: "صحيح البخاري (6346)، صحيح مسلم (2730)", target: 1 },
+    { id: "huda", category: "daily", title: "اللهم إني أسألك الهدى والتقى", text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى", ref: "صحيح مسلم، حديث 2721", target: 1 },
+    { id: "hawla", category: "daily", title: "لا حول ولا قوة إلا بالله", text: "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ", ref: "صحيح البخاري (6384)، صحيح مسلم (2704) — كنز من كنوز الجنة", target: 1 },
+    { id: "kalimatan", category: "daily", title: "كلمتان خفيفتان على اللسان", text: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، سُبْحَانَ اللَّهِ الْعَظِيمِ", ref: "صحيح البخاري (6406)، صحيح مسلم (2694)", target: 1 },
+    { id: "ahabb", category: "daily", title: "أحب الكلام إلى الله", text: "سُبْحَانَ اللَّهِ، وَالْحَمْدُ لِلَّهِ، وَلَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ", ref: "رواه مسلم عن سمرة بن جندب", target: 1 },
+    { id: "afdal", category: "daily", title: "أفضل الذكر وأفضل الدعاء", text: "لَا إِلَهَ إِلَّا اللَّهُ — الْحَمْدُ لِلَّهِ", ref: "رواه الترمذي وابن ماجه، وحسّنه الألباني", target: 1 },
+    { id: "istighfar100", category: "daily", title: "الاستغفار والتوبة", text: "أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ", ref: "رواه البخاري ومسلم (2702): «إني أتوب في اليوم إليه مئة مرة»", target: 100 },
+    { id: "hamm", category: "daily", title: "دعاء الهم والحزن", text: "اللَّهُمَّ إِنِّي عَبْدُكَ، ابْنُ عَبْدِكَ، ابْنُ أَمَتِكَ، نَاصِيَتِي بِيَدِكَ، مَاضٍ فِيَّ حُكْمُكَ، عَدْلٌ فِيَّ قَضَاؤُكَ، أَسْأَلُكَ بِكُلِّ اسْمٍ هُوَ لَكَ، سَمَّيْتَ بِهِ نَفْسَكَ، أَوْ أَنْزَلْتَهُ فِي كِتَابِكَ، أَوْ عَلَّمْتَهُ أَحَدًا مِنْ خَلْقِكَ، أَوِ اسْتَأْثَرْتَ بِهِ فِي عِلْمِ الْغَيْبِ عِنْدَكَ، أَنْ تَجْعَلَ الْقُرْآنَ رَبِيعَ قَلْبِي، وَنُورَ صَدْرِي، وَجِلَاءَ حُزْنِي، وَذَهَابَ هَمِّي", ref: "رواه أحمد وابن حبان، وصححه الألباني", target: 1 },
+    { id: "hamm2", category: "daily", title: "الاستعاذة من الهم والحزن", text: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْبُخْلِ وَالْجُبْنِ، وَضَلَعِ الدَّيْنِ وَغَلَبَةِ الرِّجَالِ", ref: "رواه البخاري عن أنس", target: 1 },
+    { id: "kaffara", category: "daily", title: "كفارة المجلس", text: "سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ، أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا أَنْتَ، أَسْتَغْفِرُكَ وَأَتُوبُ إِلَيْكَ", ref: "رواه أبو داود والترمذي والنسائي، وصححه الألباني", target: 1 },
+    { id: "rizq", category: "daily", title: "دعاء الرزق الحلال", text: "اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ", ref: "سنن الترمذي، وحسّنه الألباني", target: 1 },
+    { id: "shifa", category: "daily", title: "دعاء الشفاء للمريض", text: "أَسْأَلُ اللَّهَ الْعَظِيمَ رَبَّ الْعَرْشِ الْعَظِيمِ أَنْ يَشْفِيَكَ", ref: "رواه أبو داود والترمذي، وصححه الألباني — سبع مرات", target: 7 },
+    { id: "wakeup", category: "daily", title: "دعاء الاستيقاظ من النوم", text: "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ", ref: "صحيح البخاري، حديث 6312", target: 1 },
+    { id: "wudu", category: "general", title: "الذكر بعد الوضوء", text: "أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ", ref: "صحيح مسلم، حديث 234", target: 1 },
+    { id: "adhan1", category: "general", title: "عند سماع الأذان", text: "يَقُولُ مِثْلَ مَا يَقُولُ الْمُؤَذِّنُ، إِلَّا فِي «حَيَّ عَلَى الصَّلَاةِ» وَ«حَيَّ عَلَى الْفَلَاحِ» فَيَقُولُ: لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ", ref: "صحيح البخاري (611) وصحيح مسلم (383، 385)", target: 1 },
+    { id: "adhan2", category: "general", title: "الدعاء بعد الأذان", text: "اللَّهُمَّ رَبَّ هَذِهِ الدَّعْوَةِ التَّامَّةِ وَالصَّلَاةِ الْقَائِمَةِ، آتِ مُحَمَّدًا الْوَسِيلَةَ وَالْفَضِيلَةَ، وَابْعَثْهُ مَقَامًا مَحْمُودًا الَّذِي وَعَدْتَهُ", ref: "صحيح البخاري، حديث 614", target: 1 },
+    { id: "masjid_in", category: "general", title: "دعاء دخول المسجد", text: "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ", ref: "صحيح مسلم، حديث 713", target: 1 },
+    { id: "masjid_out", category: "general", title: "دعاء الخروج من المسجد", text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ", ref: "صحيح مسلم، حديث 713", target: 1 },
+    { id: "khala_in", category: "general", title: "دعاء دخول الخلاء", text: "بِسْمِ اللَّهِ، اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ", ref: "صحيح البخاري (142) وصحيح مسلم (375)", target: 1 },
+    { id: "khala_out", category: "general", title: "دعاء الخروج من الخلاء", text: "غُفْرَانَكَ", ref: "سنن أبي داود (30) والترمذي (7)، وصححه الألباني", target: 1 },
+    { id: "home_out", category: "general", title: "دعاء الخروج من المنزل", text: "بِسْمِ اللَّهِ، تَوَكَّلْتُ عَلَى اللَّهِ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ", ref: "سنن أبي داود (5095) والترمذي (3426)، وصححه الألباني", target: 1 },
+    { id: "home_in", category: "general", title: "عند دخول المنزل", text: "بِسْمِ اللَّهِ — وَيُسَلِّمُ عَلَى أَهْلِهِ", ref: "صحيح مسلم، حديث 2018", target: 1 },
+    { id: "safar", category: "general", title: "دعاء السفر والركوب", text: "اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ، وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ، اللَّهُمَّ إِنَّا نَسْأَلُكَ فِي سَفَرِنَا هَذَا الْبِرَّ وَالتَّقْوَى، وَمِنَ الْعَمَلِ مَا تَرْضَى، اللَّهُمَّ هَوِّنْ عَلَيْنَا سَفَرَنَا هَذَا وَاطْوِ عَنَّا بُعْدَهُ، اللَّهُمَّ أَنْتَ الصَّاحِبُ فِي السَّفَرِ، وَالْخَلِيفَةُ فِي الْأَهْلِ، اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ وَعْثَاءِ السَّفَرِ، وَكَآبَةِ الْمَنْظَرِ، وَسُوءِ الْمُنْقَلَبِ فِي الْمَالِ وَالْأَهْلِ", ref: "صحيح مسلم، حديث 1342", target: 1 },
+    { id: "manzil", category: "general", title: "عند نزول منزل", text: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ", ref: "صحيح مسلم، حديث 2708", target: 1 },
+    { id: "food1", category: "general", title: "دعاء قبل الطعام", text: "بِسْمِ اللَّهِ — فَإِنْ نَسِيَ فِي أَوَّلِهِ قَالَ: بِسْمِ اللَّهِ أَوَّلَهُ وَآخِرَهُ", ref: "متفق عليه، وأبو داود والترمذي", target: 1 },
+    { id: "food2", category: "general", title: "دعاء بعد الطعام", text: "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِينَ", ref: "سنن أبي داود (3850) والترمذي (3457)، وصححه الألباني", target: 1 },
+    { id: "food3", category: "general", title: "دعاء آخر بعد الطعام", text: "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ", ref: "رواه أبو داود والترمذي، وحسّنه الألباني", target: 1 },
+    { id: "clothes", category: "general", title: "دعاء لبس الثوب", text: "الْحَمْدُ لِلَّهِ الَّذِي كَسَانِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ", ref: "رواه أبو داود والترمذي، وحسّنه الألباني", target: 1 },
+    { id: "sneeze", category: "general", title: "عند العطاس", text: "الْحَمْدُ لِلَّهِ — فَيَقُولُ لَهُ أَخُوهُ: يَرْحَمُكَ اللَّهُ — فَيَرُدُّ: يَهْدِيكُمُ اللَّهُ وَيُصْلِحُ بَالَكُمْ", ref: "صحيح البخاري، حديث 6224", target: 1 },
+    { id: "istikhara", category: "general", title: "دعاء الاستخارة", text: "اللَّهُمَّ إِنِّي أَسْتَخِيرُكَ بِعِلْمِكَ، وَأَسْتَقْدِرُكَ بِقُدْرَتِكَ، وَأَسْأَلُكَ مِنْ فَضْلِكَ الْعَظِيمِ، فَإِنَّكَ تَقْدِرُ وَلَا أَقْدِرُ، وَتَعْلَمُ وَلَا أَعْلَمُ، وَأَنْتَ عَلَّامُ الْغُيُوبِ، اللَّهُمَّ إِنْ كُنْتَ تَعْلَمُ أَنَّ هَذَا الْأَمْرَ خَيْرٌ لِي فِي دِينِي وَمَعَاشِي وَعَاقِبَةِ أَمْرِي - أَوْ قَالَ: عَاجِلِ أَمْرِي وَآجِلِهِ - فَاقْدُرْهُ لِي وَيَسِّرْهُ لِي ثُمَّ بَارِكْ لِي فِيهِ، وَإِنْ كُنْتَ تَعْلَمُ أَنَّ هَذَا الْأَمْرَ شَرٌّ لِي فِي دِينِي وَمَعَاشِي وَعَاقِبَةِ أَمْرِي - أَوْ قَالَ: فِي عَاجِلِ أَمْرِي وَآجِلِهِ - فَاصْرِفْهُ عَنِّي وَاصْرِفْنِي عَنْهُ، وَاقْدُرْ لِيَ الْخَيْرَ حَيْثُ كَانَ ثُمَّ أَرْضِنِي بِهِ", ref: "صحيح البخاري، حديث 1162", target: 1 },
+    { id: "musiba", category: "general", title: "دعاء المصيبة", text: "إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ، اللَّهُمَّ أْجُرْنِي فِي مُصِيبَتِي وَأَخْلِفْ لِي خَيْرًا مِنْهَا", ref: "رواه مسلم عن أم سلمة", target: 1 }
+  ];
 
   document.getElementById('azkarSub').textContent = 'أذكار وأدعية من القرآن والسنة الصحيحة — ' + AZKAR.length + ' ذكرًا مع نصوصها ومصادرها';
 
@@ -665,9 +626,34 @@ document.getElementById('year').textContent = new Date().getFullYear();
   }
 
   const KEY = 'zad_counts_v3';
-  function loadC(){ try { return JSON.parse(localStorage.getItem(KEY)||'{}'); } catch (e) { return {}; } }
-  function saveC(c){ try { localStorage.setItem(KEY, JSON.stringify(c)); } catch (e) {} }
-  const counts = loadC();
+  const FAV_KEY = 'zad_fav_azkar';
+  const SIZE_KEY = 'zad_azkar_size';
+  function loadJ(k, def){ try { return JSON.parse(localStorage.getItem(k)) || def; } catch (e) { return def; } }
+  function saveJ(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+
+  let counts = loadJ(KEY, {});
+  let favs = loadJ(FAV_KEY, []);
+  let fontSize = parseFloat(localStorage.getItem(SIZE_KEY)) || 1.38;
+
+  function applyFont(){
+    fontSize = Math.min(2.1, Math.max(1.05, fontSize));
+    document.documentElement.style.setProperty('--dhikr-size', fontSize.toFixed(2) + 'rem');
+    try { localStorage.setItem(SIZE_KEY, String(fontSize)); } catch (e) {}
+  }
+  applyFont();
+
+  document.getElementById('dhikrFontPlus').addEventListener('click', () => { fontSize += 0.1; applyFont(); });
+  document.getElementById('dhikrFontMinus').addEventListener('click', () => { fontSize -= 0.1; applyFont(); });
+
+  function updateGlobalStat(){
+    let doneCount = 0;
+    AZKAR.forEach(z => { if ((counts[z.id] || 0) >= z.target) doneCount++; });
+    document.getElementById('dailyProgress').textContent = `۞ أتممت اليوم: ${doneCount} من ${AZKAR.length} ذكر`;
+  }
+
+  const R = 31;
+  const CIRC = 2 * Math.PI * R;
+  const ringUpdaters = {};
 
   const container = document.getElementById('azkarList');
   if(!container) return;
@@ -678,16 +664,38 @@ document.getElementById('year').textContent = new Date().getFullYear();
     card.id = 'dhikr-' + z.id;
     card.dataset.category = z.category;
 
+    const top = document.createElement('div');
+    top.className = 'card-top';
     const h3 = document.createElement('h3');
     h3.textContent = z.title;
 
+    const favBtn = document.createElement('button');
+    favBtn.type = 'button';
+    favBtn.className = 'fav-star' + (favs.includes(z.id) ? ' on' : '');
+    favBtn.title = 'إضافة للمفضلة';
+    favBtn.textContent = favs.includes(z.id) ? '♥' : '♡';
+    favBtn.addEventListener('click', () => {
+      if (favs.includes(z.id)) favs = favs.filter(x => x !== z.id);
+      else favs.push(z.id);
+      saveJ(FAV_KEY, favs);
+      const isF = favs.includes(z.id);
+      favBtn.classList.toggle('on', isF);
+      favBtn.textContent = isF ? '♥' : '♡';
+      apply();
+    });
+    top.append(h3, favBtn);
+
     const text = document.createElement('div');
     text.className = 'azkar-text';
+    text.title = 'اضغط للعدّ';
     text.textContent = z.text;
 
     const ref = document.createElement('div');
     ref.className = 'azkar-ref';
     ref.textContent = z.ref;
+
+    const footer = document.createElement('div');
+    footer.className = 'azkar-footer';
 
     const actions = document.createElement('div');
     actions.className = 'azkar-actions';
@@ -698,38 +706,94 @@ document.getElementById('year').textContent = new Date().getFullYear();
     bSpeak.type='button'; bSpeak.className='action-btn'; bSpeak.textContent='🔊 استماع';
     const bShare = document.createElement('button');
     bShare.type='button'; bShare.className='action-btn'; bShare.textContent='📤 مشاركة';
-    const bCount = document.createElement('button');
-    bCount.type='button'; bCount.className='action-btn primary'; bCount.textContent='+ عدّ';
-    const badge = document.createElement('span');
-    badge.className='count-badge'; badge.textContent = (counts[z.id]||0) + ' / ' + z.target;
-    const bReset = document.createElement('button');
-    bReset.type='button'; bReset.className='action-btn'; bReset.textContent='إعادة';
+    actions.append(bCopy, bSpeak, bShare);
 
-    actions.append(bCopy, bSpeak, bShare, bCount, badge, bReset);
-    card.append(h3, text, ref, actions);
+    // بناء الدائرة التفاعلية للعدّ
+    const ringZone = document.createElement('div');
+    ringZone.className = 'ring-zone';
+
+    const ringBtn = document.createElement('button');
+    ringBtn.type = 'button';
+    ringBtn.className = 'ring-btn';
+    ringBtn.title = 'اضغط للعدّ';
+    ringBtn.innerHTML = `
+      <svg viewBox="0 0 74 74">
+        <circle class="ring-track" cx="37" cy="37" r="${R}"></circle>
+        <circle class="ring-fill" cx="37" cy="37" r="${R}" stroke-dasharray="${CIRC.toFixed(2)}" stroke-dashoffset="${CIRC.toFixed(2)}"></circle>
+      </svg>
+      <div class="ring-label">
+        <span class="ring-num">0</span>
+        <span class="ring-tot">/ ${z.target}</span>
+      </div>
+    `;
+
+    const bReset = document.createElement('button');
+    bReset.type = 'button';
+    bReset.className = 'ring-reset';
+    bReset.title = 'إعادة تصفير العداد';
+    bReset.textContent = '↺';
+
+    ringZone.append(ringBtn, bReset);
+    footer.append(actions, ringZone);
+    card.append(top, text, ref, footer);
     container.appendChild(card);
 
-    if ((counts[z.id]||0) >= z.target) { badge.style.background = 'var(--primary)'; badge.style.color = '#fff'; }
+    const fillCircle = ringBtn.querySelector('.ring-fill');
+    const numSpan = ringBtn.querySelector('.ring-num');
 
-    bCopy.addEventListener('click', async ()=>{ try { await copyText(z.text); showToast('تم النسخ ✓'); } catch (e) { showToast('تعذّر النسخ'); } });
-    bSpeak.addEventListener('click', ()=> speak(z.text));
-    bShare.addEventListener('click', ()=> shareContent({ title: z.title, text: z.text, url: location.origin + location.pathname + '#dhikr-' + z.id }));
-    bCount.addEventListener('click', ()=>{
+    function syncRing(notifyDone){
+      const cur = Math.min(z.target, counts[z.id] || 0);
+      const pct = z.target > 0 ? cur / z.target : 0;
+      const offset = CIRC * (1 - pct);
+      fillCircle.style.strokeDashoffset = offset.toFixed(2);
+      const isDone = cur >= z.target;
+      numSpan.textContent = isDone ? '✓' : cur;
+      ringBtn.classList.toggle('done', isDone);
+      card.classList.toggle('completed', isDone);
+      if (notifyDone && isDone && typeof showToast === 'function') showToast('اكتمل الذكر ✓');
+    }
+    ringUpdaters[z.id] = () => syncRing(false);
+    syncRing(false);
+
+    function increment(){
       const cur = counts[z.id] || 0;
-      if(cur >= z.target) return;
-      counts[z.id] = cur + 1; saveC(counts);
-      badge.textContent = counts[z.id] + ' / ' + z.target;
-      if(counts[z.id] >= z.target){ badge.style.background = 'var(--primary)'; badge.style.color = '#fff'; showToast('اكتمل ✓'); }
+      if (cur >= z.target) return;
+      counts[z.id] = cur + 1;
+      saveJ(KEY, counts);
+      if (navigator.vibrate) try { navigator.vibrate(22); } catch (e) {}
+      syncRing(true);
+      updateGlobalStat();
+    }
+
+    ringBtn.addEventListener('click', increment);
+    text.addEventListener('click', () => {
+      const sel = window.getSelection && String(window.getSelection());
+      if (sel && sel.length > 0) return;
+      increment();
     });
-    bReset.addEventListener('click', ()=>{
-      delete counts[z.id]; saveC(counts);
-      badge.textContent = '0 / ' + z.target;
-      badge.style.background = 'var(--accent-light)';
-      badge.style.color = 'var(--primary)';
+
+    bReset.addEventListener('click', () => {
+      delete counts[z.id];
+      saveJ(KEY, counts);
+      syncRing(false);
+      updateGlobalStat();
     });
+
+    bCopy.addEventListener('click', async () => { try { await copyText(z.text); showToast('تم النسخ ✓'); } catch (e) { showToast('تعذّر النسخ'); } });
+    bSpeak.addEventListener('click', () => speak(z.text));
+    bShare.addEventListener('click', () => shareContent({ title: z.title, text: z.text, url: location.origin + location.pathname + '#dhikr-' + z.id }));
   });
 
-  // الفلترة والبحث معًا
+  updateGlobalStat();
+
+  document.getElementById('resetAllBtn').addEventListener('click', () => {
+    counts = {};
+    saveJ(KEY, counts);
+    Object.values(ringUpdaters).forEach(fn => fn());
+    updateGlobalStat();
+    if (typeof showToast === 'function') showToast('تم تصفير جميع العدادات ↺');
+  });
+
   let activeFilter = 'all';
   const search = document.getElementById('azkarSearch');
   const keys = new Map();
@@ -738,11 +802,15 @@ document.getElementById('year').textContent = new Date().getFullYear();
   function apply(){
     const q = norm(search ? search.value : '');
     document.querySelectorAll('.azkar-item').forEach(card => {
-      const okCat = activeFilter === 'all' || card.dataset.category === activeFilter;
+      const id = card.id.replace('dhikr-', '');
+      const okCat = activeFilter === 'all'
+        || (activeFilter === 'favs' && favs.includes(id))
+        || card.dataset.category === activeFilter;
       const okQ = !q || keys.get(card).includes(q);
       card.style.display = (okCat && okQ) ? '' : 'none';
     });
   }
+
   document.querySelectorAll('#dhikrFilters .filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('#dhikrFilters .filter-btn').forEach(b => b.classList.remove('active'));
@@ -753,7 +821,6 @@ document.getElementById('year').textContent = new Date().getFullYear();
   });
   if (search) search.addEventListener('input', apply);
 
-  // الانتقال إلى ذكر محدد من الرابط
   if (/^#dhikr-/.test(location.hash)) {
     const t = document.getElementById(location.hash.slice(1));
     if (t) setTimeout(() => t.scrollIntoView({ block: 'center' }), 100);

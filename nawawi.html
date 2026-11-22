@@ -195,7 +195,19 @@
       .hero { padding: 40px 0 56px; }
       .hadith-grid { grid-template-columns: 1fr; }
     }
-  </style>
+  
+/* توحيد قياسات شريط التنقل */
+.standard-nav{flex-wrap:nowrap;white-space:nowrap;gap:2px}
+.standard-nav>a,.standard-nav>.dropdown>.dropdown-trigger{padding:6px 7px;font-size:.82rem}
+.standard-nav .dropdown{position:relative}
+.standard-nav .dropdown-content{display:none;position:absolute;top:100%;right:0;z-index:60;min-width:180px;padding:8px 0;background:var(--bg-2);border:1px solid var(--line);border-radius:10px}
+.standard-nav .dropdown-content a{display:block;padding:9px 14px;text-align:right}
+.standard-nav .dropdown:focus-within .dropdown-content,.standard-nav .dropdown.open .dropdown-content{display:block}
+@media(hover:hover){.standard-nav .dropdown:hover .dropdown-content{display:block}}
+@media(max-width:1100px) and (min-width:861px){.standard-nav>a,.standard-nav>.dropdown>.dropdown-trigger{padding:5px 4px;font-size:.75rem}.nav-inner{gap:8px}}
+@media(max-width:860px){.standard-nav{white-space:normal}.standard-nav>a,.standard-nav>.dropdown>.dropdown-trigger{padding:10px 12px;font-size:.95rem}.standard-nav .dropdown-content{position:static;box-shadow:none;border:0;background:var(--primary-soft);margin-top:4px}.standard-nav .dropdown-content a{text-align:center}}
+
+</style>
 </head>
 <body>
 <a href="#main" class="skip-link">تخطَّ إلى المحتوى</a>

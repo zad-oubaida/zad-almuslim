@@ -152,6 +152,9 @@ footer a{text-decoration:none}footer a:hover{color:var(--mint)}
 @media(max-width:1100px) and (min-width:821px){.links>a,.links>.dropdown>.dropdown-trigger{padding:5px 4px;font-size:.75rem}.nav-in{gap:8px}}
 @media(max-width:820px){.links{white-space:normal;align-items:stretch;gap:4px}.links>a,.links>.dropdown>.dropdown-trigger{padding:12px 16px;font-size:.95rem}.dropdown-content{position:static;box-shadow:none;border:0;background:var(--card2);margin-top:4px}.dropdown-content a{text-align:center}}
 
+
+/* Clear, theme-matched text in the opened mobile menu only. */
+@media(max-width:900px){html body #links.open a{color:var(--text)!important}}
 </style>
 </head>
 <body>

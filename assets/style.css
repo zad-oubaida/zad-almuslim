@@ -698,3 +698,6 @@ body.dark .back-to-top{background:var(--accent);color:#1a1a1a}
 
 .standard-nav .dropdown-trigger{display:block;border:0;background:transparent;color:var(--text-muted);font:inherit;font-size:.86rem;font-weight:600;cursor:pointer}
 @media(max-width:768px){.standard-nav .dropdown-trigger{width:100%;padding:12px 16px;text-align:center;font-size:.95rem}}
+
+/* Clear, theme-matched text in the opened mobile menu only. */
+@media(max-width:768px){html body .navbar .nav-links.open a{color:var(--ink)!important}}

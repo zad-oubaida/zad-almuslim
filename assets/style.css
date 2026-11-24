@@ -1,12 +1,13 @@
 /* ============================================================
-   زاد عبيدة — التنسيقات المشتركة (v6)
+   زاد عبيدة — التنسيقات المشتركة (v6.1)
    ضعه في: assets/style.css
 
    الجديد في v6 (بناءً على تقرير PageSpeed):
-   - رفع min-height للوحة اليوم (يحل CLS = 0.204 على الكمبيوتر)
-   - skeleton shimmer أثناء التحميل (يحل SI = 4.8s على الجوال)
-   - توحيد min-height للجميع (حذف media query القديم)
-   - كل ما في v5 باقٍ: overflow-x, content-visibility, forced-colors, إلخ.
+- رفع min-height للوحة اليوم (يحل CLS = 0.204 على الكمبيوتر)
+- skeleton shimmer أثناء التحميل (يحل SI = 4.8s على الجوال)
+- توحيد min-height للجميع (حذف media query القديم)
+- كل ما في v5 باقٍ: overflow-x, content-visibility, forced-colors, إلخ.
+- الجديد في v6.1: حركة خلفية ناعمة ومتناسقة مع الألوان والوضع الليلي
    ============================================================ */
 
 :root{
@@ -75,13 +76,42 @@ body{
 }
 main{flex:1 0 auto}
 
-/* زخرفة إسلامية خفيفة */
+/* زخرفة إسلامية خفيفة وحركة هادئة في الخلفية */
 body::before,body::after{
   content:"۞";position:fixed;z-index:-1;pointer-events:none;
   line-height:1;
+  will-change:transform;
 }
-body::before{top:-5%;inset-inline-end:-5%;font-size:400px;color:rgba(13,122,95,.03);transform:rotate(-10deg)}
-body::after{bottom:-10%;inset-inline-start:-5%;font-size:300px;color:rgba(240,180,41,.04);transform:rotate(15deg)}
+body::before{
+  top:-5%;inset-inline-end:-5%;font-size:400px;
+  color:rgba(13,122,95,.035);
+  animation:zadOrnamentFloatA 26s ease-in-out infinite alternate;
+}
+body::after{
+  bottom:-10%;inset-inline-start:-5%;font-size:300px;
+  color:rgba(240,180,41,.045);
+  animation:zadOrnamentFloatB 30s ease-in-out infinite alternate;
+}
+
+:root[data-theme="dark"] body::before,
+body.dark::before{
+  color:rgba(79,209,171,.04);
+}
+:root[data-theme="dark"] body::after,
+body.dark::after{
+  color:rgba(240,180,41,.045);
+}
+
+@keyframes zadOrnamentFloatA{
+  0%{transform:rotate(-10deg) translate3d(0,0,0)}
+  50%{transform:rotate(-5deg) translate3d(-18px,22px,0)}
+  100%{transform:rotate(-12deg) translate3d(10px,36px,0)}
+}
+@keyframes zadOrnamentFloatB{
+  0%{transform:rotate(15deg) translate3d(0,0,0)}
+  50%{transform:rotate(10deg) translate3d(20px,-18px,0)}
+  100%{transform:rotate(17deg) translate3d(-12px,-28px,0)}
+}
 
 h1,h2,h3,.hero-title{font-family:'Amiri',serif}
 a{color:inherit;text-decoration:none}

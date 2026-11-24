@@ -156,6 +156,14 @@ footer a:hover{transform:translateX(-5px)}
 
 /* Clear, theme-matched text in the opened mobile menu only. */
 @media(max-width:900px){html body #nv.open a{color:var(--ink)!important}}
+:focus-visible{outline:3px solid var(--link);outline-offset:3px;box-shadow:0 0 0 6px rgba(242,193,78,.45)}
+h1,h2,h3,.sub{text-wrap:balance}
+.sub{line-height:2}
+.btn.s{min-height:44px}
+.ck span{background:var(--sf);border:1px solid var(--ln);border-radius:99px;padding:6px 14px}
+#pt li{transition:background-color .25s,color .25s,box-shadow .25s}
+#pt li.on{box-shadow:0 8px 18px rgba(11,107,80,.28)}
+.de button.x{width:32px;height:32px;font-size:1.3rem}
 </style>
 </head>
 <body>
@@ -193,6 +201,7 @@ footer a:hover{transform:translateX(-5px)}
 </div></header>
 
 <main>
+<noscript><p class="w" style="text-align:center;padding:16px">يحتاج هذا الموقع إلى تفعيل جافاسكربت ليعرض المواقيت والآية والحديث.</p></noscript>
 <section class="hero"><svg class="gp" aria-hidden="true"><rect width="100%" height="100%" fill="url(#gp)"/></svg><svg class="orn o1" aria-hidden="true"><use href="#orn"/></svg><svg class="orn o2" aria-hidden="true"><use href="#orn"/></svg><div class="w">
   <p class="bs">بسم الله الرحمن الرحيم</p>
   <h1>زادٌ لقلبك، ومعرفةٌ نثق بمصدرها</h1>
@@ -210,13 +219,13 @@ footer a:hover{transform:translateX(-5px)}
       <div class="cta"><a class="btn" id="nb" href="./azkar-evening.html">افتح أذكار المساء <svg class="i ar"><use href="#arr"/></svg></a><a class="ul" id="no" href="./azkar-morning.html">أذكار الصباح</a></div>
     </section>
     <section class="card" aria-labelledby="pth">
-      <div class="ch"><h2 id="pth">مواقيت الصلاة</h2><button class="btn s" id="ct"><svg class="i"><use href="#pin"/></svg>تغيير</button></div>
+      <div class="ch"><h2 id="pth">مواقيت الصلاة</h2><button class="btn s" id="ct"><svg class="i"><use href="#pin"/></svg>تغيير المدينة</button></div>
       <p class="dt" id="pd">جارٍ تحميل المواقيت…</p>
       <ul id="pt"></ul>
       <div class="cd" hidden id="cdb" role="timer"><div><span id="cl"></span><b id="cv">00:00:00</b></div><div class="pb"><i id="pg"></i></div></div>
       <div class="cta"><button class="btn s" id="adhanToggle" type="button">تفعيل الأذان قبل الصلاة بدقيقة</button><button class="btn s" id="adhanTest" type="button">تجربة الأذان</button></div>
       <p class="dt" id="adhanStatus">فعّل الأذان ليعمل قبل كل صلاة بدقيقة عند إبقاء الصفحة مفتوحة.</p>
-      <audio id="adhanAudio" preload="none" src="./assets/adhan-ibrahim-almadani.mp3"></audio>
+      <audio id="adhanAudio" preload="metadata" src="./assets/adhan-ibrahim-almadani.mp3"></audio>
     </section>
   </div>
 
@@ -245,7 +254,7 @@ footer a:hover{transform:translateX(-5px)}
     <a href="./azkar-evening.html"><div class="gi"><svg class="i"><use href="#moon"/></svg></div><b>أذكار المساء</b><span>اختم يومك بذكر الله</span></a>
     <a href="./azkar-sleep.html"><div class="gi"><svg class="i"><use href="#bed"/></svg></div><b>أذكار النوم</b><span>أذكار تقال قبل النوم</span></a>
     <a href="#mine"><div class="gi"><svg class="i"><use href="#pen"/></svg></div><b>أذكاري</b><span>اكتب أذكارك واحفظها في هاتفك</span></a>
-    <a href="./nawawi.html"><div class="gi"><svg class="i"><use href="#fil"/></svg></div><b>الأحاديث</b><span>40 حديثًا في متناول يدك</span></a>
+    <a href="./nawawi.html"><div class="gi"><svg class="i"><use href="#fil"/></svg></div><b>الأحاديث</b><span>50 حديثًا في متناول يدك</span></a>
     <a href="./quran.html"><div class="gi"><svg class="i"><use href="#bok"/></svg></div><b>القرآن الكريم</b><span>اقرأ كل السور بسهولة</span></a>
     <a href="./quran-audio.html"><div class="gi"><svg class="i"><use href="#hed"/></svg></div><b>المكتبة القرآنية</b><span>استمع للقرآن بأصوات القراء</span></a>
     <a href="./duas.html"><div class="gi"><svg class="i"><use href="#hrt"/></svg></div><b>الأدعية</b><span>أدعية صحيحة من السنة</span></a>
@@ -272,7 +281,7 @@ footer a:hover{transform:translateX(-5px)}
       <p class="eb"><svg class="i"><use href="#lck"/></svg>أذكاري · دفترك الخاص</p>
       <h2>اكتب أذكارك، وتبقى معك وحدك</h2>
       <p style="color:var(--mut)">تُحفظ على جهازك فقط، ولا تُرسل إلى أي خادم. خذ نسخة احتياطية متى شئت.</p>
-      <div class="cta" style="justify-content:flex-start"><button class="btn p" id="mo">افتح أذكاري</button><button class="btn" id="mb">نسخة احتياطية</button></div>
+      <div class="cta" style="justify-content:flex-start"><button class="btn p" id="mo">افتح أذكاري</button><button class="btn" id="mb">نسخة احتياطية</button><button class="btn" id="mi">استعادة نسخة</button><input type="file" id="mif" accept="application/json" hidden></div>
     </div>
     <div id="ml"></div>
   </div>
@@ -311,11 +320,17 @@ function icon(){var d=document.documentElement.dataset.theme==='dark';$('#th use
 icon();$('#th').onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;ls.set('zad_theme',n);icon()};
 $('#mn').onclick=function(){var o=$('#nv').classList.toggle('open');this.setAttribute('aria-expanded',o)};
 
-/* الذكر المناسب للوقت */
-(function(){var h=new Date().getHours(),M={m:['الصباح','تبدأ بعد صلاة الفجر وتمتد إلى الضحى. اقرأها بهدوء، وكل ذكر معه مصدره.','./azkar-morning.html'],e:['المساء','تبدأ بعد صلاة العصر وتمتد إلى المغرب. اقرأها بهدوء، وكل ذكر معه مصدره.','./azkar-evening.html'],s:['النوم','تُقال قبل النوم. اختم يومك بها، وكل ذكر معه مصدره.','./azkar-sleep.html']};
-var k=h<12?'m':h<21?'e':'s',o=k==='m'?M.e:M.m,v=M[k];
-$('#nt').textContent='أذكار '+v[0];$('#nd').textContent=v[1];$('#nb').href=v[2];$('#nb').firstChild.textContent='افتح أذكار '+v[0]+' ';
-$('#hc').href=v[2];$('#hc').firstChild.textContent='ابدأ بأذكار '+v[0]+' ';$('#no').textContent='أذكار '+o[0];$('#no').href=o[2]})();
+/* الذكر المناسب للوقت: حسب مواقيت الصلاة، وبالساعة إن لم تتوفر */
+var NW={m:['الصباح','تبدأ بعد صلاة الفجر وتمتد إلى الضحى. اقرأها بهدوء، وكل ذكر معه مصدره.','./azkar-morning.html'],e:['المساء','تبدأ بعد صلاة العصر وتمتد إلى المغرب. اقرأها بهدوء، وكل ذكر معه مصدره.','./azkar-evening.html'],s:['النوم','تُقال قبل النوم. اختم يومك بها، وكل ذكر معه مصدره.','./azkar-sleep.html']};
+function setNow(){
+  var k;
+  if(S&&S.t){var n=sec(S.tz),fj=ts(S.t.Fajr),as=ts(S.t.Asr),is=ts(S.t.Isha);k=(n>=is||n<fj)?'s':n>=as?'e':'m'}
+  else{var h=new Date().getHours();k=(h<5||h>=21)?'s':h<16?'m':'e'}
+  var v=NW[k],o=k==='m'?NW.e:NW.m;
+  $('#nt').textContent='أذكار '+v[0];$('#nd').textContent=v[1];$('#nb').href=v[2];$('#nb').firstChild.textContent='افتح أذكار '+v[0]+' ';
+  $('#hc').href=v[2];$('#hc').firstChild.textContent='ابدأ بأذكار '+v[0]+' ';$('#no').textContent='أذكار '+o[0];$('#no').href=o[2];
+}
+setNow();
 
 /* مواقيت الصلاة (طريقة 19: وزارة الشؤون الدينية الجزائرية) */
 var API='https://api.aladhan.com/v1/',N=[['Fajr','الفجر'],['Sunrise','الشروق'],['Dhuhr','الظهر'],['Asr','العصر'],['Maghrib','المغرب'],['Isha','العشاء']],O=['Fajr','Dhuhr','Asr','Maghrib','Isha'];
@@ -343,7 +358,7 @@ if(!nk){nk='Fajr';ni=86400-now+ts(S.t.Fajr);pv=ts(S.t.Isha)}else if(pv===null)pv
 [].forEach.call(pt.children,function(li){li.classList.toggle('on',li.dataset.k===nk)});
 $('#cl').textContent='متبقٍ لصلاة '+nm(nk);$('#cv').textContent=p2(Math.floor(ni/3600))+':'+p2(Math.floor(ni%3600/60))+':'+p2(ni%60);
 $('#pg').style.width=Math.max(0,Math.min(100,(now-pv)/(now+ni-pv)*100))+'%';$('#cdb').hidden=false;checkAdhan()}
-function use(d,label){S={t:d.t,tz:d.tz,date:d.date};var dt=new Date().toLocaleDateString('ar-DZ',{weekday:'long',day:'numeric',month:'long',year:'numeric'});$('#pd').textContent=(label?label+' · ':'')+dt;draw();tick()}
+function use(d,label){S={t:d.t,tz:d.tz,date:d.date};var dt=new Date().toLocaleDateString('ar-DZ',{weekday:'long',day:'numeric',month:'long',year:'numeric'});$('#pd').textContent=(label?label+' · ':'')+dt;draw();tick();setNow()}
 
 /* الأذان قبل الصلاة بدقيقة — يستعمل مواقيت الصلاة الحالية */
 var adhanAudio=$('#adhanAudio'),adhanEnabled=ls.get('zad_adhan_enabled')==='1';
@@ -354,54 +369,46 @@ function adhanStatus(){
     :'فعّل الأذان ليعمل قبل كل صلاة بدقيقة عند إبقاء الصفحة مفتوحة.';
 }
 function playAdhan(){
-  if(!adhanAudio)return;
-  var start=function(){
-    try{adhanAudio.currentTime=0;var p=adhanAudio.play();if(p&&p.catch)p.catch(function(){toast('تعذّر التشغيل التلقائي. استخدم «تجربة الأذان» وتأكد من مستوى الصوت.')})}
-    catch(e){toast('تعذّر تشغيل ملف الأذان.')}
-  };
-  if(adhanAudio.readyState>=1)start();
-  else{adhanAudio.addEventListener('loadedmetadata',start,{once:true});adhanAudio.load()}
+  try{adhanAudio.currentTime=0}catch(e){}
+  var p=adhanAudio.play();
+  if(p&&p.catch)p.catch(function(){toast('تعذّر التشغيل. اضغط «تجربة الأذان» مرة واحدة وتأكد من مستوى الصوت.')});
+}
+function unlockAdhan(){
+  adhanAudio.muted=true;
+  var p=adhanAudio.play();
+  if(!p||!p.then){adhanAudio.muted=false;return}
+  p.then(function(){adhanAudio.pause();adhanAudio.currentTime=0;adhanAudio.muted=false}).catch(function(){adhanAudio.muted=false});
+}
+function notifyAdhan(k,key){
+  if(!('Notification' in window)||Notification.permission!=='granted'||!('serviceWorker' in navigator))return;
+  navigator.serviceWorker.ready.then(function(reg){
+    return reg.showNotification('اقترب وقت الصلاة',{body:'بقيت دقيقة واحدة على صلاة '+nm(k),icon:'./logo-zad-almuslim.webp.png',badge:'./logo-zad-almuslim.webp.png',lang:'ar',dir:'rtl',tag:'zad-adhan-'+key,data:{local:true,url:'./'}});
+  }).catch(function(){});
 }
 function checkAdhan(){
   if(!S||!adhanEnabled)return;
   var now=sec(S.tz),date=S.date||ds();
   O.forEach(function(k){
-    var target=ts(S.t[k])-60;
-    var key=date+'-'+k;
-    if(now>=target&&now<target+3&&ls.get('zad_adhan_last')!==key){
-      ls.set('zad_adhan_last',key);
-      playAdhan();
-      if('Notification' in window&&Notification.permission==='granted'&&'serviceWorker' in navigator){
-        navigator.serviceWorker.ready.then(function(reg){
-          return reg.showNotification('اقترب وقت الصلاة',{
-            body:'بقيت دقيقة واحدة على صلاة '+nm(k),
-            icon:'./logo-zad-almuslim.webp.png',badge:'./logo-zad-almuslim.webp.png',
-            lang:'ar',dir:'rtl',tag:'zad-adhan-'+key,data:{local:true,url:'./'}
-          });
-        }).catch(function(){});
-      }
+    var target=ts(S.t[k])-60,key=date+'-'+k;
+    if(now>=target&&now<target+90&&ls.get('zad_adhan_last')!==key){
+      ls.set('zad_adhan_last',key);playAdhan();notifyAdhan(k,key);
     }
   });
 }
 function enableAdhan(){
-  if(!('Notification' in window)){toast('متصفحك لا يدعم إشعارات الأذان.');return}
-  var done=function(permission){
-    if(permission!=='granted'){toast('لم تُمنح صلاحية الإشعارات؛ لم يتم تفعيل الأذان.');return}
-    adhanEnabled=true;ls.set('zad_adhan_enabled','1');adhanStatus();
-    toast('تم التفعيل. جرّب الصوت للتأكد من عمله على جهازك.');
-  };
-  if(Notification.permission==='granted')done('granted');
-  else if(Notification.permission==='denied')toast('الإشعارات محظورة من إعدادات المتصفح.');
-  else Notification.requestPermission().then(done).catch(function(){toast('تعذّر طلب صلاحية الإشعارات.')});
+  unlockAdhan();adhanEnabled=true;ls.set('zad_adhan_enabled','1');adhanStatus();
+  toast('تم التفعيل. جرّب الصوت للتأكد من عمله على جهازك.');
+  if('Notification' in window&&Notification.permission==='default')Notification.requestPermission().catch(function(){});
 }
 $('#adhanToggle').addEventListener('click',function(){
   if(adhanEnabled){adhanEnabled=false;ls.set('zad_adhan_enabled','0');adhanStatus();toast('تم إيقاف الأذان.')}
   else enableAdhan();
 });
 $('#adhanTest').addEventListener('click',playAdhan);
-adhanAudio.addEventListener('error',function(){$('#adhanStatus').textContent='ملف الأذان غير مرفوع بعد إلى assets/adhan-ibrahim-almadani.mp3.'});
+adhanAudio.addEventListener('error',function(){$('#adhanStatus').textContent='تعذّر تحميل ملف الأذان. تحقق من اتصالك ثم أعد المحاولة.'});
+adhanAudio.addEventListener('loadedmetadata',adhanStatus);
 adhanStatus();
-setInterval(tick,1000);document.addEventListener('visibilitychange',function(){if(!document.hidden)tick()});
+setInterval(tick,1000);document.addEventListener('visibilitychange',function(){if(!document.hidden){tick();setNow()}});
 function estData(){var g=ls.get('zad_geo'),la=36.7538,lo=3.0588,tz=1,z='Africa/Algiers';if(g&&/^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/.test(g)){g=g.split(',');la=+g[0];lo=+g[1];tz=-new Date().getTimezoneOffset()/60;z=null}return{t:est(la,lo,tz),tz:z,date:ds()}}
 function load(url,label,key,silent,eo){var t=++tok;reload=function(){load(url,label,key,true,eo)};
 if(!silent){S=null;pt.textContent='';$('#cdb').hidden=true;var c=null;try{c=JSON.parse(ls.get('zad_pt_'+key)||'null')}catch(e){}
@@ -431,19 +438,19 @@ loadA();
 /* حديث اليوم (راجع النصوص قبل النشر) */
 var HD=[
 ['لَا تَحَاسَدُوا، وَلَا تَنَاجَشُوا، وَلَا تَبَاغَضُوا، وَلَا تَدَابَرُوا، وَلَا يَبِعْ بَعْضُكُمْ عَلَى بَيْعِ بَعْضٍ، وَكُونُوا عِبَادَ اللَّهِ إِخْوَانًا','صحيح · رواه مسلم','عن أبي هريرة رضي الله عنه · الأربعون النووية، الحديث 35'],
-['إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى','صحيح · متفق عليه',''],
-['الدِّينُ النَّصِيحَةُ','صحيح · رواه مسلم',''],
-['لَا يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لِأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ','صحيح · متفق عليه',''],
-['مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ','صحيح · متفق عليه',''],
-['الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ','صحيح · متفق عليه',''],
-['اتَّقِ اللَّهَ حَيْثُمَا كُنْتَ، وَأَتْبِعِ السَّيِّئَةَ الْحَسَنَةَ تَمْحُهَا، وَخَالِقِ النَّاسَ بِخُلُقٍ حَسَنٍ','حسن · رواه الترمذي',''],
-['مِنْ حُسْنِ إِسْلَامِ الْمَرْءِ تَرْكُهُ مَا لَا يَعْنِيهِ','حسن · رواه الترمذي',''],
-['كَلِمَتَانِ خَفِيفَتَانِ عَلَى اللِّسَانِ، ثَقِيلَتَانِ فِي الْمِيزَانِ، حَبِيبَتَانِ إِلَى الرَّحْمَنِ: سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، سُبْحَانَ اللَّهِ الْعَظِيمِ','صحيح · متفق عليه',''],
-['خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ','صحيح · رواه البخاري',''],
-['الطُّهُورُ شَطْرُ الْإِيمَانِ','صحيح · رواه مسلم',''],
-['لَيْسَ الشَّدِيدُ بِالصُّرَعَةِ، إِنَّمَا الشَّدِيدُ الَّذِي يَمْلِكُ نَفْسَهُ عِنْدَ الْغَضَبِ','صحيح · متفق عليه',''],
-['مَنْ لَا يَرْحَمْ لَا يُرْحَمْ','صحيح · متفق عليه',''],
-['أَحَبُّ الْأَعْمَالِ إِلَى اللَّهِ أَدْوَمُهَا وَإِنْ قَلَّ','صحيح · متفق عليه','']];
+['إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى','صحيح · متفق عليه','عن عمر بن الخطاب رضي الله عنه · الأربعون النووية، الحديث 1'],
+['الدِّينُ النَّصِيحَةُ','صحيح · رواه مسلم','عن تميم الداري رضي الله عنه · الأربعون النووية، الحديث 7'],
+['لَا يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لِأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ','صحيح · متفق عليه','عن أنس بن مالك رضي الله عنه · الأربعون النووية، الحديث 13'],
+['مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ','صحيح · متفق عليه','عن أبي هريرة رضي الله عنه · الأربعون النووية، الحديث 15'],
+['الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ','صحيح · متفق عليه','عن عبد الله بن عمرو رضي الله عنهما'],
+['اتَّقِ اللَّهَ حَيْثُمَا كُنْتَ، وَأَتْبِعِ السَّيِّئَةَ الْحَسَنَةَ تَمْحُهَا، وَخَالِقِ النَّاسَ بِخُلُقٍ حَسَنٍ','حسن · رواه الترمذي','عن أبي ذر ومعاذ بن جبل رضي الله عنهما · الأربعون النووية، الحديث 18'],
+['مِنْ حُسْنِ إِسْلَامِ الْمَرْءِ تَرْكُهُ مَا لَا يَعْنِيهِ','حسن · رواه الترمذي','عن أبي هريرة رضي الله عنه · الأربعون النووية، الحديث 12'],
+['كَلِمَتَانِ خَفِيفَتَانِ عَلَى اللِّسَانِ، ثَقِيلَتَانِ فِي الْمِيزَانِ، حَبِيبَتَانِ إِلَى الرَّحْمَنِ: سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، سُبْحَانَ اللَّهِ الْعَظِيمِ','صحيح · متفق عليه','عن أبي هريرة رضي الله عنه'],
+['خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ','صحيح · رواه البخاري','عن عثمان بن عفان رضي الله عنه'],
+['الطُّهُورُ شَطْرُ الْإِيمَانِ','صحيح · رواه مسلم','عن أبي مالك الأشعري رضي الله عنه · الأربعون النووية، الحديث 23'],
+['لَيْسَ الشَّدِيدُ بِالصُّرَعَةِ، إِنَّمَا الشَّدِيدُ الَّذِي يَمْلِكُ نَفْسَهُ عِنْدَ الْغَضَبِ','صحيح · متفق عليه','عن أبي هريرة رضي الله عنه'],
+['مَنْ لَا يَرْحَمْ لَا يُرْحَمْ','صحيح · متفق عليه','عن أبي هريرة رضي الله عنه'],
+['أَحَبُّ الْأَعْمَالِ إِلَى اللَّهِ أَدْوَمُهَا وَإِنْ قَلَّ','صحيح · متفق عليه','عن عائشة رضي الله عنها']];
 var H=HD[day()%HD.length];$('#ht').textContent='«'+H[0]+'»';$('#hb span').textContent=H[1];$('#hs').textContent=H[2];
 
 /* نسخ ومشاركة */
@@ -454,14 +461,21 @@ if(b.dataset.a==='sh'&&navigator.share)navigator.share({text:x}).catch(function(
 /* أذكاري: دفتر خاص على الجهاز فقط */
 var ml=$('#ml'),MK='zad_mine',mine=[];try{mine=JSON.parse(ls.get(MK)||'[]')}catch(e){}
 function sv(){ls.set(MK,JSON.stringify(mine))}
-function rm(){ml.textContent='';
+function rm(){var od=$('#mf textarea'),dr=od?od.value:'',op=!!$('#mf.open');ml.textContent='';
 if(!mine.length){var e=document.createElement('div');e.className='de c';e.textContent='لا توجد أذكار محفوظة بعد';ml.appendChild(e)}
-mine.forEach(function(t,i){var d=document.createElement('div'),x=document.createElement('button');d.className='de';d.textContent=t;d.style.whiteSpace='pre-wrap';x.className='x';x.textContent='×';x.setAttribute('aria-label','حذف');x.onclick=function(){mine.splice(i,1);sv();rm()};d.appendChild(x);ml.appendChild(d)});
+mine.forEach(function(t,i){var d=document.createElement('div'),x=document.createElement('button');d.className='de';d.textContent=t;d.style.whiteSpace='pre-wrap';x.className='x';x.textContent='×';x.setAttribute('aria-label','حذف');x.onclick=function(){if(confirm('حذف هذا الذكر؟')){mine.splice(i,1);sv();rm()}};d.appendChild(x);ml.appendChild(d)});
 var f=document.createElement('div');f.id='mf';var ta=document.createElement('textarea'),sb=document.createElement('button');ta.placeholder='اكتب الذكر هنا';ta.setAttribute('aria-label','نص الذكر');sb.className='btn p';sb.textContent='حفظ الذكر';
-sb.onclick=function(){var v=ta.value.trim();if(!v)return toast('اكتب الذكر أولًا');mine.unshift(v.slice(0,2000));sv();rm()};f.appendChild(ta);f.appendChild(sb);ml.appendChild(f)}
+sb.onclick=function(){var v=ta.value.trim();if(!v)return toast('اكتب الذكر أولًا');mine.unshift(v.slice(0,2000));sv();ta.value='';rm()};ta.value=dr;if(op)f.classList.add('open');f.appendChild(ta);f.appendChild(sb);ml.appendChild(f)}
 rm();
+if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(function(){});
 $('#mo').onclick=function(){var f=$('#mf');f.classList.add('open');f.firstChild.focus()};
 $('#mb').onclick=function(){if(!mine.length)return toast('لا توجد أذكار لحفظها بعد');var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({app:'zad-oubaida',adhkar:mine},null,1)],{type:'application/json'}));a.download='adhkari-zad-oubaida.json';a.click();setTimeout(function(){URL.revokeObjectURL(a.href)},3e3)};
+$('#mi').onclick=function(){$('#mif').click()};
+$('#mif').onchange=function(){var f=this.files[0];if(!f)return;var r=new FileReader();
+r.onload=function(){try{var j=JSON.parse(r.result),a=j&&j.app==='zad-oubaida'&&Array.isArray(j.adhkar)?j.adhkar:null;if(!a)throw 0;
+var add=a.filter(function(t){return typeof t==='string'&&t.trim()&&mine.indexOf(t)<0}).map(function(t){return t.slice(0,2000)});
+mine=add.concat(mine);sv();rm();toast('تمت استعادة '+add.length+' ذكر')}catch(e){toast('ملف غير صالح')}};
+r.readAsText(f);this.value=''};
 
 /* التثبيت والتذكير */
 var dip;window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();dip=e});
@@ -472,7 +486,7 @@ if(navigator.serviceWorker)navigator.serviceWorker.ready.then(function(r){r.acti
 
 /* Service Worker */
 if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(function(r){r.update()}).catch(function(){})});
-navigator.serviceWorker.addEventListener('message',function(e){if(e.data&&e.data.type==='SW_UPDATED'&&!sessionStorage.getItem('zad_sw_rl')){try{sessionStorage.setItem('zad_sw_rl','1')}catch(x){}location.reload()}})}
+navigator.serviceWorker.addEventListener('message',function(e){if(e.data&&e.data.type==='SW_UPDATED'&&!sessionStorage.getItem('zad_sw_rl')){try{sessionStorage.setItem('zad_sw_rl','1')}catch(x){}toast('يوجد تحديث جديد. أعد تحميل الصفحة للاستفادة منه.')}})}
 })();
 </script>
 <script>

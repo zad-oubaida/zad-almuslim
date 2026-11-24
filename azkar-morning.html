@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b6b50">
-<meta name="description" content="أذكار الصباح كاملة بنصوصها الصحيحة ومصادرها مع عدّاد ذكي لكل ذكر — زاد عبيدة">
+<meta name="description" content="أذكار الصباح كاملة بنصوصها الصحيحة ومصادرها مع عدّاد ذكي وميزات مواظبة وتركيز — زاد عبيدة">
 <title>أذكار الصباح — زاد عبيدة</title>
 <link rel="icon" type="image/png" href="./logo-zad-almuslim.webp.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,96 +17,142 @@
 
 .zp{
   --g:#d4a537;
-  --gl:#f0d98a;
-  --d:#06382c;
+  --gl:#f4dfb0;
+  --d:#052e24;
   --m:#0b6b50;
-  --cr:#fff8e6;
-  max-width:660px;
+  --cr:#fff9ec;
+  --font-scale:1;
+  max-width:680px;
   margin:0 auto;
-  padding:0 14px 64px;
+  padding:0 14px 72px;
   overflow-anchor:none;
 }
 
 .zhero{text-align:center;padding:28px 0 14px}
-.bism{font-family:Amiri,serif;color:var(--g);font-size:1.2rem}
+.bism{
+  font-family:Amiri,serif;color:var(--g);font-size:1.22rem;
+  letter-spacing:.02em;margin-bottom:4px;
+}
 .zhero h1{
   font-family:Amiri,serif;
-  font-size:clamp(2rem,6vw,2.75rem);
+  font-size:clamp(2.05rem,6vw,2.85rem);
   color:var(--ink,var(--primary,#0b6b50));
   margin:2px 0 8px;
-  line-height:1.3;
+  line-height:1.28;
 }
 .zhero p{color:var(--text-muted);margin:0 0 14px;font-size:.94rem}
+.ztime-hint{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 14px;border-radius:999px;
+  background:var(--primary-light);color:var(--ink);
+  font-size:.8rem;font-weight:700;margin-bottom:12px;
+}
 
 .ztabs{
   display:inline-flex;gap:4px;padding:4px;
-  background:var(--card);border:1px solid var(--line);border-radius:99px;
+  background:var(--card);border:1px solid var(--line);border-radius:999px;
+  box-shadow:var(--shadow);
 }
 .ztabs a{
-  padding:7px 20px;border-radius:99px;
+  padding:7px 20px;border-radius:999px;
   font-weight:700;font-size:.9rem;color:var(--text-muted);
   text-decoration:none;transition:background .2s,color .2s;
 }
 .ztabs a.on{background:var(--m);color:#fff}
 .ztabs a:hover:not(.on){color:var(--ink)}
 
+.ztop-panel{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:20px;padding:14px 16px;margin:18px 0 22px;
+  box-shadow:var(--shadow);
+}
 .zmeta-row{
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-  margin:18px 2px 8px;font-size:.9rem;color:var(--text);flex-wrap:wrap;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;font-size:.92rem;color:var(--text);flex-wrap:wrap;
+  margin-bottom:10px;
 }
-.zstats-pill{
+.zbadges{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.zbadge{
   background:var(--primary-light);color:var(--ink);
-  padding:4px 12px;border-radius:99px;font-weight:700;font-size:.82rem;
+  padding:4px 12px;border-radius:999px;font-weight:700;font-size:.8rem;
 }
+.zbadge.gold{background:var(--accent-light);color:var(--accent-ink)}
 
 .zpb{
-  height:8px;background:var(--line);border-radius:99px;
-  overflow:hidden;margin-bottom:24px;
+  height:8px;background:var(--line);border-radius:999px;
+  overflow:hidden;margin-bottom:12px;
 }
 .zpb i{
   display:block;height:100%;width:0;
   background:linear-gradient(90deg,var(--m),var(--g));
-  border-radius:99px;transition:width .35s ease;
+  border-radius:999px;transition:width .35s ease;
 }
+
+.zsub-row{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:8px;flex-wrap:wrap;font-size:.8rem;color:var(--text-muted);
+}
+.zweek-dots{display:flex;gap:5px;align-items:center}
+.zweek-dot{
+  width:18px;height:18px;border-radius:50%;
+  display:grid;place-items:center;font-size:.68rem;font-weight:700;
+  background:var(--primary-light);color:var(--text-muted);
+  border:1px solid var(--line);
+}
+.zweek-dot.done{
+  background:var(--m);color:#fff;border-color:var(--m);
+}
+.zjump-btn{
+  padding:5px 12px;border-radius:999px;
+  background:var(--accent-light);color:var(--accent-ink);
+  font-weight:700;font-size:.78rem;min-height:32px;
+  transition:transform .15s,background .2s;
+}
+.zjump-btn:hover{transform:translateY(-1px);background:var(--accent);color:#1a1a1a}
 
 .stage{
   position:relative;border-radius:28px;padding:34px 22px 30px;
   text-align:center;color:var(--cr);border:2px solid var(--g);
   background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' fill='none' stroke='%23d4a537' stroke-opacity='.13'%3E%3Crect x='14' y='14' width='36' height='36'/%3E%3Crect x='14' y='14' width='36' height='36' transform='rotate(45 32 32)'/%3E%3C/svg%3E"),
-    radial-gradient(120% 90% at 50% 0,#12896a,var(--m) 45%,var(--d));
-  box-shadow:0 20px 44px -20px rgba(6,56,44,.75);
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' fill='none' stroke='%23d4a537' stroke-opacity='.14'%3E%3Crect x='14' y='14' width='36' height='36'/%3E%3Crect x='14' y='14' width='36' height='36' transform='rotate(45 32 32)'/%3E%3C/svg%3E"),
+    radial-gradient(125% 95% at 50% 0,#159372,var(--m) 46%,var(--d));
+  box-shadow:0 22px 48px -22px rgba(5,46,36,.82);
+  transition:box-shadow .25s ease,border-color .25s ease;
 }
 .stage::before{
   content:"";position:absolute;inset:8px;
-  border:1px solid rgba(212,165,55,.55);border-radius:20px;pointer-events:none;
+  border:1px solid rgba(244,223,176,.45);border-radius:20px;pointer-events:none;
 }
 .stage::after{
   content:"❖";position:absolute;top:-15px;left:50%;translate:-50% 0;
   width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
   background:var(--d);color:var(--g);border:2px solid var(--g);font-size:.95rem;
 }
+.stage.tap-anywhere{cursor:pointer}
+.stage.tap-anywhere:hover{border-color:var(--gl)}
 
 .st{
   display:flex;align-items:center;gap:12px;margin:0 0 16px;
-  font-family:Amiri,serif;font-size:1.35rem;color:var(--gl);
+  font-family:Amiri,serif;font-size:calc(1.35rem * var(--font-scale));color:var(--gl);
 }
 .st::before,.st::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--g))}
 .st::after{transform:scaleX(-1)}
 
 .sx{
-  font-family:Amiri,serif;font-size:clamp(1.42rem,4.6vw,1.9rem);
+  font-family:Amiri,serif;
+  font-size:calc(clamp(1.42rem,4.6vw,1.92rem) * var(--font-scale));
   line-height:2.35;white-space:pre-line;margin:0 0 16px;
 }
-.sx.l{font-size:clamp(1.16rem,3.7vw,1.42rem);line-height:2.22}
+.sx.l{font-size:calc(clamp(1.16rem,3.7vw,1.42rem) * var(--font-scale));line-height:2.22}
 
 .sf{
-  margin:0 0 10px;padding:9px 14px;
-  border:1px solid rgba(212,165,55,.45);
-  background:rgba(212,165,55,.13);border-radius:12px;
-  font-size:.9rem;line-height:1.9;color:var(--gl);
+  margin:0 0 10px;padding:10px 14px;
+  border:1px solid rgba(244,223,176,.42);
+  background:rgba(212,165,55,.15);border-radius:14px;
+  font-size:calc(.9rem * var(--font-scale));line-height:1.9;color:var(--gl);
 }
-.ss{margin:0;font-size:.82rem;color:rgba(255,248,230,.76)}
+.ss{margin:0;font-size:.82rem;color:rgba(255,249,236,.78)}
+
 .stage.zen-mode .sf,
 .stage.zen-mode .ss{display:none}
 
@@ -114,7 +160,7 @@
   --p:0;display:block;width:158px;height:158px;margin:24px auto 0;padding:8px;
   border:0;border-radius:50%;cursor:pointer;
   background:conic-gradient(var(--g) calc(var(--p)*1%),rgba(255,255,255,.18) 0);
-  box-shadow:0 0 0 5px rgba(212,165,55,.22),0 12px 26px rgba(0,0,0,.38);
+  box-shadow:0 0 0 5px rgba(212,165,55,.24),0 14px 28px rgba(0,0,0,.42);
   transition:--p .45s cubic-bezier(.3,.7,.3,1),transform .12s;
   -webkit-tap-highlight-color:transparent;
   touch-action:manipulation;
@@ -127,51 +173,56 @@
 .core{
   position:relative;overflow:hidden;display:grid;place-content:center;
   width:100%;height:100%;border-radius:50%;
-  background:radial-gradient(circle at 50% 28%,#16a07a,var(--d));
+  background:radial-gradient(circle at 50% 28%,#18ab82,var(--d));
   border:2px solid var(--gl);color:#fff;line-height:1.15;
 }
 .core::before{
   content:"";position:absolute;inset:auto 0 0;height:calc(var(--p)*1%);
-  background:linear-gradient(0deg,rgba(212,165,55,.78),rgba(240,217,138,.5));
+  background:linear-gradient(0deg,rgba(212,165,55,.8),rgba(244,223,176,.52));
   transition:height .35s ease;
 }
-.core b,.core small{position:relative;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+.core b,.core small{position:relative;text-shadow:0 1px 6px rgba(0,0,0,.65)}
 .core b{font:800 2.8rem Cairo,sans-serif}
 .core small{font-size:.84rem;color:var(--gl)}
 
 .again{
   margin-top:16px;padding:12px 28px;border:2px solid var(--g);
-  border-radius:99px;background:var(--g);color:var(--d);
+  border-radius:999px;background:var(--g);color:var(--d);
   font:700 1rem Cairo,sans-serif;cursor:pointer;
 }
 
 .zc{display:flex;justify-content:space-between;gap:10px;margin-top:18px}
 .zc button,.zt button{
-  padding:10px 18px;border:1px solid var(--line);border-radius:99px;
-  background:var(--card);color:var(--m);font:700 .88rem Cairo,sans-serif;
-  cursor:pointer;min-height:44px;transition:border-color .2s,color .2s,background .2s;
+  padding:10px 16px;border:1px solid var(--line);border-radius:999px;
+  background:var(--card);color:var(--m);font:700 .86rem Cairo,sans-serif;
+  cursor:pointer;min-height:44px;transition:border-color .2s,color .2s,background .2s,transform .15s;
 }
 .zc button:disabled{opacity:.4;cursor:default}
 .zc button:not(:disabled):hover,.zt button:hover{border-color:var(--g);color:var(--text)}
-.zt button.active-tool{background:var(--primary-light);border-color:var(--g);color:var(--ink)}
+.zt button.active-tool{
+  background:var(--primary-light);border-color:var(--g);color:var(--ink);
+  box-shadow:0 0 0 2px rgba(212,165,55,.22);
+}
 
 .zt{display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin-top:12px}
 .zt button{padding:8px 14px;font-size:.82rem;color:var(--text-muted)}
 
 .zidx{
   margin-top:22px;background:var(--card);border:1px solid var(--line);
-  border-radius:16px;padding:12px 16px;
+  border-radius:18px;padding:14px 16px;box-shadow:var(--shadow);
 }
 .zidx summary{cursor:pointer;font-weight:700;color:var(--ink);padding:4px 0}
 .zg{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .zg button{
   width:42px;height:42px;border-radius:50%;border:2px solid var(--line);
   background:none;color:var(--text);font:700 .86rem Cairo,sans-serif;cursor:pointer;
+  transition:transform .15s,border-color .2s,background .2s;
 }
+.zg button:hover{transform:translateY(-1px)}
 .zg button.ok{background:var(--m);border-color:var(--m);color:#fff}
 .zg button.cur{border-color:var(--g);box-shadow:0 0 0 3px rgba(212,165,55,.3)}
 
-.ring:focus-visible,.zc button:focus-visible,.zt button:focus-visible,.zg button:focus-visible,.again:focus-visible{
+.ring:focus-visible,.zc button:focus-visible,.zt button:focus-visible,.zg button:focus-visible,.again:focus-visible,.zjump-btn:focus-visible{
   outline:3px solid var(--g);outline-offset:3px;
 }
 
@@ -221,6 +272,7 @@
     <div class="bism">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
     <h1>أذكار الصباح</h1>
     <p>اضغط على الدائرة لتعدّ، وعند اكتمال العدد تنتقل إلى الذكر التالي بهدوء.</p>
+    <div class="ztime-hint" id="timeHint">🌅 وقتها: من صلاة الفجر إلى طلوع الشمس ويمتد للضحى</div>
     <nav class="ztabs" aria-label="أذكار اليوم">
       <a href="./azkar-morning.html" class="on" aria-current="page">الصباح</a>
       <a href="./azkar-evening.html">المساء</a>
@@ -228,11 +280,20 @@
     </nav>
   </header>
 
-  <div class="zmeta-row">
-    <b id="pt"></b>
-    <span class="zstats-pill" id="doneStats">مكتمل: 0</span>
+  <div class="ztop-panel">
+    <div class="zmeta-row">
+      <b id="pt"></b>
+      <div class="zbadges">
+        <span class="zbadge" id="doneStats">مكتمل: 0</span>
+        <span class="zbadge gold" id="streakBadge">مواظبة الأسبوع: 0/7</span>
+      </div>
+    </div>
+    <div class="zpb"><i id="pf"></i></div>
+    <div class="zsub-row">
+      <div class="zweek-dots" id="weekDots" aria-label="سجل آخر 7 أيام"></div>
+      <button type="button" class="zjump-btn" id="jumpRemaining" hidden>أول ذكر متبقٍ ←</button>
+    </div>
   </div>
-  <div class="zpb"><i id="pf"></i></div>
 
   <section class="stage" id="stage" aria-live="polite">
     <h2 class="st" id="st"></h2>
@@ -255,6 +316,9 @@
     <button type="button" data-a="speak">استماع</button>
     <button type="button" data-a="share">مشاركة</button>
     <button type="button" data-a="zen">تركيز النص</button>
+    <button type="button" data-a="tapany">لمس البطاقة</button>
+    <button type="button" data-a="font+">تكبير الخط</button>
+    <button type="button" data-a="font-">تصغير الخط</button>
     <button type="button" data-a="reset">إعادة العدّ</button>
   </div>
 
@@ -352,7 +416,8 @@ window.ZAD_AZKAR.morning = [
   var NAME = ({morning:'أذكار الصباح',evening:'أذكار المساء',sleep:'أذكار النوم'})[TYPE] || 'الأذكار';
   if (!D.length) return;
 
-  var K = 'zad_' + TYPE + '_v5';
+  var K = 'zad_' + TYPE + '_v6';
+  var HK = 'zad_' + TYPE + '_hist_v1';
   var day = new Date().toLocaleDateString('en-CA');
   var N = D.length;
   var $ = function(id){ return document.getElementById(id); };
@@ -374,16 +439,66 @@ window.ZAD_AZKAR.morning = [
   }
   S.i = Math.max(0, Math.min(N, S.i));
 
-  function save(){
+  var H;
+  try { H = JSON.parse(localStorage.getItem(HK)); } catch (e) { H = null; }
+  if (!H || typeof H !== 'object') H = {};
+
+  function saveState(){
     try { localStorage.setItem(K, JSON.stringify(S)); } catch (e) {}
+    var doneCount = D.filter(ok).length;
+    if (doneCount > 0) {
+      H[day] = { done: doneCount, total: N, full: doneCount >= N };
+      try { localStorage.setItem(HK, JSON.stringify(H)); } catch (e) {}
+    }
   }
+
   function ok(z){
     return (Number(S.c[z.id]) || 0) >= z.n;
+  }
+
+  function firstRemainingIndex(){
+    for (var idx = 0; idx < N; idx++) {
+      if (!ok(D[idx])) return idx;
+    }
+    return -1;
+  }
+
+  function renderWeek(){
+    var dotsEl = $('weekDots');
+    if (!dotsEl) return;
+    dotsEl.innerHTML = '';
+    var activeDays = 0;
+    var labels = ['أحد','إثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'];
+    for (var offset = 6; offset >= 0; offset--) {
+      var dt = new Date();
+      dt.setDate(dt.getDate() - offset);
+      var key = dt.toLocaleDateString('en-CA');
+      var entry = H[key];
+      var isDone = Boolean(entry && (entry.full || entry.done >= Math.ceil(N * 0.6)));
+      if (isDone) activeDays++;
+      var dot = document.createElement('span');
+      dot.className = 'zweek-dot' + (isDone ? ' done' : '');
+      dot.textContent = labels[dt.getDay()].slice(0, 1);
+      dot.title = key + (isDone ? ' — مكتمل' : '');
+      dotsEl.appendChild(dot);
+    }
+    $('streakBadge').textContent = 'مواظبة الأسبوع: ' + activeDays + '/7';
   }
 
   var autoAdvTimer = null;
   var isAdvancing = false;
   var zenMode = false;
+  var tapAnywhere = false;
+  var fontScale = 1;
+  try {
+    var savedScale = parseFloat(localStorage.getItem(K + '_fs'));
+    if (!isNaN(savedScale) && savedScale >= 0.85 && savedScale <= 1.35) fontScale = savedScale;
+  } catch (e) {}
+
+  function applyFontScale(){
+    $('main').style.setProperty('--font-scale', String(fontScale));
+    try { localStorage.setItem(K + '_fs', String(fontScale)); } catch (e) {}
+  }
 
   function clearAutoTimer(){
     if (autoAdvTimer) {
@@ -407,7 +522,7 @@ window.ZAD_AZKAR.morning = [
   function go(i){
     clearAutoTimer();
     S.i = Math.max(0, Math.min(N, Number(i) || 0));
-    save();
+    saveState();
     draw();
   }
 
@@ -416,11 +531,14 @@ window.ZAD_AZKAR.morning = [
     var z = D[Math.min(S.i, N - 1)];
     var c = Math.min(z.n, Math.max(0, Number(S.c[z.id]) || 0));
     var doneCount = D.filter(ok).length;
+    var remIdx = firstRemainingIndex();
 
     $('pt').textContent = fin ? 'أتممت أذكار اليوم' : ('الذكر ' + (S.i + 1) + ' من ' + N);
     $('doneStats').textContent = 'مكتمل: ' + doneCount + ' / ' + N;
     $('pf').style.width = ((doneCount / N) * 100).toFixed(1) + '%';
     $('stage').classList.toggle('zen-mode', zenMode);
+    $('stage').classList.toggle('tap-anywhere', tapAnywhere && !fin);
+    $('jumpRemaining').hidden = fin || remIdx < 0 || remIdx === S.i;
 
     if (fin) {
       $('st').textContent = 'تقبّل الله منك';
@@ -451,20 +569,10 @@ window.ZAD_AZKAR.morning = [
     for (var k = 0; k < idxBtns.length; k++) {
       idxBtns[k].className = (ok(D[k]) ? 'ok ' : '') + (k === S.i ? 'cur' : '');
     }
+    renderWeek();
   }
 
-  var zgEl = $('zg');
-  zgEl.innerHTML = '';
-  D.forEach(function(z, idx){
-    var b = document.createElement('button');
-    b.type = 'button';
-    b.textContent = String(idx + 1);
-    b.setAttribute('aria-label', z.t);
-    b.addEventListener('click', function(){ go(idx); });
-    zgEl.appendChild(b);
-  });
-
-  $('ring').addEventListener('click', function(){
+  function stepCount(){
     if (S.i >= N || isAdvancing) return;
     var z = D[S.i];
     var c = Math.min(z.n, Math.max(0, Number(S.c[z.id]) || 0));
@@ -476,10 +584,12 @@ window.ZAD_AZKAR.morning = [
 
     var nextCount = c + 1;
     S.c[z.id] = nextCount;
-    save();
+    saveState();
 
     if (navigator.vibrate) {
-      try { navigator.vibrate(12); } catch (e) {}
+      try {
+        navigator.vibrate(nextCount >= z.n ? [16, 40, 16] : 10);
+      } catch (e) {}
     }
 
     var r = $('ring');
@@ -494,6 +604,7 @@ window.ZAD_AZKAR.morning = [
       $('doneStats').textContent = 'مكتمل: ' + doneCount + ' / ' + N;
       setP(100, true);
       $('cn').textContent = String(z.n);
+      renderWeek();
       autoAdvTimer = setTimeout(function(){
         isAdvancing = false;
         go(S.i + 1);
@@ -502,13 +613,40 @@ window.ZAD_AZKAR.morning = [
       setP((nextCount / z.n) * 100, true);
       $('cn').textContent = String(nextCount);
     }
+  }
+
+  var zgEl = $('zg');
+  zgEl.innerHTML = '';
+  D.forEach(function(z, idx){
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = String(idx + 1);
+    b.setAttribute('aria-label', z.t);
+    b.addEventListener('click', function(){ go(idx); });
+    zgEl.appendChild(b);
+  });
+
+  $('ring').addEventListener('click', function(e){
+    e.stopPropagation();
+    stepCount();
+  });
+
+  $('stage').addEventListener('click', function(e){
+    if (!tapAnywhere || S.i >= N) return;
+    if (e.target.closest('button, a, summary, details')) return;
+    stepCount();
+  });
+
+  $('jumpRemaining').addEventListener('click', function(){
+    var remIdx = firstRemainingIndex();
+    if (remIdx >= 0) go(remIdx);
   });
 
   $('prev').addEventListener('click', function(){ go(S.i - 1); });
   $('next').addEventListener('click', function(){ go(S.i + 1); });
   $('again').addEventListener('click', function(){
     S = { d: day, c: {}, i: 0 };
-    save();
+    saveState();
     go(0);
   });
 
@@ -520,11 +658,12 @@ window.ZAD_AZKAR.morning = [
     if (!a || !z) return;
 
     if (a === 'copy') {
+      var payload = z.t + '\n\n' + z.x + (z.f ? ('\n\nالفضل: ' + z.f) : '') + '\nالمصدر: ' + z.s;
       try {
         if (typeof window.copyText === 'function') {
-          await window.copyText(z.x);
+          await window.copyText(payload);
         } else if (navigator.clipboard && navigator.clipboard.writeText) {
-          await navigator.clipboard.writeText(z.x);
+          await navigator.clipboard.writeText(payload);
         } else {
           throw new Error('no clipboard');
         }
@@ -544,13 +683,14 @@ window.ZAD_AZKAR.morning = [
         notify('الاستماع غير مدعوم في هذا المتصفح');
       }
     } else if (a === 'share') {
+      var shareText = z.t + ' — ' + z.x + (z.f ? (' (' + z.f + ')') : '');
       if (typeof window.shareContent === 'function') {
-        window.shareContent({ title: z.t, text: z.x, url: location.href.split('#')[0] });
+        window.shareContent({ title: z.t, text: shareText, url: location.href.split('#')[0] });
       } else if (navigator.share) {
-        navigator.share({ title: z.t, text: z.x, url: location.href.split('#')[0] }).catch(function(){});
+        navigator.share({ title: z.t, text: shareText, url: location.href.split('#')[0] }).catch(function(){});
       } else {
         try {
-          if (navigator.clipboard) await navigator.clipboard.writeText(z.x);
+          if (navigator.clipboard) await navigator.clipboard.writeText(shareText);
           notify('تم نسخ الذكر للمشاركة ✓');
         } catch (err) {
           notify('تعذّر المشاركة');
@@ -561,10 +701,23 @@ window.ZAD_AZKAR.morning = [
       btn.classList.toggle('active-tool', zenMode);
       $('stage').classList.toggle('zen-mode', zenMode);
       notify(zenMode ? 'وضع تركيز النص مفعّل' : 'تم إظهار الفضل والمصدر');
+    } else if (a === 'tapany') {
+      tapAnywhere = !tapAnywhere;
+      btn.classList.toggle('active-tool', tapAnywhere);
+      $('stage').classList.toggle('tap-anywhere', tapAnywhere && S.i < N);
+      notify(tapAnywhere ? 'العدّ بلمس البطاقة مفعّل' : 'العدّ عبر الدائرة فقط');
+    } else if (a === 'font+') {
+      fontScale = Math.min(1.35, Number((fontScale + 0.08).toFixed(2)));
+      applyFontScale();
+      notify('تم تكبير الخط');
+    } else if (a === 'font-') {
+      fontScale = Math.max(0.85, Number((fontScale - 0.08).toFixed(2)));
+      applyFontScale();
+      notify('تم تصغير الخط');
     } else if (a === 'reset') {
       clearAutoTimer();
       delete S.c[z.id];
-      save();
+      saveState();
       draw();
       notify('تمت إعادة عدّ هذا الذكر');
     }
@@ -580,6 +733,7 @@ window.ZAD_AZKAR.morning = [
     }
   });
 
+  applyFontScale();
   draw();
 })();
 </script>

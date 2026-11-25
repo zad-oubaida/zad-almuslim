@@ -14,28 +14,29 @@
 <link rel="icon" type="image/png" href="./logo-zad-almuslim.webp.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script>
 /* تطبيق الثيم قبل الرسم لتفادي الوميض (الافتراضي: ليلي مثل الصفحة الرئيسية) */
 (function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();
 </script>
 <style>
 :root{
-  --bg:#0a1713;--card:#10231c;--card2:#143027;--line:#21402f;--text:#e8f3ee;--muted:#9db8ac;
-  --primary:#1f9174;--mint:#9be8c9;--gold:#e3ad3f;--ink:#fff;--shadow:0 12px 34px rgba(0,0,0,.4);
-  --tile:.07;--r:18px;
+  --bg:#081410;--card:#0e211b;--card2:#132c24;--line:#1f3f33;--text:#eaf4f0;--muted:#9cb8ac;
+  --primary:#1f9174;--mint:#9be8c9;--gold:#e3ad3f;--gold-soft:rgba(227,173,63,.14);
+  --ink:#fff;--shadow:0 16px 40px rgba(0,0,0,.42);--tile:.065;--r:20px;
 }
 [data-theme="light"]{
-  --bg:#f5f8f3;--card:#fff;--card2:#eef5ef;--line:#dde7df;--text:#15251e;--muted:#5a6d63;
-  --primary:#0d7a5f;--mint:#0d6e56;--gold:#a97612;--shadow:0 10px 28px rgba(13,60,45,.1);--tile:.1;
+  --bg:#f5f8f4;--card:#ffffff;--card2:#edf5ef;--line:#d8e5dc;--text:#14241d;--muted:#55695f;
+  --primary:#0d7a5f;--mint:#0b6952;--gold:#a97612;--gold-soft:rgba(169,118,18,.1);
+  --shadow:0 12px 30px rgba(13,60,45,.08);--tile:.09;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:84px}
-body{font-family:'Cairo',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.8;overflow-x:hidden;transition:background .3s,color .3s}
+body{font-family:'Cairo',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.85;overflow-x:hidden;transition:background .3s,color .3s}
 body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:var(--tile);
   background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' fill='none' stroke='%233fbf98'%3E%3Crect x='18' y='18' width='36' height='36'/%3E%3Crect x='18' y='18' width='36' height='36' transform='rotate(45 36 36)'/%3E%3Ccircle cx='36' cy='36' r='5'/%3E%3C/svg%3E")}
 a{color:inherit}
-.wrap{width:min(1080px,92%);margin-inline:auto}
+.wrap{width:min(1120px,92%);margin-inline:auto}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
 .skip{position:absolute;top:-60px;inset-inline-start:12px;z-index:1000;background:var(--primary);color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none}
 .skip:focus{top:12px}
@@ -43,72 +44,100 @@ a{color:inherit}
 
 /* الشريط العلوي */
 .nav{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-.nav-in{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
-.brand img{width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--line)}
-.brand b{display:block;color:var(--mint);font-family:'Amiri',serif;font-size:1.35rem;line-height:1.2}
-.brand small{display:block;color:var(--muted);font-size:.72rem}
-.links{display:flex;gap:4px}
-.links a{padding:7px 14px;border-radius:10px;text-decoration:none;font-size:.92rem;font-weight:600;color:var(--text);transition:background .2s,color .2s}
-.links a:hover{background:var(--card2);color:var(--mint)}
-.links a[aria-current]{background:var(--card2);color:var(--mint)}
-.tools{display:flex;gap:8px}
-.ibtn{width:40px;height:40px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--text);cursor:pointer;font-size:1.1rem}
-.ibtn:hover{border-color:var(--primary)}
-.ibtn svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round}
-[data-theme="dark"] .moon,[data-theme="light"] .sun{display:none}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:68px;flex-wrap:nowrap}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.brand img{width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid color-mix(in srgb,var(--gold) 55%,var(--line))}
+.brand b{display:block;color:var(--mint);font-family:'Amiri',serif;font-size:1.38rem;line-height:1.2}
+.links{display:flex;align-items:center;flex-wrap:nowrap;white-space:nowrap;gap:2px}
+.links>a,.links>.dropdown>.dropdown-trigger{padding:6px 8px;border-radius:10px;text-decoration:none;font-size:.83rem;font-weight:600;color:var(--text);transition:background .2s,color .2s}
+.links>a:hover,.links>.dropdown>.dropdown-trigger:hover{background:var(--card2);color:var(--mint)}
+.links>a[aria-current]{background:var(--card2);color:var(--gold);border:1px solid color-mix(in srgb,var(--gold) 30%,transparent)}
+.dropdown{position:relative}
+.dropdown-trigger{display:block;border:0;background:transparent;color:inherit;font:inherit;font-weight:600;cursor:pointer}
+.dropdown-content{display:none;position:absolute;top:100%;right:0;z-index:20;min-width:190px;padding:8px;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+.dropdown-content a{display:block;padding:9px 14px;border-radius:9px;text-align:right;text-decoration:none;font-size:.88rem;font-weight:600}
+.dropdown-content a:hover{background:var(--card2);color:var(--mint)}
+.dropdown:focus-within .dropdown-content,.dropdown.open .dropdown-content{display:block}
+@media(hover:hover){.dropdown:hover .dropdown-content{display:block}}
+.tools{display:flex;gap:8px;flex-shrink:0}
+.ibtn{width:40px;height:40px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--text);cursor:pointer;font-size:1.1rem;transition:border-color .2s,background .2s}
+.ibtn:hover{border-color:var(--gold);background:var(--card2)}
 #menu{display:none}
 
 /* الواجهة العلوية */
-.hero{position:relative;text-align:center;padding:72px 0 88px;overflow:hidden;border-bottom:1px solid var(--line)}
-.orn{position:absolute;width:340px;height:340px;opacity:.5;pointer-events:none}
-.o1{top:-110px;inset-inline-start:-90px;color:var(--primary)}
-.o2{bottom:-120px;inset-inline-end:-80px;color:var(--gold)}
+.hero{position:relative;text-align:center;padding:78px 0 92px;overflow:hidden;border-bottom:1px solid var(--line);
+  background:radial-gradient(ellipse at top,color-mix(in srgb,var(--primary) 16%,transparent),transparent 65%)}
+.orn{position:absolute;width:360px;height:360px;opacity:.45;pointer-events:none}
+.o1{top:-120px;inset-inline-start:-95px;color:var(--primary)}
+.o2{bottom:-130px;inset-inline-end:-85px;color:var(--gold)}
 .hero .wrap{position:relative}
-.bism{font-family:'Amiri',serif;color:var(--gold);font-size:1.4rem}
-h1{font-family:'Amiri',serif;font-weight:700;font-size:clamp(2.2rem,6.4vw,4rem);line-height:1.45;color:var(--mint);margin:6px 0 14px;text-wrap:balance}
-.lead{max-width:620px;margin:0 auto 28px;color:var(--muted);font-size:1.08rem}
+.bism{font-family:'Amiri',serif;color:var(--gold);font-size:1.5rem;letter-spacing:.3px}
+h1{font-family:'Amiri',serif;font-weight:700;font-size:clamp(2.3rem,6vw,4.1rem);line-height:1.4;color:var(--mint);margin:8px 0 16px;text-wrap:balance}
+.lead{max-width:650px;margin:0 auto 30px;color:var(--muted);font-size:1.08rem}
 .cta{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;align-items:center}
-.btn{display:inline-flex;gap:10px;align-items:center;padding:13px 26px;border-radius:14px;background:var(--primary);color:var(--ink);font-weight:700;text-decoration:none;box-shadow:0 8px 22px rgba(31,145,116,.3);transition:transform .2s,filter .2s}
-.btn:hover{transform:translateY(-2px);filter:brightness(1.1)}
-.ghost{color:var(--mint);text-decoration:none;border-bottom:1px solid var(--mint);padding-bottom:2px;font-weight:600}
-.checks{display:flex;flex-wrap:wrap;gap:8px 26px;justify-content:center;margin-top:30px;font-size:.9rem;color:var(--muted)}
-.checks span::before{content:"✓";color:var(--mint);margin-inline-end:7px}
+.btn{display:inline-flex;gap:10px;align-items:center;padding:13px 28px;border-radius:14px;background:linear-gradient(135deg,var(--primary),color-mix(in srgb,var(--primary) 78%,#063529));color:var(--ink);font-weight:700;text-decoration:none;box-shadow:0 10px 26px rgba(31,145,116,.32);transition:transform .2s,filter .2s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.ghost{color:var(--mint);text-decoration:none;border-bottom:1px solid var(--gold);padding-bottom:3px;font-weight:600;transition:color .2s}
+.ghost:hover{color:var(--gold)}
+.checks{display:flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;margin-top:34px;font-size:.9rem;color:var(--muted)}
+.checks span{background:color-mix(in srgb,var(--card) 75%,transparent);border:1px solid var(--line);padding:4px 14px;border-radius:99px}
+.checks span::before{content:"✦";color:var(--gold);margin-inline-end:8px;font-size:.8rem}
+
+/* الأقسام العامة */
+section{padding:66px 0 0}
+.head{margin-bottom:28px}
+.head-center{text-align:center;max-width:680px;margin-inline:auto}
+.head h2{font-family:'Amiri',serif;font-size:clamp(1.8rem,4vw,2.45rem);color:var(--mint);line-height:1.45}
+.head p{color:var(--muted);margin-top:4px;font-size:1rem}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--gold-soft);color:var(--gold);border:1px solid color-mix(in srgb,var(--gold) 38%,transparent);padding:3px 15px;border-radius:99px;font-size:.8rem;font-weight:700;margin-bottom:10px}
 
 /* بطاقة المؤسس الفاخرة */
 .founder-showcase{
   position:relative;
   display:grid;
-  grid-template-columns:minmax(220px,300px) 1fr;
-  gap:28px;
+  grid-template-columns:minmax(230px,290px) 1fr;
+  gap:32px;
   align-items:center;
-  margin-bottom:22px;
-  padding:28px;
-  border-radius:22px;
-  border:1px solid color-mix(in srgb,var(--gold) 48%,var(--line));
-  background:linear-gradient(135deg,color-mix(in srgb,var(--card2) 86%,transparent),var(--card));
+  margin-bottom:26px;
+  padding:30px;
+  border-radius:24px;
+  border:1px solid color-mix(in srgb,var(--gold) 52%,var(--line));
+  background:linear-gradient(135deg,color-mix(in srgb,var(--card2) 92%,transparent),var(--card));
   box-shadow:var(--shadow);
   overflow:hidden;
 }
 .founder-showcase::before{
   content:"";
   position:absolute;
-  inset-inline-start:-40px;
-  top:-40px;
-  width:180px;
-  height:180px;
+  inset-inline-start:-50px;
+  top:-50px;
+  width:220px;
+  height:220px;
   border-radius:50%;
   background:radial-gradient(circle,color-mix(in srgb,var(--gold) 22%,transparent),transparent 70%);
   pointer-events:none;
 }
+.founder-showcase::after{
+  content:"";
+  position:absolute;
+  inset-inline-end:-40px;
+  bottom:-40px;
+  width:200px;
+  height:200px;
+  border-radius:50%;
+  background:radial-gradient(circle,color-mix(in srgb,var(--primary) 22%,transparent),transparent 70%);
+  pointer-events:none;
+}
 .founder-frame{
   position:relative;
-  border-radius:18px;
+  border-radius:20px;
   overflow:hidden;
-  border:2px solid color-mix(in srgb,var(--gold) 65%,transparent);
-  background:var(--card2);
+  border:2px solid color-mix(in srgb,var(--gold) 70%,transparent);
+  background:linear-gradient(160deg,#12352a,#081914);
   aspect-ratio:4/5;
-  box-shadow:0 14px 30px rgba(0,0,0,.35);
+  box-shadow:0 16px 34px rgba(0,0,0,.38);
+  display:grid;
+  place-items:center;
 }
 .founder-frame img{
   display:block;
@@ -116,119 +145,167 @@ h1{font-family:'Amiri',serif;font-weight:700;font-size:clamp(2.2rem,6.4vw,4rem);
   height:100%;
   object-fit:cover;
   object-position:top center;
+  position:relative;
+  z-index:2;
 }
+.founder-fallback{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px;
+  color:var(--gold);
+  z-index:1;
+}
+.founder-fallback span{
+  width:84px;
+  height:84px;
+  border-radius:50%;
+  border:2px solid var(--gold);
+  display:grid;
+  place-items:center;
+  font-family:'Amiri',serif;
+  font-size:2.6rem;
+  font-weight:700;
+  background:rgba(227,173,63,.1);
+  margin-bottom:10px;
+}
+.founder-fallback small{
+  color:var(--mint);
+  font-size:.82rem;
+  font-weight:600;
+}
+.founder-info{position:relative;z-index:2}
 .founder-badge{
   display:inline-flex;
   align-items:center;
   gap:8px;
-  padding:5px 14px;
+  padding:5px 15px;
   border-radius:99px;
   font-size:.82rem;
   font-weight:700;
   color:var(--gold);
-  background:color-mix(in srgb,var(--gold) 12%,transparent);
-  border:1px solid color-mix(in srgb,var(--gold) 38%,transparent);
-  margin-bottom:10px;
+  background:var(--gold-soft);
+  border:1px solid color-mix(in srgb,var(--gold) 42%,transparent);
+  margin-bottom:12px;
 }
 .founder-info h3{
   font-family:'Amiri',serif;
-  font-size:clamp(1.6rem,3.4vw,2.25rem);
-  line-height:1.4;
+  font-size:clamp(1.75rem,3.6vw,2.45rem);
+  line-height:1.35;
   color:var(--mint);
-  margin-bottom:8px;
+  margin-bottom:4px;
 }
 .founder-role{
   color:var(--gold);
   font-weight:700;
-  font-size:.95rem;
-  margin-bottom:12px;
+  font-size:.96rem;
+  margin-bottom:14px;
 }
 .founder-info p{
   color:var(--text);
-  line-height:2;
-  font-size:.98rem;
+  line-height:2.05;
+  font-size:1rem;
+}
+.founder-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:16px;
+}
+.founder-tags span{
+  font-size:.8rem;
+  font-weight:600;
+  color:var(--mint);
+  background:color-mix(in srgb,var(--bg) 55%,transparent);
+  border:1px solid var(--line);
+  padding:4px 12px;
+  border-radius:10px;
 }
 
-/* الأقسام */
-section{padding:58px 0 0}
-.head{margin-bottom:26px}
-.head h2{font-family:'Amiri',serif;font-size:clamp(1.7rem,4vw,2.3rem);color:var(--mint);line-height:1.5}
-.head p{color:var(--muted)}
-.chip{display:inline-block;background:var(--card2);color:var(--gold);border:1px solid var(--line);padding:2px 14px;border-radius:99px;font-size:.78rem;font-weight:700;margin-bottom:8px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:30px;box-shadow:var(--shadow)}
-.prose{max-width:70ch}
-.prose p+p{margin-top:12px}
-.prose p{line-height:2.05}
-.story{display:grid;gap:22px;grid-template-columns:1fr 1fr;align-items:start}
-.story h3{font-family:'Amiri',serif;font-size:1.5rem;color:var(--mint);margin-bottom:10px}
-.quote{position:relative;margin-top:22px;padding:22px 26px;border-radius:var(--r);background:var(--card2);border-inline-start:4px solid var(--gold);font-family:'Amiri',serif;font-size:1.3rem;font-weight:700;line-height:2}
-.quote::after{content:"”";position:absolute;top:-6px;inset-inline-end:16px;font-size:4.4rem;line-height:1;color:var(--gold);opacity:.25}
+/* بطاقات القصة */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:32px;box-shadow:var(--shadow)}
+.prose{max-width:72ch}
+.prose p+p{margin-top:14px}
+.prose p{line-height:2.1}
+.story{display:grid;gap:24px;grid-template-columns:1fr 1fr;align-items:stretch}
+.story .card{position:relative}
+.story h3{font-family:'Amiri',serif;font-size:1.58rem;color:var(--mint);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.story h3::before{content:"";width:10px;height:10px;border-radius:2px;transform:rotate(45deg);background:var(--gold);flex-shrink:0}
+.quote{position:relative;margin-top:22px;padding:24px 28px;border-radius:var(--r);background:var(--card2);border:1px solid color-mix(in srgb,var(--gold) 28%,var(--line));border-inline-start:4px solid var(--gold);font-family:'Amiri',serif;font-size:1.35rem;font-weight:700;line-height:2;color:var(--text)}
+.quote::after{content:"”";position:absolute;top:-6px;inset-inline-end:18px;font-size:4.4rem;line-height:1;color:var(--gold);opacity:.28}
 .full{grid-column:1/-1}
 .full .quote{margin-top:0}
 
-/* بطاقات الأقسام */
-.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-.feat{display:block;text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px;transition:transform .2s,border-color .2s}
-a.feat:hover{transform:translateY(-4px);border-color:var(--primary)}
-.feat i{display:grid;place-items:center;width:46px;height:46px;border-radius:12px;background:var(--card2);font-style:normal;font-size:1.4rem;margin-bottom:12px}
-.feat b{display:block;color:var(--mint);font-size:1.05rem}
-.feat span{color:var(--muted);font-size:.93rem}
+/* شبكة جميع الصفحات والمميزات */
+.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(245px,1fr))}
+.feat{position:relative;display:flex;flex-direction:column;text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px;transition:transform .25s,border-color .25s,box-shadow .25s}
+.feat:hover{transform:translateY(-5px);border-color:color-mix(in srgb,var(--gold) 65%,var(--primary));box-shadow:var(--shadow)}
+.feat-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.feat i{display:grid;place-items:center;width:48px;height:48px;border-radius:14px;background:var(--card2);border:1px solid var(--line);font-style:normal;font-size:1.45rem}
+.feat em{font-style:normal;font-size:.74rem;font-weight:700;color:var(--gold);background:var(--gold-soft);padding:3px 10px;border-radius:99px}
+.feat b{display:block;color:var(--mint);font-size:1.08rem;margin-bottom:4px}
+.feat span{color:var(--muted);font-size:.92rem;line-height:1.75}
 
 /* الدعاء والتواصل */
-.dua{margin-top:26px;padding-top:22px;border-top:1px dashed var(--line);text-align:center;font-family:'Amiri',serif;line-height:2.1}
-.dua strong{display:block;color:var(--gold);font-size:1.5rem;margin-bottom:6px}
-.dua span{color:var(--muted);font-size:1.15rem}
-.contact{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-.c{display:flex;align-items:center;gap:14px;padding:20px;background:var(--card);border:1px solid var(--line);border-radius:var(--r)}
-.c i{font-style:normal;font-size:1.7rem}
+.dua{margin-top:28px;padding-top:24px;border-top:1px dashed color-mix(in srgb,var(--gold) 45%,var(--line));text-align:center;font-family:'Amiri',serif;line-height:2.1}
+.dua strong{display:block;color:var(--gold);font-size:1.55rem;margin-bottom:6px}
+.dua span{color:var(--muted);font-size:1.18rem}
+.contact{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+.c{display:flex;align-items:center;gap:15px;padding:22px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);transition:border-color .2s}
+.c:hover{border-color:color-mix(in srgb,var(--gold) 50%,var(--line))}
+.c i{display:grid;place-items:center;width:48px;height:48px;border-radius:14px;background:var(--card2);font-style:normal;font-size:1.5rem;flex-shrink:0}
 .c div{flex:1;min-width:0}
-.c small{display:block;color:var(--muted)}
+.c small{display:block;color:var(--muted);font-size:.82rem}
 .c a{color:var(--mint);font-weight:700;text-decoration:none;overflow-wrap:anywhere;unicode-bidi:plaintext}
-.c a:hover{text-decoration:underline}
-.cp{border:1px solid var(--line);background:transparent;color:var(--text);border-radius:10px;padding:6px 12px;cursor:pointer;font:600 .82rem 'Cairo',sans-serif}
-.cp:hover{border-color:var(--primary);color:var(--mint)}
+.c a:hover{text-decoration:underline;color:var(--gold)}
+.cp{border:1px solid var(--line);background:var(--card2);color:var(--text);border-radius:10px;padding:7px 14px;cursor:pointer;font:600 .82rem 'Cairo',sans-serif;transition:.2s}
+.cp:hover{border-color:var(--gold);color:var(--gold)}
 
-footer{margin-top:70px;border-top:1px solid var(--line);background:var(--card);padding:36px 0 18px}
-.fi{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
-footer h4{color:var(--mint);font-family:'Amiri',serif;font-size:1.2rem;margin-bottom:6px}
-footer p{color:var(--muted);font-size:.92rem}
-footer a{text-decoration:none}footer a:hover{color:var(--mint)}
-.fb{text-align:center;margin-top:24px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+/* التذييل الشامل */
+footer{margin-top:78px;border-top:1px solid var(--line);background:var(--card);padding:44px 0 22px}
+.fi{display:grid;gap:28px;grid-template-columns:1.3fr 1fr 1fr 1fr}
+footer h4{color:var(--gold);font-family:'Amiri',serif;font-size:1.25rem;margin-bottom:10px}
+footer p{color:var(--muted);font-size:.92rem;line-height:1.9}
+.flist{list-style:none;display:grid;gap:6px}
+.flist a{text-decoration:none;color:var(--muted);font-size:.9rem;transition:color .2s}
+.flist a:hover{color:var(--mint)}
+.fb{text-align:center;margin-top:30px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
 
-#top{position:fixed;bottom:20px;inset-inline-start:20px;opacity:0;pointer-events:none;transition:opacity .25s;background:var(--primary);color:#fff;border:0;font-size:1.2rem}
+#top{position:fixed;bottom:20px;inset-inline-start:20px;opacity:0;pointer-events:none;transition:opacity .25s;background:var(--primary);color:#fff;border:0;font-size:1.2rem;box-shadow:var(--shadow)}
 #top.on{opacity:1;pointer-events:auto}
-#toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,30px);background:var(--primary);color:#fff;padding:10px 20px;border-radius:12px;opacity:0;transition:.3s;z-index:300;pointer-events:none}
+#toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,30px);background:var(--primary);color:#fff;padding:10px 22px;border-radius:12px;opacity:0;transition:.3s;z-index:300;pointer-events:none;font-weight:600}
 #toast.on{opacity:1;transform:translate(-50%,0)}
 
 .js .rv{opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s}
 .js .rv.in{opacity:1;transform:none}
 
-@media(max-width:820px){
+@media(max-width:1100px) and (min-width:861px){
+  .links>a,.links>.dropdown>.dropdown-trigger{padding:5px 5px;font-size:.75rem}
+  .nav-in{gap:8px}
+}
+@media(max-width:860px){
   #menu{display:grid}
-  .links{display:none;position:absolute;top:68px;inset-inline:0;flex-direction:column;padding:12px 4%;background:var(--bg);border-bottom:1px solid var(--line)}
+  .links{display:none;position:absolute;top:68px;inset-inline:0;flex-direction:column;white-space:normal;align-items:stretch;gap:4px;padding:14px 4%;background:var(--bg);border-bottom:1px solid var(--line)}
   .links.open{display:flex}
-  .founder-showcase{grid-template-columns:1fr;text-align:center;padding:22px}
+  .links>a,.links>.dropdown>.dropdown-trigger{padding:12px 16px;font-size:.95rem}
+  .dropdown-content{position:static;box-shadow:none;border:0;background:var(--card2);margin-top:4px}
+  .dropdown-content a{text-align:center}
+  .founder-showcase{grid-template-columns:1fr;text-align:center;padding:24px}
   .founder-frame{max-width:240px;margin-inline:auto}
+  .founder-tags{justify-content:center}
   .story{grid-template-columns:1fr}
-  .hero{padding:52px 0 64px}
-  .card{padding:22px}
+  .fi{grid-template-columns:1fr 1fr}
+  .hero{padding:56px 0 68px}
+  .card{padding:24px}
+}
+@media(max-width:520px){
+  .fi{grid-template-columns:1fr}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}.js .rv{opacity:1;transform:none}}
-
-/* تنسيق موحد للتنقل */
-.nav-in{flex-wrap:nowrap}
-.links{align-items:center;flex-wrap:nowrap;white-space:nowrap;gap:2px}
-.links>a,.links>.dropdown>.dropdown-trigger{padding:6px 7px;font-size:.82rem}
-.dropdown{position:relative}
-.dropdown-content{display:none;position:absolute;top:100%;right:0;z-index:20;min-width:180px;padding:8px 0;background:var(--bg);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 25px rgba(0,0,0,.12)}
-.dropdown-trigger{display:block;border:0;background:transparent;color:inherit;font:inherit;font-weight:600;cursor:pointer}
-.dropdown-content a{display:block;padding:9px 14px;text-align:right}
-.dropdown:focus-within .dropdown-content,.dropdown.open .dropdown-content{display:block}
-@media(hover:hover){.dropdown:hover .dropdown-content{display:block}}
-@media(max-width:1100px) and (min-width:821px){.links>a,.links>.dropdown>.dropdown-trigger{padding:5px 4px;font-size:.75rem}.nav-in{gap:8px}}
-@media(max-width:820px){.links{white-space:normal;align-items:stretch;gap:4px}.links>a,.links>.dropdown>.dropdown-trigger{padding:12px 16px;font-size:.95rem}.dropdown-content{position:static;box-shadow:none;border:0;background:var(--card2);margin-top:4px}.dropdown-content a{text-align:center}}
-
-/* Clear, theme-matched text in the opened mobile menu only. */
 @media(max-width:900px){html body #links.open a{color:var(--text)!important}}
 </style>
 </head>
@@ -256,7 +333,7 @@ footer a{text-decoration:none}footer a:hover{color:var(--mint)}
       <a href="./opinions.html">آراؤكم</a>
       <div class="dropdown"><button type="button" class="dropdown-trigger" aria-haspopup="true">أذكار المسلم <span class="caret">⌄</span></button><div class="dropdown-content"><a href="./adhkar.html">الأذكار العامة</a><a href="./azkar-morning.html">أذكار الصباح</a><a href="./azkar-evening.html">أذكار المساء</a><a href="./azkar-sleep.html">أذكار النوم</a></div></div>
     </div>
-    <div class="tools"><button class="ibtn" id="theme" type="button" aria-label="الوضع الليلي">◐</button><button class="ibtn" id="menu" type="button" aria-label="القائمة" aria-expanded="false">☰</button></div>
+    <div class="tools"><button class="ibtn" id="theme" type="button" aria-label="تبديل المظهر">◐</button><button class="ibtn" id="menu" type="button" aria-label="القائمة" aria-expanded="false">☰</button></div>
   </div>
 </nav>
 
@@ -269,7 +346,7 @@ footer a{text-decoration:none}footer a:hover{color:var(--mint)}
     <p class="lead">حكاية بدأت من قلب طفل في السادسة عشرة: مساحة إسلامية مجانية تجمع الفائدة والبساطة، وتقرّب المسلم من دينه.</p>
     <div class="cta">
       <a class="btn" href="#story">اقرأ الحكاية <span aria-hidden="true">←</span></a>
-      <a class="ghost" href="./index.html">أو تصفّح الموقع</a>
+      <a class="ghost" href="#offer">استكشف جميع الأقسام</a>
     </div>
     <div class="checks"><span>مجاني للجميع</span><span>مصادر إسلامية موثوقة</span><span>مشروع قابل للتطوير</span></div>
   </div>
@@ -282,13 +359,22 @@ footer a{text-decoration:none}footer a:hover{color:var(--mint)}
 
     <div class="founder-showcase rv">
       <div class="founder-frame">
-        <img src="./founder-photo.jpg" alt="صورة المؤسس السيد عبيدة قولال" loading="lazy">
+        <img id="founderImg" src="./founder-photo.jpg" alt="صورة المؤسس السيد عبيدة قولال" loading="lazy">
+        <div class="founder-fallback" aria-hidden="true">
+          <span>ع</span>
+          <small>السيد عبيدة قولال</small>
+        </div>
       </div>
       <div class="founder-info">
         <span class="founder-badge">✦ مؤسس المشروع</span>
         <h3>السيد عبيدة قولال</h3>
-        <p class="founder-role">مؤسس منصة زاد عبيدة</p>
-        <p>بدأ هذا المشروع بخطوة فردية صادقة ومجانية لتقريب القرآن الكريم والأذكار والأحاديث النبوية والعلم النافع إلى كل مسلم بأسلوب بسيط وهادئ، مع الاعتماد على المصادر الإسلامية الموثوقة.</p>
+        <p class="founder-role">مؤسس منصة زاد عبيدة الإسلامية</p>
+        <p>بدأ هذا المشروع بخطوة فردية صادقة ومجانية لتقريب القرآن الكريم والأذكار والأحاديث النبوية والعلم النافع إلى كل مسلم بأسلوب بسيط وهادئ، مع الحرص الدائم على الاعتماد على المصادر الإسلامية الموثوقة.</p>
+        <div class="founder-tags">
+          <span>📖 القرآن والأذكار</span>
+          <span>📜 السنة النبوية الموثوقة</span>
+          <span>🤍 مجاني لوجه الله</span>
+        </div>
       </div>
     </div>
 
@@ -311,21 +397,28 @@ footer a{text-decoration:none}footer a:hover{color:var(--mint)}
   </section>
 
   <section id="offer">
-    <div class="head rv"><h2>ماذا أردت أن أقدم من خلال زاد عبيدة؟</h2><p>أردت أن يجد الزائر في مكان واحد:</p></div>
+    <div class="head rv"><span class="chip">أقسام ومميزات المنصة</span><h2>ماذا أردت أن أقدم من خلال زاد عبيدة؟</h2><p>جميع صفحات ومميزات الموقع في مكان واحد منظم ومجاني:</p></div>
     <div class="grid">
-      <a class="feat rv" href="./quran.html"><i aria-hidden="true">📖</i><b>القرآن الكريم</b><span>ليكون قريبًا من المسلم في يومه.</span></a>
-      <a class="feat rv" href="./adhkar.html"><i aria-hidden="true">📿</i><b>الأذكار</b><span>أذكار الصباح والمساء وغيرها من الأذكار اليومية.</span></a>
-      <a class="feat rv" href="./nawawi.html"><i aria-hidden="true">📜</i><b>الأحاديث النبوية</b><span>للتعرف على سنة رسول الله ﷺ من مصادر موثوقة.</span></a>
-      <div class="feat rv"><i aria-hidden="true">🕌</i><b>مواقيت الصلاة</b><span>لمساعدة المسلم على المحافظة على صلاته.</span></div>
-      <a class="feat rv" href="./articles.html"><i aria-hidden="true">✍️</i><b>المقالات الإسلامية</b><span>لنشر العلم والمعرفة بأسلوب واضح ومبسط.</span></a>
-      <div class="feat rv"><i aria-hidden="true">✅</i><b>الورد اليومي</b><span>لمساعدة المستخدم على تنظيم عباداته ومتابعة إنجازه.</span></div>
-      <div class="feat rv"><i aria-hidden="true">🤲</i><b>أذكاري</b><span>مساحة شخصية يستطيع فيها المستخدم حفظ أذكاره الخاصة والعودة إليها.</span></div>
+      <a class="feat rv" href="./index.html"><div class="feat-top"><i aria-hidden="true">🏠</i><em>الواجهة</em></div><b>الصفحة الرئيسية</b><span>مدخل شامل يجمع أهم الأقسام اليومية ومواقيت الصلاة في واجهة هادئة.</span></a>
+      <a class="feat rv" href="./quran.html"><div class="feat-top"><i aria-hidden="true">📖</i><em>تلاوة</em></div><b>القرآن الكريم</b><span>ليكون كتاب الله قريبًا من المسلم في يومه بتصفح مريح وواضح.</span></a>
+      <a class="feat rv" href="./adhkar.html"><div class="feat-top"><i aria-hidden="true">📿</i><em>حصن المسلم</em></div><b>الأذكار العامة</b><span>مجموعة شاملة من الأذكار اليومية والمأثورة بتصميم يسهل القراءة والتسبيح.</span></a>
+      <a class="feat rv" href="./azkar-morning.html"><div class="feat-top"><i aria-hidden="true">🌅</i><em>بداية اليوم</em></div><b>أذكار الصباح</b><span>أذكار الصباح كاملة مع عداد تفاعلي وميزة المواظبة وتركيز النص.</span></a>
+      <a class="feat rv" href="./azkar-evening.html"><div class="feat-top"><i aria-hidden="true">🌇</i><em>ختام النهار</em></div><b>أذكار المساء</b><span>أذكار المساء مرتبة بوضوح وسلاسة لتعين المسلم على ذكر الله مساءً.</span></a>
+      <a class="feat rv" href="./azkar-sleep.html"><div class="feat-top"><i aria-hidden="true">🌙</i><em>السكينة</em></div><b>أذكار النوم</b><span>أذكار ما قبل النوم وآدابه لتطمئن النفس قبل المبيت.</span></a>
+      <a class="feat rv" href="./nawawi.html"><div class="feat-top"><i aria-hidden="true">📜</i><em>السنة</em></div><b>الأحاديث النبوية (الأربعون النووية)</b><span>للتعرف على جوامع الكلم من سنة رسول الله ﷺ من مصادر موثوقة.</span></a>
+      <a class="feat rv" href="./sahihayn.html"><div class="feat-top"><i aria-hidden="true">📚</i><em>أصح الكتب</em></div><b>مختارات الصحيحين</b><span>أحاديث منتقاة من صحيحي البخاري ومسلم مع بيان التخريج والفائدة.</span></a>
+      <a class="feat rv" href="./duas.html"><div class="feat-top"><i aria-hidden="true">🤲</i><em>مناجاة</em></div><b>الأدعية المأثورة</b><span>أدعية من القرآن الكريم والسنة النبوية لمختلف أحوال المسلم.</span></a>
+      <a class="feat rv" href="./articles.html"><div class="feat-top"><i aria-hidden="true">✍️</i><em>فوائد</em></div><b>المقالات الإسلامية</b><span>لنشر العلم والمعرفة والتذكير بأسلوب واضح ومبسط للجميع.</span></a>
+      <a class="feat rv" href="./wird.html"><div class="feat-top"><i aria-hidden="true">✅</i><em>متابعة</em></div><b>الورد اليومي</b><span>لمساعدة المستخدم على تنظيم عباداته اليومية ومتابعة إنجازه باستمرار.</span></a>
+      <a class="feat rv" href="./index.html#prayer"><div class="feat-top"><i aria-hidden="true">🕌</i><em>الصلوات</em></div><b>مواقيت الصلاة</b><span>لمساعدة المسلم على المحافظة على صلاته في أوقاتها بدقة.</span></a>
+      <a class="feat rv" href="./adhkar.html#my-adhkar"><div class="feat-top"><i aria-hidden="true">🔖</i><em>مساحتك</em></div><b>أذكاري الخاصة</b><span>مساحة شخصية يستطيع فيها المستخدم حفظ أذكاره الخاصة والعودة إليها.</span></a>
+      <a class="feat rv" href="./opinions.html"><div class="feat-top"><i aria-hidden="true">💬</i><em>مشاركتكم</em></div><b>آراؤكم واقتراحاتكم</b><span>مساحة مفتوحة لسماع ملاحظات الزوار وتطوير المنصة بأفكارهم النافعة.</span></a>
     </div>
-    <p class="rv" style="margin-top:18px;color:var(--muted)">وما زال المشروع قابلًا للتطوير، فكل فكرة جديدة يمكن أن تجعل تجربة الزائر أفضل وأكثر فائدة.</p>
+    <p class="rv" style="margin-top:20px;color:var(--muted)">وما زال المشروع قابلًا للتطوير، فكل فكرة جديدة يمكن أن تجعل تجربة الزائر أفضل وأكثر فائدة.</p>
   </section>
 
   <section id="dream">
-    <div class="head rv"><h2>حلم أكبر من مجرد موقع</h2></div>
+    <div class="head rv"><span class="chip">الرسالة والرؤية</span><h2>حلم أكبر من مجرد موقع</h2></div>
     <div class="card prose rv" style="max-width:none">
       <div class="prose">
         <p>أنا لا أدّعي أنني عالم أو طالب علم متخصص، ولا أريد أن أقدم نفسي على أنني صاحب علم واسع. أنا شاب مسلم ما زلت في بداية الطريق، أحاول أن أتعلم وأستفيد وأشارك ما أستطيع تقديمه، مع الحرص على الاعتماد على المصادر الإسلامية الموثوقة.</p>
@@ -342,7 +435,7 @@ footer a{text-decoration:none}footer a:hover{color:var(--mint)}
   </section>
 
   <section id="contact">
-    <div class="head rv"><h2>تواصل معنا</h2><p>يمكنك التواصل معنا مباشرة عبر:</p></div>
+    <div class="head rv"><span class="chip">ابقَ على تواصل</span><h2>تواصل معنا</h2><p>يمكنك التواصل معنا مباشرة عبر:</p></div>
     <div class="contact">
       <div class="c rv"><i aria-hidden="true">📸</i><div><small>إنستغرام</small><a dir="ltr" href="https://www.instagram.com/oubaida.muslim/" target="_blank" rel="noopener noreferrer">@oubaida.muslim</a></div></div>
       <div class="c rv"><i aria-hidden="true">✉️</i><div><small>البريد الإلكتروني</small><a dir="ltr" href="mailto:oubaidakuolal@gmail.com">oubaidakuolal@gmail.com</a></div><button class="cp" type="button" data-copy="oubaidakuolal@gmail.com">نسخ</button></div>
@@ -353,11 +446,12 @@ footer a{text-decoration:none}footer a:hover{color:var(--mint)}
 <footer>
   <div class="wrap">
     <div class="fi">
-      <div><h4>زاد عبيدة</h4><p>محتوى إسلامي نافع مع توضيح المصادر.</p></div>
-      <div><h4>روابط</h4><p><a href="./index.html">الرئيسية</a><br><a href="./adhkar.html">الأذكار</a><br><a href="./quran.html">القرآن</a></p></div>
-      <div><h4>تواصل</h4><p><a href="https://www.instagram.com/oubaida.muslim/" target="_blank" rel="noopener noreferrer">إنستغرام</a></p></div>
+      <div><h4>زاد عبيدة</h4><p>محتوى إسلامي نافع يجمع القرآن والأذكار والأحاديث الموثوقة في مساحة واحدة مجانية وبسيطة.</p></div>
+      <div><h4>أقسام الموقع</h4><ul class="flist"><li><a href="./index.html">الرئيسية</a></li><li><a href="./quran.html">القرآن الكريم</a></li><li><a href="./nawawi.html">الأحاديث النبوية</a></li><li><a href="./sahihayn.html">الصحيحان</a></li><li><a href="./duas.html">الأدعية</a></li><li><a href="./articles.html">المقالات</a></li></ul></div>
+      <div><h4>الأذكار والورد</h4><ul class="flist"><li><a href="./adhkar.html">الأذكار العامة</a></li><li><a href="./azkar-morning.html">أذكار الصباح</a></li><li><a href="./azkar-evening.html">أذكار المساء</a></li><li><a href="./azkar-sleep.html">أذكار النوم</a></li><li><a href="./wird.html">وردك اليومي</a></li></ul></div>
+      <div><h4>عن المنصة</h4><ul class="flist"><li><a href="./about.html">عن الموقع والمؤسس</a></li><li><a href="./opinions.html">آراؤكم</a></li><li><a href="https://www.instagram.com/oubaida.muslim/" target="_blank" rel="noopener noreferrer">إنستغرام</a></li><li><a href="mailto:oubaidakuolal@gmail.com">راسلنا عبر البريد</a></li></ul></div>
     </div>
-    <div class="fb">© <span id="year">2026</span> زاد عبيدة</div>
+    <div class="fb">© <span id="year">2026</span> زاد عبيدة — بإشراف وتطوير السيد عبيدة قولال</div>
   </div>
 </footer>
 
@@ -370,8 +464,23 @@ footer a{text-decoration:none}footer a:hover{color:var(--mint)}
   root.classList.add('js');
   d.getElementById('year').textContent=new Date().getFullYear();
 
+  /* محاولة ذكية لتحميل صورة المؤسس بأكثر من امتداد شائع وإخفاء أي أيقونة مكسورة عند عدم توفرها */
+  var fImg=$('founderImg');
+  if(fImg){
+    var candidates=['./founder-photo.jpg','./founder-photo.png','./founder-photo.webp','./founder-photo.jpeg','./assets/founder-photo.jpg','./images/founder-photo.jpg'];
+    var idx=0;
+    fImg.onerror=function(){
+      idx++;
+      if(idx<candidates.length){
+        fImg.src=candidates[idx];
+      }else{
+        fImg.style.display='none';
+      }
+    };
+  }
+
   /* الثيم */
-  function meta(){var m=d.querySelector('meta[name=theme-color]');if(m)m.content=root.getAttribute('data-theme')==='light'?'#f5f8f3':'#0a1713'}
+  function meta(){var m=d.querySelector('meta[name=theme-color]');if(m)m.content=root.getAttribute('data-theme')==='light'?'#f5f8f4':'#081410'}
   meta();
   $('theme').onclick=function(){
     var n=root.getAttribute('data-theme')==='light'?'dark':'light';

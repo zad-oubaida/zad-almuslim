@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--base:#121212;--card:#181818;--hover:#282828;--txt:#fff;--mut:#b3b3b3;--g:#1ed760;--gold:#e6c274}
+:root{--base:#121212;--card:#181818;--hover:#282828;--txt:#fff;--mut:#b3b3b3;--g:#1ed760;--gold:#e6c274;--audio-amp:0.35}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;scrollbar-width:thin;scrollbar-color:#ffffff40 transparent}
 html,body{height:100%}
 body{margin:0;background:#000;color:var(--txt);font-family:'Tajawal',sans-serif;overflow:hidden}
@@ -65,9 +65,9 @@ button{font-family:inherit}
 .fav.on{color:var(--g)}
 @media(hover:none){.fav{opacity:1}.pb{display:none}}
 
-/* لوحة السور — عجلة دائرية مشابهة لسبوتيفاي */
+/* لوحة السور — عجلة دائرية مشابهة لأول نسخة */
 .panel{display:flex;flex-direction:column}
-.pbg{position:absolute;inset:0;background-size:cover;background-position:center top;opacity:.34;filter:saturate(1.12);pointer-events:none;transition:background-image .4s ease}
+.pbg{position:absolute;inset:0;background-size:cover;background-position:center top;opacity:.35;filter:saturate(1.12);pointer-events:none;transition:background-image .4s ease}
 .pbg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,26,22,.42) 0%,rgba(10,26,22,.82) 45%,var(--base) 85%)}
 .pin{position:relative;flex:1;min-height:0;display:flex;flex-direction:column}
 .phead{display:flex;align-items:flex-end;gap:16px;padding:22px 20px 10px}
@@ -80,12 +80,15 @@ button{font-family:inherit}
 .bigplay{width:54px;height:54px;flex:none;border:0;border-radius:50%;background:var(--g);color:#000;font-size:1.2rem;cursor:pointer;transition:transform .15s}
 .bigplay:hover{transform:scale(1.06)}
 .ssearch{flex:1;min-width:0;background:#ffffff14;border:0;border-radius:6px;padding:10px 12px;color:#fff;font:500 .9rem Tajawal;outline:0}
+.yt-box{margin:0 20px 8px;padding:8px 12px;border-radius:10px;background:#ffffff10;border:1px solid #e6c27433;display:none;align-items:center;justify-content:space-between;gap:8px;font-size:.8rem;color:#ffe39c}
+.yt-box.show{display:flex}
+.yt-link{background:linear-gradient(135deg,#ffe39c,#e6c274);color:#071e17;text-decoration:none;font-weight:800;padding:5px 11px;border-radius:99px;white-space:nowrap}
 .rwa{display:none;gap:6px;overflow-x:auto;padding:0 20px 8px;scrollbar-width:none}
 .rwa button{flex:none;background:#ffffff14;color:#fff;border:0;border-radius:99px;padding:5px 12px;font:500 .78rem Tajawal;cursor:pointer;white-space:nowrap}
 .rwa button.on{background:var(--gold);color:#000;font-weight:700}
-.tl{position:relative;flex:1;min-height:0;overflow-y:auto;scroll-snap-type:y proximity;-webkit-overflow-scrolling:touch;scrollbar-width:none;overscroll-behavior:contain;-webkit-mask-image:linear-gradient(transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(transparent,#000 14%,#000 86%,transparent)}
+.tl{position:relative;flex:1;min-height:0;overflow-y:scroll;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;overscroll-behavior:contain;-webkit-mask-image:linear-gradient(transparent,#000 15%,#000 85%,transparent);mask-image:linear-gradient(transparent,#000 15%,#000 85%,transparent)}
 .tl::-webkit-scrollbar{display:none}
-.row{height:72px;display:flex;align-items:center;gap:14px;margin:0 8px;padding:0 14px;border-radius:16px;scroll-snap-align:center;cursor:pointer;transform-origin:88% 50%;will-change:transform,opacity;transition:background .2s}
+.row{height:72px;display:flex;align-items:center;gap:14px;margin:0 8px;padding:0 14px;border-radius:16px;scroll-snap-align:center;cursor:pointer;transform-origin:100% 50%;will-change:transform,opacity;transition:background .2s}
 .row.mid{background:#ffffff14}
 .nb{position:relative;width:46px;height:46px;flex:none;display:grid;place-items:center;color:var(--gold);font:800 .85rem Tajawal}
 .nb::before,.nb::after{content:'';position:absolute;inset:8px;border:1.5px solid var(--gold);border-radius:3px;transition:.25s}
@@ -151,65 +154,35 @@ body::before{content:'';position:fixed;inset:0;opacity:.09;pointer-events:none;b
 .cnt{color:#ffe39c!important}
 .ph{box-shadow:0 8px 24px #0008,0 0 0 3px #e6c274aa}
 
-/* موجات صوتية متصلة حول الصورة عند الاختيار والتشغيل بدون شريط متقطع أو قلب للصورة */
-@keyframes soundWaveRipple{
-  0%{
-    transform:scale(1);
-    opacity:.75;
-    box-shadow:0 0 0 0 rgba(230,194,116,.55),0 0 12px rgba(230,194,116,.35);
-  }
-  50%{
-    transform:scale(1.09);
-    opacity:1;
-    box-shadow:0 0 0 6px rgba(230,194,116,.18),0 0 22px rgba(255,227,156,.65);
-  }
-  100%{
-    transform:scale(1);
-    opacity:.72;
-    box-shadow:0 0 0 0 rgba(230,194,116,.45),0 0 12px rgba(230,194,116,.3);
-  }
-}
-@keyframes soundWaveOuter{
-  0%{
-    transform:scale(1);
-    opacity:.55;
-  }
-  65%{
-    transform:scale(1.16);
-    opacity:.12;
-  }
-  100%{
-    transform:scale(1.22);
-    opacity:0;
-  }
-}
-
+/* تذبذب الموجات الصوتية على الحواف حسب شدة الصوت */
 .card.sel .phw::before,.card.playing-wave .phw::before{
-  content:'';
-  position:absolute;
-  inset:-3px;
-  border-radius:50%;
-  border:2px solid rgba(255,227,156,.85);
-  pointer-events:none;
-  animation:soundWaveRipple 1.5s ease-in-out infinite;
-}
-.card.playing-wave .phw::after{
   content:'';
   position:absolute;
   inset:-4px;
   border-radius:50%;
-  border:1.5px solid rgba(230,194,116,.6);
+  border:2px solid rgba(255,227,156,.9);
   pointer-events:none;
-  animation:soundWaveOuter 1.8s ease-out infinite;
+  transform:scale(calc(1 + var(--audio-amp, 0.25) * 0.22));
+  box-shadow:
+    0 0 calc(8px + var(--audio-amp, 0.25) * 26px) rgba(230,194,116,calc(0.35 + var(--audio-amp, 0.25) * 0.55)),
+    0 0 0 calc(2px + var(--audio-amp, 0.25) * 7px) rgba(255,227,156,calc(0.18 + var(--audio-amp, 0.25) * 0.35));
+  transition:transform 75ms linear,box-shadow 75ms linear;
 }
 .panel.wave-active .cover{
-  animation:soundWaveRipple 1.5s ease-in-out infinite;
+  transform:scale(calc(1 + var(--audio-amp, 0.2) * 0.08));
+  box-shadow:
+    0 8px 40px #0009,
+    0 0 0 calc(3px + var(--audio-amp, 0.2) * 6px) #e6c274,
+    0 0 calc(14px + var(--audio-amp, 0.2) * 32px) rgba(255,227,156,calc(0.35 + var(--audio-amp, 0.2) * 0.5));
+  transition:transform 75ms linear,box-shadow 75ms linear;
 }
 .player.wave-active .thumb{
-  animation:soundWaveRipple 1.45s ease-in-out infinite;
+  transform:scale(calc(1 + var(--audio-amp, 0.2) * 0.12));
   border-color:#ffe39c;
+  box-shadow:0 0 calc(10px + var(--audio-amp, 0.2) * 24px) rgba(230,194,116,calc(0.4 + var(--audio-amp, 0.2) * 0.5));
+  transition:transform 75ms linear,box-shadow 75ms linear;
 }
-.card .ph,.card.sel .ph,.cover,.cover img,.thumb,.thumb img{
+.card .ph,.card.sel .ph,.cover img,.thumb img{
   transform:none!important;
 }
 
@@ -323,6 +296,10 @@ body{overflow:auto}
         <button class="bigplay" id="panelPlay" type="button" title="تشغيل">▶</button>
         <input id="surahSearchInput" class="ssearch" type="search" placeholder="ابحث عن سورة...">
       </div>
+      <div class="yt-box" id="ytFallbackBox">
+        <span id="ytFallbackText">تلاوات هذا القارئ على يوتيوب</span>
+        <a class="yt-link" id="ytFallbackLink" href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">▶ يوتيوب</a>
+      </div>
       <div class="rwa" id="rwaChips"></div>
       <div id="wheelScrollArea" class="tl"></div>
     </div>
@@ -431,15 +408,15 @@ body{overflow:auto}
     ['أبو بكر الشاطري', 'abubakr-shatri.jpg']
   ];
 
-  /* 50 قارئاً إضافياً مع قراء جزائريين وذوي أصل جزائري يعملون على خوادم mp3quran */
+  /* 50 قارئاً إضافياً يشمل قراء جزائريين وذوي أصل جزائري ومشاهير التلاوة */
   const EXTRA_50_RECITERS = [
-    { id: 9001, name: "عبد العزيز سحيم", rewaya: "حفص عن عاصم", server: "https://server11.mp3quran.net/sahim/", dz: true },
-    { id: 9002, name: "زكرياء بوناب", rewaya: "حفص عن عاصم", server: "https://server12.mp3quran.net/bounab/", dz: true },
-    { id: 9003, name: "عبد الرشيد صوفي", rewaya: "خلف عن حمزة", server: "https://server16.mp3quran.net/soufi/ch/", dz: true },
-    { id: 9004, name: "ياسين الجزائري", rewaya: "ورش عن نافع", server: "https://server11.mp3quran.net/yassin/", dz: true },
-    { id: 9005, name: "عبد المجيد الأركاني", rewaya: "حفص عن عاصم", server: "https://server12.mp3quran.net/arkani/", dz: true },
-    { id: 9006, name: "محمد بن غازي", rewaya: "حفص عن عاصم", server: "https://server9.mp3quran.net/m_ghazi/", dz: true },
-    { id: 9007, name: "ياسين الحاج", rewaya: "ورش عن نافع", server: "https://server11.mp3quran.net/y_hajj/", dz: true },
+    { id: 9001, name: "زكرياء بوناب", rewaya: "حفص عن عاصم", server: "", dz: true, ytQuery: "تلاوات زكرياء بوناب القرآن الكريم" },
+    { id: 9002, name: "عبد العزيز سحيم", rewaya: "حفص عن عاصم", server: "", dz: true, ytQuery: "تلاوات عبد العزيز سحيم القرآن الكريم" },
+    { id: 9003, name: "عبد الرشيد صوفي", rewaya: "خلف عن حمزة", server: "https://server16.mp3quran.net/soufi/ch/", dz: true, ytQuery: "عبد الرشيد صوفي قرآن كريم" },
+    { id: 9004, name: "ياسين الجزائري", rewaya: "ورش عن نافع", server: "https://server11.mp3quran.net/yassin/", dz: true, ytQuery: "ياسين الجزائري قرآن كريم" },
+    { id: 9005, name: "عبد المجيد الأركاني", rewaya: "حفص عن عاصم", server: "https://server12.mp3quran.net/arkani/", dz: true, ytQuery: "عبد المجيد الأركاني قرآن كريم" },
+    { id: 9006, name: "محمد بن غازي", rewaya: "حفص عن عاصم", server: "", dz: true, ytQuery: "محمد بن غازي تلاوات قرآنية" },
+    { id: 9007, name: "ياسين الحاج", rewaya: "ورش عن نافع", server: "", dz: true, ytQuery: "ياسين الحاج تلاوات قرآنية" },
     { id: 9008, name: "العيون الكوشي", rewaya: "ورش عن نافع", server: "https://server11.mp3quran.net/koshi/", dz: false },
     { id: 9009, name: "عمر القزابري", rewaya: "ورش عن نافع", server: "https://server9.mp3quran.net/omar_h/", dz: false },
     { id: 9010, name: "إبراهيم الأخضر", rewaya: "حفص عن عاصم", server: "https://server6.mp3quran.net/akdar/", dz: false },
@@ -549,9 +526,7 @@ body{overflow:auto}
   const fam = nm => FAM.find(f => nm.includes(f)) || 'أخرى';
   const MR = r => r.ms[r.mi];
 
-  const DZ_KEYS = [
-    14, "سحيم", "بوناب", "صوفي", "ياسين", "الأركاني", "بن غازي", "الحاج", "الجزائري"
-  ];
+  const DZ_KEYS = [14, "بوناب", "سحيم", "صوفي", "ياسين", "الأركاني", "بن غازي", "الحاج", "الجزائري"];
   const isDZ = r => r.dz || DZ_KEYS.some(x => typeof x === 'number' ? x === r.id : nz(r.name).includes(nz(x)));
   const CUSTOM = EXTRA_50_RECITERS.slice(0, 50);
 
@@ -568,6 +543,52 @@ body{overflow:auto}
   const panel = $('wheelSection');
   const thumb = $('playerThumb');
 
+  /* محلل تذبذب الصوت الحقيقي مع سقوط سلس متناغم مع التشغيل */
+  let audioCtx = null, analyser = null, freqData = null, rafWave = null;
+  function initAnalyser() {
+    if (audioCtx || !window.AudioContext) return;
+    try {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new Ctx();
+      const src = audioCtx.createMediaElementSource(audio);
+      analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 128;
+      analyser.smoothingTimeConstant = 0.78;
+      src.connect(analyser);
+      analyser.connect(audioCtx.destination);
+      freqData = new Uint8Array(analyser.frequencyBinCount);
+    } catch (e) {
+      analyser = null;
+    }
+  }
+
+  function stepWave() {
+    const playing = !audio.paused && !!audio.currentSrc;
+    let amp = 0.12;
+    if (playing) {
+      let realEnergy = 0;
+      if (analyser && freqData) {
+        try {
+          analyser.getByteFrequencyData(freqData);
+          let sum = 0;
+          for (let i = 0; i < freqData.length; i++) sum += freqData[i];
+          realEnergy = (sum / (freqData.length * 255)) * 1.45;
+        } catch (e) {
+          realEnergy = 0;
+        }
+      }
+      const t = performance.now() * 0.0065;
+      const synth = 0.34 + 0.24 * Math.sin(t * 2.1) * Math.cos(t * 0.9) + 0.14 * Math.sin(t * 4.3);
+      amp = Math.max(0.18, Math.min(1, realEnergy > 0.03 ? Math.max(realEnergy, synth * 0.65) : synth));
+    }
+    document.documentElement.style.setProperty('--audio-amp', amp.toFixed(3));
+    if (playing) {
+      rafWave = requestAnimationFrame(stepWave);
+    } else {
+      rafWave = null;
+    }
+  }
+
   function setPlayerThumb(r) {
     if (!r) return;
     thumb.innerHTML = img(r);
@@ -576,11 +597,15 @@ body{overflow:auto}
   function syncWaveState() {
     const active = !audio.paused && !!audio.currentSrc;
     panel.classList.toggle('wave-active', active || !!act);
-    $('wheelMiniAvatar').classList.toggle('wave-on', active);
     document.querySelector('.player').classList.toggle('wave-active', active);
     document.querySelectorAll('.card').forEach(el => {
       el.classList.toggle('playing-wave', active && el.classList.contains('sel'));
     });
+    if (active && !rafWave) {
+      rafWave = requestAnimationFrame(stepWave);
+    } else if (!active) {
+      document.documentElement.style.setProperty('--audio-amp', '0.12');
+    }
   }
 
   function toast(m) {
@@ -657,23 +682,29 @@ body{overflow:auto}
 
       all.forEach(r => { r.dz = isDZ(r); });
 
-      all = all.concat(CUSTOM.map(c => ({
-        id: c.id,
-        name: c.name,
-        mi: 0,
-        p: c.photo || avatar(c.name),
-        b: [],
-        s: avatar(c.name),
-        real: !!c.photo,
-        lo: 999,
-        dz: !!c.dz,
-        ms: c.resolvedMs || [{
-          name: c.rewaya || 'حفص عن عاصم',
-          srv: fixSrv(c.server),
-          tot: 114,
-          sl: Array.from({ length: 114 }, (_, i) => i + 1)
-        }]
-      })));
+      all = all.concat(CUSTOM.map(c => {
+        const hasSrv = !!c.server;
+        const defaultSl = hasSrv ? Array.from({ length: 114 }, (_, i) => i + 1) : [1, 2, 18, 36, 55, 56, 67, 78, 112, 113, 114];
+        return {
+          id: c.id,
+          name: c.name,
+          mi: 0,
+          p: c.photo || avatar(c.name),
+          b: [],
+          s: avatar(c.name),
+          real: !!c.photo,
+          lo: 999,
+          dz: !!c.dz,
+          ytQuery: c.ytQuery || `تلاوات ${c.name} القرآن الكريم`,
+          ms: c.resolvedMs || [{
+            name: c.rewaya || 'حفص عن عاصم',
+            srv: hasSrv ? fixSrv(c.server) : '',
+            tot: hasSrv ? 114 : defaultSl.length,
+            sl: defaultSl,
+            ytOnly: !hasSrv
+          }]
+        };
+      }));
 
       all.sort((a, b) => (a.lo - b.lo) || (b.real - a.real));
 
@@ -719,10 +750,11 @@ body{overflow:auto}
       const sel = act && act.id === r.id;
       const tot = m.tot || m.sl.length;
       const n = r.name.replace(/^الشيخ\s+/, '');
+      const subLabel = m.ytOnly ? 'تلاوات يوتيوب' : `${ar(tot)} سورة${r.ms.length > 1 ? ' · ' + ar(r.ms.length) + ' روايات' : ''}`;
       return `<div class="card c${i % 3}${sel ? ' sel' : ''}" data-i="${i}">` +
         `<button class="fav${fav ? ' on' : ''}" type="button" data-f="${r.id}" title="${fav ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}">${fav ? '♥' : '♡'}</button>` +
         `<div class="phw"><div class="ph">${img(r, 'loading="lazy"')}</div><div class="pb">▶</div></div>` +
-        `<h3>${n}</h3><p>${m.name}</p><p class="cnt">${ar(tot)} سورة${r.ms.length > 1 ? ' · ' + ar(r.ms.length) + ' روايات' : ''}</p></div>`;
+        `<h3>${n}</h3><p>${m.name}</p><p class="cnt">${subLabel}</p></div>`;
     }).join('');
     syncWaveState();
   }
@@ -759,18 +791,33 @@ body{overflow:auto}
     if (!b) return;
     const sn = +b.dataset.s;
     const pool = list.length ? list : all;
-    const cand = pool.find(r => r.ms.some(m => m.sl.includes(sn))) || all.find(r => r.ms.some(m => m.sl.includes(sn)));
+    const cand = pool.find(r => r.ms.some(m => !m.ytOnly && m.sl.includes(sn))) || all.find(r => r.ms.some(m => !m.ytOnly && m.sl.includes(sn)));
     if (!cand) return toast('لا يتوفر قارئ لهذه السورة حالياً');
     if (!act || act.id !== cand.id) {
       pick(cand, false);
-      const mi = cand.ms.findIndex(m => m.sl.includes(sn));
+      const mi = cand.ms.findIndex(m => !m.ytOnly && m.sl.includes(sn));
       if (mi >= 0 && mi !== cand.mi) { cand.mi = mi; rwa(); }
     }
+    setPlayerThumb(cand);
     const m = MR(cand);
     const s = { n: sn, name: N[sn - 1], ay: AY[sn - 1], url: m.srv + String(sn).padStart(3, '0') + '.mp3' };
     play(s, m.sl.map(x => ({ n: x, name: N[x - 1], ay: AY[x - 1], url: m.srv + String(x).padStart(3, '0') + '.mp3' })), cand, m.name);
     if (innerWidth < 960) panel.classList.add('open');
   };
+
+  function updateYtFallback(r, m) {
+    const box = $('ytFallbackBox');
+    const link = $('ytFallbackLink');
+    const txt = $('ytFallbackText');
+    if (m && m.ytOnly) {
+      const q = encodeURIComponent(r.ytQuery || `تلاوات ${r.name} القرآن الكريم`);
+      link.href = `https://www.youtube.com/results?search_query=${q}`;
+      txt.textContent = `استمع لتلاوات ${r.name} على يوتيوب`;
+      box.classList.add('show');
+    } else {
+      box.classList.remove('show');
+    }
+  }
 
   function pick(r, open) {
     act = r;
@@ -805,17 +852,23 @@ body{overflow:auto}
 
   function rows() {
     const m = MR(act);
+    updateYtFallback(act, m);
     const q = norm($('surahSearchInput').value);
     const tot = m.tot || m.sl.length;
-    $('wheelReciterSub').textContent = `${m.name} · ${ar(tot)} سورة`;
-    surahs = m.sl.map(n => ({ n, name: N[n - 1], ay: AY[n - 1], url: m.srv + String(n).padStart(3, '0') + '.mp3' }))
-      .filter(s => !q || norm(s.name).includes(q) || String(s.n).includes(q));
+    $('wheelReciterSub').textContent = m.ytOnly ? `${m.name} · فتح تلاوات يوتيوب` : `${m.name} · ${ar(tot)} سورة`;
+    surahs = m.sl.map(n => ({
+      n,
+      name: N[n - 1],
+      ay: AY[n - 1],
+      url: m.ytOnly ? '' : (m.srv + String(n).padStart(3, '0') + '.mp3'),
+      ytUrl: `https://www.youtube.com/results?search_query=${encodeURIComponent((act.name || '') + ' سورة ' + N[n - 1])}`
+    })).filter(s => !q || norm(s.name).includes(q) || String(s.n).includes(q));
 
     tl.innerHTML = surahs.map((s, i) =>
-      `<div class="row${s.url === cur ? ' playing' : ''}" data-i="${i}">` +
+      `<div class="row${s.url && s.url === cur ? ' playing' : ''}" data-i="${i}">` +
       `<div class="nb">${ar(s.n)}</div>` +
-      `<div class="rt"><b>سورة ${s.name}</b><small>${MD.includes(s.n) ? 'مدنية' : 'مكية'} · ${ar(s.ay)} آية</small></div>` +
-      `<button class="pp" type="button">${s.url === cur && !audio.paused ? '❚❚' : '▶'}</button></div>`
+      `<div class="rt"><b>سورة ${s.name}</b><small>${MD.includes(s.n) ? 'مدنية' : 'مكية'} · ${ar(s.ay)} آية${m.ytOnly ? ' · يوتيوب' : ''}</small></div>` +
+      `<button class="pp" type="button">${m.ytOnly ? 'يوتيوب' : (s.url === cur && !audio.paused ? '❚❚' : '▶')}</button></div>`
     ).join('');
 
     const pad = Math.max(0, tl.clientHeight / 2 - 36);
@@ -832,8 +885,8 @@ body{overflow:auto}
     rs.forEach((el, i) => {
       const d = Math.abs(el.offsetTop + el.offsetHeight / 2 - c);
       const t = Math.min(d / (tl.clientHeight * .45), 1);
-      el.style.transform = `translateX(${-t * 16}px) scale(${1 - t * .15})`;
-      el.style.opacity = 1 - t * .66;
+      el.style.transform = `translateX(${-t * 14}px) scale(${1 - t * .14})`;
+      el.style.opacity = 1 - t * .68;
       if (d < bd) { bd = d; best = i; }
     });
     rs.forEach((el, i) => el.classList.toggle('mid', i === best));
@@ -845,6 +898,12 @@ body{overflow:auto}
     const row = e.target.closest('.row');
     if (!row) return;
     const s = surahs[row.dataset.i];
+    if (!s) return;
+    if (!s.url) {
+      window.open(s.ytUrl, '_blank', 'noopener,noreferrer');
+      toast('تم فتح تلاوة ' + act.name + ' على يوتيوب');
+      return;
+    }
     if (s.url === cur && !audio.paused) audio.pause();
     else play(s, surahs, act, MR(act).name);
   };
@@ -853,11 +912,21 @@ body{overflow:auto}
     if (!surahs.length) return;
     const mid = tl.querySelector('.row.mid');
     const s = surahs[mid ? mid.dataset.i : 0];
+    if (!s) return;
+    if (!s.url) {
+      window.open(s.ytUrl, '_blank', 'noopener,noreferrer');
+      return;
+    }
     if (s.url === cur && !audio.paused) audio.pause();
     else play(s, surahs, act, MR(act).name);
   };
 
   function play(s, list2, r, rw) {
+    if (!s || !s.url) return;
+    initAnalyser();
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume().catch(() => {});
+    }
     queue = list2; qr = r; qi = queue.findIndex(x => x.url === s.url); cur = s.url;
     setPlayerThumb(r);
     $('qaNowTitle').textContent = `سورة ${s.name}`;
@@ -882,11 +951,14 @@ body{overflow:auto}
   function paintRows() {
     tl.querySelectorAll('.row').forEach(el => {
       const s = surahs[el.dataset.i];
-      const p = s && s.url === cur;
+      const p = !!(s && s.url && s.url === cur);
       el.classList.toggle('playing', p);
-      el.querySelector('.pp').textContent = p && !audio.paused ? '❚❚' : '▶';
+      const btn = el.querySelector('.pp');
+      if (btn) {
+        btn.textContent = (!s || !s.url) ? 'يوتيوب' : (p && !audio.paused ? '❚❚' : '▶');
+      }
     });
-    const idx = surahs.findIndex(s => s.url === cur);
+    const idx = surahs.findIndex(s => s.url && s.url === cur);
     if (idx >= 0) {
       const el = tl.children[idx];
       if (el) {
@@ -900,12 +972,15 @@ body{overflow:auto}
   function sync() {
     const p = !audio.paused && !!audio.currentSrc;
     $('qaPlay').textContent = p ? '❚❚' : '▶';
-    thumb.classList.toggle('spinning', p);
     paintRows();
     syncWaveState();
   }
 
-  audio.onplay = sync;
+  audio.onplay = () => {
+    initAnalyser();
+    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume().catch(() => {});
+    sync();
+  };
   audio.onpause = sync;
   audio.onended = () => {
     if (rep && cur) { audio.currentTime = 0; audio.play().catch(() => {}); return; }

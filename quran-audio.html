@@ -54,7 +54,7 @@ button{font-family:inherit}
 .card:hover{background:var(--card)}
 .phw{position:relative;margin-bottom:16px}
 .ph{aspect-ratio:1;border-radius:50%;overflow:hidden;background:#103b2e;box-shadow:0 8px 24px #0008}
-.ph img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:contrast(1.04) brightness(1.03)}
+.ph img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:contrast(1.05) brightness(1.04)}
 .pb{position:absolute;inset-inline-end:6px;bottom:6px;width:46px;height:46px;border-radius:50%;background:var(--g);color:#000;display:grid;place-items:center;box-shadow:0 8px 8px #0005;opacity:0;transform:translateY(8px);transition:.3s}
 .card:hover .pb,.card.sel .pb{opacity:1;transform:none}
 .card h3{margin:0 0 4px;font:700 1rem Tajawal;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -65,14 +65,14 @@ button{font-family:inherit}
 .fav.on{color:var(--g)}
 @media(hover:none){.fav{opacity:1}.pb{display:none}}
 
-/* لوحة السور — عجلة دائرية */
+/* لوحة السور — عجلة دائرية مشابهة لسبوتيفاي */
 .panel{display:flex;flex-direction:column}
-.pbg{position:absolute;inset:0;background-size:cover;background-position:center top;opacity:.42;filter:saturate(1.15);pointer-events:none;transition:background-image .4s ease}
-.pbg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,26,22,.35) 0%,rgba(10,26,22,.78) 45%,var(--base) 85%)}
+.pbg{position:absolute;inset:0;background-size:cover;background-position:center top;opacity:.34;filter:saturate(1.12);pointer-events:none;transition:background-image .4s ease}
+.pbg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,26,22,.42) 0%,rgba(10,26,22,.82) 45%,var(--base) 85%)}
 .pin{position:relative;flex:1;min-height:0;display:flex;flex-direction:column}
 .phead{display:flex;align-items:flex-end;gap:16px;padding:22px 20px 10px}
-.cover{width:104px;height:104px;flex:none;border-radius:50%;overflow:hidden;background:#103b2e;display:grid;place-items:center;font:700 2.4rem Amiri,serif;color:var(--gold);box-shadow:0 8px 40px #0009;border:3px solid var(--gold)}
-.cover img{width:100%;height:100%;object-fit:cover;object-position:center top;filter:contrast(1.04) brightness(1.03)}
+.cover{position:relative;width:104px;height:104px;flex:none;border-radius:50%;overflow:hidden;background:#103b2e;display:grid;place-items:center;font:700 2.4rem Amiri,serif;color:var(--gold);box-shadow:0 8px 40px #0009;border:3px solid var(--gold)}
+.cover img{width:100%;height:100%;object-fit:cover;object-position:center top;filter:contrast(1.05) brightness(1.04)}
 .phead small{color:#ffffffc0;font-size:.8rem}
 .phead h2{margin:2px 0 6px;font:700 1.7rem/1.2 Amiri,serif}
 .back{display:none;position:absolute;top:12px;inset-inline-start:12px;z-index:3;width:38px;height:38px;border:0;border-radius:50%;background:#0007;color:#fff;font-size:1.2rem;cursor:pointer;place-items:center}
@@ -83,9 +83,9 @@ button{font-family:inherit}
 .rwa{display:none;gap:6px;overflow-x:auto;padding:0 20px 8px;scrollbar-width:none}
 .rwa button{flex:none;background:#ffffff14;color:#fff;border:0;border-radius:99px;padding:5px 12px;font:500 .78rem Tajawal;cursor:pointer;white-space:nowrap}
 .rwa button.on{background:var(--gold);color:#000;font-weight:700}
-.tl{position:relative;flex:1;min-height:0;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;overscroll-behavior:contain;-webkit-mask-image:linear-gradient(transparent,#000 15%,#000 85%,transparent);mask-image:linear-gradient(transparent,#000 15%,#000 85%,transparent)}
+.tl{position:relative;flex:1;min-height:0;overflow-y:auto;scroll-snap-type:y proximity;-webkit-overflow-scrolling:touch;scrollbar-width:none;overscroll-behavior:contain;-webkit-mask-image:linear-gradient(transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(transparent,#000 14%,#000 86%,transparent)}
 .tl::-webkit-scrollbar{display:none}
-.row{height:72px;display:flex;align-items:center;gap:14px;margin:0 8px;padding:0 14px;border-radius:16px;scroll-snap-align:center;cursor:pointer;transform-origin:100% 50%;will-change:transform,opacity;transition:background .2s}
+.row{height:72px;display:flex;align-items:center;gap:14px;margin:0 8px;padding:0 14px;border-radius:16px;scroll-snap-align:center;cursor:pointer;transform-origin:88% 50%;will-change:transform,opacity;transition:background .2s}
 .row.mid{background:#ffffff14}
 .nb{position:relative;width:46px;height:46px;flex:none;display:grid;place-items:center;color:var(--gold);font:800 .85rem Tajawal}
 .nb::before,.nb::after{content:'';position:absolute;inset:8px;border:1.5px solid var(--gold);border-radius:3px;transition:.25s}
@@ -102,8 +102,8 @@ button{font-family:inherit}
 /* المشغل */
 .player{grid-column:1/-1;display:grid;grid-template-columns:1fr minmax(300px,2fr) 1fr;align-items:center;gap:16px;padding:0 16px;background:#000;position:relative;z-index:100}
 .p-info{display:flex;align-items:center;gap:12px;min-width:0}
-.thumb{width:56px;height:56px;flex:none;border-radius:50%;overflow:hidden;background:#144436;display:grid;place-items:center;font:700 1.3rem Amiri,serif;color:var(--gold)}
-.thumb img{width:100%;height:100%;object-fit:cover;object-position:center top}
+.thumb{position:relative;width:56px;height:56px;flex:none;border-radius:50%;overflow:hidden;background:#144436;display:grid;place-items:center;font:700 1.3rem Amiri,serif;color:var(--gold);border:2px solid rgba(230,194,116,.55)}
+.thumb img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
 #qaNowTitle{display:block;font:700 1.05rem Amiri,serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #qaNowSub{font-size:.78rem;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
 .p-mid{display:flex;flex-direction:column;align-items:center;gap:6px;max-width:640px;width:100%;margin:0 auto}
@@ -151,60 +151,68 @@ body::before{content:'';position:fixed;inset:0;opacity:.09;pointer-events:none;b
 .cnt{color:#ffe39c!important}
 .ph{box-shadow:0 8px 24px #0008,0 0 0 3px #e6c274aa}
 
-/* موجات صوتية ذهبية على حواف البطاقة وداخل القائمة الجانبية بدل الدوران المقلوب */
-@keyframes goldEdgeWave{
+/* موجات صوتية متصلة حول الصورة عند الاختيار والتشغيل بدون شريط متقطع أو قلب للصورة */
+@keyframes soundWaveRipple{
   0%{
-    box-shadow:
-      0 0 0 2px rgba(230,194,116,.55),
-      0 0 12px rgba(230,194,116,.35),
-      0 10px 24px rgba(0,0,0,.45);
-    border-color:rgba(230,194,116,.85);
+    transform:scale(1);
+    opacity:.75;
+    box-shadow:0 0 0 0 rgba(230,194,116,.55),0 0 12px rgba(230,194,116,.35);
   }
   50%{
-    box-shadow:
-      0 0 0 4px rgba(255,227,156,.85),
-      0 0 24px rgba(230,194,116,.65),
-      0 12px 28px rgba(0,0,0,.5);
-    border-color:#ffe39c;
+    transform:scale(1.09);
+    opacity:1;
+    box-shadow:0 0 0 6px rgba(230,194,116,.18),0 0 22px rgba(255,227,156,.65);
   }
   100%{
-    box-shadow:
-      0 0 0 2px rgba(230,194,116,.65),
-      0 0 16px rgba(230,194,116,.42),
-      0 10px 24px rgba(0,0,0,.45);
-    border-color:rgba(230,194,116,.9);
+    transform:scale(1);
+    opacity:.72;
+    box-shadow:0 0 0 0 rgba(230,194,116,.45),0 0 12px rgba(230,194,116,.3);
   }
 }
-@keyframes goldRingWave{
-  0%{transform:scale(.98);opacity:.85}
-  50%{transform:scale(1.06);opacity:1}
-  100%{transform:scale(.99);opacity:.78}
+@keyframes soundWaveOuter{
+  0%{
+    transform:scale(1);
+    opacity:.55;
+  }
+  65%{
+    transform:scale(1.16);
+    opacity:.12;
+  }
+  100%{
+    transform:scale(1.22);
+    opacity:0;
+  }
 }
-.card.sel{
-  animation:goldEdgeWave 1.6s ease-in-out infinite;
-}
+
 .card.sel .phw::before,.card.playing-wave .phw::before{
   content:'';
   position:absolute;
-  inset:-5px;
+  inset:-3px;
   border-radius:50%;
-  border:2px dashed rgba(230,194,116,.85);
+  border:2px solid rgba(255,227,156,.85);
   pointer-events:none;
-  animation:goldRingWave 1.5s ease-in-out infinite;
+  animation:soundWaveRipple 1.5s ease-in-out infinite;
 }
-.card.sel .ph,.thumb.spinning,.cover.wave-on{
-  animation:none!important;
-  transform:none!important;
-  box-shadow:0 0 0 3px #e6c274,0 0 18px rgba(230,194,116,.55)!important;
+.card.playing-wave .phw::after{
+  content:'';
+  position:absolute;
+  inset:-4px;
+  border-radius:50%;
+  border:1.5px solid rgba(230,194,116,.6);
+  pointer-events:none;
+  animation:soundWaveOuter 1.8s ease-out infinite;
 }
 .panel.wave-active .cover{
-  animation:goldEdgeWave 1.6s ease-in-out infinite!important;
+  animation:soundWaveRipple 1.5s ease-in-out infinite;
 }
 .player.wave-active .thumb{
-  box-shadow:0 0 0 3px #e6c274,0 0 16px rgba(230,194,116,.6)!important;
+  animation:soundWaveRipple 1.45s ease-in-out infinite;
+  border-color:#ffe39c;
+}
+.card .ph,.card.sel .ph,.cover,.cover img,.thumb,.thumb img{
+  transform:none!important;
 }
 
-.panel::after{content:attr(data-w);position:absolute;inset-inline-end:-6px;top:120px;font:700 330px/1 Amiri,serif;color:var(--gold);opacity:.06;pointer-events:none}
 .row.mid{background:linear-gradient(270deg,#1f5fa860,#0f6e5360);box-shadow:inset 0 0 0 1px #e6c27455}
 .player{background:linear-gradient(100deg,#04140f,#0b2542 60%,#04140f);border:1px solid #e6c27433;border-radius:14px}
 
@@ -221,20 +229,22 @@ select.chip option{background:#181818;color:#fff}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 @media(max-height:640px){.cover{width:68px;height:68px;font-size:1.6rem}.phead h2{font-size:1.3rem}}
 @media(max-width:959px){
-.app{grid-template-columns:1fr;grid-template-rows:auto 1fr auto;gap:0;padding:0}
+body{overflow:auto}
+.app{grid-template-columns:1fr;grid-template-rows:auto 1fr auto;gap:0;padding:0;height:auto;min-height:100dvh}
+.main{min-height:calc(100dvh - 135px)}
+.scroll{position:relative;overflow-y:visible;padding:0 14px 24px}
 .side,.main{border-radius:0}
 .side{display:flex;align-items:center;gap:8px;overflow-x:auto;padding:8px 12px}
 .brand{padding:0 4px 0 8px;flex:none}.brand span{font-size:1.3rem}
 .nav{flex-direction:row;gap:6px}
 .nav a{padding:6px 14px;gap:6px;white-space:nowrap;background:#ffffff14;border:0;border-radius:99px;font-size:.85rem}
 .nav a.on{background:var(--gold);color:#071e17}
-.scroll{padding:0 14px 20px}
 .grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
-.panel{position:fixed;inset:0;z-index:90;border-radius:0;padding-bottom:104px;transform:translateY(100%);transition:transform .35s cubic-bezier(.22,1,.36,1);pointer-events:none}
+.panel{position:fixed;inset:0 0 92px 0;z-index:90;border-radius:0;padding-bottom:16px;transform:translateY(100%);transition:transform .35s cubic-bezier(.22,1,.36,1);pointer-events:none}
 .panel.open{transform:none;pointer-events:auto}
 .back{display:grid}
-.phead{padding-top:60px}
-.player{grid-template-columns:1fr auto;gap:6px 10px;padding:10px 14px;border-radius:0}
+.phead{padding-top:52px}
+.player{position:sticky;bottom:0;grid-column:1/-1;grid-template-columns:1fr auto;gap:6px 10px;padding:10px 14px;border-radius:0}
 .p-mid{display:contents}
 .ctrl{grid-column:2;gap:10px}
 .seekrow{grid-column:1/-1;grid-row:2}
@@ -258,11 +268,11 @@ select.chip option{background:#181818;color:#fff}
       <a href="./nawawi.html">📜<b>الأحاديث</b></a>
       <a href="./duas.html">🤲<b>الأدعية</b></a>
       <a href="./articles.html">✍️<b>المقالات</b></a>
-          <a href="./azkar-morning.html">🌅<b>الصباح</b></a>
-          <a href="./azkar-evening.html">🌙<b>المساء</b></a>
-          <a href="./azkar-sleep.html">🌜<b>النوم</b></a>
-          <a href="./about.html">ℹ️<b>عن الموقع</b></a>
-          <a href="./opinions.html">💬<b>آراؤكم</b></a>
+      <a href="./azkar-morning.html">🌅<b>الصباح</b></a>
+      <a href="./azkar-evening.html">🌙<b>المساء</b></a>
+      <a href="./azkar-sleep.html">🌜<b>النوم</b></a>
+      <a href="./about.html">ℹ️<b>عن الموقع</b></a>
+      <a href="./opinions.html">💬<b>آراؤكم</b></a>
     </nav>
   </aside>
 
@@ -421,58 +431,58 @@ select.chip option{background:#181818;color:#fff}
     ['أبو بكر الشاطري', 'abubakr-shatri.jpg']
   ];
 
-  /* إضافة 50 قارئاً إضافياً (أولهم قراء جزائريون ثم إتمام العدد إلى 50 قارئاً مع الإبقاء على الحاليين) */
+  /* 50 قارئاً إضافياً مع قراء جزائريين وذوي أصل جزائري يعملون على خوادم mp3quran */
   const EXTRA_50_RECITERS = [
-    { id: 9001, name: "عبد الرشيد صوفي الجزائري", rewaya: "خلف عن حمزة", server: "https://server16.mp3quran.net/soufi/ch/", dz: true },
-    { id: 9002, name: "ياسين الجزائري", rewaya: "ورش عن نافع", server: "https://server11.mp3quran.net/yassin/", dz: true },
-    { id: 9003, name: "عبد المجيد الأركاني الجزائري", rewaya: "حفص عن عاصم", server: "https://server12.mp3quran.net/arkani/", dz: true },
-    { id: 9004, name: "العيون الكوشي", rewaya: "ورش عن نافع", server: "https://server11.mp3quran.net/koshi/", dz: false },
-    { id: 9005, name: "عمر القزابري", rewaya: "ورش عن نافع", server: "https://server9.mp3quran.net/omar_h/", dz: false },
-    { id: 9006, name: "إبراهيم الأخضر", rewaya: "حفص عن عاصم", server: "https://server6.mp3quran.net/akdar/", dz: false },
-    { id: 9007, name: "أحمد العجمي", rewaya: "حفص عن عاصم", server: "https://server10.mp3quran.net/ajm/", dz: false },
-    { id: 9008, name: "فارس عباد", rewaya: "حفص عن عاصم", server: "https://server8.mp3quran.net/frs_a/", dz: false },
-    { id: 9009, name: "إدريس أبكر", rewaya: "حفص عن عاصم", server: "https://server6.mp3quran.net/abkr/", dz: false },
-    { id: 9010, name: "وديع اليمني", rewaya: "حفص عن عاصم", server: "https://server6.mp3quran.net/wdee3/", dz: false },
-    { id: 9011, name: "رعد محمد الكردي", rewaya: "حفص عن عاصم", server: "https://server14.mp3quran.net/raad/", dz: false },
-    { id: 9012, name: "إسلام صبحي", rewaya: "حفص عن عاصم", server: "https://server14.mp3quran.net/islamp/", dz: false },
-    { id: 9013, name: "خالد الجليل", rewaya: "حفص عن عاصم", server: "https://server10.mp3quran.net/jleel/", dz: false },
-    { id: 9014, name: "صلاح البدير", rewaya: "حفص عن عاصم", server: "https://server6.mp3quran.net/s_bud/", dz: false },
-    { id: 9015, name: "عبد المحسن القاسم", rewaya: "حفص عن عاصم", server: "https://server8.mp3quran.net/qasm/", dz: false },
-    { id: 9016, name: "ماجد الزامل", rewaya: "حفص عن عاصم", server: "https://server9.mp3quran.net/zaml/", dz: false },
-    { id: 9017, name: "صلاح الهاشم", rewaya: "حفص عن عاصم", server: "https://server12.mp3quran.net/s_hshm/", dz: false },
-    { id: 9018, name: "توفيق الصائغ", rewaya: "حفص عن عاصم", server: "https://server6.mp3quran.net/twfeeq/", dz: false },
-    { id: 9019, name: "عادل الكلباني", rewaya: "حفص عن عاصم", server: "https://server8.mp3quran.net/thubti/", dz: false },
-    { id: 9020, name: "عبد الله بصفر", rewaya: "حفص عن عاصم", server: "https://server6.mp3quran.net/bsfr/", dz: false },
-    { id: 9021, name: "عبد الله الخياط", rewaya: "حفص عن عاصم", server: "https://server12.mp3quran.net/kyat/", dz: false },
-    { id: 9022, name: "علي الحذيفي", rewaya: "حفص عن عاصم", server: "https://server9.mp3quran.net/hthfi/", dz: false },
-    { id: 9023, name: "عماد زهير حافظ", rewaya: "حفص عن عاصم", server: "https://server6.mp3quran.net/hafz/", dz: false },
-    { id: 9024, name: "محمد عبد الكريم", rewaya: "حفص عن عاصم", server: "https://server12.mp3quran.net/m_kreem/", dz: false },
-    { id: 9025, name: "محمود الشحات أنور", rewaya: "حفص عن عاصم", server: "https://server13.mp3quran.net/shah/", dz: false },
-    { id: 9026, name: "شعبان الصياد", rewaya: "حفص عن عاصم", server: "https://server11.mp3quran.net/shaban/", dz: false },
-    { id: 9027, name: "يوسف الدغوش", rewaya: "قالون عن نافع", server: "https://server11.mp3quran.net/y_dgh/", dz: false },
-    { id: 9028, name: "الزين محمد أحمد", rewaya: "حفص عن عاصم", server: "https://server9.mp3quran.net/alzain/", dz: false },
-    { id: 9029, name: "أحمد الطرابلسي", rewaya: "قالون عن نافع", server: "https://server10.mp3quran.net/trabulsi/", dz: false },
-    { id: 9030, name: "محمد جبريل", rewaya: "حفص عن عاصم", server: "https://server8.mp3quran.net/jbrl/", dz: false },
-    { id: 9031, name: "هاني الرفاعي", rewaya: "حفص عن عاصم", server: "https://server11.mp3quran.net/hani/", dz: false },
-    { id: 9032, name: "عبد الولي الأركاني", rewaya: "حفص عن عاصم", server: "https://server12.mp3quran.net/wqas/", dz: false },
-    { id: 9033, name: "أحمد نعينع", rewaya: "حفص عن عاصم", server: "https://server11.mp3quran.net/ahmad_nu/", dz: false },
-    { id: 9034, name: "مصطفى اللاهوني", rewaya: "حفص عن عاصم", server: "https://server6.mp3quran.net/lahoni/", dz: false },
-    { id: 9035, name: "حاتم فريد الواعر", rewaya: "حفص عن عاصم", server: "https://server11.mp3quran.net/hatem/", dz: false },
-    { id: 9036, name: "زكي داغستاني", rewaya: "حفص عن عاصم", server: "https://server9.mp3quran.net/zaki/", dz: false },
-    { id: 9037, name: "سعيد الغامدي", rewaya: "حفص عن عاصم", server: "https://server12.mp3quran.net/s_gmd/", dz: false },
-    { id: 9038, name: "سهل ياسين", rewaya: "حفص عن عاصم", server: "https://server6.mp3quran.net/shl/", dz: false },
-    { id: 9039, name: "صلاح بو خاطر", rewaya: "حفص عن عاصم", server: "https://server8.mp3quran.net/bu_khtr/", dz: false },
-    { id: 9040, name: "طارق عبد الغني دعوب", rewaya: "قالون عن نافع", server: "https://server10.mp3quran.net/tareq/", dz: false },
-    { id: 9041, name: "عادل ريان", rewaya: "حفص عن عاصم", server: "https://server8.mp3quran.net/ryan/", dz: false },
-    { id: 9042, name: "عبد الرحمن الماجد", rewaya: "حفص عن عاصم", server: "https://server10.mp3quran.net/a_majed/", dz: false },
-    { id: 9043, name: "عبد العزيز الأحمد", rewaya: "حفص عن عاصم", server: "https://server11.mp3quran.net/a_ahmed/", dz: false },
-    { id: 9044, name: "عبد الله الكندري", rewaya: "حفص عن عاصم", server: "https://server10.mp3quran.net/kndri/", dz: false },
-    { id: 9045, name: "عبد الله المطرود", rewaya: "حفص عن عاصم", server: "https://server8.mp3quran.net/mtrod/", dz: false },
-    { id: 9046, name: "عبد المحسن الحارثي", rewaya: "حفص عن عاصم", server: "https://server6.mp3quran.net/mohsin_harthi/", dz: false },
-    { id: 9047, name: "علي حجاج السويسي", rewaya: "حفص عن عاصم", server: "https://server9.mp3quran.net/hajjaj/", dz: false },
-    { id: 9048, name: "فهد الكندري", rewaya: "حفص عن عاصم", server: "https://server11.mp3quran.net/fahad_k/", dz: false },
-    { id: 9049, name: "محمد الرشيد", rewaya: "حفص عن عاصم", server: "https://server10.mp3quran.net/m_rrshid/", dz: false },
-    { id: 9050, name: "ياسر القرشي", rewaya: "حفص عن عاصم", server: "https://server9.mp3quran.net/qurashi/", dz: false }
+    { id: 9001, name: "عبد العزيز سحيم", rewaya: "حفص عن عاصم", server: "https://server11.mp3quran.net/sahim/", dz: true },
+    { id: 9002, name: "زكرياء بوناب", rewaya: "حفص عن عاصم", server: "https://server12.mp3quran.net/bounab/", dz: true },
+    { id: 9003, name: "عبد الرشيد صوفي", rewaya: "خلف عن حمزة", server: "https://server16.mp3quran.net/soufi/ch/", dz: true },
+    { id: 9004, name: "ياسين الجزائري", rewaya: "ورش عن نافع", server: "https://server11.mp3quran.net/yassin/", dz: true },
+    { id: 9005, name: "عبد المجيد الأركاني", rewaya: "حفص عن عاصم", server: "https://server12.mp3quran.net/arkani/", dz: true },
+    { id: 9006, name: "محمد بن غازي", rewaya: "حفص عن عاصم", server: "https://server9.mp3quran.net/m_ghazi/", dz: true },
+    { id: 9007, name: "ياسين الحاج", rewaya: "ورش عن نافع", server: "https://server11.mp3quran.net/y_hajj/", dz: true },
+    { id: 9008, name: "العيون الكوشي", rewaya: "ورش عن نافع", server: "https://server11.mp3quran.net/koshi/", dz: false },
+    { id: 9009, name: "عمر القزابري", rewaya: "ورش عن نافع", server: "https://server9.mp3quran.net/omar_h/", dz: false },
+    { id: 9010, name: "إبراهيم الأخضر", rewaya: "حفص عن عاصم", server: "https://server6.mp3quran.net/akdar/", dz: false },
+    { id: 9011, name: "أحمد العجمي", rewaya: "حفص عن عاصم", server: "https://server10.mp3quran.net/ajm/", dz: false },
+    { id: 9012, name: "فارس عباد", rewaya: "حفص عن عاصم", server: "https://server8.mp3quran.net/frs_a/", dz: false },
+    { id: 9013, name: "إدريس أبكر", rewaya: "حفص عن عاصم", server: "https://server6.mp3quran.net/abkr/", dz: false },
+    { id: 9014, name: "وديع اليمني", rewaya: "حفص عن عاصم", server: "https://server6.mp3quran.net/wdee3/", dz: false },
+    { id: 9015, name: "رعد محمد الكردي", rewaya: "حفص عن عاصم", server: "https://server14.mp3quran.net/raad/", dz: false },
+    { id: 9016, name: "إسلام صبحي", rewaya: "حفص عن عاصم", server: "https://server14.mp3quran.net/islamp/", dz: false },
+    { id: 9017, name: "خالد الجليل", rewaya: "حفص عن عاصم", server: "https://server10.mp3quran.net/jleel/", dz: false },
+    { id: 9018, name: "صلاح البدير", rewaya: "حفص عن عاصم", server: "https://server6.mp3quran.net/s_bud/", dz: false },
+    { id: 9019, name: "عبد المحسن القاسم", rewaya: "حفص عن عاصم", server: "https://server8.mp3quran.net/qasm/", dz: false },
+    { id: 9020, name: "ماجد الزامل", rewaya: "حفص عن عاصم", server: "https://server9.mp3quran.net/zaml/", dz: false },
+    { id: 9021, name: "صلاح الهاشم", rewaya: "حفص عن عاصم", server: "https://server12.mp3quran.net/s_hshm/", dz: false },
+    { id: 9022, name: "توفيق الصائغ", rewaya: "حفص عن عاصم", server: "https://server6.mp3quran.net/twfeeq/", dz: false },
+    { id: 9023, name: "عادل الكلباني", rewaya: "حفص عن عاصم", server: "https://server8.mp3quran.net/thubti/", dz: false },
+    { id: 9024, name: "عبد الله بصفر", rewaya: "حفص عن عاصم", server: "https://server6.mp3quran.net/bsfr/", dz: false },
+    { id: 9025, name: "عبد الله الخياط", rewaya: "حفص عن عاصم", server: "https://server12.mp3quran.net/kyat/", dz: false },
+    { id: 9026, name: "علي الحذيفي", rewaya: "حفص عن عاصم", server: "https://server9.mp3quran.net/hthfi/", dz: false },
+    { id: 9027, name: "عماد زهير حافظ", rewaya: "حفص عن عاصم", server: "https://server6.mp3quran.net/hafz/", dz: false },
+    { id: 9028, name: "محمد عبد الكريم", rewaya: "حفص عن عاصم", server: "https://server12.mp3quran.net/m_kreem/", dz: false },
+    { id: 9029, name: "محمود الشحات أنور", rewaya: "حفص عن عاصم", server: "https://server13.mp3quran.net/shah/", dz: false },
+    { id: 9030, name: "شعبان الصياد", rewaya: "حفص عن عاصم", server: "https://server11.mp3quran.net/shaban/", dz: false },
+    { id: 9031, name: "يوسف الدغوش", rewaya: "قالون عن نافع", server: "https://server11.mp3quran.net/y_dgh/", dz: false },
+    { id: 9032, name: "الزين محمد أحمد", rewaya: "حفص عن عاصم", server: "https://server9.mp3quran.net/alzain/", dz: false },
+    { id: 9033, name: "أحمد الطرابلسي", rewaya: "قالون عن نافع", server: "https://server10.mp3quran.net/trabulsi/", dz: false },
+    { id: 9034, name: "محمد جبريل", rewaya: "حفص عن عاصم", server: "https://server8.mp3quran.net/jbrl/", dz: false },
+    { id: 9035, name: "هاني الرفاعي", rewaya: "حفص عن عاصم", server: "https://server11.mp3quran.net/hani/", dz: false },
+    { id: 9036, name: "عبد الولي الأركاني", rewaya: "حفص عن عاصم", server: "https://server12.mp3quran.net/wqas/", dz: false },
+    { id: 9037, name: "أحمد نعينع", rewaya: "حفص عن عاصم", server: "https://server11.mp3quran.net/ahmad_nu/", dz: false },
+    { id: 9038, name: "مصطفى اللاهوني", rewaya: "حفص عن عاصم", server: "https://server6.mp3quran.net/lahoni/", dz: false },
+    { id: 9039, name: "حاتم فريد الواعر", rewaya: "حفص عن عاصم", server: "https://server11.mp3quran.net/hatem/", dz: false },
+    { id: 9040, name: "زكي داغستاني", rewaya: "حفص عن عاصم", server: "https://server9.mp3quran.net/zaki/", dz: false },
+    { id: 9041, name: "سعيد الغامدي", rewaya: "حفص عن عاصم", server: "https://server12.mp3quran.net/s_gmd/", dz: false },
+    { id: 9042, name: "سهل ياسين", rewaya: "حفص عن عاصم", server: "https://server6.mp3quran.net/shl/", dz: false },
+    { id: 9043, name: "صلاح بو خاطر", rewaya: "حفص عن عاصم", server: "https://server8.mp3quran.net/bu_khtr/", dz: false },
+    { id: 9044, name: "طارق عبد الغني دعوب", rewaya: "قالون عن نافع", server: "https://server10.mp3quran.net/tareq/", dz: false },
+    { id: 9045, name: "عادل ريان", rewaya: "حفص عن عاصم", server: "https://server8.mp3quran.net/ryan/", dz: false },
+    { id: 9046, name: "عبد الرحمن الماجد", rewaya: "حفص عن عاصم", server: "https://server10.mp3quran.net/a_majed/", dz: false },
+    { id: 9047, name: "عبد العزيز الأحمد", rewaya: "حفص عن عاصم", server: "https://server11.mp3quran.net/a_ahmed/", dz: false },
+    { id: 9048, name: "عبد الله الكندري", rewaya: "حفص عن عاصم", server: "https://server10.mp3quran.net/kndri/", dz: false },
+    { id: 9049, name: "عبد الله المطرود", rewaya: "حفص عن عاصم", server: "https://server8.mp3quran.net/mtrod/", dz: false },
+    { id: 9050, name: "عبد المحسن الحارثي", rewaya: "حفص عن عاصم", server: "https://server6.mp3quran.net/mohsin_harthi/", dz: false }
   ];
 
   const $ = id => document.getElementById(id);
@@ -539,8 +549,10 @@ select.chip option{background:#181818;color:#fff}
   const fam = nm => FAM.find(f => nm.includes(f)) || 'أخرى';
   const MR = r => r.ms[r.mi];
 
-  const DZ = [14, "صوفي", "ياسين الجزائري", "الأركاني الجزائري"];
-  const isDZ = r => r.dz || DZ.some(x => typeof x === 'number' ? x === r.id : nz(r.name).includes(nz(x)));
+  const DZ_KEYS = [
+    14, "سحيم", "بوناب", "صوفي", "ياسين", "الأركاني", "بن غازي", "الحاج", "الجزائري"
+  ];
+  const isDZ = r => r.dz || DZ_KEYS.some(x => typeof x === 'number' ? x === r.id : nz(r.name).includes(nz(x)));
   const CUSTOM = EXTRA_50_RECITERS.slice(0, 50);
 
   let all = [], list = [], favs = [], filter = 'all', rwf = 'all', act = null, surahs = [];
@@ -556,9 +568,14 @@ select.chip option{background:#181818;color:#fff}
   const panel = $('wheelSection');
   const thumb = $('playerThumb');
 
+  function setPlayerThumb(r) {
+    if (!r) return;
+    thumb.innerHTML = img(r);
+  }
+
   function syncWaveState() {
     const active = !audio.paused && !!audio.currentSrc;
-    panel.classList.toggle('wave-active', active);
+    panel.classList.toggle('wave-active', active || !!act);
     $('wheelMiniAvatar').classList.toggle('wave-on', active);
     document.querySelector('.player').classList.toggle('wave-active', active);
     document.querySelectorAll('.card').forEach(el => {
@@ -574,12 +591,39 @@ select.chip option{background:#181818;color:#fff}
     tt = setTimeout(() => t.classList.remove('show'), 3200);
   }
 
+  async function hydrateFromApi(apiReciters) {
+    const byNorm = new Map();
+    apiReciters.forEach(item => {
+      const moshafs = (item.moshaf || [])
+        .filter(m => m.server && m.surah_list)
+        .map(m => ({
+          name: m.name,
+          srv: fixSrv(m.server),
+          tot: Number(m.surah_total) || 0,
+          sl: String(m.surah_list).split(',').map(Number).filter(Boolean)
+        }))
+        .sort((a, b) => b.tot - a.tot);
+      if (moshafs.length) byNorm.set(nz(item.name), moshafs);
+    });
+
+    CUSTOM.forEach(c => {
+      const key = nz(c.name);
+      const matched = byNorm.get(key) || [...byNorm.entries()].find(([k]) => k.includes(key) || key.includes(k))?.[1];
+      if (matched && matched.length) {
+        c.resolvedMs = matched;
+      }
+    });
+  }
+
   async function load() {
     grid.innerHTML = '<div class="msg">جارٍ تحميل القرّاء وصورهم...</div>';
     try {
       const res = await fetch('https://www.mp3quran.net/api/v3/reciters?language=ar');
       const d = await res.json();
-      all = (d.reciters || []).map(r => {
+      const rawReciters = d.reciters || [];
+      await hydrateFromApi(rawReciters);
+
+      all = rawReciters.map(r => {
         const ms = (r.moshaf || [])
           .filter(m => m.server && m.surah_list)
           .map(m => ({
@@ -607,9 +651,11 @@ select.chip option{background:#181818;color:#fff}
           s: avatar(r.name),
           real: c.length > 0 || li >= 0,
           lo: li >= 0 ? li : 999,
-          dz: isDZ(r)
+          dz: false
         };
       }).filter(r => r.ms.length);
+
+      all.forEach(r => { r.dz = isDZ(r); });
 
       all = all.concat(CUSTOM.map(c => ({
         id: c.id,
@@ -621,7 +667,7 @@ select.chip option{background:#181818;color:#fff}
         real: !!c.photo,
         lo: 999,
         dz: !!c.dz,
-        ms: [{
+        ms: c.resolvedMs || [{
           name: c.rewaya || 'حفص عن عاصم',
           srv: fixSrv(c.server),
           tot: 114,
@@ -640,9 +686,12 @@ select.chip option{background:#181818;color:#fff}
           .join('');
 
       apply();
-      if (innerWidth >= 960 && all.length) pick(all[0], false);
+      if (all.length) {
+        pick(all[0], false);
+        setPlayerThumb(all[0]);
+      }
     } catch (e) {
-      grid.innerHTML = '<div class="msg">تعذّر تحميل القرّاء. تأكد من الاتصال بالإنترنت.<br><br><button class="chip on" id="retry" type="button">إعادة المحاولة</button>';
+      grid.innerHTML = '<div class="msg">تعذّر تحميل القرّاء. تأكد من الاتصال بالإنترنت.<br><br><button class="chip on" id="retry" type="button">إعادة المحاولة</button></div>';
       $('retry').onclick = load;
     }
   }
@@ -688,7 +737,13 @@ select.chip option{background:#181818;color:#fff}
       return;
     }
     const c = e.target.closest('.card');
-    if (c) pick(list[c.dataset.i], true);
+    if (c) {
+      const chosen = list[c.dataset.i];
+      if (chosen) {
+        pick(chosen, true);
+        setPlayerThumb(chosen);
+      }
+    }
   };
 
   $('copyList').onclick = () => {
@@ -719,7 +774,7 @@ select.chip option{background:#181818;color:#fff}
 
   function pick(r, open) {
     act = r;
-    panel.dataset.w = r.name.replace(/^الشيخ\s+/, '').trim().replace(/^ال/, '').charAt(0) || '۞';
+    panel.removeAttribute('data-w');
     grid.querySelectorAll('.card').forEach(c => c.classList.toggle('sel', list[c.dataset.i] && list[c.dataset.i].id === r.id));
     $('wheelReciterName').textContent = r.name;
     $('wheelMiniAvatar').innerHTML = img(r);
@@ -777,8 +832,8 @@ select.chip option{background:#181818;color:#fff}
     rs.forEach((el, i) => {
       const d = Math.abs(el.offsetTop + el.offsetHeight / 2 - c);
       const t = Math.min(d / (tl.clientHeight * .45), 1);
-      el.style.transform = `translateX(${-t * 14}px) scale(${1 - t * .14})`;
-      el.style.opacity = 1 - t * .68;
+      el.style.transform = `translateX(${-t * 16}px) scale(${1 - t * .15})`;
+      el.style.opacity = 1 - t * .66;
       if (d < bd) { bd = d; best = i; }
     });
     rs.forEach((el, i) => el.classList.toggle('mid', i === best));
@@ -804,6 +859,7 @@ select.chip option{background:#181818;color:#fff}
 
   function play(s, list2, r, rw) {
     queue = list2; qr = r; qi = queue.findIndex(x => x.url === s.url); cur = s.url;
+    setPlayerThumb(r);
     $('qaNowTitle').textContent = `سورة ${s.name}`;
     $('qaNowSub').textContent = `${r.name} · ${rw}`;
     $('qaDown').href = s.url;

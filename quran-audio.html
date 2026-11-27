@@ -157,33 +157,7 @@ body::before{content:'';position:fixed;inset:0;opacity:.09;pointer-events:none;b
 .cnt{color:#ffe39c!important}
 .ph{box-shadow:0 8px 24px #0008,0 0 0 3px #e6c274aa}
 
-/* توهج وموجات صوتية متذبذبة على الحواف (وليس دائرة) حسب شدة الصوت */
-.card.sel,.card.wave-on{
-  box-shadow:
-    0 0 calc(10px + var(--wave, 0.25) * 28px) rgba(255,227,156,calc(0.32 + var(--wave, 0.25) * 0.58)),
-    0 0 calc(22px + var(--wave, 0.25) * 44px) rgba(31,95,168,calc(0.22 + var(--wave, 0.25) * 0.45)),
-    0 0 0 calc(1px + var(--wave, 0.25) * 3px) rgba(255,227,156,calc(0.55 + var(--wave, 0.25) * 0.45));
-}
-.card.sel::before,.card.wave-on::before{
-  content:'';
-  position:absolute;
-  inset:calc(-3px - var(--wave, 0.25) * 9px);
-  border-radius:21px;
-  border:calc(1.5px + var(--wave, 0.25) * 2.5px) solid rgba(255,227,156,calc(0.45 + var(--wave, 0.25) * 0.5));
-  box-shadow:inset 0 0 calc(8px + var(--wave, 0.25) * 22px) rgba(230,194,116,calc(0.2 + var(--wave, 0.25) * 0.45));
-  pointer-events:none;
-  transition:inset 70ms linear,box-shadow 70ms linear,border-color 70ms linear;
-}
-.panel.wave-on{
-  box-shadow:
-    inset 0 0 calc(16px + var(--wave, 0.25) * 42px) rgba(255,227,156,calc(0.14 + var(--wave, 0.25) * 0.34)),
-    0 0 calc(14px + var(--wave, 0.25) * 34px) rgba(230,194,116,calc(0.22 + var(--wave, 0.25) * 0.48));
-}
-.player.wave-on{
-  box-shadow:
-    0 calc(-2px - var(--wave, 0.25) * 8px) calc(14px + var(--wave, 0.25) * 30px) rgba(255,227,156,calc(0.25 + var(--wave, 0.25) * 0.52)),
-    inset 0 1px calc(6px + var(--wave, 0.25) * 18px) rgba(230,194,116,calc(0.25 + var(--wave, 0.25) * 0.45));
-}
+/* الموجات محصورة حول صورة القارئ في لوحة الاستماع فقط */
 
 .row.mid{background:linear-gradient(270deg,#1f5fa860,#0f6e5360);box-shadow:inset 0 0 0 1px #e6c27455}
 .player{background:linear-gradient(100deg,#04140f,#0b2542 60%,#04140f);border:1px solid #e6c27433;border-radius:14px}
@@ -223,6 +197,71 @@ body{overflow:auto}
 .p-vol .vol-hide{display:none}
 .p-vol{grid-column:1/-1;grid-row:3;justify-content:center;padding-top:2px}
 }
+
+/* قائمة الصفحات المنسدلة داخل صفحة الاستماع فقط */
+.side{z-index:12;}
+.nav-menu{position:relative;min-width:0;}
+.nav-menu>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:11px 13px;border:1px solid #e6c27455;border-radius:12px;color:#ffe39c;background:linear-gradient(135deg,#123e32,#102c43);font-weight:800;cursor:pointer;user-select:none;}
+.nav-menu>summary::-webkit-details-marker{display:none;}
+.nav-menu[open]>summary span{transform:rotate(180deg);}
+.nav-menu>summary span{transition:transform .2s;}
+.nav-menu .nav{display:flex;flex-direction:column;gap:3px;padding:8px;margin-top:7px;max-height:min(68vh,620px);overflow:auto;border:1px solid #e6c27445;border-radius:14px;background:#071b16;box-shadow:0 16px 38px #0009;}
+.nav-menu .nav a{padding:10px 12px;border-radius:9px;}
+.nav-menu .nav a.on{background:#1f5fa840;border-inline-start:3px solid var(--gold);}
+.theme-toggle{width:100%;margin-top:12px;padding:10px 12px;border:1px solid #e6c27455;border-radius:12px;background:#ffffff0d;color:#ffe39c;font:700 .9rem Tajawal;cursor:pointer;}
+.download-btn{padding-inline:12px;min-width:auto;}
+.download-btn span{font-size:.78rem;}
+/* نهاري هادئ: فاتح مع الحفاظ على الأخضر والذهبي */
+body.light{--base:#f3f6f2;--card:#ffffff;--hover:#e4eee8;--txt:#17352b;--mut:#63766c;background:linear-gradient(145deg,#f5f8f4,#eaf1ed 55%,#f8f4e9);color:var(--txt);}
+body.light::before{opacity:.035;}
+body.light .side,body.light .main,body.light .panel{background:#ffffffeb;border-color:#c6d8cc;}
+body.light .main::before{background:radial-gradient(ellipse 60% 100% at 8% 0,#a9d7c4aa,transparent 70%),linear-gradient(180deg,#d9eee3,transparent);}
+body.light .main::after{opacity:.08;}
+body.light .search,body.light .ssearch{background:#edf3ef;color:#244638;border:1px solid #d4e1d8;}
+body.light .search input{color:#244638;}
+body.light .hero h1,body.light .phead h2,body.light .rt b{color:#173d30;}
+body.light .hd,body.light .phead small{color:#536d60;}
+body.light .nav-menu .nav{background:#fff;border-color:#d4e1d8;box-shadow:0 14px 30px #294b3822;}
+body.light .nav-menu .nav a{color:#526b5e;}
+body.light .nav-menu .nav a.on{color:#174a37;background:#e4f0e8;}
+body.light .nav-menu>summary,body.light .theme-toggle{background:#edf5ef;color:#276047;border-color:#c9ddcf;}
+body.light .panel .pbg{opacity:.14;}
+body.light .row.mid{background:#e6f0e9;box-shadow:inset 0 0 0 1px #d4c18c;}
+body.light .rt small,body.light .row .rt small{color:#63766c;}
+body.light .ssearch{color:#244638;}
+body.light .yt-strip{background:#f5f0df;color:#775b20;border-color:#e7d7a8;}
+body.light .rwa button{background:#e8eee9;color:#345b49;}
+body.light .player{background:linear-gradient(100deg,#edf4ef,#e5edf5 60%,#edf4ef);border-color:#d5dfd7;}
+body.light .ctrl button{color:#52675c;}
+body.light .ctrl button:hover{color:#173d30;}
+body.light #qaNowTitle{color:#173d30;}
+body.light #qaNowSub{color:#63766c;}
+body.light .tbtn{background:#ffffffb8;color:#315a47;border-color:#d5dfd7;}
+body.light .p-vol{color:#52675c;}
+body.light .toast{background:#173d30;color:#fff;}
+@media(max-width:959px){
+  .side{position:relative;display:flex;align-items:center;gap:8px;overflow:visible;padding:8px 12px;}
+  .brand{flex:none;}
+  .nav-menu{flex:1;min-width:0;}
+  .nav-menu>summary{padding:9px 12px;white-space:nowrap;}
+  .nav-menu[open] .nav{position:absolute;top:calc(100% + 5px);inset-inline:12px;z-index:150;max-height:65vh;}
+  .theme-toggle{width:auto;flex:none;margin:0;padding:9px 10px;font-size:.8rem;white-space:nowrap;}
+  .panel{inset:0 0 118px 0;}
+  .player{min-height:118px;}
+  .download-btn span{display:inline;}
+}
+@media(max-width:420px){
+  .brand span{font-size:1.12rem;}
+  .brand img{width:32px;height:32px;}
+  .theme-toggle{font-size:.72rem;padding:8px 7px;}
+  .nav-menu>summary{font-size:.82rem;}
+  .phead{gap:12px;padding-inline:14px;}
+  .cover{width:82px;height:82px;}
+  .pbar{padding-inline:14px;}
+  .download-btn{padding-inline:8px;}
+  .p-tools{gap:4px;}
+}
+
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -231,21 +270,25 @@ body{overflow:auto}
 
   <aside class="side">
     <a href="./index.html" class="brand"><img src="./logo-zad-almuslim.webp.png" alt=""><span>زاد عبيدة</span></a>
-    <nav class="nav" aria-label="أبواب الموقع">
-      <a href="./index.html">🏠<b>الرئيسية</b></a>
-      <a href="./wird.html">🌿<b>وردك اليومي</b></a>
-      <a href="./adhkar.html">📿<b>الأذكار</b></a>
-      <a href="./quran.html">📖<b>القرآن قراءة</b></a>
-      <a href="./quran-audio.html" class="on" aria-current="page">🎧<b>الاستماع</b></a>
-      <a href="./nawawi.html">📜<b>الأحاديث</b></a>
-      <a href="./duas.html">🤲<b>الأدعية</b></a>
-      <a href="./articles.html">✍️<b>المقالات</b></a>
-      <a href="./azkar-morning.html">🌅<b>الصباح</b></a>
-      <a href="./azkar-evening.html">🌙<b>المساء</b></a>
-      <a href="./azkar-sleep.html">🌜<b>النوم</b></a>
-      <a href="./about.html">ℹ️<b>عن الموقع</b></a>
-      <a href="./opinions.html">💬<b>آراؤكم</b></a>
-    </nav>
+    <details class="nav-menu">
+      <summary>الصفحات الأخرى <span aria-hidden="true">⌄</span></summary>
+      <nav class="nav" aria-label="جميع صفحات الموقع">
+        <a href="./index.html">🏠<b>الرئيسية</b></a>
+        <a href="./wird.html">🌿<b>وردك اليومي</b></a>
+        <a href="./adhkar.html">📿<b>الأذكار</b></a>
+        <a href="./quran.html">📖<b>القرآن قراءة</b></a>
+        <a href="./quran-audio.html" class="on" aria-current="page">🎧<b>الاستماع</b></a>
+        <a href="./nawawi.html">📜<b>الأحاديث</b></a>
+        <a href="./duas.html">🤲<b>الأدعية</b></a>
+        <a href="./articles.html">✍️<b>المقالات</b></a>
+        <a href="./azkar-morning.html">🌅<b>الصباح</b></a>
+        <a href="./azkar-evening.html">🌙<b>المساء</b></a>
+        <a href="./azkar-sleep.html">🌜<b>النوم</b></a>
+        <a href="./about.html">ℹ️<b>عن الموقع</b></a>
+        <a href="./opinions.html">💬<b>آراؤكم</b></a>
+      </nav>
+    </details>
+    <button id="themeToggle" class="theme-toggle" type="button" aria-pressed="false">☀️ الوضع النهاري</button>
   </aside>
 
   <main class="main"><div class="scroll">
@@ -329,7 +372,7 @@ body{overflow:auto}
     <div class="p-vol">
       <div class="p-tools">
         <button class="tbtn" id="qaSpeed" type="button" title="سرعة التلاوة">1x</button>
-        <a class="tbtn" id="qaDown" href="#" download title="تحميل السورة MP3">⬇</a>
+        <a class="tbtn download-btn" id="qaDown" href="#" download title="تحميل الملف الصوتي فقط" aria-label="تحميل الصوت">⬇ <span>تحميل</span></a>
         <a class="tbtn" id="qaRead" href="./quran.html" title="قراءة السورة في المصحف">📖</a>
         <button class="tbtn" id="qaShare" type="button" title="مشاركة التلاوة">📤</button>
         <button class="tbtn" id="qaZen" type="button" title="وضع الخشوع والتركيز">🧘</button>
@@ -585,11 +628,6 @@ body{overflow:auto}
   function syncWaveClasses() {
     const playing = !audio.paused && !!audio.currentSrc;
     $('wheelMiniAvatar').classList.toggle('wave-active', playing);
-    panel.classList.toggle('wave-on', playing || !!act);
-    document.querySelector('.player').classList.toggle('wave-on', playing);
-    grid.querySelectorAll('.card').forEach(el => {
-      el.classList.toggle('wave-on', playing && el.classList.contains('sel'));
-    });
     if (playing && !waveRaf) {
       waveRaf = requestAnimationFrame(pulseWave);
     } else if (!playing) {
@@ -980,6 +1018,7 @@ body{overflow:auto}
     const dlBtn = $('qaDown');
     dlBtn.href = s.url;
     dlBtn.setAttribute('download', `سورة_${s.name}_${r.name}.mp3`);
+    dlBtn.setAttribute('aria-label', `تحميل سورة ${s.name} بصوت ${r.name}`);
     $('qaRead').href = `./quran.html?surah=${s.num}`;
 
     thumb.innerHTML = img(r);
@@ -1066,7 +1105,7 @@ body{overflow:auto}
       e.preventDefault();
       toast('اختر سورة أولاً للتحميل');
     } else {
-      toast('جارٍ بدء تحميل السورة...');
+      toast('جارٍ تحميل الملف الصوتي...');
     }
   });
 
@@ -1175,6 +1214,21 @@ body{overflow:auto}
     }
     toast(`نُسخت قائمة ${ar(list.length)} قارئ`);
   });
+
+  const themeToggle = $('themeToggle');
+  const savedTheme = (() => { try { return localStorage.getItem('zad_audio_theme'); } catch (e) { return null; } })();
+  if (savedTheme === 'light') document.body.classList.add('light');
+  function syncThemeButton() {
+    const light = document.body.classList.contains('light');
+    themeToggle.textContent = light ? '🌙 الوضع الليلي' : '☀️ الوضع النهاري';
+    themeToggle.setAttribute('aria-pressed', String(light));
+  }
+  themeToggle.addEventListener('click', () => {
+    const light = document.body.classList.toggle('light');
+    try { localStorage.setItem('zad_audio_theme', light ? 'light' : 'dark'); } catch (e) {}
+    syncThemeButton();
+  });
+  syncThemeButton();
 
   load();
 })();

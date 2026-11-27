@@ -1,7 +1,7 @@
 'use strict';
 
 /* ============================================================
-   زاد عبيدة — Service Worker (v53)
+   زاد عبيدة — Service Worker (v54)
 
    ما الجديد في v53 (مقارنة بـ v52):
    1) رفع النسخة: يمسح كاش v52 وما قبله عند كل زائر، ومنه نسخ
@@ -13,7 +13,7 @@
    4) صفحة HTML لا تنتظر الشبكة أكثر من ~10 ثوانٍ في أسوأ الحالات.
    ============================================================ */
 
-const VERSION = 'v53';
+const VERSION = 'v54';
 
 const STATIC_CACHE = 'zad-static-' + VERSION;
 const RUNTIME_CACHE = 'zad-runtime-' + VERSION;
@@ -55,9 +55,9 @@ const CORE_ASSETS = [
 
   './assets/data.js',
   './assets/app.js',
-  './assets/common.js',
   './assets/zad-redesign.js',
   './assets/install-modal.js',
+  './assets/mobile-menu.js?v=20261123-2',
 
   './logo-zad-almuslim.webp.png',
   './manifest.json'
@@ -256,7 +256,31 @@ async function handleNavigation(event) {
 }
 
 /* ============================================================
-   Network First (CSS / JS / manifest)
+   Cache First (CSS / JS)
+   نستخدم النسخة المحفوظة أولًا لتقليل الطلبات المتكررة.
+   تتم مطابقة عنوان الملف كاملًا، بما فيه query string، لتجنب
+   تقديم نسخة قديمة عند تغيير رقم إصدار الملف.
+   ============================================================ */
+
+async function cacheFirst(event, cacheName) {
+  const req = event.request;
+  const cache = await caches.open(cacheName);
+  const cached = await cache.match(req);
+  if (cached) return cached;
+
+  try {
+    const response = await fetchFresh(req);
+    if (isCacheable(response)) {
+      await cache.put(req, response.clone()).catch(() => {});
+    }
+    return response;
+  } catch (error) {
+    return emptyFor(req);
+  }
+}
+
+/* ============================================================
+   Network First (manifest)
    ============================================================ */
 
 async function networkFirst(event, cacheName, timeoutMs) {
@@ -283,10 +307,8 @@ async function networkFirst(event, cacheName, timeoutMs) {
     const cached = await fromCache();
     if (cached) return cached;
 
-    // خطأ 5xx من الخادم: نُرجعه كما هو (المتصفح يتجاوز الملف ولا يتعلّق)
     if (first) return first;
 
-    // انتهت المهلة ولا نسخة مخزّنة: انتظار محدود ثم ملف فارغ (لا شاشة بيضاء)
     const late = await withTimeout(net.catch(() => null), ASSET_EXTRA_WAIT_MS);
     return late || emptyFor(req);
 
@@ -359,12 +381,14 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  /* CSS / JS / manifest */
-  if (
-    req.destination === 'script' ||
-    req.destination === 'style' ||
-    /\/manifest\.json$/.test(url.pathname)
-  ) {
+  /* CSS / JS: serve cached files first to reduce repeat origin requests */
+  if (req.destination === 'script' || req.destination === 'style') {
+    event.respondWith(cacheFirst(event, STATIC_CACHE));
+    return;
+  }
+
+  /* manifest: keep Network First so updates are checked */
+  if (/\/manifest\.json$/.test(url.pathname)) {
     event.respondWith(networkFirst(event, STATIC_CACHE, ASSET_TIMEOUT_MS));
     return;
   }

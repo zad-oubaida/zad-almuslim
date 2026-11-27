@@ -71,8 +71,11 @@ button{font-family:inherit}
 .pbg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,26,22,.35) 0%,rgba(10,26,22,.78) 45%,var(--base) 85%)}
 .pin{position:relative;flex:1;min-height:0;display:flex;flex-direction:column}
 .phead{display:flex;align-items:flex-end;gap:16px;padding:22px 20px 10px}
-.cover{width:104px;height:104px;flex:none;border-radius:50%;overflow:hidden;background:#103b2e;display:grid;place-items:center;font:700 2.4rem Amiri,serif;color:var(--gold);box-shadow:0 8px 40px #0009;border:3px solid var(--gold)}
-.cover img{width:100%;height:100%;object-fit:cover;object-position:center top}
+.cover{position:relative;width:104px;height:104px;flex:none;border-radius:50%;overflow:visible;background:#103b2e;display:grid;place-items:center;font:700 2.4rem Amiri,serif;color:var(--gold);box-shadow:0 8px 40px #0009;border:3px solid var(--gold);isolation:isolate}
+.cover img{position:relative;z-index:1;width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:center top}
+.cover-wave{position:absolute;inset:0;z-index:2;pointer-events:none}
+.cover-wave i{position:absolute;left:50%;top:50%;display:block;width:3px;height:7px;border-radius:99px;background:linear-gradient(180deg,#ffe39c,#e6c274 55%,#69a9ed);box-shadow:0 0 7px #e6c274aa;opacity:.28;transform:translate(-50%,-50%) rotate(var(--angle)) translateY(-61px);transform-origin:center;transition:height 90ms linear,opacity 90ms linear}
+.cover.wave-active .cover-wave i{opacity:.95}
 .phead small{color:#ffffffc0;font-size:.8rem}
 .phead h2{margin:2px 0 6px;font:700 1.7rem/1.2 Amiri,serif}
 .back{display:none;position:absolute;top:12px;inset-inline-start:12px;z-index:3;width:38px;height:38px;border:0;border-radius:50%;background:#0007;color:#fff;font-size:1.2rem;cursor:pointer;place-items:center}
@@ -539,54 +542,49 @@ body{overflow:auto}
   const panel = $('wheelSection');
   const thumb = $('playerThumb');
 
-  /* تذبذب الموجات والتوهج على الحواف حسب شدة الصوت */
-  let ctx = null, analyser = null, bins = null, waveRaf = null;
-  function ensureWaveEngine() {
-    if (ctx || !window.AudioContext) return;
-    try {
-      const AC = window.AudioContext || window.webkitAudioContext;
-      ctx = new AC();
-      const node = ctx.createMediaElementSource(audio);
-      analyser = ctx.createAnalyser();
-      analyser.fftSize = 128;
-      analyser.smoothingTimeConstant = 0.75;
-      node.connect(analyser);
-      analyser.connect(ctx.destination);
-      bins = new Uint8Array(analyser.frequencyBinCount);
-    } catch (e) {
-      analyser = null;
-    }
+  /* موجات بصرية حول صورة القارئ؛ لا نعيد توجيه الصوت عبر Web Audio حتى لا يتأثر تشغيل الملفات الخارجية */
+  let waveRaf = null, waveBars = [];
+  function buildCoverWave() {
+    const cover = $('wheelMiniAvatar');
+    if (!cover) return;
+    const old = cover.querySelector('.cover-wave');
+    if (old) old.remove();
+    const ring = document.createElement('span');
+    ring.className = 'cover-wave';
+    ring.setAttribute('aria-hidden', 'true');
+    waveBars = Array.from({ length: 32 }, (_, i) => {
+      const bar = document.createElement('i');
+      bar.style.setProperty('--angle', (i * 360 / 32) + 'deg');
+      ring.appendChild(bar);
+      return bar;
+    });
+    cover.appendChild(ring);
   }
 
   function pulseWave() {
     const playing = !audio.paused && !!audio.currentSrc;
     let level = 0.14;
     if (playing) {
-      let real = 0;
-      if (analyser && bins) {
-        try {
-          analyser.getByteFrequencyData(bins);
-          let acc = 0;
-          for (let i = 0; i < bins.length; i++) acc += bins[i];
-          real = (acc / (bins.length * 255)) * 1.5;
-        } catch (e) {
-          real = 0;
-        }
-      }
-      const now = performance.now() * 0.007;
-      const wave = 0.36 + 0.28 * Math.sin(now * 2.3) * Math.cos(now * 1.1) + 0.16 * Math.sin(now * 4.7);
-      level = Math.max(0.18, Math.min(1, real > 0.04 ? Math.max(real, wave * 0.7) : wave));
+      const t = (Number.isFinite(audio.currentTime) ? audio.currentTime : 0) * (audio.playbackRate || 1);
+      const wave = 0.36 + 0.28 * Math.sin(t * 2.3) * Math.cos(t * 1.1) + 0.16 * Math.sin(t * 4.7);
+      level = Math.max(0.18, Math.min(1, wave));
+      waveBars.forEach((bar, i) => {
+        const a = t * 5.2 + i * 0.79;
+        const energy = Math.min(1, Math.max(0.08, 0.48 + 0.30 * Math.sin(a) + 0.16 * Math.cos(a * 1.73) + 0.10 * Math.sin(a * 0.47 + i)));
+        bar.style.height = (5 + energy * 19) + 'px';
+        bar.style.opacity = (0.48 + energy * 0.5).toFixed(2);
+      });
+    } else {
+      waveBars.forEach(bar => { bar.style.height = '5px'; bar.style.opacity = '.28'; });
     }
     document.documentElement.style.setProperty('--wave', level.toFixed(3));
-    if (playing) {
-      waveRaf = requestAnimationFrame(pulseWave);
-    } else {
-      waveRaf = null;
-    }
+    if (playing) waveRaf = requestAnimationFrame(pulseWave);
+    else waveRaf = null;
   }
 
   function syncWaveClasses() {
     const playing = !audio.paused && !!audio.currentSrc;
+    $('wheelMiniAvatar').classList.toggle('wave-active', playing);
     panel.classList.toggle('wave-on', playing || !!act);
     document.querySelector('.player').classList.toggle('wave-on', playing);
     grid.querySelectorAll('.card').forEach(el => {
@@ -628,12 +626,40 @@ body{overflow:auto}
     });
   }
 
+  function customReciters() {
+    return CUSTOM.map(c => {
+      const hasServer = !!c.server;
+      const defaultSurahs = hasServer ? Array.from({ length: 114 }, (_, i) => i + 1) : [1, 2, 18, 36, 55, 56, 67, 78, 112, 113, 114];
+      return {
+        id: c.id,
+        name: c.name,
+        mi: 0,
+        p: c.photo || avatar(c.name),
+        b: [],
+        s: avatar(c.name),
+        real: !!c.photo,
+        lo: 999,
+        dz: !!c.dz,
+        yt: c.yt || `تلاوات ${c.name} القرآن الكريم`,
+        ms: c.matchedMs || [{
+          name: c.rewaya || 'حفص عن عاصم',
+          srv: hasServer ? fixSrv(c.server) : '',
+          tot: hasServer ? 114 : defaultSurahs.length,
+          sl: defaultSurahs,
+          ytOnly: !hasServer
+        }]
+      };
+    });
+  }
+
   async function load() {
     grid.innerHTML = '<div class="msg">جارٍ تحميل القرّاء وصورهم...</div>';
     try {
-      const res = await fetch('https://www.mp3quran.net/api/v3/reciters?language=ar');
+      const res = await fetch('https://mp3quran.net/api/v3/reciters?language=ar', { cache: 'no-store' });
+      if (!res.ok) throw new Error('Reciters API HTTP ' + res.status);
       const d = await res.json();
-      const raw = d.reciters || [];
+      if (!d || !Array.isArray(d.reciters)) throw new Error('Invalid reciters response');
+      const raw = d.reciters;
       resolveApiMoshafs(raw);
 
       all = raw.map(r => {
@@ -670,29 +696,7 @@ body{overflow:auto}
 
       all.forEach(r => { r.dz = isDZ(r); });
 
-      all = all.concat(CUSTOM.map(c => {
-        const hasServer = !!c.server;
-        const defaultSurahs = hasServer ? Array.from({ length: 114 }, (_, i) => i + 1) : [1, 2, 18, 36, 55, 56, 67, 78, 112, 113, 114];
-        return {
-          id: c.id,
-          name: c.name,
-          mi: 0,
-          p: c.photo || avatar(c.name),
-          b: [],
-          s: avatar(c.name),
-          real: !!c.photo,
-          lo: 999,
-          dz: !!c.dz,
-          yt: c.yt || `تلاوات ${c.name} القرآن الكريم`,
-          ms: c.matchedMs || [{
-            name: c.rewaya || 'حفص عن عاصم',
-            srv: hasServer ? fixSrv(c.server) : '',
-            tot: hasServer ? 114 : defaultSurahs.length,
-            sl: defaultSurahs,
-            ytOnly: !hasServer
-          }]
-        };
-      }));
+      all = all.concat(customReciters());
 
       all.sort((a, b) => (a.lo - b.lo) || (b.real - a.real));
 
@@ -710,8 +714,10 @@ body{overflow:auto}
         thumb.innerHTML = img(all[0]);
       }
     } catch (e) {
-      grid.innerHTML = '<div class="msg">تعذّر تحميل القرّاء. تأكد من الاتصال بالإنترنت.<br><br><button class="chip on" id="retry" type="button">إعادة المحاولة</button></div>';
-      $('retry').onclick = load;
+      all = customReciters();
+      $('rwFilter').innerHTML = '<option value="all">كل القراءات</option>';
+      apply();
+      toast('تعذّر الاتصال بفهرس القرّاء؛ عُرضت القائمة الاحتياطية');
     }
   }
 
@@ -817,6 +823,7 @@ body{overflow:auto}
 
     const miniWrap = $('wheelMiniAvatar');
     miniWrap.innerHTML = img(r);
+    buildCoverWave();
     const miniImg = miniWrap.querySelector('img');
     const syncBg = () => {
       $('wheelBgPortrait').style.backgroundImage = `url("${miniImg.currentSrc || miniImg.src}")`;
@@ -961,8 +968,7 @@ body{overflow:auto}
       if (s && s.ytUrl) window.open(s.ytUrl, '_blank', 'noopener,noreferrer');
       return;
     }
-    ensureWaveEngine();
-    if (ctx && ctx.state === 'suspended') ctx.resume().catch(() => {});
+    /* تشغيل مباشر للملف دون إعادة توجيهه عبر Web Audio */
 
     queue = L.slice();
     qr = r;
@@ -1002,8 +1008,7 @@ body{overflow:auto}
   }
 
   audio.addEventListener('play', () => {
-    ensureWaveEngine();
-    if (ctx && ctx.state === 'suspended') ctx.resume().catch(() => {});
+    /* تشغيل مباشر للملف دون إعادة توجيهه عبر Web Audio */
     $('qaPlay').textContent = '⏸';
     syncPanelBtn();
     syncWaveClasses();

@@ -307,6 +307,55 @@ footer p{color:var(--muted);font-size:.92rem;line-height:1.9}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}.js .rv{opacity:1;transform:none}}
 @media(max-width:900px){html body #links.open a{color:var(--text)!important}}
+
+/* حركة بطاقات هادئة ومتدرجة — محسّنة للمس والهواتف */
+#offer .feat{
+  animation:aboutCardFloat 6.8s ease-in-out infinite;
+  animation-delay:calc(var(--card-order,0) * -0.72s);
+  transform:translate3d(0,0,0);
+  -webkit-tap-highlight-color:transparent;
+}
+#offer .feat:nth-child(6n+1){--card-order:0}
+#offer .feat:nth-child(6n+2){--card-order:1}
+#offer .feat:nth-child(6n+3){--card-order:2}
+#offer .feat:nth-child(6n+4){--card-order:3}
+#offer .feat:nth-child(6n+5){--card-order:4}
+#offer .feat:nth-child(6n){--card-order:5}
+#offer .feat:hover,#offer .feat:focus-visible{
+  animation-play-state:paused;
+  transform:translate3d(0,-7px,0) scale(1.012);
+  border-color:color-mix(in srgb,var(--gold) 65%,var(--primary));
+  box-shadow:var(--shadow);
+}
+#contact .c{
+  animation:aboutCardFloat 7.5s ease-in-out infinite;
+  animation-delay:-1.2s;
+  min-width:0;
+}
+#contact .c:nth-child(2){animation-delay:-3.4s}
+#contact .c:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+@keyframes aboutCardFloat{
+  0%,100%{translate:0 0}
+  50%{translate:0 -5px}
+}
+@media(max-width:860px){
+  #offer .feat{animation-duration:8s}
+  #offer .feat:hover,#offer .feat:focus-visible{transform:translate3d(0,-3px,0)}
+  #contact .contact{grid-template-columns:minmax(0,1fr);gap:12px}
+  #contact .c{padding:17px;gap:12px;overflow:hidden}
+  #contact .c a{font-size:clamp(.82rem,3.5vw,.98rem);overflow-wrap:anywhere}
+  #contact .cp{flex-shrink:0;padding:7px 10px}
+}
+@media(max-width:380px){
+  #contact .c{gap:9px;padding:14px}
+  #contact .c i{width:42px;height:42px;font-size:1.25rem}
+  #contact .cp{font-size:.75rem;padding:6px 8px}
+}
+@media(prefers-reduced-motion:reduce){
+  #offer .feat,#contact .c{animation:none!important;translate:none!important}
+  #offer .feat:hover,#contact .c:hover{transform:none}
+}
+
 </style>
 </head>
 <body>
@@ -437,8 +486,8 @@ footer p{color:var(--muted);font-size:.92rem;line-height:1.9}
   <section id="contact">
     <div class="head rv"><span class="chip">ابقَ على تواصل</span><h2>تواصل معنا</h2><p>يمكنك التواصل معنا مباشرة عبر:</p></div>
     <div class="contact">
-      <div class="c rv"><i aria-hidden="true">📸</i><div><small>إنستغرام</small><a dir="ltr" href="https://www.instagram.com/oubaida.muslim/" target="_blank" rel="noopener noreferrer">@oubaida.muslim</a></div></div>
-      <div class="c rv"><i aria-hidden="true">✉️</i><div><small>البريد الإلكتروني</small><a dir="ltr" href="mailto:oubaidakuolal@gmail.com">oubaidakuolal@gmail.com</a></div><button class="cp" type="button" data-copy="oubaidakuolal@gmail.com">نسخ</button></div>
+      <div class="c rv"><i aria-hidden="true">📸</i><div><small>إنستغرام</small><a dir="ltr" href="https://www.instagram.com/zad_oubaida/" target="_blank" rel="noopener noreferrer">@zad_oubaida</a></div></div>
+      <div class="c rv"><i aria-hidden="true">✉️</i><div><small>البريد الإلكتروني</small><a dir="ltr" href="mailto:zadoubaida@gmail.com">zadoubaida@gmail.com</a></div><button class="cp" type="button" data-copy="zadoubaida@gmail.com">نسخ</button></div>
     </div>
   </section>
 </main>
@@ -449,7 +498,7 @@ footer p{color:var(--muted);font-size:.92rem;line-height:1.9}
       <div><h4>زاد عبيدة</h4><p>محتوى إسلامي نافع يجمع القرآن والأذكار والأحاديث الموثوقة في مساحة واحدة مجانية وبسيطة.</p></div>
       <div><h4>أقسام الموقع</h4><ul class="flist"><li><a href="./index.html">الرئيسية</a></li><li><a href="./quran.html">القرآن الكريم</a></li><li><a href="./nawawi.html">الأحاديث النبوية</a></li><li><a href="./sahihayn.html">الصحيحان</a></li><li><a href="./duas.html">الأدعية</a></li><li><a href="./articles.html">المقالات</a></li></ul></div>
       <div><h4>الأذكار والورد</h4><ul class="flist"><li><a href="./adhkar.html">الأذكار العامة</a></li><li><a href="./azkar-morning.html">أذكار الصباح</a></li><li><a href="./azkar-evening.html">أذكار المساء</a></li><li><a href="./azkar-sleep.html">أذكار النوم</a></li><li><a href="./wird.html">وردك اليومي</a></li></ul></div>
-      <div><h4>عن المنصة</h4><ul class="flist"><li><a href="./about.html">عن الموقع والمؤسس</a></li><li><a href="./opinions.html">آراؤكم</a></li><li><a href="https://www.instagram.com/oubaida.muslim/" target="_blank" rel="noopener noreferrer">إنستغرام</a></li><li><a href="mailto:oubaidakuolal@gmail.com">راسلنا عبر البريد</a></li></ul></div>
+      <div><h4>عن المنصة</h4><ul class="flist"><li><a href="./about.html">عن الموقع والمؤسس</a></li><li><a href="./opinions.html">آراؤكم</a></li><li><a href="https://www.instagram.com/zad_oubaida/" target="_blank" rel="noopener noreferrer">إنستغرام</a></li><li><a href="mailto:zadoubaida@gmail.com">راسلنا عبر البريد</a></li></ul></div>
     </div>
     <div class="fb">© <span id="year">2026</span> زاد عبيدة — بإشراف وتطوير السيد عبيدة قولال</div>
   </div>

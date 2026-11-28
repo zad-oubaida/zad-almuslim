@@ -367,7 +367,7 @@ if(!nk){nk='Fajr';ni=86400-now+ts(S.t.Fajr);pv=ts(S.t.Isha)}else if(pv===null)pv
 [].forEach.call(pt.children,function(li){li.classList.toggle('on',li.dataset.k===nk)});
 $('#cl').textContent='متبقٍ لصلاة '+nm(nk);$('#cv').textContent=p2(Math.floor(ni/3600))+':'+p2(Math.floor(ni%3600/60))+':'+p2(ni%60);
 $('#pg').style.width=Math.max(0,Math.min(100,(now-pv)/(now+ni-pv)*100))+'%';$('#cdb').hidden=false;checkAdhan()}
-function use(d,label){S={t:d.t,tz:d.tz,date:d.date};var dt=new Date().toLocaleDateString('ar-DZ',{weekday:'long',day:'numeric',month:'long',year:'numeric'});$('#pd').textContent=(label?label+' · ':'')+dt;draw();tick();setNow()}
+function use(d,label){S={t:d.t,tz:d.tz,date:d.date};var now=new Date(),greg='--/--/----',hijri='--/--/----';try{greg=new Intl.DateTimeFormat('en-GB-u-nu-latn',{timeZone:'Africa/Algiers',day:'2-digit',month:'2-digit',year:'numeric'}).format(now)}catch(e){}try{hijri=new Intl.DateTimeFormat('en-GB-u-ca-islamic-umalqura-nu-latn',{timeZone:'Africa/Algiers',day:'2-digit',month:'2-digit',year:'numeric'}).format(now)}catch(e){try{hijri=new Intl.DateTimeFormat('en-GB-u-ca-islamic-nu-latn',{timeZone:'Africa/Algiers',day:'2-digit',month:'2-digit',year:'numeric'}).format(now)}catch(x){}}$('#pd').textContent=(label?label+' · ':'')+'الميلادي: '+greg+' | الهجري: '+hijri;draw();tick();setNow()}
 
 /* الأذان قبل الصلاة بدقيقة — يستعمل مواقيت الصلاة الحالية */
 var adhanAudio=$('#adhanAudio'),adhanEnabled=ls.get('zad_adhan_enabled')==='1';

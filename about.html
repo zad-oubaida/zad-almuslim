@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0c6ac4">
+<meta name="theme-color" content="#0d7a5f">
 <meta name="description" content="حكاية زاد عبيدة: مشروع إسلامي مجاني بدأه السيد عبيدة قولال في السادسة عشرة ليجمع القرآن والأذكار والأحاديث في مكان واحد وبطريقة بسيطة.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ar_AR">
@@ -16,313 +16,566 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script>
+/* تطبيق الثيم قبل الرسم لتفادي الوميض (الافتراضي: ليلي مثل الصفحة الرئيسية) */
 (function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();
 </script>
 <style>
 :root{
-  --sky:#0c6ac4;
-  --sky-top:#1579d6;
-  --sky-bot:#08539e;
-  --fg:#ffffff;
-  --fg-soft:rgba(255,255,255,.84);
-  --line:rgba(255,255,255,.16);
-  --accent:#ffd66b;
-  --p:0;
+  --bg:#081410;--card:#0e211b;--card2:#132c24;--line:#1f3f33;--text:#eaf4f0;--muted:#9cb8ac;
+  --primary:#1f9174;--mint:#9be8c9;--gold:#e3ad3f;--gold-soft:rgba(227,173,63,.14);
+  --ink:#fff;--shadow:0 16px 40px rgba(0,0,0,.42);--tile:.065;--r:20px;
 }
 [data-theme="light"]{
-  --sky:#1b82e0;
-  --sky-top:#3498f0;
-  --sky-bot:#0f63b5;
-  --fg:#ffffff;
-  --fg-soft:rgba(255,255,255,.88);
-  --line:rgba(255,255,255,.22);
-  --accent:#ffe38a;
+  --bg:#f5f8f4;--card:#ffffff;--card2:#edf5ef;--line:#d8e5dc;--text:#14241d;--muted:#55695f;
+  --primary:#0d7a5f;--mint:#0b6952;--gold:#a97612;--gold-soft:rgba(169,118,18,.1);
+  --shadow:0 12px 30px rgba(13,60,45,.08);--tile:.09;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:72px}
-body{
-  font-family:'Cairo',system-ui,sans-serif;
-  color:var(--fg);
-  line-height:1.9;
-  overflow-x:hidden;
-  background:linear-gradient(180deg,var(--sky-top) 0%,var(--sky) 45%,var(--sky-bot) 100%);
-  min-height:100vh;
-}
-
-/* خطوط محاذاة رفيعة مثل الفيديو */
-.guides{
-  position:fixed;inset:0;pointer-events:none;z-index:2;
-  background-image:
-    linear-gradient(to right, var(--line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
-  background-size:25% 180px;
-}
-
-/* غيوم منقطة (Halftone clouds) تتحرك مع السكرول */
-.halftone{
-  position:fixed;inset:0;pointer-events:none;z-index:1;
-  background-image:radial-gradient(rgba(255,255,255,.55) 1.3px, transparent 1.3px);
-  background-size:9px 9px;
-  opacity:.32;
-  mask-image:
-    radial-gradient(ellipse 340px 130px at 76% 24%, #000 20%, transparent 75%),
-    radial-gradient(ellipse 380px 150px at 26% 62%, #000 18%, transparent 75%),
-    radial-gradient(ellipse 300px 120px at 82% 82%, #000 15%, transparent 75%);
-  transform:translateX(calc((var(--p) - .5) * -90px));
-}
-
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{font-family:'Cairo',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.85;overflow-x:hidden;transition:background .3s,color .3s}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:var(--tile);
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' fill='none' stroke='%233fbf98'%3E%3Crect x='18' y='18' width='36' height='36'/%3E%3Crect x='18' y='18' width='36' height='36' transform='rotate(45 36 36)'/%3E%3Ccircle cx='36' cy='36' r='5'/%3E%3C/svg%3E")}
 a{color:inherit}
-.wrap{width:min(1140px,92%);margin-inline:auto;position:relative;z-index:4}
-:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
-.skip{position:absolute;top:-60px;inset-inline-start:12px;z-index:1000;background:#063b73;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none}
+.wrap{width:min(1120px,92%);margin-inline:auto}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+.skip{position:absolute;top:-60px;inset-inline-start:12px;z-index:1000;background:var(--primary);color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none}
 .skip:focus{top:12px}
-#bar{position:fixed;top:0;inset-inline:0;height:3px;z-index:200;background:var(--accent);transform-origin:right;transform:scaleX(0)}
+#bar{position:fixed;top:0;inset-inline:0;height:3px;z-index:200;background:linear-gradient(90deg,var(--primary),var(--gold));transform-origin:right;transform:scaleX(0)}
 
-/* شريط علوي شفاف وبسيط */
-.nav{
-  position:sticky;top:0;z-index:120;
-  background:rgba(10,94,176,.35);
-  backdrop-filter:blur(10px);
-  border-bottom:1px solid var(--line);
-}
-.nav-in{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:62px;flex-wrap:nowrap}
+/* الشريط العلوي */
+.nav{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:68px;flex-wrap:nowrap}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
-.brand img{width:34px;height:34px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,.6)}
-.brand b{font-family:'Amiri',serif;font-size:1.3rem}
+.brand img{width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid color-mix(in srgb,var(--gold) 55%,var(--line))}
+.brand b{display:block;color:var(--mint);font-family:'Amiri',serif;font-size:1.38rem;line-height:1.2}
 .links{display:flex;align-items:center;flex-wrap:nowrap;white-space:nowrap;gap:2px}
-.links>a,.links>.dropdown>.dropdown-trigger{padding:5px 8px;border-radius:6px;text-decoration:none;font-size:.82rem;font-weight:600;transition:opacity .2s,background .2s}
-.links>a:hover,.links>.dropdown>.dropdown-trigger:hover{background:rgba(255,255,255,.12)}
-.links>a[aria-current]{background:rgba(255,255,255,.18);color:var(--accent)}
+.links>a,.links>.dropdown>.dropdown-trigger{padding:6px 8px;border-radius:10px;text-decoration:none;font-size:.83rem;font-weight:600;color:var(--text);transition:background .2s,color .2s}
+.links>a:hover,.links>.dropdown>.dropdown-trigger:hover{background:var(--card2);color:var(--mint)}
+.links>a[aria-current]{background:var(--card2);color:var(--gold);border:1px solid color-mix(in srgb,var(--gold) 30%,transparent)}
 .dropdown{position:relative}
 .dropdown-trigger{display:block;border:0;background:transparent;color:inherit;font:inherit;font-weight:600;cursor:pointer}
-.dropdown-content{display:none;position:absolute;top:100%;right:0;z-index:25;min-width:185px;padding:6px;background:#0855a3;border:1px solid var(--line);border-radius:10px}
-.dropdown-content a{display:block;padding:8px 12px;border-radius:6px;text-align:right;text-decoration:none;font-size:.86rem}
-.dropdown-content a:hover{background:rgba(255,255,255,.14)}
+.dropdown-content{display:none;position:absolute;top:100%;right:0;z-index:20;min-width:190px;padding:8px;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+.dropdown-content a{display:block;padding:9px 14px;border-radius:9px;text-align:right;text-decoration:none;font-size:.88rem;font-weight:600}
+.dropdown-content a:hover{background:var(--card2);color:var(--mint)}
 .dropdown:focus-within .dropdown-content,.dropdown.open .dropdown-content{display:block}
 @media(hover:hover){.dropdown:hover .dropdown-content{display:block}}
-.tools{display:flex;gap:6px;flex-shrink:0}
-.ibtn{width:36px;height:36px;display:grid;place-items:center;border-radius:8px;border:1px solid var(--line);background:rgba(255,255,255,.08);color:#fff;cursor:pointer;font-size:1rem}
-.ibtn:hover{border-color:var(--accent)}
+.tools{display:flex;gap:8px;flex-shrink:0}
+.ibtn{width:40px;height:40px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--text);cursor:pointer;font-size:1.1rem;transition:border-color .2s,background .2s}
+.ibtn:hover{border-color:var(--gold);background:var(--card2)}
 #menu{display:none}
 
-/* مشاهد مفتوحة بدون بطاقات على السماء الزرقاء */
-.scene{
-  position:relative;
-  min-height:88svh;
-  padding:84px 0;
-  display:flex;
-  align-items:center;
-  border-bottom:1px solid var(--line);
-}
-.scene-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:48px;
-  align-items:center;
-}
-.hero-title{
-  font-family:'Amiri',serif;
-  font-weight:700;
-  font-size:clamp(2.4rem,5.6vw,4.3rem);
-  line-height:1.18;
-  margin-bottom:18px;
-}
-.hero-sub{font-size:1.08rem;color:var(--fg-soft);max-width:540px;margin-bottom:26px}
-.cta{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
-.btn-pill{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:10px 22px;border-radius:999px;
-  background:#fff;color:#084b8f;font-weight:800;font-size:.9rem;text-decoration:none;
-  transition:transform .25s;
-}
-.btn-pill:hover{transform:translateY(-2px)}
-.link-line{text-decoration:none;border-bottom:1px solid rgba(255,255,255,.65);padding-bottom:2px;font-weight:600;font-size:.92rem}
+/* الواجهة العلوية */
+.hero{position:relative;text-align:center;padding:78px 0 92px;overflow:hidden;border-bottom:1px solid var(--line);
+  background:radial-gradient(ellipse at top,color-mix(in srgb,var(--primary) 16%,transparent),transparent 65%)}
+.orn{position:absolute;width:360px;height:360px;opacity:.45;pointer-events:none}
+.o1{top:-120px;inset-inline-start:-95px;color:var(--primary)}
+.o2{bottom:-130px;inset-inline-end:-85px;color:var(--gold)}
+.hero .wrap{position:relative}
+.bism{font-family:'Amiri',serif;color:var(--gold);font-size:1.5rem;letter-spacing:.3px}
+h1{font-family:'Amiri',serif;font-weight:700;font-size:clamp(2.3rem,6vw,4.1rem);line-height:1.4;color:var(--mint);margin:8px 0 16px;text-wrap:balance}
+.lead{max-width:650px;margin:0 auto 30px;color:var(--muted);font-size:1.08rem}
+.cta{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;align-items:center}
+.btn{display:inline-flex;gap:10px;align-items:center;padding:13px 28px;border-radius:14px;background:linear-gradient(135deg,var(--primary),color-mix(in srgb,var(--primary) 78%,#063529));color:var(--ink);font-weight:700;text-decoration:none;box-shadow:0 10px 26px rgba(31,145,116,.32);transition:transform .2s,filter .2s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.ghost{color:var(--mint);text-decoration:none;border-bottom:1px solid var(--gold);padding-bottom:3px;font-weight:600;transition:color .2s}
+.ghost:hover{color:var(--gold)}
+.checks{display:flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;margin-top:34px;font-size:.9rem;color:var(--muted)}
+.checks span{background:color-mix(in srgb,var(--card) 75%,transparent);border:1px solid var(--line);padding:4px 14px;border-radius:99px}
+.checks span::before{content:"✦";color:var(--gold);margin-inline-end:8px;font-size:.8rem}
 
-/* عنصر يتشطر ويتحرك مع السكرول مثل المشهد الثاني في الفيديو */
-.stage-visual{
+/* الأقسام العامة */
+section{padding:66px 0 0}
+.head{margin-bottom:28px}
+.head-center{text-align:center;max-width:680px;margin-inline:auto}
+.head h2{font-family:'Amiri',serif;font-size:clamp(1.8rem,4vw,2.45rem);color:var(--mint);line-height:1.45}
+.head p{color:var(--muted);margin-top:4px;font-size:1rem}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--gold-soft);color:var(--gold);border:1px solid color-mix(in srgb,var(--gold) 38%,transparent);padding:3px 15px;border-radius:99px;font-size:.8rem;font-weight:700;margin-bottom:10px}
+
+/* بطاقة المؤسس الفاخرة */
+.founder-showcase{
   position:relative;
-  min-height:420px;
   display:grid;
-  place-items:center;
+  grid-template-columns:minmax(230px,290px) 1fr;
+  gap:32px;
+  align-items:center;
+  margin-bottom:26px;
+  padding:30px;
+  border-radius:24px;
+  border:1px solid color-mix(in srgb,var(--gold) 52%,var(--line));
+  background:linear-gradient(135deg,color-mix(in srgb,var(--card2) 92%,transparent),var(--card));
+  box-shadow:var(--shadow);
+  overflow:hidden;
 }
-.split-disc{
-  position:relative;
-  width:210px;
-  height:210px;
-  display:grid;
-  place-items:center;
-}
-.disc-half{
+.founder-showcase::before{
+  content:"";
   position:absolute;
+  inset-inline-start:-50px;
+  top:-50px;
+  width:220px;
+  height:220px;
+  border-radius:50%;
+  background:radial-gradient(circle,color-mix(in srgb,var(--gold) 22%,transparent),transparent 70%);
+  pointer-events:none;
+}
+.founder-showcase::after{
+  content:"";
+  position:absolute;
+  inset-inline-end:-40px;
+  bottom:-40px;
+  width:200px;
+  height:200px;
+  border-radius:50%;
+  background:radial-gradient(circle,color-mix(in srgb,var(--primary) 22%,transparent),transparent 70%);
+  pointer-events:none;
+}
+.founder-frame{
+  position:relative;
+  border-radius:20px;
+  overflow:hidden;
+  border:2px solid color-mix(in srgb,var(--gold) 70%,transparent);
+  background:linear-gradient(160deg,#12352a,#081914);
+  aspect-ratio:4/5;
+  box-shadow:0 16px 34px rgba(0,0,0,.38);
+  display:grid;
+  place-items:center;
+}
+.founder-frame img{
+  display:block;
   width:100%;
   height:100%;
-  border-radius:50%;
-  border:1.5px solid rgba(255,255,255,.78);
-  background:radial-gradient(circle at 35% 30%, rgba(255,255,255,.28), rgba(6,68,132,.45));
-  backdrop-filter:blur(4px);
-}
-.disc-half.a{
-  clip-path:polygon(0 0, 50% 0, 50% 100%, 0 100%);
-  transform:translateX(calc(var(--p) * -36px)) rotate(calc(var(--p) * -14deg));
-}
-.disc-half.b{
-  clip-path:polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
-  transform:translateX(calc(var(--p) * 36px)) rotate(calc(var(--p) * 14deg));
-}
-.disc-logo{
-  position:relative;z-index:2;
-  width:118px;height:118px;border-radius:50%;
-  object-fit:contain;
-  filter:drop-shadow(0 14px 24px rgba(0,0,0,.25));
-  transform:translateY(calc((var(--p) - .35) * -45px));
-}
-
-/* صورة المؤسس تندمج مباشرة بدون إطار ثقيل ولا بطاقة */
-.founder-inline{
-  display:grid;
-  grid-template-columns:260px 1fr;
-  gap:40px;
-  align-items:center;
-  margin-bottom:56px;
-}
-.founder-cutout{
+  object-fit:cover;
+  object-position:top center;
   position:relative;
-  aspect-ratio:4/5;
+  z-index:2;
+}
+.founder-fallback{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px;
+  color:var(--gold);
+  z-index:1;
+}
+.founder-fallback span{
+  width:84px;
+  height:84px;
+  border-radius:50%;
+  border:2px solid var(--gold);
   display:grid;
   place-items:center;
-  overflow:hidden;
-  mask-image:radial-gradient(ellipse 82% 88% at 50% 48%, #000 68%, transparent 100%);
-}
-.founder-cutout img{
-  width:100%;height:100%;object-fit:cover;object-position:top center;
-  position:relative;z-index:2;
-}
-.founder-monogram{
-  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  color:#fff;z-index:1;
-}
-.founder-monogram span{
-  width:86px;height:86px;border-radius:50%;border:1px solid rgba(255,255,255,.55);
-  display:grid;place-items:center;font-family:'Amiri',serif;font-size:2.6rem;margin-bottom:6px;
-}
-.founder-copy h2{font-family:'Amiri',serif;font-size:clamp(2rem,4vw,3rem);line-height:1.25;margin-bottom:6px}
-.founder-sub{color:var(--accent);font-weight:700;margin-bottom:14px}
-.founder-copy p{color:var(--fg-soft);max-width:62ch}
-
-/* نصوص السرد المفتوحة بلا حدود بطاقات */
-.story-columns{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:48px;
-  align-items:start;
-}
-.story-block h3{
-  font-family:'Amiri',serif;font-size:1.75rem;color:var(--accent);
-  margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--line);
-}
-.story-block p+p{margin-top:14px}
-.story-block p{color:var(--fg-soft)}
-
-.big-quote{
   font-family:'Amiri',serif;
-  font-size:clamp(1.6rem,3.4vw,2.5rem);
+  font-size:2.6rem;
   font-weight:700;
-  line-height:1.65;
-  margin-top:52px;
-  padding-top:28px;
-  border-top:1px solid var(--line);
-  max-width:26ch;
+  background:rgba(227,173,63,.1);
+  margin-bottom:10px;
 }
-
-/* فهرس الأقسام والمميزات كقائمة تحريرية نظيفة بدون بطاقات */
-.index-list{
-  list-style:none;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  column-gap:48px;
-  border-top:1px solid var(--line);
-  margin-top:24px;
+.founder-fallback small{
+  color:var(--mint);
+  font-size:.82rem;
+  font-weight:600;
 }
-.index-list li{
-  border-bottom:1px solid var(--line);
+.founder-info{position:relative;z-index:2}
+.founder-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:5px 15px;
+  border-radius:99px;
+  font-size:.82rem;
+  font-weight:700;
+  color:var(--gold);
+  background:var(--gold-soft);
+  border:1px solid color-mix(in srgb,var(--gold) 42%,transparent);
+  margin-bottom:12px;
 }
-.index-list a{
+.founder-info h3{
+  font-family:'Amiri',serif;
+  font-size:clamp(1.75rem,3.6vw,2.45rem);
+  line-height:1.35;
+  color:var(--mint);
+  margin-bottom:4px;
+}
+.founder-role{
+  color:var(--gold);
+  font-weight:700;
+  font-size:.96rem;
+  margin-bottom:14px;
+}
+.founder-info p{
+  color:var(--text);
+  line-height:2.05;
+  font-size:1rem;
+}
+.founder-tags{
   display:flex;
-  align-items:baseline;
-  justify-content:space-between;
-  gap:16px;
-  padding:16px 4px;
-  text-decoration:none;
-  transition:transform .2s,color .2s;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:16px;
 }
-.index-list a:hover{transform:translateX(-6px);color:var(--accent)}
-.index-list b{font-size:1.05rem;font-weight:700}
-.index-list span{font-size:.88rem;color:var(--fg-soft);text-align:left}
-
-/* عنوان نهائي ضخم على طريقة نهاية الفيديو */
-.finale{
-  padding:96px 0 64px;
-  text-align:center;
-  border-bottom:1px solid var(--line);
-}
-.finale-word{
-  font-family:'Amiri',serif;
-  font-weight:700;
-  font-size:clamp(4rem,13vw,9.5rem);
-  line-height:1.05;
-  letter-spacing:-.02em;
-  transform:scale(calc(.92 + var(--p) * .12));
-}
-.finale p{max-width:58ch;margin:18px auto 0;color:var(--fg-soft);font-size:1.05rem}
-.finale .dua-line{
-  font-family:'Amiri',serif;font-size:1.45rem;color:var(--accent);margin-top:24px;
+.founder-tags span{
+  font-size:.8rem;
+  font-weight:600;
+  color:var(--mint);
+  background:color-mix(in srgb,var(--bg) 55%,transparent);
+  border:1px solid var(--line);
+  padding:4px 12px;
+  border-radius:10px;
 }
 
-/* التواصل والتذييل بدون بطاقات */
-.contact-row{
-  display:flex;flex-wrap:wrap;gap:28px;align-items:center;
-  padding:24px 0;border-bottom:1px solid var(--line);
-}
-.contact-item{display:flex;align-items:center;gap:12px}
-.contact-item a{font-weight:700;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.5);unicode-bidi:plaintext}
-.cp{border:1px solid var(--line);background:rgba(255,255,255,.1);color:#fff;border-radius:8px;padding:5px 12px;cursor:pointer;font:600 .8rem 'Cairo',sans-serif}
+/* بطاقات القصة */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:32px;box-shadow:var(--shadow)}
+.prose{max-width:72ch}
+.prose p+p{margin-top:14px}
+.prose p{line-height:2.1}
+.story{display:grid;gap:24px;grid-template-columns:1fr 1fr;align-items:stretch}
+.story .card{position:relative}
+.story h3{font-family:'Amiri',serif;font-size:1.58rem;color:var(--mint);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.story h3::before{content:"";width:10px;height:10px;border-radius:2px;transform:rotate(45deg);background:var(--gold);flex-shrink:0}
+.quote{position:relative;margin-top:22px;padding:24px 28px;border-radius:var(--r);background:var(--card2);border:1px solid color-mix(in srgb,var(--gold) 28%,var(--line));border-inline-start:4px solid var(--gold);font-family:'Amiri',serif;font-size:1.35rem;font-weight:700;line-height:2;color:var(--text)}
+.quote::after{content:"”";position:absolute;top:-6px;inset-inline-end:18px;font-size:4.4rem;line-height:1;color:var(--gold);opacity:.28}
+.full{grid-column:1/-1}
+.full .quote{margin-top:0}
 
-footer{padding:44px 0 24px}
+/* شبكة جميع الصفحات والمميزات */
+.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(245px,1fr))}
+.feat{position:relative;display:flex;flex-direction:column;text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px;transition:transform .25s,border-color .25s,box-shadow .25s}
+.feat:hover{transform:translateY(-5px);border-color:color-mix(in srgb,var(--gold) 65%,var(--primary));box-shadow:var(--shadow)}
+.feat-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.feat i{display:grid;place-items:center;width:48px;height:48px;border-radius:14px;background:var(--card2);border:1px solid var(--line);font-style:normal;font-size:1.45rem}
+.feat em{font-style:normal;font-size:.74rem;font-weight:700;color:var(--gold);background:var(--gold-soft);padding:3px 10px;border-radius:99px}
+.feat b{display:block;color:var(--mint);font-size:1.08rem;margin-bottom:4px}
+.feat span{color:var(--muted);font-size:.92rem;line-height:1.75}
+
+/* الدعاء والتواصل */
+.dua{margin-top:28px;padding-top:24px;border-top:1px dashed color-mix(in srgb,var(--gold) 45%,var(--line));text-align:center;font-family:'Amiri',serif;line-height:2.1}
+.dua strong{display:block;color:var(--gold);font-size:1.55rem;margin-bottom:6px}
+.dua span{color:var(--muted);font-size:1.18rem}
+.contact{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+.c{display:flex;align-items:center;gap:15px;padding:22px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);transition:border-color .2s}
+.c:hover{border-color:color-mix(in srgb,var(--gold) 50%,var(--line))}
+.c i{display:grid;place-items:center;width:48px;height:48px;border-radius:14px;background:var(--card2);font-style:normal;font-size:1.5rem;flex-shrink:0}
+.c div{flex:1;min-width:0}
+.c small{display:block;color:var(--muted);font-size:.82rem}
+.c a{color:var(--mint);font-weight:700;text-decoration:none;overflow-wrap:anywhere;unicode-bidi:plaintext}
+.c a:hover{text-decoration:underline;color:var(--gold)}
+.cp{border:1px solid var(--line);background:var(--card2);color:var(--text);border-radius:10px;padding:7px 14px;cursor:pointer;font:600 .82rem 'Cairo',sans-serif;transition:.2s}
+.cp:hover{border-color:var(--gold);color:var(--gold)}
+
+/* التذييل الشامل */
+footer{margin-top:78px;border-top:1px solid var(--line);background:var(--card);padding:44px 0 22px}
 .fi{display:grid;gap:28px;grid-template-columns:1.3fr 1fr 1fr 1fr}
-footer h4{font-family:'Amiri',serif;font-size:1.25rem;color:var(--accent);margin-bottom:8px}
-footer p{color:var(--fg-soft);font-size:.9rem}
+footer h4{color:var(--gold);font-family:'Amiri',serif;font-size:1.25rem;margin-bottom:10px}
+footer p{color:var(--muted);font-size:.92rem;line-height:1.9}
 .flist{list-style:none;display:grid;gap:6px}
-.flist a{text-decoration:none;color:var(--fg-soft);font-size:.88rem}
-.flist a:hover{color:var(--accent)}
-.fb{text-align:center;margin-top:28px;padding-top:16px;border-top:1px solid var(--line);color:var(--fg-soft);font-size:.84rem}
+.flist a{text-decoration:none;color:var(--muted);font-size:.9rem;transition:color .2s}
+.flist a:hover{color:var(--mint)}
+.fb{text-align:center;margin-top:30px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
 
-#top{position:fixed;bottom:20px;inset-inline-start:20px;opacity:0;pointer-events:none;transition:opacity .25s;background:#fff;color:#084b8f;border:0;font-size:1.2rem;font-weight:800;z-index:150}
+#top{position:fixed;bottom:20px;inset-inline-start:20px;opacity:0;pointer-events:none;transition:opacity .25s;background:var(--primary);color:#fff;border:0;font-size:1.2rem;box-shadow:var(--shadow)}
 #top.on{opacity:1;pointer-events:auto}
-#toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,30px);background:#063b73;color:#fff;padding:10px 22px;border-radius:10px;opacity:0;transition:.3s;z-index:300;pointer-events:none;font-weight:600}
+#toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,30px);background:var(--primary);color:#fff;padding:10px 22px;border-radius:12px;opacity:0;transition:.3s;z-index:300;pointer-events:none;font-weight:600}
 #toast.on{opacity:1;transform:translate(-50%,0)}
 
+.js .rv{opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s}
+.js .rv.in{opacity:1;transform:none}
+
+@media(max-width:1100px) and (min-width:861px){
+  .links>a,.links>.dropdown>.dropdown-trigger{padding:5px 5px;font-size:.75rem}
+  .nav-in{gap:8px}
+}
 @media(max-width:860px){
   #menu{display:grid}
-  .links{display:none;position:absolute;top:62px;inset-inline:0;flex-direction:column;white-space:normal;align-items:stretch;gap:4px;padding:12px 4%;background:#0855a3;border-bottom:1px solid var(--line)}
+  .links{display:none;position:absolute;top:68px;inset-inline:0;flex-direction:column;white-space:normal;align-items:stretch;gap:4px;padding:14px 4%;background:var(--bg);border-bottom:1px solid var(--line)}
   .links.open{display:flex}
-  .links>a,.links>.dropdown>.dropdown-trigger{padding:10px 14px;font-size:.95rem}
-  .dropdown-content{position:static;border:0;background:rgba(255,255,255,.08)}
-  .scene-grid,.founder-inline,.story-columns,.index-list{grid-template-columns:1fr;gap:28px}
-  .founder-cutout{max-width:240px;margin-inline:auto}
+  .links>a,.links>.dropdown>.dropdown-trigger{padding:12px 16px;font-size:.95rem}
+  .dropdown-content{position:static;box-shadow:none;border:0;background:var(--card2);margin-top:4px}
+  .dropdown-content a{text-align:center}
+  .founder-showcase{grid-template-columns:1fr;text-align:center;padding:24px}
+  .founder-frame{max-width:240px;margin-inline:auto}
+  .founder-tags{justify-content:center}
+  .story{grid-template-columns:1fr}
   .fi{grid-template-columns:1fr 1fr}
+  .hero{padding:56px 0 68px}
+  .card{padding:24px}
 }
-@media(max-width:520px){.fi{grid-template-columns:1fr}}
+@media(max-width:520px){
+  .fi{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}.js .rv{opacity:1;transform:none}}
+@media(max-width:900px){html body #links.open a{color:var(--text)!important}}
+
+/* حركة بطاقات هادئة ومتدرجة — محسّنة للمس والهواتف */
+#offer .feat{
+  animation:aboutCardFloat 6.8s ease-in-out infinite;
+  animation-delay:calc(var(--card-order,0) * -0.72s);
+  transform:translate3d(0,0,0);
+  -webkit-tap-highlight-color:transparent;
+}
+#offer .feat:nth-child(6n+1){--card-order:0}
+#offer .feat:nth-child(6n+2){--card-order:1}
+#offer .feat:nth-child(6n+3){--card-order:2}
+#offer .feat:nth-child(6n+4){--card-order:3}
+#offer .feat:nth-child(6n+5){--card-order:4}
+#offer .feat:nth-child(6n){--card-order:5}
+#offer .feat:hover,#offer .feat:focus-visible{
+  animation-play-state:paused;
+  transform:translate3d(0,-7px,0) scale(1.012);
+  border-color:color-mix(in srgb,var(--gold) 65%,var(--primary));
+  box-shadow:var(--shadow);
+}
+#contact .c{
+  animation:aboutCardFloat 7.5s ease-in-out infinite;
+  animation-delay:-1.2s;
+  min-width:0;
+}
+#contact .c:nth-child(2){animation-delay:-3.4s}
+#contact .c:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+@keyframes aboutCardFloat{
+  0%,100%{translate:0 0}
+  50%{translate:0 -5px}
+}
+@media(max-width:860px){
+  #offer .feat{animation-duration:8s}
+  #offer .feat:hover,#offer .feat:focus-visible{transform:translate3d(0,-3px,0)}
+  #contact .contact{grid-template-columns:minmax(0,1fr);gap:12px}
+  #contact .c{padding:17px;gap:12px;overflow:hidden}
+  #contact .c a{font-size:clamp(.82rem,3.5vw,.98rem);overflow-wrap:anywhere}
+  #contact .cp{flex-shrink:0;padding:7px 10px}
+}
+@media(max-width:380px){
+  #contact .c{gap:9px;padding:14px}
+  #contact .c i{width:42px;height:42px;font-size:1.25rem}
+  #contact .cp{font-size:.75rem;padding:6px 8px}
+}
 @media(prefers-reduced-motion:reduce){
-  *{transition:none!important;scroll-behavior:auto!important}
-  .halftone,.disc-half,.disc-logo,.finale-word{transform:none!important}
+  #offer .feat,#contact .c{animation:none!important;translate:none!important}
+  #offer .feat:hover,#contact .c:hover{transform:none}
 }
+
+
+/* CINEMATIC EDITORIAL EXPERIENCE — About page */
+.film-scene{
+  position:relative;isolation:isolate;min-height:min(760px,88svh);overflow:hidden;
+  display:flex;align-items:center;color:#f4f4ed;
+  background:radial-gradient(ellipse at 76% 48%,rgba(28,126,95,.34),transparent 38%),linear-gradient(115deg,#071a16 0%,#0b3028 52%,#06110f 100%);
+  border-bottom:1px solid rgba(227,173,63,.25)
+}
+.film-scene::before,.film-scene::after{content:"";position:absolute;pointer-events:none;z-index:-1}
+.film-scene::before{inset:0;background:repeating-linear-gradient(0deg,transparent 0 58px,rgba(221,190,119,.055) 59px 60px),repeating-linear-gradient(90deg,transparent 0 58px,rgba(221,190,119,.055) 59px 60px);mask-image:linear-gradient(90deg,transparent,#000)}
+.film-scene::after{width:54vw;height:54vw;max-width:720px;max-height:720px;border:1px solid rgba(221,190,119,.13);border-radius:50%;right:-12%;top:-12%;box-shadow:0 0 0 34px rgba(221,190,119,.025),0 0 0 80px rgba(221,190,119,.02)}
+.film-noise{position:absolute;inset:0;opacity:.14;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E")}
+.film-inner{position:relative;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:5vw;min-height:inherit;padding-block:70px}
+.film-copy{position:relative;z-index:3;max-width:520px}
+.film-index{font:700 .7rem/1.5 'Cairo',sans-serif;letter-spacing:.22em;color:#d9b66b;display:block;margin-bottom:22px}
+.film-overline{color:#a8d9c3;font-size:.92rem;letter-spacing:.12em}
+.film-copy h2,.interlude-text h2{font:700 clamp(3rem,6.5vw,6.2rem)/1.22 'Amiri',serif;color:#f5f0df;margin:12px 0 20px;letter-spacing:-.03em}
+.film-copy h2 i,.interlude-text h2 i{font-style:normal;color:#e2bd73}
+.film-copy>p:last-child,.interlude-text>p{font-size:1.04rem;line-height:2.2;color:#b9cfc5;max-width:440px}
+.orbit-art{height:min(540px,68vw);min-height:330px;position:relative;display:grid;place-items:center;perspective:1000px;transform-style:preserve-3d}
+.orbit{position:absolute;border:1px solid rgba(222,190,119,.6);border-radius:50%;transform-style:preserve-3d;box-shadow:0 0 28px rgba(222,190,119,.06),inset 0 0 25px rgba(40,170,126,.07)}
+.orbit-a{width:78%;height:78%;transform:rotateX(68deg) rotateZ(-28deg);animation:orbitSpin 19s linear infinite}
+.orbit-b{width:65%;height:90%;transform:rotateY(68deg) rotateZ(32deg);border-color:rgba(133,218,184,.5);animation:orbitSpinReverse 23s linear infinite}
+.orbit-c{width:95%;height:48%;transform:rotateX(12deg) rotateZ(58deg);border-style:dashed;opacity:.55;animation:orbitSpin 32s linear infinite}
+.orbit-core{width:190px;height:190px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:2;background:radial-gradient(circle at 32% 24%,#56b996 0,#16775d 32%,#07382d 70%,#041c17 100%);border:1px solid rgba(231,196,119,.85);box-shadow:inset -18px -20px 35px rgba(0,0,0,.42),inset 10px 12px 24px rgba(193,255,225,.16),0 28px 75px rgba(0,0,0,.45),0 0 65px rgba(53,178,134,.18);transform:rotateY(-14deg) rotateX(9deg);animation:coreFloat 5s ease-in-out infinite}
+.orbit-core::before{content:"";position:absolute;inset:12px;border:1px solid rgba(232,199,130,.5);border-radius:50%}
+.orbit-core span{font:700 1.3rem 'Amiri',serif;color:#f4d998}.orbit-core b{font:700 2.3rem 'Amiri',serif;color:#fff}.orbit-core small{color:#eacb82;font-size:1.5rem}
+.orbit-dot{position:absolute;width:13px;height:13px;border-radius:50%;background:#e7c77e;box-shadow:0 0 22px #e7c77e}
+.dot-a{top:17%;left:28%}.dot-b{right:15%;top:47%;width:8px;height:8px;background:#9be8c9}.dot-c{bottom:18%;left:23%;width:9px;height:9px}
+.scene-foot{position:absolute;bottom:25px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:.62rem;letter-spacing:.28em;color:rgba(231,207,153,.6)}
+@keyframes orbitSpin{to{transform:rotateX(68deg) rotateZ(332deg)}}
+@keyframes orbitSpinReverse{to{transform:rotateY(68deg) rotateZ(-328deg)}}
+@keyframes coreFloat{0%,100%{transform:translateY(0) rotateY(-14deg) rotateX(9deg)}50%{transform:translateY(-16px) rotateY(8deg) rotateX(-5deg)}}
+.visual-interlude{position:relative;isolation:isolate;overflow:hidden;margin:80px 0 20px;min-height:570px;display:flex;align-items:center;background:linear-gradient(105deg,#071713 0%,#0a3026 60%,#07140f 100%);border-block:1px solid rgba(227,173,63,.22);color:#f4f4ed}
+.interlude-backdrop{position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 26% 55%,rgba(42,161,119,.22),transparent 32%),linear-gradient(90deg,transparent 49%,rgba(231,190,108,.08) 50%,transparent 51%);background-size:auto,70px 70px;opacity:.8}
+.interlude-content{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:8vw;padding-block:70px}
+.interlude-text h2{font-size:clamp(2.8rem,5.5vw,5rem)}
+.floating-book{height:400px;position:relative;display:grid;place-items:center;perspective:1000px}
+.book-object{width:210px;height:280px;position:relative;transform-style:preserve-3d;transform:rotateY(-28deg) rotateX(12deg) rotateZ(-8deg);animation:bookHover 6s ease-in-out infinite;filter:drop-shadow(25px 35px 25px rgba(0,0,0,.38))}
+.book-cover{position:absolute;inset:0 12px 0 0;border:2px solid #d8b56d;border-radius:5px 13px 13px 5px;background:linear-gradient(140deg,#23866a,#0a3b2d 65%,#06251e);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;box-shadow:inset 0 0 0 8px rgba(223,187,112,.12),inset 0 0 0 10px rgba(223,187,112,.38),inset -18px 0 25px rgba(0,0,0,.25);transform:translateZ(12px)}
+.book-orn{font-size:4.2rem;color:#e7c77e;text-shadow:0 0 25px rgba(231,199,126,.3)}
+.book-cover b{font:700 2rem 'Amiri',serif;color:#fff}.book-cover small{color:#e6d3a5;font:1rem 'Amiri',serif}
+.book-pages{position:absolute;top:7px;bottom:7px;right:-2px;width:18px;background:repeating-linear-gradient(0deg,#f4e8c9 0 2px,#cdbb91 3px 4px);transform:rotateY(90deg) translateZ(-3px);transform-origin:right}
+.book-shadow{position:absolute;width:240px;height:40px;border-radius:50%;background:#000;filter:blur(22px);bottom:32px;opacity:.45;animation:shadowPulse 6s ease-in-out infinite}
+.book-ring{position:absolute;border:1px solid rgba(225,190,112,.55);border-radius:50%;width:310px;height:100px;transform:rotate(-25deg) rotateX(65deg);animation:ringRotate 15s linear infinite}
+.ring-two{width:350px;height:140px;transform:rotate(48deg) rotateX(65deg);border-color:rgba(155,232,201,.35);animation-direction:reverse;animation-duration:21s}
+@keyframes bookHover{0%,100%{transform:translateY(0) rotateY(-28deg) rotateX(12deg) rotateZ(-8deg)}50%{transform:translateY(-19px) rotateY(15deg) rotateX(-5deg) rotateZ(4deg)}}
+@keyframes shadowPulse{0%,100%{transform:scale(1);opacity:.4}50%{transform:scale(.78);opacity:.22}}
+@keyframes ringRotate{to{rotate:360deg}}
+.interlude-link{display:inline-flex;gap:16px;align-items:center;margin-top:25px;color:#e7c77e;text-decoration:none;border-bottom:1px solid rgba(231,199,126,.5);padding-bottom:8px}
+.interlude-link span{font-size:1.3rem;transition:transform .3s}.interlude-link:hover span{transform:translate(4px,-4px)}
+/* Cards: real 3D hover, staggered entrances and perspective */
+#offer .grid{perspective:1200px}
+#offer .feat{transform-style:preserve-3d;will-change:transform;transition:transform .65s cubic-bezier(.2,.75,.25,1),box-shadow .45s,border-color .35s;overflow:hidden;min-height:220px}
+#offer .feat::before{content:"";position:absolute;inset:-60% -30%;background:linear-gradient(110deg,transparent 42%,rgba(255,255,255,.10) 50%,transparent 58%);transform:translateX(-75%) rotate(12deg);transition:transform .9s;pointer-events:none}
+#offer .feat:hover::before{transform:translateX(75%) rotate(12deg)}
+#offer .feat i{transition:transform .65s cubic-bezier(.2,.8,.2,1),background .3s}
+#offer .feat:hover i{transform:translateZ(24px) rotateY(22deg) rotateZ(-8deg) scale(1.12);background:var(--gold-soft)}
+#offer .feat b,#offer .feat span,#offer .feat em{position:relative;transform:translateZ(12px)}
+.js .reveal-scene{opacity:0;transform:translateY(45px);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.7,.2,1)}
+.js .reveal-scene.scene-in{opacity:1;transform:none}
+#story .founder-showcase{transform-style:preserve-3d;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+@media(max-width:860px){
+ .film-scene{min-height:auto;min-height:780px}
+ .film-inner{grid-template-columns:1fr;gap:4px;text-align:center;padding:55px 0 62px}
+ .film-copy{margin:auto}.film-copy h2{font-size:clamp(3.2rem,12vw,5rem)}
+ .film-copy>p:last-child{margin:auto}
+ .orbit-art{height:350px;min-height:300px;order:2}
+ .orbit-core{width:150px;height:150px}.orbit-core b{font-size:1.9rem}
+ .scene-foot{font-size:.5rem;letter-spacing:.16em}
+ .visual-interlude{margin:48px 0 10px;min-height:0}
+ .interlude-content{grid-template-columns:1fr;gap:0;text-align:center;padding-block:44px}
+ .floating-book{height:300px;order:2}
+ .book-object{transform:scale(.82) rotateY(-28deg) rotateX(12deg) rotateZ(-8deg)}
+ .interlude-text>p{margin-inline:auto}
+ .interlude-link{margin-top:18px}
+ #offer .feat{min-height:190px}
+}
+@media(max-width:520px){
+ .film-scene{min-height:690px}
+ .film-inner{padding-top:45px}
+ .orbit-art{height:290px;min-height:270px}
+ .orbit-core{width:132px;height:132px}
+ .orbit-a{width:85%;height:75%}.orbit-b{height:85%}
+ .film-copy h2{font-size:3.25rem}
+ .film-copy>p:last-child,.interlude-text>p{font-size:.92rem}
+ .floating-book{height:260px}
+ .book-object{scale:.78}
+ .book-ring{width:250px}
+ .ring-two{width:275px}
+ #offer .feat{min-height:0}
+}
+@media(hover:none){
+ #offer .feat{transform:none!important}
+ #offer .feat:active{transform:scale(.985)!important}
+}
+@media(prefers-reduced-motion:reduce){
+ .orbit-a,.orbit-b,.orbit-c,.orbit-core,.book-object,.book-shadow,.book-ring{animation:none!important}
+ .js .reveal-scene{opacity:1;transform:none;transition:none}
+ #offer .feat,#offer .feat i{transition:none}
+}
+
+
+/* ADVANCED CINEMATIC PASS — logo, Qur'an photography and heritage library */
+.logo-core{
+  width:clamp(190px,22vw,270px);height:clamp(190px,22vw,270px);
+  border-radius:34px!important;background:linear-gradient(145deg,rgba(12,44,34,.92),rgba(4,19,15,.98))!important;
+  border:1px solid rgba(231,199,126,.85)!important;overflow:visible!important;
+  transform:translateZ(70px) rotateY(-12deg) rotateX(7deg);
+  box-shadow:0 35px 90px rgba(0,0,0,.5),0 0 65px rgba(53,178,134,.2)!important;
+  animation:logoLevitate 5.5s ease-in-out infinite!important;
+}
+.logo-core img{
+  display:block;width:76%;height:76%;object-fit:contain;position:relative;z-index:2;
+  filter:drop-shadow(0 14px 22px rgba(0,0,0,.35));
+  animation:logoBreath 4s ease-in-out infinite;
+}
+.logo-halo{position:absolute;inset:-15px;border:1px solid rgba(231,199,126,.55);border-radius:42px;transform:translateZ(-20px);box-shadow:0 0 45px rgba(231,199,126,.12),inset 0 0 28px rgba(53,178,134,.08)}
+@keyframes logoLevitate{0%,100%{translate:0 0;rotate:-2deg}50%{translate:0 -17px;rotate:2deg}}
+@keyframes logoBreath{0%,100%{scale:1}50%{scale:1.045}}
+.book-gallery{height:480px!important;min-height:420px;display:flex!important;align-items:center;justify-content:center;gap:20px;isolation:isolate}
+.quran-photo-wrap{
+  position:relative;width:min(56%,320px);height:390px;border-radius:170px 170px 22px 22px;
+  overflow:hidden;border:1px solid rgba(231,199,126,.72);
+  transform:perspective(1000px) rotateY(-13deg) rotateX(4deg) rotateZ(-3deg);
+  box-shadow:0 35px 80px rgba(0,0,0,.45),0 0 45px rgba(27,139,101,.16);
+  animation:quranFloat 7s ease-in-out infinite;
+}
+.quran-photo{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.82) contrast(1.08)}
+.photo-vignette{position:absolute;inset:0;background:linear-gradient(0deg,rgba(3,18,13,.86),transparent 48%),linear-gradient(120deg,rgba(9,78,57,.18),transparent 60%)}
+.photo-label{position:absolute;bottom:18px;right:12px;left:12px;text-align:center;color:#f2d99d;font:700 1.05rem 'Amiri',serif;text-shadow:0 2px 10px #000}
+.heritage-stack{position:absolute;left:0;bottom:38px;display:grid;gap:10px;z-index:3;transform:perspective(900px) rotateY(18deg) rotateZ(-7deg)}
+.heritage-book{
+  width:150px;min-height:67px;padding:12px 13px;display:flex;flex-direction:column;justify-content:center;
+  border:1px solid rgba(235,203,137,.72);border-right:7px solid rgba(0,0,0,.22);
+  border-radius:5px 10px 10px 5px;color:#f8edcf;
+  box-shadow:12px 14px 24px rgba(0,0,0,.35),inset 0 0 0 3px rgba(255,255,255,.07);
+  transform-style:preserve-3d;animation:heritageFloat 6s ease-in-out infinite;
+}
+.heritage-book span{font:700 1.1rem 'Amiri',serif}.heritage-book small{font-size:.68rem;opacity:.78}
+.book-bukhari{background:linear-gradient(135deg,#98713a,#49341b)}
+.book-muslim{background:linear-gradient(135deg,#176d55,#07382c);animation-delay:-2s}
+.book-nawawi{background:linear-gradient(135deg,#315f78,#172f43);animation-delay:-4s}
+@keyframes quranFloat{0%,100%{transform:perspective(1000px) rotateY(-13deg) rotateX(4deg) rotateZ(-3deg) translateY(0)}50%{transform:perspective(1000px) rotateY(9deg) rotateX(-3deg) rotateZ(2deg) translateY(-13px)}}
+@keyframes heritageFloat{0%,100%{translate:0 0;rotate:0deg}50%{translate:0 -8px;rotate:2deg}}
+.film-scene{overflow:hidden;isolation:isolate}
+.film-scene::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(ellipse at 72% 45%,rgba(31,145,116,.18),transparent 42%),linear-gradient(115deg,transparent 25%,rgba(226,190,111,.045) 50%,transparent 72%);background-size:100% 100%,220% 100%;animation:cinemaLight 12s ease-in-out infinite}
+@keyframes cinemaLight{0%,100%{background-position:center,-120% 0}50%{background-position:center,120% 0}}
+.film-index{letter-spacing:.22em}
+.film-copy h2{ text-shadow:0 12px 35px rgba(0,0,0,.35)}
+#offer .feat{position:relative;isolation:isolate}
+#offer .feat::after{content:"";position:absolute;inset:-1px;z-index:-1;opacity:0;background:linear-gradient(115deg,transparent 25%,rgba(232,199,126,.16) 48%,transparent 70%);background-size:220% 100%;transition:opacity .35s}
+#offer .feat:hover::after{opacity:1;animation:cardShine 1.2s ease}
+@keyframes cardShine{from{background-position:120% 0}to{background-position:-120% 0}}
+@media(max-width:860px){
+ .logo-core{width:155px;height:155px;border-radius:25px!important}
+ .logo-halo{border-radius:32px}
+ .book-gallery{height:350px!important;min-height:330px}
+ .quran-photo-wrap{height:285px;width:55%}
+ .heritage-book{width:120px;min-height:57px;padding:8px}
+ .heritage-book span{font-size:.94rem}
+ .heritage-stack{bottom:22px}
+}
+@media(max-width:520px){
+ .book-gallery{height:300px!important;min-height:290px;gap:8px}
+ .quran-photo-wrap{height:245px;width:57%;border-radius:125px 125px 16px 16px}
+ .heritage-book{width:104px;min-height:51px}
+ .heritage-book span{font-size:.82rem}.heritage-book small{font-size:.6rem}
+ .heritage-stack{left:-4px;bottom:22px;gap:7px}
+ .logo-core{width:136px;height:136px}
+}
+@media(prefers-reduced-motion:reduce){
+ .logo-core,.logo-core img,.quran-photo-wrap,.heritage-book,.film-scene::before{animation:none!important}
+}
+
+
+/* ZAD OUBAIDA — SIGNATURE VISUAL EDITION */
+.orbit-art{min-height:530px;perspective:1300px}
+.orbit-core.logo-core{width:clamp(205px,24vw,290px);height:clamp(205px,24vw,290px);border-radius:38px!important;display:flex;flex-direction:column;gap:10px;background:linear-gradient(145deg,#123d30,#071c16 72%)!important;border:1px solid rgba(232,198,126,.9)!important;box-shadow:0 35px 90px rgba(0,0,0,.55),0 0 75px rgba(31,145,116,.24),inset 0 0 0 8px rgba(231,199,126,.07)!important;transform-style:preserve-3d;animation:signatureLogo 7s ease-in-out infinite!important;overflow:visible!important}
+.orbit-core.logo-core::before{inset:10px!important;border-radius:29px!important;border-color:rgba(231,199,126,.35)!important}
+.logo-core img{width:76%;height:76%;object-fit:contain;position:relative;z-index:2;filter:drop-shadow(0 14px 20px rgba(0,0,0,.42));animation:logoBreath 5s ease-in-out infinite}
+.logo-caption{font:700 1.2rem 'Amiri',serif;color:#f2d99d;letter-spacing:.06em}
+.logo-halo{position:absolute;inset:-18px;border:1px solid rgba(231,199,126,.32);border-radius:48px;box-shadow:0 0 55px rgba(227,173,63,.1);pointer-events:none}
+@keyframes signatureLogo{0%,100%{transform:translateY(0) rotateY(-12deg) rotateX(7deg)}50%{transform:translateY(-16px) rotateY(12deg) rotateX(-5deg)}}
+@keyframes logoBreath{0%,100%{scale:1}50%{scale:1.045}}
+.premium-library{height:470px!important;min-height:430px;display:flex!important;align-items:center;justify-content:center;perspective:1400px;isolation:isolate}
+.library-aura{position:absolute;width:75%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(31,145,116,.26),rgba(227,173,63,.08) 42%,transparent 70%);filter:blur(12px)}
+.mushaf-frame{position:relative;z-index:2;width:min(58%,330px);height:390px;margin:0;overflow:hidden;border-radius:190px 190px 22px 22px;padding:9px;border:1px solid rgba(232,198,126,.9);background:linear-gradient(145deg,#e5c98d,#76572b 28%,#102f25 65%,#061711);box-shadow:0 35px 75px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.18);transform:rotateY(-12deg) rotateZ(-3deg);animation:mushafFloat 7s ease-in-out infinite}
+.mushaf-frame::before{content:"";position:absolute;inset:5px;border:1px solid rgba(255,236,187,.52);border-radius:185px 185px 17px 17px;z-index:3;pointer-events:none}
+.mushaf-frame img{width:100%;height:100%;object-fit:cover;display:block;border-radius:180px 180px 15px 15px;filter:saturate(.82) contrast(1.08)}
+.mushaf-frame figcaption{position:absolute;z-index:4;bottom:10px;right:10px;left:10px;padding:35px 12px 14px;text-align:center;color:#fff;background:linear-gradient(transparent,rgba(3,19,14,.94));display:flex;flex-direction:column;gap:3px}
+.mushaf-frame figcaption span{font:700 1.45rem 'Amiri',serif;color:#f4d99b}.mushaf-frame figcaption small{font-size:.72rem;color:#e6e0d0}
+.library-books{position:absolute;z-index:4;left:-1%;bottom:18px;display:flex;flex-direction:column;gap:9px;transform:perspective(900px) rotateY(18deg) rotateZ(-7deg)}
+.library-book{width:156px;min-height:62px;padding:9px 12px;display:flex;flex-direction:column;justify-content:center;border:1px solid rgba(244,218,164,.8);border-right:8px solid rgba(0,0,0,.28);border-radius:4px 9px 9px 4px;color:#fff5dc;box-shadow:10px 13px 25px rgba(0,0,0,.4),inset 0 0 0 3px rgba(255,255,255,.07);transform-style:preserve-3d;animation:libraryDrift 6s ease-in-out infinite}
+.library-book span{font:700 1.15rem 'Amiri',serif}.library-book small{font-size:.67rem;opacity:.8}
+.library-book.bukhari{background:linear-gradient(125deg,#a17b40,#533a1c)}.library-book.muslim{background:linear-gradient(125deg,#197457,#073a2c);animation-delay:-2s}.library-book.riyad{background:linear-gradient(125deg,#345e79,#172e42);animation-delay:-4s}
+.library-orbit{position:absolute;z-index:1;width:92%;height:44%;border:1px solid rgba(231,199,126,.4);border-radius:50%;pointer-events:none}
+.orbit-gold{transform:rotateX(66deg) rotateZ(22deg);animation:libraryOrbit 20s linear infinite}.orbit-mint{border-color:rgba(155,232,201,.35);transform:rotateY(64deg) rotateZ(-28deg);animation:libraryOrbit 26s linear infinite reverse}
+@keyframes mushafFloat{0%,100%{transform:translateY(0) rotateY(-12deg) rotateZ(-3deg)}50%{transform:translateY(-14px) rotateY(9deg) rotateZ(2deg)}}
+@keyframes libraryDrift{0%,100%{translate:0 0;rotate:0deg}50%{translate:0 -9px;rotate:1.5deg}}
+@keyframes libraryOrbit{to{rotate:360deg}}
+#story .founder-showcase{border:1px solid rgba(227,173,63,.5);background:radial-gradient(ellipse at 5% 10%,rgba(31,145,116,.15),transparent 40%),linear-gradient(135deg,var(--card2),var(--card));box-shadow:0 24px 65px rgba(0,0,0,.22)}
+.founder-frame{padding:8px!important;border-radius:26px!important;background:linear-gradient(135deg,#e3ad3f,#145c46,#e3ad3f)!important;box-shadow:0 22px 55px rgba(0,0,0,.4)!important}
+.founder-frame img{border-radius:19px;object-fit:cover}
+#offer .feat{border:1px solid color-mix(in srgb,var(--gold) 35%,var(--line));background:linear-gradient(145deg,var(--card),color-mix(in srgb,var(--card2) 65%,var(--card)));box-shadow:0 12px 30px rgba(0,0,0,.1);transform-style:preserve-3d;will-change:transform}
+#offer .feat::before{content:"";position:absolute;inset:7px;border:1px solid color-mix(in srgb,var(--gold) 18%,transparent);border-radius:calc(var(--r) - 6px);pointer-events:none}
+#offer .feat:hover{box-shadow:0 25px 48px rgba(0,0,0,.25),0 0 0 1px rgba(227,173,63,.24)}
+@media(max-width:860px){.orbit-art{min-height:370px}.orbit-core.logo-core{width:170px!important;height:170px!important;border-radius:28px!important}.premium-library{height:355px!important;min-height:335px}.mushaf-frame{height:290px;width:56%;border-radius:145px 145px 17px 17px}.library-book{width:119px;min-height:53px;padding:7px 9px}.library-book span{font-size:.94rem}.library-books{bottom:15px;left:-2%}}
+@media(max-width:520px){.orbit-art{min-height:310px}.orbit-core.logo-core{width:142px!important;height:142px!important;border-radius:24px!important}.premium-library{height:300px!important;min-height:285px}.mushaf-frame{height:245px;width:57%;border-radius:125px 125px 15px 15px;padding:6px}.library-book{width:100px;min-height:47px;padding:6px 7px}.library-book span{font-size:.79rem}.library-book small{font-size:.58rem}.library-books{left:-4%;bottom:12px;gap:6px}.mushaf-frame figcaption span{font-size:1.12rem}}
+@media(prefers-reduced-motion:reduce){.brand-orbit,.logo-core img,.mushaf-frame,.library-book,.library-orbit{animation:none!important}}
+
 </style>
 </head>
 <body>
 <a href="#main" class="skip">تخطَّ إلى المحتوى</a>
 <div id="bar" aria-hidden="true"></div>
-<div class="halftone" aria-hidden="true"></div>
-<div class="guides" aria-hidden="true"></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<g id="orn" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="100" cy="100" r="96"/><circle cx="100" cy="100" r="30"/><rect x="40" y="40" width="120" height="120"/><rect x="40" y="40" width="120" height="120" transform="rotate(45 100 100)"/><rect x="62" y="62" width="76" height="76"/></g>
+</defs></svg>
 
 <nav class="nav" aria-label="التنقل الرئيسي">
   <div class="wrap nav-in">
@@ -338,120 +591,157 @@ footer p{color:var(--fg-soft);font-size:.9rem}
       <a href="./sahihayn.html">الصحيحان</a>
       <a href="./about.html" aria-current="page">عن الموقع</a>
       <a href="./opinions.html">آراؤكم</a>
-      <div class="dropdown">
-        <button type="button" class="dropdown-trigger" aria-haspopup="true">أذكار المسلم <span class="caret">⌄</span></button>
-        <div class="dropdown-content">
-          <a href="./adhkar.html">الأذكار العامة</a>
-          <a href="./azkar-morning.html">أذكار الصباح</a>
-          <a href="./azkar-evening.html">أذكار المساء</a>
-          <a href="./azkar-sleep.html">أذكار النوم</a>
-        </div>
-      </div>
+      <div class="dropdown"><button type="button" class="dropdown-trigger" aria-haspopup="true">أذكار المسلم <span class="caret">⌄</span></button><div class="dropdown-content"><a href="./adhkar.html">الأذكار العامة</a><a href="./azkar-morning.html">أذكار الصباح</a><a href="./azkar-evening.html">أذكار المساء</a><a href="./azkar-sleep.html">أذكار النوم</a></div></div>
     </div>
-    <div class="tools">
-      <button class="ibtn" id="theme" type="button" aria-label="تبديل المظهر">◐</button>
-      <button class="ibtn" id="menu" type="button" aria-label="القائمة" aria-expanded="false">☰</button>
-    </div>
+    <div class="tools"><button class="ibtn" id="theme" type="button" aria-label="تبديل المظهر">◐</button><button class="ibtn" id="menu" type="button" aria-label="القائمة" aria-expanded="false">☰</button></div>
   </div>
 </nav>
 
-<header class="scene">
-  <div class="wrap scene-grid">
-    <div>
-      <h1 class="hero-title">زادٌ من الخير، وأثرٌ نرجو أن يبقى</h1>
-      <p class="hero-sub">حكاية بدأت من قلب طفل في السادسة عشرة: مساحة إسلامية مجانية تجمع الفائدة والبساطة، وتقرّب المسلم من دينه.</p>
-      <div class="cta">
-        <a class="btn-pill" href="#story">اقرأ الحكاية ←</a>
-        <a class="link-line" href="#offer">استكشف جميع الأقسام</a>
-      </div>
+<header class="hero">
+  <svg class="orn o1" viewBox="0 0 200 200" aria-hidden="true"><use href="#orn"/></svg>
+  <svg class="orn o2" viewBox="0 0 200 200" aria-hidden="true"><use href="#orn"/></svg>
+  <div class="wrap">
+    <p class="bism">بسم الله الرحمن الرحيم</p>
+    <h1>زادٌ من الخير، وأثرٌ نرجو أن يبقى</h1>
+    <p class="lead">حكاية بدأت من قلب طفل في السادسة عشرة: مساحة إسلامية مجانية تجمع الفائدة والبساطة، وتقرّب المسلم من دينه.</p>
+    <div class="cta">
+      <a class="btn" href="#story">اقرأ الحكاية <span aria-hidden="true">←</span></a>
+      <a class="ghost" href="#offer">استكشف جميع الأقسام</a>
     </div>
-    <div class="stage-visual" aria-hidden="true">
-      <div class="split-disc">
-        <div class="disc-half a"></div>
-        <div class="disc-half b"></div>
-        <img class="disc-logo" src="./logo-zad-almuslim.webp.png" alt="">
-      </div>
-    </div>
+    <div class="checks"><span>مجاني للجميع</span><span>مصادر إسلامية موثوقة</span><span>مشروع قابل للتطوير</span></div>
   </div>
 </header>
 
+<section class="film-scene scene-one" aria-label="رسالة زاد عبيدة">
+  <div class="film-noise" aria-hidden="true"></div>
+  <div class="film-inner wrap">
+    <div class="film-copy reveal-scene">
+      <span class="film-index">01 — THE BEGINNING</span>
+      <p class="film-overline">من فكرة… إلى أثر</p>
+      <h2>حين تتحوّل<br><i>النية إلى عمل</i></h2>
+      <p>كل مشروع عظيم يبدأ بخطوة، وكل أثر طيب قد يبدأ بفكرة صغيرة.</p>
+    </div>
+    <div class="orbit-art" aria-hidden="true">
+      <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="orbit orbit-c"></div>
+      <div class="orbit-core logo-core"><img src="./logo-zad-almuslim.webp.png" alt="الشعار الرسمي لمنصة زاد عبيدة" loading="eager"><span class="logo-halo"></span><span class="logo-caption">زاد عبيدة</span></div>
+      <span class="orbit-dot dot-a"></span><span class="orbit-dot dot-b"></span><span class="orbit-dot dot-c"></span>
+    </div>
+  </div>
+  <span class="scene-foot">ZAD OUBAIDA · A JOURNEY OF GOODNESS</span>
+</section>
+
 <main id="main" class="wrap" tabindex="-1">
 
-  <section id="story" class="scene" style="display:block">
-    <div class="founder-inline">
-      <div class="founder-cutout">
+  <section id="story">
+    <div class="head rv"><span class="chip">عن زاد عبيدة</span><h2>كيف بدأت الحكاية؟</h2><p>حكاية بدأت من قلب طفل في السادسة عشرة</p></div>
+
+    <div class="founder-showcase rv">
+      <div class="founder-frame">
         <img id="founderImg" src="./founder-photo.jpg" alt="صورة المؤسس السيد عبيدة قولال" loading="lazy">
-        <div class="founder-monogram" aria-hidden="true">
+        <div class="founder-fallback" aria-hidden="true">
           <span>ع</span>
           <small>السيد عبيدة قولال</small>
         </div>
       </div>
-      <div class="founder-copy">
-        <p class="founder-sub">مؤسس منصة زاد عبيدة الإسلامية</p>
-        <h2>السيد عبيدة قولال</h2>
+      <div class="founder-info">
+        <span class="founder-badge">✦ مؤسس المشروع</span>
+        <h3>السيد عبيدة قولال</h3>
+        <p class="founder-role">مؤسس منصة زاد عبيدة الإسلامية</p>
         <p>بدأ هذا المشروع بخطوة فردية صادقة ومجانية لتقريب القرآن الكريم والأذكار والأحاديث النبوية والعلم النافع إلى كل مسلم بأسلوب بسيط وهادئ، مع الحرص الدائم على الاعتماد على المصادر الإسلامية الموثوقة.</p>
+        <div class="founder-tags">
+          <span>📖 القرآن والأذكار</span>
+          <span>📜 السنة النبوية الموثوقة</span>
+          <span>🤍 مجاني لوجه الله</span>
+        </div>
       </div>
     </div>
 
-    <div class="story-columns">
-      <article class="story-block">
+    <div class="story">
+      <article class="card prose rv">
         <h3>البداية</h3>
         <p>لم أكن أملك شركة، ولا فريق عمل، ولا ميزانية ضخمة، ولم أكن خبيرًا في البرمجة أو التكنولوجيا... كنت مجرد طفل في السادسة عشرة من عمري، يحمل في قلبه فكرة، وفي عقله حلمًا، وفي نفسه رغبة صادقة في أن يترك أثرًا طيبًا.</p>
         <p>بدأت الحكاية عندما أصبحت ألاحظ شيئًا يتكرر أمامي؛ كثير من الناس يريدون معرفة أمور دينهم، لكنهم لا يعرفون من أين يبدأون. هناك من لا يعرف أذكار الصباح والمساء، ومن يبحث عن حديث فلا يعرف مدى صحته، ومن يريد قراءة القرآن لكنه لا يجد وسيلة بسيطة تجمع له ما يحتاجه. رأيت كيف يمكن لقلة المعرفة أن تجعل الإنسان بعيدًا عن أمور كان من الممكن أن يتعلمها بسهولة.</p>
         <p>لم أكن أقول إنني أفضل من أحد، فأنا نفسي ما زلت أتعلم، وما زلت أبحث وأسأل وأخطئ وأصحح. لكن سؤالًا ظل يرافقني:</p>
       </article>
-      <article class="story-block">
+      <article class="card prose rv">
         <h3>ولادة المشروع</h3>
         <p>ومن هنا بدأت الفكرة...</p>
         <p>فتحت حاسوبي، وبدأت أتعلم شيئًا لم أكن أعرف عنه الكثير: البرمجة وتصميم المواقع. واجهت صعوبات كثيرة، وأخطاء لم أفهمها، وأيامًا كنت أظن فيها أن المشروع لن يكتمل. لم يكن لدي فريق يساعدني، ولا إمكانيات كبيرة، لكنني كنت أعود في كل مرة وأحاول من جديد.</p>
-        <p>وهكذا وُلد مشروع «زاد عبيدة».</p>
+        <p>وهكذا وُلد مشروع <strong style="color:var(--gold)">«زاد عبيدة»</strong>.</p>
         <p>لم يكن الهدف إنشاء موقع آخر على الإنترنت، ولم تكن الغاية الشهرة أو جمع المتابعين، بل أردت إنشاء مساحة إسلامية مجانية تجمع بين الفائدة والبساطة، وتساعد المسلم على الاقتراب من دينه.</p>
       </article>
+      <blockquote class="quote full rv">لماذا لا أصنع مكانًا يجمع للمسلم ما يحتاجه من أمور دينه، بطريقة بسيطة ومنظمة ومجانية؟</blockquote>
     </div>
-
-    <p class="big-quote">لماذا لا أصنع مكانًا يجمع للمسلم ما يحتاجه من أمور دينه، بطريقة بسيطة ومنظمة ومجانية؟</p>
   </section>
 
-  <section id="offer" class="scene" style="display:block">
-    <h2 style="font-family:'Amiri',serif;font-size:clamp(2rem,4vw,3rem);margin-bottom:8px">ماذا أردت أن أقدم من خلال زاد عبيدة؟</h2>
-    <p style="color:var(--fg-soft)">جميع صفحات ومميزات الموقع في مكان واحد منظم ومجاني:</p>
-
-    <ul class="index-list">
-      <li><a href="./index.html"><b>الصفحة الرئيسية</b><span>مدخل شامل يجمع أهم الأقسام اليومية ومواقيت الصلاة.</span></a></li>
-      <li><a href="./quran.html"><b>القرآن الكريم</b><span>ليكون كتاب الله قريبًا من المسلم في يومه بتصفح مريح وواضح.</span></a></li>
-      <li><a href="./adhkar.html"><b>الأذكار العامة</b><span>مجموعة شاملة من الأذكار اليومية والمأثورة بوضوح وسهولة.</span></a></li>
-      <li><a href="./azkar-morning.html"><b>أذكار الصباح</b><span>أذكار الصباح كاملة مع عداد تفاعلي وميزة المواظبة.</span></a></li>
-      <li><a href="./azkar-evening.html"><b>أذكار المساء</b><span>أذكار المساء مرتبة بوضوح وسلاسة لتعين المسلم مساءً.</span></a></li>
-      <li><a href="./azkar-sleep.html"><b>أذكار النوم</b><span>أذكار ما قبل النوم وآدابه لتطمئن النفس قبل المبيت.</span></a></li>
-      <li><a href="./nawawi.html"><b>الأحاديث النبوية (الأربعون النووية)</b><span>جوامع الكلم من سنة رسول الله ﷺ من مصادر موثوقة.</span></a></li>
-      <li><a href="./sahihayn.html"><b>مختارات الصحيحين</b><span>أحاديث منتقاة من صحيحي البخاري ومسلم مع التخريج والفائدة.</span></a></li>
-      <li><a href="./duas.html"><b>الأدعية المأثورة</b><span>أدعية من القرآن الكريم والسنة النبوية لمختلف الأحوال.</span></a></li>
-      <li><a href="./articles.html"><b>المقالات الإسلامية</b><span>لنشر العلم والمعرفة والتذكير بأسلوب واضح ومبسط.</span></a></li>
-      <li><a href="./wird.html"><b>الورد اليومي</b><span>لمساعدة المستخدم على تنظيم عباداته ومتابعة إنجازه.</span></a></li>
-      <li><a href="./index.html#prayer"><b>مواقيت الصلاة</b><span>لمساعدة المسلم على المحافظة على صلاته في أوقاتها.</span></a></li>
-      <li><a href="./adhkar.html#my-adhkar"><b>أذكاري الخاصة</b><span>مساحة شخصية لحفظ الأذكار الخاصة والعودة إليها.</span></a></li>
-      <li><a href="./opinions.html"><b>آراؤكم واقتراحاتكم</b><span>مساحة مفتوحة لسماع ملاحظات الزوار وتطوير المنصة.</span></a></li>
-    </ul>
-
-    <p style="margin-top:22px;color:var(--fg-soft)">وما زال المشروع قابلًا للتطوير، فكل فكرة جديدة يمكن أن تجعل تجربة الزائر أفضل وأكثر فائدة.</p>
+  <section class="visual-interlude" aria-label="قيم زاد عبيدة">
+    <div class="interlude-backdrop" aria-hidden="true"></div>
+    <div class="interlude-content wrap">
+      <div class="floating-book premium-library" aria-label="مصحف وكتب إسلامية">
+        <div class="library-aura"></div>
+        <figure class="mushaf-frame">
+          <img src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&w=1200&q=88" alt="مصحف مفتوح في مشهد هادئ" loading="lazy">
+          <figcaption><span>القرآن الكريم</span><small>كتاب الله وهداية القلوب</small></figcaption>
+        </figure>
+        <div class="library-books">
+          <div class="library-book bukhari"><span>صحيح البخاري</span><small>الإمام البخاري</small></div>
+          <div class="library-book muslim"><span>صحيح مسلم</span><small>الإمام مسلم</small></div>
+          <div class="library-book riyad"><span>رياض الصالحين</span><small>الإمام النووي</small></div>
+        </div>
+        <span class="library-orbit orbit-gold"></span><span class="library-orbit orbit-mint"></span>
+      </div>
+      <div class="interlude-text reveal-scene">
+        <span class="film-index">02 — THE PURPOSE</span>
+        <h2>العلم النافع،<br><i>بأسلوب أقرب إليك</i></h2>
+        <p>قرآن، وذكر، وسنة، ومحتوى نافع… في مساحة واحدة صُممت لتكون بسيطة وهادئة.</p>
+        <a href="#offer" class="interlude-link">اكتشف ما يقدمه زاد عبيدة <span>↗</span></a>
+      </div>
+    </div>
   </section>
 
-  <section id="dream" class="finale">
-    <h2 style="font-family:'Amiri',serif;font-size:clamp(1.8rem,3.5vw,2.6rem);color:var(--accent);margin-bottom:14px">حلم أكبر من مجرد موقع</h2>
-    <p>أنا لا أدّعي أنني عالم أو طالب علم متخصص، ولا أريد أن أقدم نفسي على أنني صاحب علم واسع. أنا شاب مسلم ما زلت في بداية الطريق، أحاول أن أتعلم وأستفيد وأشارك ما أستطيع تقديمه، مع الحرص على الاعتماد على المصادر الإسلامية الموثوقة.</p>
-    <p>أؤمن أن نشر الخير لا يحتاج دائمًا إلى إمكانيات كبيرة، وأن الإنسان يستطيع أن يبدأ بما يملكه، مهما كان بسيطًا. قد يكون زاد عبيدة اليوم مجرد موقع إلكتروني، لكنه بالنسبة إليّ مشروع يحمل رسالة أتمنى أن تصل إلى أبعد مدى.</p>
-    <p class="big-quote" style="margin-inline:auto;text-align:center">رسالتي بسيطة: أن نجعل الوصول إلى الخير والعلم الشرعي أسهل، وأن نساهم في نشر الوعي الديني، وأن يكون هذا العمل سببًا في نفع الناس بإذن الله.</p>
-    <p style="margin-top:20px">وفي النهاية، لست صاحب هذه الحكاية لأقول إنني حققت إنجازًا عظيمًا، بل لأقول لكل شاب لديه فكرة نافعة: لا تنتظر أن تصبح كبيرًا، ولا تنتظر أن تمتلك كل الإمكانيات. ابدأ بما تستطيع، وتعلم في طريقك، واجعل نيتك صادقة. فربما تبدأ بخطوة صغيرة، ولا تعلم إلى أين يمكن أن تصل.</p>
+  <section id="offer">
+    <div class="head rv"><span class="chip">أقسام ومميزات المنصة</span><h2>ماذا أردت أن أقدم من خلال زاد عبيدة؟</h2><p>جميع صفحات ومميزات الموقع في مكان واحد منظم ومجاني:</p></div>
+    <div class="grid">
+      <a class="feat rv" href="./index.html"><div class="feat-top"><i aria-hidden="true">🏠</i><em>الواجهة</em></div><b>الصفحة الرئيسية</b><span>مدخل شامل يجمع أهم الأقسام اليومية ومواقيت الصلاة في واجهة هادئة.</span></a>
+      <a class="feat rv" href="./quran.html"><div class="feat-top"><i aria-hidden="true">📖</i><em>تلاوة</em></div><b>القرآن الكريم</b><span>ليكون كتاب الله قريبًا من المسلم في يومه بتصفح مريح وواضح.</span></a>
+      <a class="feat rv" href="./adhkar.html"><div class="feat-top"><i aria-hidden="true">📿</i><em>حصن المسلم</em></div><b>الأذكار العامة</b><span>مجموعة شاملة من الأذكار اليومية والمأثورة بتصميم يسهل القراءة والتسبيح.</span></a>
+      <a class="feat rv" href="./azkar-morning.html"><div class="feat-top"><i aria-hidden="true">🌅</i><em>بداية اليوم</em></div><b>أذكار الصباح</b><span>أذكار الصباح كاملة مع عداد تفاعلي وميزة المواظبة وتركيز النص.</span></a>
+      <a class="feat rv" href="./azkar-evening.html"><div class="feat-top"><i aria-hidden="true">🌇</i><em>ختام النهار</em></div><b>أذكار المساء</b><span>أذكار المساء مرتبة بوضوح وسلاسة لتعين المسلم على ذكر الله مساءً.</span></a>
+      <a class="feat rv" href="./azkar-sleep.html"><div class="feat-top"><i aria-hidden="true">🌙</i><em>السكينة</em></div><b>أذكار النوم</b><span>أذكار ما قبل النوم وآدابه لتطمئن النفس قبل المبيت.</span></a>
+      <a class="feat rv" href="./nawawi.html"><div class="feat-top"><i aria-hidden="true">📜</i><em>السنة</em></div><b>الأحاديث النبوية (الأربعون النووية)</b><span>للتعرف على جوامع الكلم من سنة رسول الله ﷺ من مصادر موثوقة.</span></a>
+      <a class="feat rv" href="./sahihayn.html"><div class="feat-top"><i aria-hidden="true">📚</i><em>أصح الكتب</em></div><b>مختارات الصحيحين</b><span>أحاديث منتقاة من صحيحي البخاري ومسلم مع بيان التخريج والفائدة.</span></a>
+      <a class="feat rv" href="./duas.html"><div class="feat-top"><i aria-hidden="true">🤲</i><em>مناجاة</em></div><b>الأدعية المأثورة</b><span>أدعية من القرآن الكريم والسنة النبوية لمختلف أحوال المسلم.</span></a>
+      <a class="feat rv" href="./articles.html"><div class="feat-top"><i aria-hidden="true">✍️</i><em>فوائد</em></div><b>المقالات الإسلامية</b><span>لنشر العلم والمعرفة والتذكير بأسلوب واضح ومبسط للجميع.</span></a>
+      <a class="feat rv" href="./wird.html"><div class="feat-top"><i aria-hidden="true">✅</i><em>متابعة</em></div><b>الورد اليومي</b><span>لمساعدة المستخدم على تنظيم عباداته اليومية ومتابعة إنجازه باستمرار.</span></a>
+      <a class="feat rv" href="./index.html#prayer"><div class="feat-top"><i aria-hidden="true">🕌</i><em>الصلوات</em></div><b>مواقيت الصلاة</b><span>لمساعدة المسلم على المحافظة على صلاته في أوقاتها بدقة.</span></a>
+      <a class="feat rv" href="./adhkar.html#my-adhkar"><div class="feat-top"><i aria-hidden="true">🔖</i><em>مساحتك</em></div><b>أذكاري الخاصة</b><span>مساحة شخصية يستطيع فيها المستخدم حفظ أذكاره الخاصة والعودة إليها.</span></a>
+      <a class="feat rv" href="./opinions.html"><div class="feat-top"><i aria-hidden="true">💬</i><em>مشاركتكم</em></div><b>آراؤكم واقتراحاتكم</b><span>مساحة مفتوحة لسماع ملاحظات الزوار وتطوير المنصة بأفكارهم النافعة.</span></a>
+    </div>
+    <p class="rv" style="margin-top:20px;color:var(--muted)">وما زال المشروع قابلًا للتطوير، فكل فكرة جديدة يمكن أن تجعل تجربة الزائر أفضل وأكثر فائدة.</p>
+  </section>
 
-    <div class="finale-word">زاد عبيدة.</div>
-    <p class="dua-line">زادٌ من الخير، وأثرٌ نرجو أن يبقى.</p>
-    <p>نسأل الله الإخلاص والقبول، وأن يجعل هذا المشروع علمًا نافعًا وصدقة جارية، وأن ينفع به كل من زاره أو استفاد منه.</p>
+  <section id="dream">
+    <div class="head rv"><span class="chip">الرسالة والرؤية</span><h2>حلم أكبر من مجرد موقع</h2></div>
+    <div class="card prose rv" style="max-width:none">
+      <div class="prose">
+        <p>أنا لا أدّعي أنني عالم أو طالب علم متخصص، ولا أريد أن أقدم نفسي على أنني صاحب علم واسع. أنا شاب مسلم ما زلت في بداية الطريق، أحاول أن أتعلم وأستفيد وأشارك ما أستطيع تقديمه، مع الحرص على الاعتماد على المصادر الإسلامية الموثوقة.</p>
+        <p>أؤمن أن نشر الخير لا يحتاج دائمًا إلى إمكانيات كبيرة، وأن الإنسان يستطيع أن يبدأ بما يملكه، مهما كان بسيطًا.</p>
+        <p>قد يكون زاد عبيدة اليوم مجرد موقع إلكتروني، لكنه بالنسبة إليّ مشروع يحمل رسالة أتمنى أن تصل إلى أبعد مدى.</p>
+      </div>
+      <blockquote class="quote">رسالتي بسيطة: أن نجعل الوصول إلى الخير والعلم الشرعي أسهل، وأن نساهم في نشر الوعي الديني، وأن يكون هذا العمل سببًا في نفع الناس بإذن الله.</blockquote>
+      <div class="prose" style="margin-top:22px">
+        <p>وفي النهاية، لست صاحب هذه الحكاية لأقول إنني حققت إنجازًا عظيمًا، بل لأقول لكل شاب لديه فكرة نافعة: لا تنتظر أن تصبح كبيرًا، ولا تنتظر أن تمتلك كل الإمكانيات. ابدأ بما تستطيع، وتعلم في طريقك، واجعل نيتك صادقة.</p>
+        <p>فربما تبدأ بخطوة صغيرة، ولا تعلم إلى أين يمكن أن تصل.</p>
+      </div>
+      <p class="dua"><strong>زاد عبيدة | زادٌ من الخير، وأثرٌ نرجو أن يبقى.</strong><span>نسأل الله الإخلاص والقبول، وأن يجعل هذا المشروع علمًا نافعًا وصدقة جارية، وأن ينفع به كل من زاره أو استفاد منه.</span></p>
+    </div>
   </section>
 
   <section id="contact">
-    <div class="contact-row">
-      <div class="contact-item"><span>📸</span><span>إنستغرام:</span><a dir="ltr" href="https://www.instagram.com/zad_oubaida/" target="_blank" rel="noopener noreferrer">@zad_oubaida</a></div>
-      <div class="contact-item"><span>✉️</span><span>البريد:</span><a dir="ltr" href="mailto:zadoubaida@gmail.com">zadoubaida@gmail.com</a><button class="cp" type="button" data-copy="zadoubaida@gmail.com">نسخ</button></div>
+    <div class="head rv"><span class="chip">ابقَ على تواصل</span><h2>تواصل معنا</h2><p>يمكنك التواصل معنا مباشرة عبر:</p></div>
+    <div class="contact">
+      <div class="c rv"><i aria-hidden="true">📸</i><div><small>إنستغرام</small><a dir="ltr" href="https://www.instagram.com/zad_oubaida/" target="_blank" rel="noopener noreferrer">@zad_oubaida</a></div></div>
+      <div class="c rv"><i aria-hidden="true">✉️</i><div><small>البريد الإلكتروني</small><a dir="ltr" href="mailto:zadoubaida@gmail.com">zadoubaida@gmail.com</a></div><button class="cp" type="button" data-copy="zadoubaida@gmail.com">نسخ</button></div>
     </div>
   </section>
 </main>
@@ -474,20 +764,26 @@ footer p{color:var(--fg-soft);font-size:.9rem}
 <script>
 (function(){
   var d=document,root=d.documentElement,$=function(i){return d.getElementById(i)};
-  $('year').textContent=new Date().getFullYear();
+  root.classList.add('js');
+  d.getElementById('year').textContent=new Date().getFullYear();
 
+  /* محاولة ذكية لتحميل صورة المؤسس بأكثر من امتداد شائع وإخفاء أي أيقونة مكسورة عند عدم توفرها */
   var fImg=$('founderImg');
   if(fImg){
     var candidates=['./founder-photo.jpg','./founder-photo.png','./founder-photo.webp','./founder-photo.jpeg','./assets/founder-photo.jpg','./images/founder-photo.jpg'];
     var idx=0;
     fImg.onerror=function(){
       idx++;
-      if(idx<candidates.length){fImg.src=candidates[idx];}
-      else{fImg.style.display='none';}
+      if(idx<candidates.length){
+        fImg.src=candidates[idx];
+      }else{
+        fImg.style.display='none';
+      }
     };
   }
 
-  function meta(){var m=d.querySelector('meta[name=theme-color]');if(m)m.content=root.getAttribute('data-theme')==='light'?'#1b82e0':'#0c6ac4'}
+  /* الثيم */
+  function meta(){var m=d.querySelector('meta[name=theme-color]');if(m)m.content=root.getAttribute('data-theme')==='light'?'#f5f8f4':'#081410'}
   meta();
   $('theme').onclick=function(){
     var n=root.getAttribute('data-theme')==='light'?'dark':'light';
@@ -495,23 +791,52 @@ footer p{color:var(--fg-soft);font-size:.9rem}
     try{localStorage.setItem('theme',n)}catch(e){}
   };
 
+  /* قائمة الجوال */
   var mb=$('menu'),ln=$('links');
   function close(){ln.classList.remove('open');mb.setAttribute('aria-expanded','false')}
   mb.onclick=function(){var o=ln.classList.toggle('open');mb.setAttribute('aria-expanded',o)};
   ln.addEventListener('click',function(e){if(e.target.tagName==='A')close()});
   d.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
 
+  /* شريط التقدم وزر الأعلى */
   var bar=$('bar'),top=$('top');
   function sc(){
     var h=root.scrollHeight-innerHeight,y=scrollY;
-    var p=h>0?Math.min(1,Math.max(0,y/h)):0;
-    bar.style.transform='scaleX('+p+')';
-    root.style.setProperty('--p',p.toFixed(4));
+    bar.style.transform='scaleX('+(h>0?y/h:0)+')';
     top.classList.toggle('on',y>600);
   }
   addEventListener('scroll',sc,{passive:true});sc();
   top.onclick=function(){scrollTo({top:0})};
 
+  /* الظهور عند التمرير */
+  var els=d.querySelectorAll('.rv');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+    els.forEach(function(el){io.observe(el)});
+  }else els.forEach(function(el){el.classList.add('in')});
+
+  /* Cinematic scroll reveals + gentle 3D card tilt (desktop only) */
+  var scenes=d.querySelectorAll('.reveal-scene');
+  if('IntersectionObserver' in window){
+    var sceneObserver=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){entry.target.classList.add('scene-in');sceneObserver.unobserve(entry.target)}
+      });
+    },{threshold:.16});
+    scenes.forEach(function(el){sceneObserver.observe(el)});
+  }else scenes.forEach(function(el){el.classList.add('scene-in')});
+
+  if(window.matchMedia('(hover:hover) and (pointer:fine)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    d.querySelectorAll('#offer .feat').forEach(function(card){
+      card.addEventListener('pointermove',function(e){
+        var r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+        card.style.transform='perspective(850px) rotateX('+((.5-y)*9)+'deg) rotateY('+((x-.5)*11)+'deg) translateY(-7px)';
+      });
+      card.addEventListener('pointerleave',function(){card.style.transform=''});
+    });
+  }
+
+  /* نسخ البريد */
   var t=$('toast'),tm;
   function toast(s){t.textContent=s;t.classList.add('on');clearTimeout(tm);tm=setTimeout(function(){t.classList.remove('on')},2000)}
   d.querySelectorAll('[data-copy]').forEach(function(b){

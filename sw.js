@@ -390,7 +390,7 @@ self.addEventListener('fetch', event => {
   }
 
   /* بيانات القرآن: تُخزّن مسبقًا في STATIC_CACHE وتُقدّم منه دون اتصال */
-  if (/\\/quran\\.json$/.test(url.pathname)) {
+  if (url.pathname.endsWith('/quran.json')) {
     event.respondWith(cacheFirst(event, STATIC_CACHE));
     return;
   }

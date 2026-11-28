@@ -531,6 +531,42 @@ footer p{color:var(--muted);font-size:.92rem;line-height:1.9}
  .logo-core,.logo-core img,.quran-photo-wrap,.heritage-book,.film-scene::before{animation:none!important}
 }
 
+
+/* ZAD OUBAIDA — SIGNATURE VISUAL EDITION */
+.orbit-art{min-height:530px;perspective:1300px}
+.orbit-core.logo-core{width:clamp(205px,24vw,290px);height:clamp(205px,24vw,290px);border-radius:38px!important;display:flex;flex-direction:column;gap:10px;background:linear-gradient(145deg,#123d30,#071c16 72%)!important;border:1px solid rgba(232,198,126,.9)!important;box-shadow:0 35px 90px rgba(0,0,0,.55),0 0 75px rgba(31,145,116,.24),inset 0 0 0 8px rgba(231,199,126,.07)!important;transform-style:preserve-3d;animation:signatureLogo 7s ease-in-out infinite!important;overflow:visible!important}
+.orbit-core.logo-core::before{inset:10px!important;border-radius:29px!important;border-color:rgba(231,199,126,.35)!important}
+.logo-core img{width:76%;height:76%;object-fit:contain;position:relative;z-index:2;filter:drop-shadow(0 14px 20px rgba(0,0,0,.42));animation:logoBreath 5s ease-in-out infinite}
+.logo-caption{font:700 1.2rem 'Amiri',serif;color:#f2d99d;letter-spacing:.06em}
+.logo-halo{position:absolute;inset:-18px;border:1px solid rgba(231,199,126,.32);border-radius:48px;box-shadow:0 0 55px rgba(227,173,63,.1);pointer-events:none}
+@keyframes signatureLogo{0%,100%{transform:translateY(0) rotateY(-12deg) rotateX(7deg)}50%{transform:translateY(-16px) rotateY(12deg) rotateX(-5deg)}}
+@keyframes logoBreath{0%,100%{scale:1}50%{scale:1.045}}
+.premium-library{height:470px!important;min-height:430px;display:flex!important;align-items:center;justify-content:center;perspective:1400px;isolation:isolate}
+.library-aura{position:absolute;width:75%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(31,145,116,.26),rgba(227,173,63,.08) 42%,transparent 70%);filter:blur(12px)}
+.mushaf-frame{position:relative;z-index:2;width:min(58%,330px);height:390px;margin:0;overflow:hidden;border-radius:190px 190px 22px 22px;padding:9px;border:1px solid rgba(232,198,126,.9);background:linear-gradient(145deg,#e5c98d,#76572b 28%,#102f25 65%,#061711);box-shadow:0 35px 75px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.18);transform:rotateY(-12deg) rotateZ(-3deg);animation:mushafFloat 7s ease-in-out infinite}
+.mushaf-frame::before{content:"";position:absolute;inset:5px;border:1px solid rgba(255,236,187,.52);border-radius:185px 185px 17px 17px;z-index:3;pointer-events:none}
+.mushaf-frame img{width:100%;height:100%;object-fit:cover;display:block;border-radius:180px 180px 15px 15px;filter:saturate(.82) contrast(1.08)}
+.mushaf-frame figcaption{position:absolute;z-index:4;bottom:10px;right:10px;left:10px;padding:35px 12px 14px;text-align:center;color:#fff;background:linear-gradient(transparent,rgba(3,19,14,.94));display:flex;flex-direction:column;gap:3px}
+.mushaf-frame figcaption span{font:700 1.45rem 'Amiri',serif;color:#f4d99b}.mushaf-frame figcaption small{font-size:.72rem;color:#e6e0d0}
+.library-books{position:absolute;z-index:4;left:-1%;bottom:18px;display:flex;flex-direction:column;gap:9px;transform:perspective(900px) rotateY(18deg) rotateZ(-7deg)}
+.library-book{width:156px;min-height:62px;padding:9px 12px;display:flex;flex-direction:column;justify-content:center;border:1px solid rgba(244,218,164,.8);border-right:8px solid rgba(0,0,0,.28);border-radius:4px 9px 9px 4px;color:#fff5dc;box-shadow:10px 13px 25px rgba(0,0,0,.4),inset 0 0 0 3px rgba(255,255,255,.07);transform-style:preserve-3d;animation:libraryDrift 6s ease-in-out infinite}
+.library-book span{font:700 1.15rem 'Amiri',serif}.library-book small{font-size:.67rem;opacity:.8}
+.library-book.bukhari{background:linear-gradient(125deg,#a17b40,#533a1c)}.library-book.muslim{background:linear-gradient(125deg,#197457,#073a2c);animation-delay:-2s}.library-book.riyad{background:linear-gradient(125deg,#345e79,#172e42);animation-delay:-4s}
+.library-orbit{position:absolute;z-index:1;width:92%;height:44%;border:1px solid rgba(231,199,126,.4);border-radius:50%;pointer-events:none}
+.orbit-gold{transform:rotateX(66deg) rotateZ(22deg);animation:libraryOrbit 20s linear infinite}.orbit-mint{border-color:rgba(155,232,201,.35);transform:rotateY(64deg) rotateZ(-28deg);animation:libraryOrbit 26s linear infinite reverse}
+@keyframes mushafFloat{0%,100%{transform:translateY(0) rotateY(-12deg) rotateZ(-3deg)}50%{transform:translateY(-14px) rotateY(9deg) rotateZ(2deg)}}
+@keyframes libraryDrift{0%,100%{translate:0 0;rotate:0deg}50%{translate:0 -9px;rotate:1.5deg}}
+@keyframes libraryOrbit{to{rotate:360deg}}
+#story .founder-showcase{border:1px solid rgba(227,173,63,.5);background:radial-gradient(ellipse at 5% 10%,rgba(31,145,116,.15),transparent 40%),linear-gradient(135deg,var(--card2),var(--card));box-shadow:0 24px 65px rgba(0,0,0,.22)}
+.founder-frame{padding:8px!important;border-radius:26px!important;background:linear-gradient(135deg,#e3ad3f,#145c46,#e3ad3f)!important;box-shadow:0 22px 55px rgba(0,0,0,.4)!important}
+.founder-frame img{border-radius:19px;object-fit:cover}
+#offer .feat{border:1px solid color-mix(in srgb,var(--gold) 35%,var(--line));background:linear-gradient(145deg,var(--card),color-mix(in srgb,var(--card2) 65%,var(--card)));box-shadow:0 12px 30px rgba(0,0,0,.1);transform-style:preserve-3d;will-change:transform}
+#offer .feat::before{content:"";position:absolute;inset:7px;border:1px solid color-mix(in srgb,var(--gold) 18%,transparent);border-radius:calc(var(--r) - 6px);pointer-events:none}
+#offer .feat:hover{box-shadow:0 25px 48px rgba(0,0,0,.25),0 0 0 1px rgba(227,173,63,.24)}
+@media(max-width:860px){.orbit-art{min-height:370px}.orbit-core.logo-core{width:170px!important;height:170px!important;border-radius:28px!important}.premium-library{height:355px!important;min-height:335px}.mushaf-frame{height:290px;width:56%;border-radius:145px 145px 17px 17px}.library-book{width:119px;min-height:53px;padding:7px 9px}.library-book span{font-size:.94rem}.library-books{bottom:15px;left:-2%}}
+@media(max-width:520px){.orbit-art{min-height:310px}.orbit-core.logo-core{width:142px!important;height:142px!important;border-radius:24px!important}.premium-library{height:300px!important;min-height:285px}.mushaf-frame{height:245px;width:57%;border-radius:125px 125px 15px 15px;padding:6px}.library-book{width:100px;min-height:47px;padding:6px 7px}.library-book span{font-size:.79rem}.library-book small{font-size:.58rem}.library-books{left:-4%;bottom:12px;gap:6px}.mushaf-frame figcaption span{font-size:1.12rem}}
+@media(prefers-reduced-motion:reduce){.brand-orbit,.logo-core img,.mushaf-frame,.library-book,.library-orbit{animation:none!important}}
+
 </style>
 </head>
 <body>
@@ -587,7 +623,7 @@ footer p{color:var(--muted);font-size:.92rem;line-height:1.9}
     </div>
     <div class="orbit-art" aria-hidden="true">
       <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="orbit orbit-c"></div>
-      <div class="orbit-core logo-core"><img src="./logo-zad-almuslim.webp.png" alt="شعار زاد عبيدة" loading="eager"><span class="logo-halo"></span></div>
+      <div class="orbit-core logo-core"><img src="./logo-zad-almuslim.webp.png" alt="الشعار الرسمي لمنصة زاد عبيدة" loading="eager"><span class="logo-halo"></span><span class="logo-caption">زاد عبيدة</span></div>
       <span class="orbit-dot dot-a"></span><span class="orbit-dot dot-b"></span><span class="orbit-dot dot-c"></span>
     </div>
   </div>
@@ -641,15 +677,19 @@ footer p{color:var(--muted);font-size:.92rem;line-height:1.9}
   <section class="visual-interlude" aria-label="قيم زاد عبيدة">
     <div class="interlude-backdrop" aria-hidden="true"></div>
     <div class="interlude-content wrap">
-      <div class="floating-book book-gallery" aria-label="مصحف وكتب من التراث الإسلامي">
-        <div class="book-shadow"></div>
-        <div class="quran-photo-wrap">
-          <img class="quran-photo" src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&w=1100&q=85" alt="مصحف مفتوح للقراءة" loading="lazy">
-          <span class="photo-vignette"></span>
-          <span class="photo-label">القرآن الكريم · نور وهداية</span>
+      <div class="floating-book premium-library" aria-label="مصحف وكتب إسلامية">
+        <div class="library-aura"></div>
+        <figure class="mushaf-frame">
+          <img src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&w=1200&q=88" alt="مصحف مفتوح في مشهد هادئ" loading="lazy">
+          <figcaption><span>القرآن الكريم</span><small>كتاب الله وهداية القلوب</small></figcaption>
+        </figure>
+        <div class="library-books">
+          <div class="library-book bukhari"><span>صحيح البخاري</span><small>الإمام البخاري</small></div>
+          <div class="library-book muslim"><span>صحيح مسلم</span><small>الإمام مسلم</small></div>
+          <div class="library-book riyad"><span>رياض الصالحين</span><small>الإمام النووي</small></div>
         </div>
-        <div class="heritage-stack" aria-label="كتب إسلامية">
-          <div class="heritage-book book-bukhari"><span>صحيح البخاري</span><small>الإمام البخاري</small></div>
+        <span class="library-orbit orbit-gold"></span><span class="library-orbit orbit-mint"></span>
+      </div>
           <div class="heritage-book book-muslim"><span>صحيح مسلم</span><small>الإمام مسلم</small></div>
           <div class="heritage-book book-nawawi"><span>رياض الصالحين</span><small>الإمام النووي</small></div>
         </div>

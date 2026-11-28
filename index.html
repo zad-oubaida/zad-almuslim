@@ -331,7 +331,8 @@ var $=function(s){return document.querySelector(s)};
 var ls={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}},del:function(k){try{localStorage.removeItem(k)}catch(e){}}};
 var tt;function toast(m){var t=$('#ts');t.textContent=m;t.classList.add('s');clearTimeout(tt);tt=setTimeout(function(){t.classList.remove('s')},2600)}
 var p2=function(n){return(n<10?'0':'')+n};
-function ds(){var d=new Date();return p2(d.getDate())+'-'+p2(d.getMonth()+1)+'-'+d.getFullYear()}
+function prayerDate(){var p=new Intl.DateTimeFormat('en-GB',{timeZone:'Africa/Algiers',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date()),v={};p.forEach(function(x){if(x.type==='year'||x.type==='month'||x.type==='day')v[x.type]=Number(x.value)});return new Date(v.year,v.month-1,v.day)}
+function ds(){var d=prayerDate();return p2(d.getDate())+'-'+p2(d.getMonth()+1)+'-'+d.getFullYear()}
 function day(){var n=new Date();return Math.floor((n.getTime()-n.getTimezoneOffset()*6e4)/864e5)}
 function gj(u,ms){var c=window.AbortController?new AbortController():null,t=setTimeout(function(){c&&c.abort()},ms||10000);return fetch(u,c?{signal:c.signal}:{}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){clearTimeout(t);return j},function(e){clearTimeout(t);throw e})}
 $('#yr').textContent=new Date().getFullYear();
@@ -362,7 +363,7 @@ function f12(s){var m=/(\d{1,2}):(\d{2})/.exec(s);if(!m)return'--';var h=+m[1];r
 function nm(k){return N.filter(function(n){return n[0]===k})[0][1]}
 function jul(y,m,d){if(m<=2){y-=1;m+=12}var A=Math.floor(y/100),B=2-A+Math.floor(A/4);return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+d+B-1524.5}
 function est(lat,lng,tz,D){
-D=D||new Date();
+D=D||prayerDate();
 var R=Math.PI/180,jd=jul(D.getFullYear(),D.getMonth()+1,D.getDate())-lng/360,
 sn=function(x){return Math.sin(x*R)},cs=function(x){return Math.cos(x*R)},tn=function(x){return Math.tan(x*R)},
 fa=function(a){a-=360*Math.floor(a/360);return a},fh=function(h){h-=24*Math.floor(h/24);return h};
@@ -371,7 +372,7 @@ function mid(t){return fh(12-sp(jd+t).eq)}
 function hour(alt,t,morning){var dec=sp(jd+t).dec,v=(sn(alt)-sn(dec)*sn(lat))/(cs(dec)*cs(lat));v=Math.max(-1,Math.min(1,v));var x=Math.acos(v)/R/15;return mid(t)+(morning?-x:x)}
 function asr(t){var dec=sp(jd+t).dec,alt=Math.atan(1/(1+tn(Math.abs(lat-dec))))/R;return hour(alt,t,false)}
 var a=tz-lng/15,p2=function(n){return(n<10?'0':'')+n},hm=function(h){h=fh(h+a+.5/60);var H=Math.floor(h);return p2(H)+':'+p2(Math.floor((h-H)*60))};
-return{Fajr:hm(hour(-18,5/24,true)),Sunrise:hm(hour(-.833,6/24,true)),Dhuhr:hm(mid(.5)),Asr:hm(asr(13/24)),Maghrib:hm(hour(-.833,18/24,false)),Isha:hm(hour(-17,18/24,false))}
+return{Fajr:hm(hour(-18,5/24,true)),Sunrise:hm(hour(-.833,6/24,true)),Dhuhr:hm(mid(.5)),Asr:hm(asr(13/24)),Maghrib:hm(hour(-.833,18/24,false)+3/60),Isha:hm(hour(-17,18/24,false))}
 }
 function draw(){pt.textContent='';N.forEach(function(n){var li=document.createElement('li'),a=document.createElement('span'),b=document.createElement('b'),t=document.createElement('i');li.dataset.k=n[0];a.textContent=n[1];t.className='tag';t.textContent='القادمة';a.appendChild(t);b.textContent=f12(S.t[n[0]]);li.appendChild(a);li.appendChild(b);pt.appendChild(li)})}
 function tick(){if(!S)return;
@@ -451,12 +452,12 @@ var ALGERIAN_CITIES=[
 var cityList=$('#algeriaCities');
 ALGERIAN_CITIES.forEach(function(x){var o=document.createElement('option');o.value=x[0];cityList.appendChild(o)});
 function offlineLoad(la,lo,label,key){var d={t:est(la,lo,1),tz:'Africa/Algiers',date:ds()};reload=function(){offlineLoad(la,lo,label,key)};use(d,label+' · حساب محلي تقريبي');ls.set('zad_prayer_location',JSON.stringify({lat:la,lon:lo,label:label,key:key}));}
-function byCity(name){var q=String(name||'').trim().replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/\s+/g,' ');var city=ALGERIAN_CITIES.filter(function(x){var n=x[0].replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي');return n===q})[0];if(!city){toast('لم نعثر على المدينة في القائمة المحلية. جرّب تحديد موقعك بدقة.');return}ls.set('zad_city',city[0]);ls.del('zad_geo');offlineLoad(city[1],city[2],city[0],'city:'+city[0]);}
-function byGeo(la,lo){la=Number(la);lo=Number(lo);if(!isFinite(la)||!isFinite(lo)||Math.abs(la)>90||Math.abs(lo)>180)return toast('تعذّر قراءة إحداثيات الموقع');ls.set('zad_geo',la.toFixed(6)+','+lo.toFixed(6));ls.del('zad_city');offlineLoad(la,lo,'موقعك الحالي','geo:'+la.toFixed(6)+','+lo.toFixed(6));}
+function byCity(name,manual){var q=String(name||'').trim().replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/\s+/g,' ');var city=ALGERIAN_CITIES.filter(function(x){var n=x[0].replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي');return n===q})[0];if(!city){toast('لم نعثر على المدينة في القائمة المحلية. جرّب تحديد موقعك بدقة.');return}ls.set('zad_city',city[0]);ls.del('zad_geo');if(manual)ls.set('zad_location_mode','manual');offlineLoad(city[1],city[2],city[0],'city:'+city[0]);}
+function byGeo(la,lo){la=Number(la);lo=Number(lo);if(!isFinite(la)||!isFinite(lo)||Math.abs(la)>90||Math.abs(lo)>180)return toast('تعذّر قراءة إحداثيات الموقع');ls.set('zad_geo',la.toFixed(6)+','+lo.toFixed(6));ls.del('zad_city');ls.set('zad_location_mode','auto');offlineLoad(la,lo,'موقعك الحالي','geo:'+la.toFixed(6)+','+lo.toFixed(6));}
 $('#locBtn').onclick=function(){if(!navigator.geolocation)return toast('متصفحك لا يدعم تحديد الموقع');toast('جارٍ طلب موقعك بدقة…');navigator.geolocation.getCurrentPosition(function(p){byGeo(p.coords.latitude,p.coords.longitude);toast('تم تحديد موقعك وحساب المواقيت على جهازك')},function(e){toast(e&&e.code===1?'اسمح للموقع بالوصول إلى موقعك من إعدادات المتصفح':'تعذّر تحديد الموقع. ابحث عن مدينتك يدويًا')},{enableHighAccuracy:true,timeout:20000,maximumAge:0});};
-function searchCity(){var v=$('#citySearch').value.trim();if(!v)return toast('اكتب اسم المدينة أولًا');byCity(v)}
+function searchCity(){var v=$('#citySearch').value.trim();if(!v)return toast('اكتب اسم المدينة أولًا');byCity(v,true)}
 $('#citySearchBtn').onclick=searchCity;$('#citySearch').addEventListener('keydown',function(e){if(e.key==='Enter')searchCity()});
-(function(){var g=ls.get('zad_geo'),c=ls.get('zad_city');if(g&&/^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/.test(g)){g=g.split(',');byGeo(g[0],g[1])}else if(c){byCity(c)}else{byCity('الجزائر العاصمة')}})();
+(function(){var g=ls.get('zad_geo'),c=ls.get('zad_city'),mode=ls.get('zad_location_mode');if(g&&/^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/.test(g)){g=g.split(',');byGeo(g[0],g[1])}else if(mode==='manual'&&c){byCity(c)}else if(navigator.geolocation){toast('جارٍ تحديد موقعك تلقائيًا…');navigator.geolocation.getCurrentPosition(function(p){byGeo(p.coords.latitude,p.coords.longitude);toast('تم تحديد موقعك وحساب مواقيت الصلاة')},function(){byCity('الجزائر العاصمة');toast('تعذّر تحديد الموقع؛ عُرضت مواقيت الجزائر العاصمة. يمكنك المحاولة مجددًا من زر تحديد الموقع.')},{enableHighAccuracy:true,timeout:15000,maximumAge:300000})}else{byCity('الجزائر العاصمة');toast('متصفحك لا يدعم تحديد الموقع؛ عُرضت مواقيت الجزائر العاصمة.')}})();
 window.addEventListener('online',function(){reload&&reload()});
 
 

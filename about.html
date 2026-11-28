@@ -458,6 +458,79 @@ footer p{color:var(--muted);font-size:.92rem;line-height:1.9}
  #offer .feat,#offer .feat i{transition:none}
 }
 
+
+/* ADVANCED CINEMATIC PASS — logo, Qur'an photography and heritage library */
+.logo-core{
+  width:clamp(190px,22vw,270px);height:clamp(190px,22vw,270px);
+  border-radius:34px!important;background:linear-gradient(145deg,rgba(12,44,34,.92),rgba(4,19,15,.98))!important;
+  border:1px solid rgba(231,199,126,.85)!important;overflow:visible!important;
+  transform:translateZ(70px) rotateY(-12deg) rotateX(7deg);
+  box-shadow:0 35px 90px rgba(0,0,0,.5),0 0 65px rgba(53,178,134,.2)!important;
+  animation:logoLevitate 5.5s ease-in-out infinite!important;
+}
+.logo-core img{
+  display:block;width:76%;height:76%;object-fit:contain;position:relative;z-index:2;
+  filter:drop-shadow(0 14px 22px rgba(0,0,0,.35));
+  animation:logoBreath 4s ease-in-out infinite;
+}
+.logo-halo{position:absolute;inset:-15px;border:1px solid rgba(231,199,126,.55);border-radius:42px;transform:translateZ(-20px);box-shadow:0 0 45px rgba(231,199,126,.12),inset 0 0 28px rgba(53,178,134,.08)}
+@keyframes logoLevitate{0%,100%{translate:0 0;rotate:-2deg}50%{translate:0 -17px;rotate:2deg}}
+@keyframes logoBreath{0%,100%{scale:1}50%{scale:1.045}}
+.book-gallery{height:480px!important;min-height:420px;display:flex!important;align-items:center;justify-content:center;gap:20px;isolation:isolate}
+.quran-photo-wrap{
+  position:relative;width:min(56%,320px);height:390px;border-radius:170px 170px 22px 22px;
+  overflow:hidden;border:1px solid rgba(231,199,126,.72);
+  transform:perspective(1000px) rotateY(-13deg) rotateX(4deg) rotateZ(-3deg);
+  box-shadow:0 35px 80px rgba(0,0,0,.45),0 0 45px rgba(27,139,101,.16);
+  animation:quranFloat 7s ease-in-out infinite;
+}
+.quran-photo{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.82) contrast(1.08)}
+.photo-vignette{position:absolute;inset:0;background:linear-gradient(0deg,rgba(3,18,13,.86),transparent 48%),linear-gradient(120deg,rgba(9,78,57,.18),transparent 60%)}
+.photo-label{position:absolute;bottom:18px;right:12px;left:12px;text-align:center;color:#f2d99d;font:700 1.05rem 'Amiri',serif;text-shadow:0 2px 10px #000}
+.heritage-stack{position:absolute;left:0;bottom:38px;display:grid;gap:10px;z-index:3;transform:perspective(900px) rotateY(18deg) rotateZ(-7deg)}
+.heritage-book{
+  width:150px;min-height:67px;padding:12px 13px;display:flex;flex-direction:column;justify-content:center;
+  border:1px solid rgba(235,203,137,.72);border-right:7px solid rgba(0,0,0,.22);
+  border-radius:5px 10px 10px 5px;color:#f8edcf;
+  box-shadow:12px 14px 24px rgba(0,0,0,.35),inset 0 0 0 3px rgba(255,255,255,.07);
+  transform-style:preserve-3d;animation:heritageFloat 6s ease-in-out infinite;
+}
+.heritage-book span{font:700 1.1rem 'Amiri',serif}.heritage-book small{font-size:.68rem;opacity:.78}
+.book-bukhari{background:linear-gradient(135deg,#98713a,#49341b)}
+.book-muslim{background:linear-gradient(135deg,#176d55,#07382c);animation-delay:-2s}
+.book-nawawi{background:linear-gradient(135deg,#315f78,#172f43);animation-delay:-4s}
+@keyframes quranFloat{0%,100%{transform:perspective(1000px) rotateY(-13deg) rotateX(4deg) rotateZ(-3deg) translateY(0)}50%{transform:perspective(1000px) rotateY(9deg) rotateX(-3deg) rotateZ(2deg) translateY(-13px)}}
+@keyframes heritageFloat{0%,100%{translate:0 0;rotate:0deg}50%{translate:0 -8px;rotate:2deg}}
+.film-scene{overflow:hidden;isolation:isolate}
+.film-scene::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(ellipse at 72% 45%,rgba(31,145,116,.18),transparent 42%),linear-gradient(115deg,transparent 25%,rgba(226,190,111,.045) 50%,transparent 72%);background-size:100% 100%,220% 100%;animation:cinemaLight 12s ease-in-out infinite}
+@keyframes cinemaLight{0%,100%{background-position:center,-120% 0}50%{background-position:center,120% 0}}
+.film-index{letter-spacing:.22em}
+.film-copy h2{ text-shadow:0 12px 35px rgba(0,0,0,.35)}
+#offer .feat{position:relative;isolation:isolate}
+#offer .feat::after{content:"";position:absolute;inset:-1px;z-index:-1;opacity:0;background:linear-gradient(115deg,transparent 25%,rgba(232,199,126,.16) 48%,transparent 70%);background-size:220% 100%;transition:opacity .35s}
+#offer .feat:hover::after{opacity:1;animation:cardShine 1.2s ease}
+@keyframes cardShine{from{background-position:120% 0}to{background-position:-120% 0}}
+@media(max-width:860px){
+ .logo-core{width:155px;height:155px;border-radius:25px!important}
+ .logo-halo{border-radius:32px}
+ .book-gallery{height:350px!important;min-height:330px}
+ .quran-photo-wrap{height:285px;width:55%}
+ .heritage-book{width:120px;min-height:57px;padding:8px}
+ .heritage-book span{font-size:.94rem}
+ .heritage-stack{bottom:22px}
+}
+@media(max-width:520px){
+ .book-gallery{height:300px!important;min-height:290px;gap:8px}
+ .quran-photo-wrap{height:245px;width:57%;border-radius:125px 125px 16px 16px}
+ .heritage-book{width:104px;min-height:51px}
+ .heritage-book span{font-size:.82rem}.heritage-book small{font-size:.6rem}
+ .heritage-stack{left:-4px;bottom:22px;gap:7px}
+ .logo-core{width:136px;height:136px}
+}
+@media(prefers-reduced-motion:reduce){
+ .logo-core,.logo-core img,.quran-photo-wrap,.heritage-book,.film-scene::before{animation:none!important}
+}
+
 </style>
 </head>
 <body>
@@ -514,7 +587,7 @@ footer p{color:var(--muted);font-size:.92rem;line-height:1.9}
     </div>
     <div class="orbit-art" aria-hidden="true">
       <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="orbit orbit-c"></div>
-      <div class="orbit-core"><span>زاد</span><b>عبيدة</b><small>✦</small></div>
+      <div class="orbit-core logo-core"><img src="./logo-zad-almuslim.webp.png" alt="شعار زاد عبيدة" loading="eager"><span class="logo-halo"></span></div>
       <span class="orbit-dot dot-a"></span><span class="orbit-dot dot-b"></span><span class="orbit-dot dot-c"></span>
     </div>
   </div>
@@ -568,9 +641,18 @@ footer p{color:var(--muted);font-size:.92rem;line-height:1.9}
   <section class="visual-interlude" aria-label="قيم زاد عبيدة">
     <div class="interlude-backdrop" aria-hidden="true"></div>
     <div class="interlude-content wrap">
-      <div class="floating-book" aria-hidden="true">
+      <div class="floating-book book-gallery" aria-label="مصحف وكتب من التراث الإسلامي">
         <div class="book-shadow"></div>
-        <div class="book-object"><div class="book-cover"><span class="book-orn">۞</span><b>زاد عبيدة</b><small>نورٌ وهداية</small></div><div class="book-pages"></div></div>
+        <div class="quran-photo-wrap">
+          <img class="quran-photo" src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&w=1100&q=85" alt="مصحف مفتوح للقراءة" loading="lazy">
+          <span class="photo-vignette"></span>
+          <span class="photo-label">القرآن الكريم · نور وهداية</span>
+        </div>
+        <div class="heritage-stack" aria-label="كتب إسلامية">
+          <div class="heritage-book book-bukhari"><span>صحيح البخاري</span><small>الإمام البخاري</small></div>
+          <div class="heritage-book book-muslim"><span>صحيح مسلم</span><small>الإمام مسلم</small></div>
+          <div class="heritage-book book-nawawi"><span>رياض الصالحين</span><small>الإمام النووي</small></div>
+        </div>
         <span class="book-ring ring-one"></span><span class="book-ring ring-two"></span>
       </div>
       <div class="interlude-text reveal-scene">

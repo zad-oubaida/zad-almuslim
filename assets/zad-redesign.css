@@ -88,9 +88,9 @@ body.dark .verse-text,body.dark .hadith-text{color:var(--z-text)}
 
 /* ---------- أبواب الموقع ---------- */
 body .section-alt{background:var(--z-surface)!important;border-block:1px solid var(--z-line)}
-body .section-head h2{color:var(--z-deep)!important;font-size:clamp(1.8rem,3.5vw,2.4rem)}
-body.dark .section-head h2{color:var(--z-text)!important}
-body .section-head h2::after{content:"";display:block;width:56px;height:3px;background:var(--z-gold);margin:.4rem auto 0;border-radius:3px}
+body .section-head h1, body .section-head h2{color:var(--z-deep)!important;font-size:clamp(1.8rem,3.5vw,2.4rem)}
+body.dark .section-head h1, body.dark .section-head h2{color:var(--z-text)!important}
+body .section-head h1, body .section-head h2::after{content:"";display:block;width:56px;height:3px;background:var(--z-gold);margin:.4rem auto 0;border-radius:3px}
 body .section-head p{color:var(--z-muted)!important}
 body .cards-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
 body .nav-card{background:var(--z-bg)!important;border:1px solid var(--z-line)!important;border-radius:var(--z-radius)!important;box-shadow:none!important;padding:1.3rem 1rem;text-align:center;transition:border-color .2s,transform .2s}

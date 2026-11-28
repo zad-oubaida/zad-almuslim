@@ -237,6 +237,7 @@ h1,h2,h3,.sub{text-wrap:balance}
             <div class="ch"><h2 id="pth">مواقيت الصلاة</h2><button class="btn s" id="locBtn" type="button"><svg class="i"><use href="#pin"/></svg>تحديد موقعي بدقة</button></div>
       <div class="pt-search"><input id="citySearch" type="search" list="algeriaCities" placeholder="ابحث عن مدينتك الجزائرية…" autocomplete="off" aria-label="ابحث عن مدينة"><datalist id="algeriaCities"></datalist><button class="btn s" id="citySearchBtn" type="button">بحث</button></div>
       <p class="dt" id="pdLocation">الجزائر العاصمة</p>
+      <p class="dt" id="prayerAccuracyNote">تنبيه: هذه المواقيت ناتجة عن حساب فلكي محلي تقريبي، وليست جدولًا رسميًا معتمدًا. يُرجى التحقق من توقيت مسجدك أو الرزنامة الرسمية.</p>
       <div class="date-pair" id="pd" aria-live="polite">
         <div><span>التاريخ الميلادي</span><strong id="pdGregorian">--</strong></div>
         <div><span>التاريخ الهجري</span><strong id="pdHijri">--</strong></div>
@@ -457,7 +458,7 @@ function searchCity(){var v=$('#citySearch').value.trim();if(!v)return toast('ا
 $('#citySearchBtn').onclick=searchCity;$('#citySearch').addEventListener('keydown',function(e){if(e.key==='Enter')searchCity()});
 (function(){var g=ls.get('zad_geo'),c=ls.get('zad_city');if(g&&/^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/.test(g)){g=g.split(',');byGeo(g[0],g[1])}else if(c){byCity(c)}else{byCity('الجزائر العاصمة')}})();
 window.addEventListener('online',function(){reload&&reload()});
-(function(){var g=ls.get('zad_geo'),c=ls.get('zad_city');if(g&&/^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/.test(g)){g=g.split(',');byGeo(g[0],g[1])}else byCity(c||'Algiers',!c)})();
+
 
 /* آية اليوم */
 var DC=/[\u064B-\u0670\u06D6-\u06ED\u0640]/g,AY={t:'إِنَّ مَعَ ٱلْعُسْرِ يُسْرًا',s:'سورة الشرح · الآية 6'};

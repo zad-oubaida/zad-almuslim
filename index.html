@@ -57,6 +57,11 @@ h1{font-size:clamp(2.3rem,5.6vw,4rem);margin:6px 0 14px;line-height:1.55}
 .card{background:var(--sf);border:1px solid var(--ln);border-radius:24px;padding:28px;box-shadow:var(--sh)}
 .ch{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .ch h2{font-size:1.95rem}.dt{color:var(--mut);font-size:1rem;margin:4px 0 18px}
+.date-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:4px 0 18px}
+.date-pair>div{min-width:0;padding:12px 14px;border:1px solid var(--ln);border-radius:14px;background:var(--mint)}
+.date-pair span{display:block;color:var(--mut);font-size:.82rem;font-weight:700;margin-bottom:5px}
+.date-pair strong{display:block;color:var(--ink);font-size:1rem;line-height:1.7;font-weight:800;overflow-wrap:anywhere}
+@media(max-width:520px){.date-pair{grid-template-columns:1fr}.date-pair>div{padding:10px 12px}}
 #pt{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 #pt li{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-radius:14px;background:var(--mint);font-weight:700}
 #pt b{direction:ltr}
@@ -231,7 +236,11 @@ h1,h2,h3,.sub{text-wrap:balance}
     <section class="card" aria-labelledby="pth">
             <div class="ch"><h2 id="pth">مواقيت الصلاة</h2><button class="btn s" id="locBtn" type="button"><svg class="i"><use href="#pin"/></svg>تحديد موقعي بدقة</button></div>
       <div class="pt-search"><input id="citySearch" type="search" list="algeriaCities" placeholder="ابحث عن مدينتك الجزائرية…" autocomplete="off" aria-label="ابحث عن مدينة"><datalist id="algeriaCities"></datalist><button class="btn s" id="citySearchBtn" type="button">بحث</button></div>
-      <p class="dt" id="pd">حساب فلكي محلي تقريبي؛ قد يختلف عن الرزنامة الرسمية.</p>
+      <p class="dt" id="pdLocation">الجزائر العاصمة</p>
+      <div class="date-pair" id="pd" aria-live="polite">
+        <div><span>التاريخ الميلادي</span><strong id="pdGregorian">--</strong></div>
+        <div><span>التاريخ الهجري</span><strong id="pdHijri">--</strong></div>
+      </div>
       <ul id="pt"></ul>
       <div class="cd" hidden id="cdb" role="timer"><div><span id="cl"></span><b id="cv">00:00:00</b></div><div class="pb"><i id="pg"></i></div></div>
       <div class="cta"><button class="btn s" id="adhanToggle" type="button">تفعيل الأذان قبل الصلاة بدقيقة</button><button class="btn s" id="adhanTest" type="button">تجربة الأذان</button></div>
@@ -372,7 +381,18 @@ if(!nk){nk='Fajr';ni=86400-now+ts(S.t.Fajr);pv=ts(S.t.Isha)}else if(pv===null)pv
 [].forEach.call(pt.children,function(li){li.classList.toggle('on',li.dataset.k===nk)});
 $('#cl').textContent='متبقٍ لصلاة '+nm(nk);$('#cv').textContent=p2(Math.floor(ni/3600))+':'+p2(Math.floor(ni%3600/60))+':'+p2(ni%60);
 $('#pg').style.width=Math.max(0,Math.min(100,(now-pv)/(now+ni-pv)*100))+'%';$('#cdb').hidden=false;checkAdhan()}
-function use(d,label){S={t:d.t,tz:d.tz,date:d.date};var now=new Date(),greg='--/--/----',hijri='--/--/----';try{greg=new Intl.DateTimeFormat('en-GB-u-nu-latn',{timeZone:'Africa/Algiers',day:'2-digit',month:'2-digit',year:'numeric'}).format(now)}catch(e){}try{hijri=new Intl.DateTimeFormat('en-GB-u-ca-islamic-umalqura-nu-latn',{timeZone:'Africa/Algiers',day:'2-digit',month:'2-digit',year:'numeric'}).format(now)}catch(e){try{hijri=new Intl.DateTimeFormat('en-GB-u-ca-islamic-nu-latn',{timeZone:'Africa/Algiers',day:'2-digit',month:'2-digit',year:'numeric'}).format(now)}catch(x){}}$('#pd').textContent=(label?label+' · ':'')+'الميلادي: '+greg+' | الهجري: '+hijri;draw();tick();setNow()}
+function updatePrayerDates(){
+  var now=new Date(),greg='غير متاح',hijri='غير متاح';
+  var opts={timeZone:'Africa/Algiers',weekday:'long',day:'numeric',month:'long',year:'numeric',numberingSystem:'latn'};
+  try{greg=new Intl.DateTimeFormat('ar-DZ-u-nu-latn',opts).format(now)}catch(e){try{greg=new Intl.DateTimeFormat('en-GB',{timeZone:'Africa/Algiers',weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(now)}catch(x){}}
+  try{hijri=new Intl.DateTimeFormat('ar-DZ-u-ca-islamic-umalqura-nu-latn',opts).format(now)}catch(e){try{hijri=new Intl.DateTimeFormat('ar-DZ-u-ca-islamic-nu-latn',opts).format(now)}catch(x){}}
+  $('#pdGregorian').textContent=greg;
+  $('#pdHijri').textContent=hijri;
+}
+function use(d,label){S={t:d.t,tz:d.tz,date:d.date};$('#pdLocation').textContent=label||'الجزائر العاصمة';updatePrayerDates();draw();tick();setNow()}
+updatePrayerDates();
+setInterval(updatePrayerDates,60000);
+document.addEventListener('visibilitychange',function(){if(!document.hidden)updatePrayerDates()});
 
 /* الأذان قبل الصلاة بدقيقة — يستعمل مواقيت الصلاة الحالية */
 var adhanAudio=$('#adhanAudio'),adhanEnabled=ls.get('zad_adhan_enabled')==='1';

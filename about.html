@@ -12,7 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script>
 /* تطبيق الثيم قبل الرسم لتفادي الوميض (الافتراضي: ليلي مثل الصفحة الرئيسية) */
-(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();
+(function(){try{var t=localStorage.getItem('zad_theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();
 </script>
 <style>
 :root{
@@ -597,6 +597,7 @@ footer p{color:var(--muted);font-size:.92rem;line-height:1.9}
       <a href="./index.html">الرئيسية</a>
       <a href="./adhkar.html">الأذكار</a>
       <a href="./quran.html">القرآن</a>
+      <a href="./quran-audio.html">الاستماع</a>
       <a href="./nawawi.html">الأحاديث</a>
       <a href="./duas.html">الأدعية</a>
       <a href="./articles.html">المقالات</a>
@@ -828,7 +829,7 @@ footer p{color:var(--muted);font-size:.92rem;line-height:1.9}
   $('theme').onclick=function(){
     var n=root.getAttribute('data-theme')==='light'?'dark':'light';
     root.setAttribute('data-theme',n);meta();
-    try{localStorage.setItem('theme',n)}catch(e){}
+    try{localStorage.setItem('zad_theme',n)}catch(e){}
   };
 
   /* قائمة الجوال */

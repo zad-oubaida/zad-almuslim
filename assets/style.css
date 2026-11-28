@@ -401,11 +401,11 @@ ul{list-style:none}
 .section{padding:50px 0}
 .section-alt{background:var(--card)}
 .section-head{text-align:center;margin-bottom:36px}
-.section-head h1,.section-head h2{
+.section-head h2{
   font-size:2rem;color:var(--ink);margin-bottom:10px;
   position:relative;display:inline-block;
 }
-.section-head h1::after,.section-head h2::after{
+.section-head h2::after{
   content:"";position:absolute;bottom:-8px;left:20%;right:20%;
   height:2px;background:var(--accent);border-radius:2px;
 }

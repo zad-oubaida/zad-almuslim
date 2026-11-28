@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0a1713">
+<meta name="theme-color" content="#0c6ac4">
 <meta name="description" content="حكاية زاد عبيدة: مشروع إسلامي مجاني بدأه السيد عبيدة قولال في السادسة عشرة ليجمع القرآن والأذكار والأحاديث في مكان واحد وبطريقة بسيطة.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ar_AR">
@@ -16,566 +16,464 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script>
-/* تطبيق الثيم قبل الرسم لتفادي الوميض (الافتراضي: ليلي مثل الصفحة الرئيسية) */
 (function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();
 </script>
 <style>
 :root{
-  --bg:#081410;--card:#0e211b;--card2:#132c24;--line:#1f3f33;--text:#eaf4f0;--muted:#9cb8ac;
-  --primary:#1f9174;--mint:#9be8c9;--gold:#e3ad3f;--gold-soft:rgba(227,173,63,.14);
-  --ink:#fff;--shadow:0 16px 40px rgba(0,0,0,.42);--tile:.065;--r:20px;
+  --sky-deep:#073b73;
+  --sky-mid:#0f6ec8;
+  --sky-bright:#2596f3;
+  --parchment:#f4efe4;
+  --parchment-2:#e8dfc9;
+  --ink-dark:#0b1726;
+  --ink-light:#f7f9fc;
+  --gold:#e8be5a;
+  --gold-soft:rgba(232,190,90,.16);
+  --grid-line:rgba(255,255,255,.11);
+  --card:rgba(8,36,68,.76);
+  --card2:rgba(13,54,102,.86);
+  --line:rgba(255,255,255,.18);
+  --text:#f7faff;
+  --muted:rgba(247,250,255,.78);
+  --accent:#ffd166;
+  --shadow:0 24px 60px rgba(3,21,44,.42);
+  --r:18px;
+  --scroll:0;
 }
 [data-theme="light"]{
-  --bg:#f5f8f4;--card:#ffffff;--card2:#edf5ef;--line:#d8e5dc;--text:#14241d;--muted:#55695f;
-  --primary:#0d7a5f;--mint:#0b6952;--gold:#a97612;--gold-soft:rgba(169,118,18,.1);
-  --shadow:0 12px 30px rgba(13,60,45,.08);--tile:.09;
+  --card:rgba(255,252,245,.9);
+  --card2:rgba(244,237,220,.95);
+  --line:rgba(12,66,120,.18);
+  --text:#0c2238;
+  --muted:#395570;
+  --grid-line:rgba(12,66,120,.1);
+  --shadow:0 18px 45px rgba(10,54,102,.14);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:84px}
-body{font-family:'Cairo',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.85;overflow-x:hidden;transition:background .3s,color .3s}
-body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:var(--tile);
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' fill='none' stroke='%233fbf98'%3E%3Crect x='18' y='18' width='36' height='36'/%3E%3Crect x='18' y='18' width='36' height='36' transform='rotate(45 36 36)'/%3E%3Ccircle cx='36' cy='36' r='5'/%3E%3C/svg%3E")}
-a{color:inherit}
-.wrap{width:min(1120px,92%);margin-inline:auto}
-:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
-.skip{position:absolute;top:-60px;inset-inline-start:12px;z-index:1000;background:var(--primary);color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none}
-.skip:focus{top:12px}
-#bar{position:fixed;top:0;inset-inline:0;height:3px;z-index:200;background:linear-gradient(90deg,var(--primary),var(--gold));transform-origin:right;transform:scaleX(0)}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{
+  font-family:'Cairo',system-ui,sans-serif;
+  color:var(--text);
+  line-height:1.85;
+  overflow-x:hidden;
+  background:
+    radial-gradient(circle at 75% 18%, rgba(77,175,255,.32), transparent 42%),
+    radial-gradient(circle at 20% 65%, rgba(232,190,90,.14), transparent 45%),
+    linear-gradient(165deg, var(--sky-bright) 0%, var(--sky-mid) 44%, var(--sky-deep) 100%);
+  min-height:100vh;
+}
+[data-theme="light"] body{
+  background:
+    radial-gradient(circle at 80% 12%, rgba(37,150,243,.18), transparent 45%),
+    linear-gradient(180deg, #eef6ff 0%, #f6f1e4 55%, #e8eef7 100%);
+}
 
-/* الشريط العلوي */
-.nav{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-.nav-in{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:68px;flex-wrap:nowrap}
+/* شبكة معمارية دقيقة مستوحاة من الفيديو */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  pointer-events:none;
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size:64px 64px;
+}
+
+/* غيوم وحبيبات نقطية (Halftone / Star Dust) */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  opacity:.24;
+  background-image:radial-gradient(rgba(255,255,255,.65) 1.15px, transparent 1.15px);
+  background-size:10px 10px;
+  mask-image:radial-gradient(ellipse at 70% 30%, #000 18%, transparent 72%);
+}
+
+a{color:inherit}
+.wrap{width:min(1160px,92%);margin-inline:auto}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+.skip{position:absolute;top:-60px;inset-inline-start:12px;z-index:1000;background:#072a52;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none}
+.skip:focus{top:12px}
+#bar{position:fixed;top:0;inset-inline:0;height:3px;z-index:220;background:linear-gradient(90deg,var(--accent),#ffffff,var(--gold));transform-origin:right;transform:scaleX(0)}
+
+/* الشريط العلوي البسيط على نمط الفيديو */
+.nav{
+  position:sticky;top:0;z-index:120;
+  background:color-mix(in srgb, var(--sky-deep) 78%, transparent);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+[data-theme="light"] .nav{background:rgba(246,241,228,.84)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:66px;flex-wrap:nowrap}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
-.brand img{width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid color-mix(in srgb,var(--gold) 55%,var(--line))}
-.brand b{display:block;color:var(--mint);font-family:'Amiri',serif;font-size:1.38rem;line-height:1.2}
+.brand img{width:38px;height:38px;border-radius:50%;object-fit:cover;border:1.5px solid var(--accent)}
+.brand b{font-family:'Amiri',serif;font-size:1.35rem;letter-spacing:.2px}
 .links{display:flex;align-items:center;flex-wrap:nowrap;white-space:nowrap;gap:2px}
-.links>a,.links>.dropdown>.dropdown-trigger{padding:6px 8px;border-radius:10px;text-decoration:none;font-size:.83rem;font-weight:600;color:var(--text);transition:background .2s,color .2s}
-.links>a:hover,.links>.dropdown>.dropdown-trigger:hover{background:var(--card2);color:var(--mint)}
-.links>a[aria-current]{background:var(--card2);color:var(--gold);border:1px solid color-mix(in srgb,var(--gold) 30%,transparent)}
+.links>a,.links>.dropdown>.dropdown-trigger{padding:6px 8px;border-radius:8px;text-decoration:none;font-size:.82rem;font-weight:600;transition:background .2s,color .2s}
+.links>a:hover,.links>.dropdown>.dropdown-trigger:hover{background:rgba(255,255,255,.12);color:var(--accent)}
+.links>a[aria-current]{background:rgba(255,255,255,.16);color:var(--accent);border:1px solid rgba(255,209,102,.4)}
 .dropdown{position:relative}
 .dropdown-trigger{display:block;border:0;background:transparent;color:inherit;font:inherit;font-weight:600;cursor:pointer}
-.dropdown-content{display:none;position:absolute;top:100%;right:0;z-index:20;min-width:190px;padding:8px;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
-.dropdown-content a{display:block;padding:9px 14px;border-radius:9px;text-align:right;text-decoration:none;font-size:.88rem;font-weight:600}
-.dropdown-content a:hover{background:var(--card2);color:var(--mint)}
+.dropdown-content{display:none;position:absolute;top:100%;right:0;z-index:25;min-width:190px;padding:8px;background:var(--card2);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+.dropdown-content a{display:block;padding:8px 14px;border-radius:8px;text-align:right;text-decoration:none;font-size:.86rem;font-weight:600}
+.dropdown-content a:hover{background:rgba(255,255,255,.1);color:var(--accent)}
 .dropdown:focus-within .dropdown-content,.dropdown.open .dropdown-content{display:block}
 @media(hover:hover){.dropdown:hover .dropdown-content{display:block}}
 .tools{display:flex;gap:8px;flex-shrink:0}
-.ibtn{width:40px;height:40px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--text);cursor:pointer;font-size:1.1rem;transition:border-color .2s,background .2s}
-.ibtn:hover{border-color:var(--gold);background:var(--card2)}
+.ibtn{width:38px;height:38px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--text);cursor:pointer;font-size:1.05rem;transition:.2s}
+.ibtn:hover{border-color:var(--accent);background:rgba(255,255,255,.14)}
 #menu{display:none}
 
-/* الواجهة العلوية */
-.hero{position:relative;text-align:center;padding:78px 0 92px;overflow:hidden;border-bottom:1px solid var(--line);
-  background:radial-gradient(ellipse at top,color-mix(in srgb,var(--primary) 16%,transparent),transparent 65%)}
-.orn{position:absolute;width:360px;height:360px;opacity:.45;pointer-events:none}
-.o1{top:-120px;inset-inline-start:-95px;color:var(--primary)}
-.o2{bottom:-130px;inset-inline-end:-85px;color:var(--gold)}
-.hero .wrap{position:relative}
-.bism{font-family:'Amiri',serif;color:var(--gold);font-size:1.5rem;letter-spacing:.3px}
-h1{font-family:'Amiri',serif;font-weight:700;font-size:clamp(2.3rem,6vw,4.1rem);line-height:1.4;color:var(--mint);margin:8px 0 16px;text-wrap:balance}
-.lead{max-width:650px;margin:0 auto 30px;color:var(--muted);font-size:1.08rem}
-.cta{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;align-items:center}
-.btn{display:inline-flex;gap:10px;align-items:center;padding:13px 28px;border-radius:14px;background:linear-gradient(135deg,var(--primary),color-mix(in srgb,var(--primary) 78%,#063529));color:var(--ink);font-weight:700;text-decoration:none;box-shadow:0 10px 26px rgba(31,145,116,.32);transition:transform .2s,filter .2s}
-.btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
-.ghost{color:var(--mint);text-decoration:none;border-bottom:1px solid var(--gold);padding-bottom:3px;font-weight:600;transition:color .2s}
-.ghost:hover{color:var(--gold)}
-.checks{display:flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;margin-top:34px;font-size:.9rem;color:var(--muted)}
-.checks span{background:color-mix(in srgb,var(--card) 75%,transparent);border:1px solid var(--line);padding:4px 14px;border-radius:99px}
-.checks span::before{content:"✦";color:var(--gold);margin-inline-end:8px;font-size:.8rem}
-
-/* الأقسام العامة */
-section{padding:66px 0 0}
-.head{margin-bottom:28px}
-.head-center{text-align:center;max-width:680px;margin-inline:auto}
-.head h2{font-family:'Amiri',serif;font-size:clamp(1.8rem,4vw,2.45rem);color:var(--mint);line-height:1.45}
-.head p{color:var(--muted);margin-top:4px;font-size:1rem}
-.chip{display:inline-flex;align-items:center;gap:6px;background:var(--gold-soft);color:var(--gold);border:1px solid color-mix(in srgb,var(--gold) 38%,transparent);padding:3px 15px;border-radius:99px;font-size:.8rem;font-weight:700;margin-bottom:10px}
-
-/* بطاقة المؤسس الفاخرة */
-.founder-showcase{
+/* الواجهة الافتتاحية المستوحاة من مشاهد الفيديو */
+.hero-stage{
   position:relative;
-  display:grid;
-  grid-template-columns:minmax(230px,290px) 1fr;
-  gap:32px;
-  align-items:center;
-  margin-bottom:26px;
-  padding:30px;
-  border-radius:24px;
-  border:1px solid color-mix(in srgb,var(--gold) 52%,var(--line));
-  background:linear-gradient(135deg,color-mix(in srgb,var(--card2) 92%,transparent),var(--card));
-  box-shadow:var(--shadow);
+  padding:56px 0 74px;
+  border-bottom:1px solid var(--line);
   overflow:hidden;
 }
-.founder-showcase::before{
-  content:"";
-  position:absolute;
-  inset-inline-start:-50px;
-  top:-50px;
-  width:220px;
-  height:220px;
-  border-radius:50%;
-  background:radial-gradient(circle,color-mix(in srgb,var(--gold) 22%,transparent),transparent 70%);
-  pointer-events:none;
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  gap:40px;
+  align-items:center;
+  min-height:540px;
 }
-.founder-showcase::after{
-  content:"";
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(255,209,102,.4);
+  padding:4px 14px;border-radius:99px;margin-bottom:14px;
+  background:rgba(7,35,68,.35);
+}
+h1{
+  font-family:'Amiri',serif;
+  font-weight:700;
+  font-size:clamp(2.5rem,6vw,4.5rem);
+  line-height:1.18;
+  margin-bottom:16px;
+  text-wrap:balance;
+}
+h1 em{font-style:normal;color:var(--accent)}
+.lead{font-size:1.06rem;color:var(--muted);max-width:560px;margin-bottom:26px}
+.cta{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:12px 24px;border-radius:999px;
+  background:var(--accent);color:#08182b;font-weight:800;text-decoration:none;
+  box-shadow:0 12px 28px rgba(0,0,0,.25);transition:transform .25s,filter .25s;
+}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.05)}
+.ghost{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:11px 20px;border-radius:999px;text-decoration:none;font-weight:700;
+  border:1px solid var(--line);background:rgba(255,255,255,.06);transition:.25s;
+}
+.ghost:hover{border-color:var(--accent);color:var(--accent)}
+.checks{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;font-size:.86rem;color:var(--muted)}
+.checks span{border:1px solid var(--line);background:rgba(255,255,255,.05);padding:4px 13px;border-radius:999px}
+
+/* لوحة العرض التفاعلية المرتبطة بالـ Scroll مثل حركة الفاكهة/الرمز في الفيديو */
+.scroll-canvas{
+  position:relative;
+  height:470px;
+  border-radius:22px;
+  border:1px solid var(--line);
+  background:
+    radial-gradient(circle at 50% 42%, rgba(255,255,255,.16), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.08), rgba(6,28,54,.38));
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  perspective:1100px;
+}
+.canvas-crosshair::before,.canvas-crosshair::after{
+  content:"";position:absolute;background:rgba(255,255,255,.14);pointer-events:none;
+}
+.canvas-crosshair::before{inset-block:0;left:50%;width:1px}
+.canvas-crosshair::after{inset-inline:0;top:50%;height:1px}
+
+.emblem-split{
+  position:relative;
+  width:210px;
+  height:210px;
+  display:grid;
+  place-items:center;
+  transform-style:preserve-3d;
+  transform:
+    translateY(calc(var(--scroll) * -36px))
+    rotateY(calc(var(--scroll) * 42deg))
+    rotateZ(calc(var(--scroll) * -14deg));
+  transition:transform .12s ease-out;
+}
+.emblem-half{
   position:absolute;
-  inset-inline-end:-40px;
-  bottom:-40px;
-  width:200px;
-  height:200px;
+  inset:0;
+  border-radius:42px;
+  border:1.5px solid rgba(255,209,102,.85);
+  background:linear-gradient(145deg, rgba(255,255,255,.2), rgba(7,46,89,.78));
+  backdrop-filter:blur(10px);
+  display:grid;
+  place-items:center;
+  box-shadow:0 20px 45px rgba(0,0,0,.32);
+}
+.emblem-half.left{
+  clip-path:polygon(0 0, 50% 0, 50% 100%, 0 100%);
+  transform:translateX(calc(var(--scroll) * -28px)) rotate(calc(var(--scroll) * -8deg));
+}
+.emblem-half.right{
+  clip-path:polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
+  transform:translateX(calc(var(--scroll) * 28px)) rotate(calc(var(--scroll) * 8deg));
+}
+.emblem-center{
+  position:relative;
+  z-index:3;
+  width:136px;
+  height:136px;
   border-radius:50%;
-  background:radial-gradient(circle,color-mix(in srgb,var(--primary) 22%,transparent),transparent 70%);
-  pointer-events:none;
+  border:1.5px solid var(--accent);
+  background:radial-gradient(circle at 30% 25%, #fff2c6, #d49b27 65%, #6a4708 100%);
+  display:grid;
+  place-items:center;
+  box-shadow:0 0 40px rgba(255,209,102,.38);
+  transform:scale(calc(1 + var(--scroll) * .12));
+}
+.emblem-center img{width:84px;height:84px;object-fit:contain}
+.floating-tag{
+  position:absolute;
+  bottom:16px;
+  inset-inline:16px;
+  display:flex;
+  justify-content:space-between;
+  font-size:.76rem;
+  color:var(--muted);
+  border-top:1px solid var(--line);
+  padding-top:10px;
+}
+
+/* الأقسام العامة */
+section{padding:72px 0 0}
+.head{margin-bottom:26px}
+.head h2{font-family:'Amiri',serif;font-size:clamp(1.9rem,4vw,2.7rem);line-height:1.3}
+.head p{color:var(--muted);margin-top:4px}
+.chip{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--gold-soft);color:var(--accent);
+  border:1px solid rgba(255,209,102,.38);
+  padding:3px 14px;border-radius:999px;font-size:.78rem;font-weight:700;margin-bottom:8px;
+}
+
+/* بطاقة المؤسس بإطار كلاسيكي ومخطط هندسي */
+.founder-showcase{
+  display:grid;
+  grid-template-columns:minmax(220px,280px) 1fr;
+  gap:28px;
+  align-items:center;
+  padding:28px;
+  border-radius:var(--r);
+  border:1px solid var(--line);
+  background:var(--card);
+  backdrop-filter:blur(12px);
+  box-shadow:var(--shadow);
+  margin-bottom:24px;
 }
 .founder-frame{
   position:relative;
-  border-radius:20px;
-  overflow:hidden;
-  border:2px solid color-mix(in srgb,var(--gold) 70%,transparent);
-  background:linear-gradient(160deg,#12352a,#081914);
   aspect-ratio:4/5;
-  box-shadow:0 16px 34px rgba(0,0,0,.38);
+  border-radius:16px;
+  padding:8px;
+  border:1.5px solid rgba(255,209,102,.7);
+  background:linear-gradient(145deg, rgba(255,209,102,.28), rgba(255,255,255,.04));
+  overflow:hidden;
   display:grid;
   place-items:center;
 }
 .founder-frame img{
-  display:block;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:top center;
-  position:relative;
-  z-index:2;
+  width:100%;height:100%;object-fit:cover;object-position:top center;
+  border-radius:11px;position:relative;z-index:2;
 }
 .founder-fallback{
-  position:absolute;
-  inset:0;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:20px;
-  color:var(--gold);
-  z-index:1;
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  color:var(--accent);z-index:1;
 }
 .founder-fallback span{
-  width:84px;
-  height:84px;
-  border-radius:50%;
-  border:2px solid var(--gold);
-  display:grid;
-  place-items:center;
-  font-family:'Amiri',serif;
-  font-size:2.6rem;
-  font-weight:700;
-  background:rgba(227,173,63,.1);
-  margin-bottom:10px;
+  width:78px;height:78px;border-radius:50%;border:1.5px solid var(--accent);
+  display:grid;place-items:center;font-family:'Amiri',serif;font-size:2.4rem;margin-bottom:8px;
 }
-.founder-fallback small{
-  color:var(--mint);
-  font-size:.82rem;
-  font-weight:600;
-}
-.founder-info{position:relative;z-index:2}
-.founder-badge{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:5px 15px;
-  border-radius:99px;
-  font-size:.82rem;
-  font-weight:700;
-  color:var(--gold);
-  background:var(--gold-soft);
-  border:1px solid color-mix(in srgb,var(--gold) 42%,transparent);
-  margin-bottom:12px;
-}
-.founder-info h3{
-  font-family:'Amiri',serif;
-  font-size:clamp(1.75rem,3.6vw,2.45rem);
-  line-height:1.35;
-  color:var(--mint);
-  margin-bottom:4px;
-}
-.founder-role{
-  color:var(--gold);
-  font-weight:700;
-  font-size:.96rem;
-  margin-bottom:14px;
-}
-.founder-info p{
-  color:var(--text);
-  line-height:2.05;
-  font-size:1rem;
-}
-.founder-tags{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-top:16px;
-}
+.founder-info h3{font-family:'Amiri',serif;font-size:2rem;line-height:1.3}
+.founder-role{color:var(--accent);font-weight:700;font-size:.92rem;margin-bottom:10px}
+.founder-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .founder-tags span{
-  font-size:.8rem;
-  font-weight:600;
-  color:var(--mint);
-  background:color-mix(in srgb,var(--bg) 55%,transparent);
-  border:1px solid var(--line);
-  padding:4px 12px;
-  border-radius:10px;
+  font-size:.78rem;font-weight:600;padding:4px 12px;border-radius:999px;
+  border:1px solid var(--line);background:rgba(255,255,255,.06);
 }
 
-/* بطاقات القصة */
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:32px;box-shadow:var(--shadow)}
+/* بطاقات الحكاية */
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:28px;box-shadow:var(--shadow);backdrop-filter:blur(12px);
+}
 .prose{max-width:72ch}
-.prose p+p{margin-top:14px}
-.prose p{line-height:2.1}
-.story{display:grid;gap:24px;grid-template-columns:1fr 1fr;align-items:stretch}
-.story .card{position:relative}
-.story h3{font-family:'Amiri',serif;font-size:1.58rem;color:var(--mint);margin-bottom:12px;display:flex;align-items:center;gap:10px}
-.story h3::before{content:"";width:10px;height:10px;border-radius:2px;transform:rotate(45deg);background:var(--gold);flex-shrink:0}
-.quote{position:relative;margin-top:22px;padding:24px 28px;border-radius:var(--r);background:var(--card2);border:1px solid color-mix(in srgb,var(--gold) 28%,var(--line));border-inline-start:4px solid var(--gold);font-family:'Amiri',serif;font-size:1.35rem;font-weight:700;line-height:2;color:var(--text)}
-.quote::after{content:"”";position:absolute;top:-6px;inset-inline-end:18px;font-size:4.4rem;line-height:1;color:var(--gold);opacity:.28}
+.prose p+p{margin-top:12px}
+.story{display:grid;gap:22px;grid-template-columns:1fr 1fr}
+.story h3{font-family:'Amiri',serif;font-size:1.55rem;color:var(--accent);margin-bottom:10px}
+.quote{
+  margin-top:18px;padding:22px 26px;border-radius:var(--r);
+  background:var(--card2);border:1px solid var(--line);border-inline-start:4px solid var(--accent);
+  font-family:'Amiri',serif;font-size:1.35rem;font-weight:700;line-height:1.95;
+}
 .full{grid-column:1/-1}
 .full .quote{margin-top:0}
 
-/* شبكة جميع الصفحات والمميزات */
-.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(245px,1fr))}
-.feat{position:relative;display:flex;flex-direction:column;text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px;transition:transform .25s,border-color .25s,box-shadow .25s}
-.feat:hover{transform:translateY(-5px);border-color:color-mix(in srgb,var(--gold) 65%,var(--primary));box-shadow:var(--shadow)}
-.feat-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.feat i{display:grid;place-items:center;width:48px;height:48px;border-radius:14px;background:var(--card2);border:1px solid var(--line);font-style:normal;font-size:1.45rem}
-.feat em{font-style:normal;font-size:.74rem;font-weight:700;color:var(--gold);background:var(--gold-soft);padding:3px 10px;border-radius:99px}
-.feat b{display:block;color:var(--mint);font-size:1.08rem;margin-bottom:4px}
-.feat span{color:var(--muted);font-size:.92rem;line-height:1.75}
+/* مشهد الكوكبة والربط التفاعلي (مستوحى من مشهد النجوم والشجرة في الفيديو) */
+.constellation-box{
+  position:relative;
+  border-radius:var(--r);
+  border:1px solid var(--line);
+  background:
+    radial-gradient(circle at 65% 35%, rgba(255,255,255,.15), transparent 55%),
+    rgba(6,31,61,.78);
+  padding:28px;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+}
+.constellation-layout{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:28px;
+  align-items:center;
+}
+.sky-field{
+  position:relative;
+  min-height:290px;
+  border-radius:14px;
+  border:1px dashed rgba(255,255,255,.22);
+  background:
+    radial-gradient(circle at 25% 25%, rgba(255,255,255,.14), transparent 32%),
+    radial-gradient(circle at 78% 65%, rgba(255,209,102,.12), transparent 40%);
+  overflow:hidden;
+}
+.sky-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.sky-lines line{stroke:rgba(255,255,255,.32);stroke-width:1.3;stroke-dasharray:4 4}
+.star-node{
+  position:absolute;
+  transform:translate(-50%,-50%);
+  border:1px solid rgba(255,209,102,.7);
+  background:rgba(7,35,68,.88);
+  color:#fff;
+  padding:6px 12px;
+  border-radius:999px;
+  font:700 .78rem 'Cairo',sans-serif;
+  cursor:pointer;
+  transition:.25s;
+  box-shadow:0 0 18px rgba(255,209,102,.22);
+}
+.star-node:hover,.star-node.active{
+  background:var(--accent);color:#08182b;transform:translate(-50%,-50%) scale(1.08);
+}
+.n1{top:24%;left:24%}
+.n2{top:20%;left:66%}
+.n3{top:54%;left:45%}
+.n4{top:76%;left:26%}
+.n5{top:74%;left:72%}
+.pillar-panel{
+  padding:22px;border-radius:14px;border:1px solid var(--line);background:var(--card2);
+}
+.pillar-panel h3{font-family:'Amiri',serif;font-size:1.7rem;color:var(--accent);margin-bottom:8px}
+.pillar-panel p{color:var(--muted);font-size:.98rem}
 
-/* الدعاء والتواصل */
-.dua{margin-top:28px;padding-top:24px;border-top:1px dashed color-mix(in srgb,var(--gold) 45%,var(--line));text-align:center;font-family:'Amiri',serif;line-height:2.1}
-.dua strong{display:block;color:var(--gold);font-size:1.55rem;margin-bottom:6px}
-.dua span{color:var(--muted);font-size:1.18rem}
-.contact{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
-.c{display:flex;align-items:center;gap:15px;padding:22px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);transition:border-color .2s}
-.c:hover{border-color:color-mix(in srgb,var(--gold) 50%,var(--line))}
-.c i{display:grid;place-items:center;width:48px;height:48px;border-radius:14px;background:var(--card2);font-style:normal;font-size:1.5rem;flex-shrink:0}
+/* شبكة الأقسام والمميزات */
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));perspective:1100px}
+.feat{
+  position:relative;display:flex;flex-direction:column;text-decoration:none;
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:22px;transition:transform .35s ease,border-color .25s,box-shadow .25s;
+  backdrop-filter:blur(10px);
+}
+.feat:hover{transform:translateY(-5px);border-color:var(--accent);box-shadow:var(--shadow)}
+.feat-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.feat i{
+  display:grid;place-items:center;width:44px;height:44px;border-radius:12px;
+  background:rgba(255,255,255,.08);border:1px solid var(--line);font-style:normal;font-size:1.35rem;
+}
+.feat em{
+  font-style:normal;font-size:.72rem;font-weight:700;color:var(--accent);
+  background:var(--gold-soft);padding:3px 10px;border-radius:999px;
+}
+.feat b{display:block;font-size:1.05rem;margin-bottom:4px}
+.feat span{color:var(--muted);font-size:.9rem;line-height:1.7}
+
+/* الدعاء والتواصل والتذييل */
+.dua{
+  margin-top:24px;padding-top:20px;border-top:1px dashed rgba(255,209,102,.45);
+  text-align:center;font-family:'Amiri',serif;line-height:2;
+}
+.dua strong{display:block;color:var(--accent);font-size:1.5rem}
+.dua span{color:var(--muted);font-size:1.15rem}
+.contact{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.c{
+  display:flex;align-items:center;gap:14px;padding:20px;
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);backdrop-filter:blur(10px);
+}
+.c i{display:grid;place-items:center;width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.08);font-style:normal;font-size:1.4rem;flex-shrink:0}
 .c div{flex:1;min-width:0}
-.c small{display:block;color:var(--muted);font-size:.82rem}
-.c a{color:var(--mint);font-weight:700;text-decoration:none;overflow-wrap:anywhere;unicode-bidi:plaintext}
-.c a:hover{text-decoration:underline;color:var(--gold)}
-.cp{border:1px solid var(--line);background:var(--card2);color:var(--text);border-radius:10px;padding:7px 14px;cursor:pointer;font:600 .82rem 'Cairo',sans-serif;transition:.2s}
-.cp:hover{border-color:var(--gold);color:var(--gold)}
+.c small{display:block;color:var(--muted);font-size:.8rem}
+.c a{font-weight:700;text-decoration:none;overflow-wrap:anywhere;unicode-bidi:plaintext}
+.c a:hover{text-decoration:underline;color:var(--accent)}
+.cp{border:1px solid var(--line);background:rgba(255,255,255,.08);color:var(--text);border-radius:10px;padding:7px 14px;cursor:pointer;font:600 .82rem 'Cairo',sans-serif}
+.cp:hover{border-color:var(--accent);color:var(--accent)}
 
-/* التذييل الشامل */
-footer{margin-top:78px;border-top:1px solid var(--line);background:var(--card);padding:44px 0 22px}
-.fi{display:grid;gap:28px;grid-template-columns:1.3fr 1fr 1fr 1fr}
-footer h4{color:var(--gold);font-family:'Amiri',serif;font-size:1.25rem;margin-bottom:10px}
-footer p{color:var(--muted);font-size:.92rem;line-height:1.9}
+footer{margin-top:76px;border-top:1px solid var(--line);background:rgba(5,24,48,.82);backdrop-filter:blur(12px);padding:42px 0 22px}
+[data-theme="light"] footer{background:rgba(240,234,220,.9)}
+.fi{display:grid;gap:26px;grid-template-columns:1.3fr 1fr 1fr 1fr}
+footer h4{color:var(--accent);font-family:'Amiri',serif;font-size:1.25rem;margin-bottom:8px}
+footer p{color:var(--muted);font-size:.9rem}
 .flist{list-style:none;display:grid;gap:6px}
-.flist a{text-decoration:none;color:var(--muted);font-size:.9rem;transition:color .2s}
-.flist a:hover{color:var(--mint)}
-.fb{text-align:center;margin-top:30px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+.flist a{text-decoration:none;color:var(--muted);font-size:.88rem}
+.flist a:hover{color:var(--accent)}
+.fb{text-align:center;margin-top:28px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.84rem}
 
-#top{position:fixed;bottom:20px;inset-inline-start:20px;opacity:0;pointer-events:none;transition:opacity .25s;background:var(--primary);color:#fff;border:0;font-size:1.2rem;box-shadow:var(--shadow)}
+#top{position:fixed;bottom:20px;inset-inline-start:20px;opacity:0;pointer-events:none;transition:opacity .25s;background:var(--accent);color:#08182b;border:0;font-size:1.2rem;font-weight:800;box-shadow:var(--shadow)}
 #top.on{opacity:1;pointer-events:auto}
-#toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,30px);background:var(--primary);color:#fff;padding:10px 22px;border-radius:12px;opacity:0;transition:.3s;z-index:300;pointer-events:none;font-weight:600}
+#toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,30px);background:#072a52;color:#fff;border:1px solid var(--accent);padding:10px 22px;border-radius:12px;opacity:0;transition:.3s;z-index:300;pointer-events:none;font-weight:600}
 #toast.on{opacity:1;transform:translate(-50%,0)}
 
 .js .rv{opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s}
 .js .rv.in{opacity:1;transform:none}
 
-@media(max-width:1100px) and (min-width:861px){
-  .links>a,.links>.dropdown>.dropdown-trigger{padding:5px 5px;font-size:.75rem}
-  .nav-in{gap:8px}
+@media(max-width:920px){
+  .hero-grid,.constellation-layout{grid-template-columns:1fr}
+  .hero-stage{min-height:auto;padding:42px 0 56px}
+  .scroll-canvas{height:340px}
 }
 @media(max-width:860px){
   #menu{display:grid}
-  .links{display:none;position:absolute;top:68px;inset-inline:0;flex-direction:column;white-space:normal;align-items:stretch;gap:4px;padding:14px 4%;background:var(--bg);border-bottom:1px solid var(--line)}
+  .links{display:none;position:absolute;top:66px;inset-inline:0;flex-direction:column;white-space:normal;align-items:stretch;gap:4px;padding:14px 4%;background:var(--sky-deep);border-bottom:1px solid var(--line)}
   .links.open{display:flex}
-  .links>a,.links>.dropdown>.dropdown-trigger{padding:12px 16px;font-size:.95rem}
-  .dropdown-content{position:static;box-shadow:none;border:0;background:var(--card2);margin-top:4px}
-  .dropdown-content a{text-align:center}
-  .founder-showcase{grid-template-columns:1fr;text-align:center;padding:24px}
-  .founder-frame{max-width:240px;margin-inline:auto}
+  .links>a,.links>.dropdown>.dropdown-trigger{padding:11px 14px;font-size:.95rem}
+  .dropdown-content{position:static;box-shadow:none;border:0;background:rgba(255,255,255,.06);margin-top:4px}
+  .founder-showcase{grid-template-columns:1fr;text-align:center}
+  .founder-frame{max-width:230px;margin-inline:auto}
   .founder-tags{justify-content:center}
   .story{grid-template-columns:1fr}
   .fi{grid-template-columns:1fr 1fr}
-  .hero{padding:56px 0 68px}
-  .card{padding:24px}
 }
-@media(max-width:520px){
-  .fi{grid-template-columns:1fr}
-}
-@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}.js .rv{opacity:1;transform:none}}
-@media(max-width:900px){html body #links.open a{color:var(--text)!important}}
-
-/* حركة بطاقات هادئة ومتدرجة — محسّنة للمس والهواتف */
-#offer .feat{
-  animation:aboutCardFloat 6.8s ease-in-out infinite;
-  animation-delay:calc(var(--card-order,0) * -0.72s);
-  transform:translate3d(0,0,0);
-  -webkit-tap-highlight-color:transparent;
-}
-#offer .feat:nth-child(6n+1){--card-order:0}
-#offer .feat:nth-child(6n+2){--card-order:1}
-#offer .feat:nth-child(6n+3){--card-order:2}
-#offer .feat:nth-child(6n+4){--card-order:3}
-#offer .feat:nth-child(6n+5){--card-order:4}
-#offer .feat:nth-child(6n){--card-order:5}
-#offer .feat:hover,#offer .feat:focus-visible{
-  animation-play-state:paused;
-  transform:translate3d(0,-7px,0) scale(1.012);
-  border-color:color-mix(in srgb,var(--gold) 65%,var(--primary));
-  box-shadow:var(--shadow);
-}
-#contact .c{
-  animation:aboutCardFloat 7.5s ease-in-out infinite;
-  animation-delay:-1.2s;
-  min-width:0;
-}
-#contact .c:nth-child(2){animation-delay:-3.4s}
-#contact .c:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
-@keyframes aboutCardFloat{
-  0%,100%{translate:0 0}
-  50%{translate:0 -5px}
-}
-@media(max-width:860px){
-  #offer .feat{animation-duration:8s}
-  #offer .feat:hover,#offer .feat:focus-visible{transform:translate3d(0,-3px,0)}
-  #contact .contact{grid-template-columns:minmax(0,1fr);gap:12px}
-  #contact .c{padding:17px;gap:12px;overflow:hidden}
-  #contact .c a{font-size:clamp(.82rem,3.5vw,.98rem);overflow-wrap:anywhere}
-  #contact .cp{flex-shrink:0;padding:7px 10px}
-}
-@media(max-width:380px){
-  #contact .c{gap:9px;padding:14px}
-  #contact .c i{width:42px;height:42px;font-size:1.25rem}
-  #contact .cp{font-size:.75rem;padding:6px 8px}
-}
+@media(max-width:520px){.fi{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){
-  #offer .feat,#contact .c{animation:none!important;translate:none!important}
-  #offer .feat:hover,#contact .c:hover{transform:none}
+  *{transition:none!important;scroll-behavior:auto!important}
+  .js .rv{opacity:1;transform:none}
+  .emblem-split,.emblem-half,.emblem-center{transform:none!important}
 }
-
-
-/* CINEMATIC EDITORIAL EXPERIENCE — About page */
-.film-scene{
-  position:relative;isolation:isolate;min-height:min(760px,88svh);overflow:hidden;
-  display:flex;align-items:center;color:#f4f4ed;
-  background:radial-gradient(ellipse at 76% 48%,rgba(28,126,95,.34),transparent 38%),linear-gradient(115deg,#071a16 0%,#0b3028 52%,#06110f 100%);
-  border-bottom:1px solid rgba(227,173,63,.25)
-}
-.film-scene::before,.film-scene::after{content:"";position:absolute;pointer-events:none;z-index:-1}
-.film-scene::before{inset:0;background:repeating-linear-gradient(0deg,transparent 0 58px,rgba(221,190,119,.055) 59px 60px),repeating-linear-gradient(90deg,transparent 0 58px,rgba(221,190,119,.055) 59px 60px);mask-image:linear-gradient(90deg,transparent,#000)}
-.film-scene::after{width:54vw;height:54vw;max-width:720px;max-height:720px;border:1px solid rgba(221,190,119,.13);border-radius:50%;right:-12%;top:-12%;box-shadow:0 0 0 34px rgba(221,190,119,.025),0 0 0 80px rgba(221,190,119,.02)}
-.film-noise{position:absolute;inset:0;opacity:.14;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E")}
-.film-inner{position:relative;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:5vw;min-height:inherit;padding-block:70px}
-.film-copy{position:relative;z-index:3;max-width:520px}
-.film-index{font:700 .7rem/1.5 'Cairo',sans-serif;letter-spacing:.22em;color:#d9b66b;display:block;margin-bottom:22px}
-.film-overline{color:#a8d9c3;font-size:.92rem;letter-spacing:.12em}
-.film-copy h2,.interlude-text h2{font:700 clamp(3rem,6.5vw,6.2rem)/1.22 'Amiri',serif;color:#f5f0df;margin:12px 0 20px;letter-spacing:-.03em}
-.film-copy h2 i,.interlude-text h2 i{font-style:normal;color:#e2bd73}
-.film-copy>p:last-child,.interlude-text>p{font-size:1.04rem;line-height:2.2;color:#b9cfc5;max-width:440px}
-.orbit-art{height:min(540px,68vw);min-height:330px;position:relative;display:grid;place-items:center;perspective:1000px;transform-style:preserve-3d}
-.orbit{position:absolute;border:1px solid rgba(222,190,119,.6);border-radius:50%;transform-style:preserve-3d;box-shadow:0 0 28px rgba(222,190,119,.06),inset 0 0 25px rgba(40,170,126,.07)}
-.orbit-a{width:78%;height:78%;transform:rotateX(68deg) rotateZ(-28deg);animation:orbitSpin 19s linear infinite}
-.orbit-b{width:65%;height:90%;transform:rotateY(68deg) rotateZ(32deg);border-color:rgba(133,218,184,.5);animation:orbitSpinReverse 23s linear infinite}
-.orbit-c{width:95%;height:48%;transform:rotateX(12deg) rotateZ(58deg);border-style:dashed;opacity:.55;animation:orbitSpin 32s linear infinite}
-.orbit-core{width:190px;height:190px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:2;background:radial-gradient(circle at 32% 24%,#56b996 0,#16775d 32%,#07382d 70%,#041c17 100%);border:1px solid rgba(231,196,119,.85);box-shadow:inset -18px -20px 35px rgba(0,0,0,.42),inset 10px 12px 24px rgba(193,255,225,.16),0 28px 75px rgba(0,0,0,.45),0 0 65px rgba(53,178,134,.18);transform:rotateY(-14deg) rotateX(9deg);animation:coreFloat 5s ease-in-out infinite}
-.orbit-core::before{content:"";position:absolute;inset:12px;border:1px solid rgba(232,199,130,.5);border-radius:50%}
-.orbit-core span{font:700 1.3rem 'Amiri',serif;color:#f4d998}.orbit-core b{font:700 2.3rem 'Amiri',serif;color:#fff}.orbit-core small{color:#eacb82;font-size:1.5rem}
-.orbit-dot{position:absolute;width:13px;height:13px;border-radius:50%;background:#e7c77e;box-shadow:0 0 22px #e7c77e}
-.dot-a{top:17%;left:28%}.dot-b{right:15%;top:47%;width:8px;height:8px;background:#9be8c9}.dot-c{bottom:18%;left:23%;width:9px;height:9px}
-.scene-foot{position:absolute;bottom:25px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:.62rem;letter-spacing:.28em;color:rgba(231,207,153,.6)}
-@keyframes orbitSpin{to{transform:rotateX(68deg) rotateZ(332deg)}}
-@keyframes orbitSpinReverse{to{transform:rotateY(68deg) rotateZ(-328deg)}}
-@keyframes coreFloat{0%,100%{transform:translateY(0) rotateY(-14deg) rotateX(9deg)}50%{transform:translateY(-16px) rotateY(8deg) rotateX(-5deg)}}
-.visual-interlude{position:relative;isolation:isolate;overflow:hidden;margin:80px 0 20px;min-height:570px;display:flex;align-items:center;background:linear-gradient(105deg,#071713 0%,#0a3026 60%,#07140f 100%);border-block:1px solid rgba(227,173,63,.22);color:#f4f4ed}
-.interlude-backdrop{position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 26% 55%,rgba(42,161,119,.22),transparent 32%),linear-gradient(90deg,transparent 49%,rgba(231,190,108,.08) 50%,transparent 51%);background-size:auto,70px 70px;opacity:.8}
-.interlude-content{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:8vw;padding-block:70px}
-.interlude-text h2{font-size:clamp(2.8rem,5.5vw,5rem)}
-.floating-book{height:400px;position:relative;display:grid;place-items:center;perspective:1000px}
-.book-object{width:210px;height:280px;position:relative;transform-style:preserve-3d;transform:rotateY(-28deg) rotateX(12deg) rotateZ(-8deg);animation:bookHover 6s ease-in-out infinite;filter:drop-shadow(25px 35px 25px rgba(0,0,0,.38))}
-.book-cover{position:absolute;inset:0 12px 0 0;border:2px solid #d8b56d;border-radius:5px 13px 13px 5px;background:linear-gradient(140deg,#23866a,#0a3b2d 65%,#06251e);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;box-shadow:inset 0 0 0 8px rgba(223,187,112,.12),inset 0 0 0 10px rgba(223,187,112,.38),inset -18px 0 25px rgba(0,0,0,.25);transform:translateZ(12px)}
-.book-orn{font-size:4.2rem;color:#e7c77e;text-shadow:0 0 25px rgba(231,199,126,.3)}
-.book-cover b{font:700 2rem 'Amiri',serif;color:#fff}.book-cover small{color:#e6d3a5;font:1rem 'Amiri',serif}
-.book-pages{position:absolute;top:7px;bottom:7px;right:-2px;width:18px;background:repeating-linear-gradient(0deg,#f4e8c9 0 2px,#cdbb91 3px 4px);transform:rotateY(90deg) translateZ(-3px);transform-origin:right}
-.book-shadow{position:absolute;width:240px;height:40px;border-radius:50%;background:#000;filter:blur(22px);bottom:32px;opacity:.45;animation:shadowPulse 6s ease-in-out infinite}
-.book-ring{position:absolute;border:1px solid rgba(225,190,112,.55);border-radius:50%;width:310px;height:100px;transform:rotate(-25deg) rotateX(65deg);animation:ringRotate 15s linear infinite}
-.ring-two{width:350px;height:140px;transform:rotate(48deg) rotateX(65deg);border-color:rgba(155,232,201,.35);animation-direction:reverse;animation-duration:21s}
-@keyframes bookHover{0%,100%{transform:translateY(0) rotateY(-28deg) rotateX(12deg) rotateZ(-8deg)}50%{transform:translateY(-19px) rotateY(15deg) rotateX(-5deg) rotateZ(4deg)}}
-@keyframes shadowPulse{0%,100%{transform:scale(1);opacity:.4}50%{transform:scale(.78);opacity:.22}}
-@keyframes ringRotate{to{rotate:360deg}}
-.interlude-link{display:inline-flex;gap:16px;align-items:center;margin-top:25px;color:#e7c77e;text-decoration:none;border-bottom:1px solid rgba(231,199,126,.5);padding-bottom:8px}
-.interlude-link span{font-size:1.3rem;transition:transform .3s}.interlude-link:hover span{transform:translate(4px,-4px)}
-/* Cards: real 3D hover, staggered entrances and perspective */
-#offer .grid{perspective:1200px}
-#offer .feat{transform-style:preserve-3d;will-change:transform;transition:transform .65s cubic-bezier(.2,.75,.25,1),box-shadow .45s,border-color .35s;overflow:hidden;min-height:220px}
-#offer .feat::before{content:"";position:absolute;inset:-60% -30%;background:linear-gradient(110deg,transparent 42%,rgba(255,255,255,.10) 50%,transparent 58%);transform:translateX(-75%) rotate(12deg);transition:transform .9s;pointer-events:none}
-#offer .feat:hover::before{transform:translateX(75%) rotate(12deg)}
-#offer .feat i{transition:transform .65s cubic-bezier(.2,.8,.2,1),background .3s}
-#offer .feat:hover i{transform:translateZ(24px) rotateY(22deg) rotateZ(-8deg) scale(1.12);background:var(--gold-soft)}
-#offer .feat b,#offer .feat span,#offer .feat em{position:relative;transform:translateZ(12px)}
-.js .reveal-scene{opacity:0;transform:translateY(45px);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.7,.2,1)}
-.js .reveal-scene.scene-in{opacity:1;transform:none}
-#story .founder-showcase{transform-style:preserve-3d;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
-@media(max-width:860px){
- .film-scene{min-height:auto;min-height:780px}
- .film-inner{grid-template-columns:1fr;gap:4px;text-align:center;padding:55px 0 62px}
- .film-copy{margin:auto}.film-copy h2{font-size:clamp(3.2rem,12vw,5rem)}
- .film-copy>p:last-child{margin:auto}
- .orbit-art{height:350px;min-height:300px;order:2}
- .orbit-core{width:150px;height:150px}.orbit-core b{font-size:1.9rem}
- .scene-foot{font-size:.5rem;letter-spacing:.16em}
- .visual-interlude{margin:48px 0 10px;min-height:0}
- .interlude-content{grid-template-columns:1fr;gap:0;text-align:center;padding-block:44px}
- .floating-book{height:300px;order:2}
- .book-object{transform:scale(.82) rotateY(-28deg) rotateX(12deg) rotateZ(-8deg)}
- .interlude-text>p{margin-inline:auto}
- .interlude-link{margin-top:18px}
- #offer .feat{min-height:190px}
-}
-@media(max-width:520px){
- .film-scene{min-height:690px}
- .film-inner{padding-top:45px}
- .orbit-art{height:290px;min-height:270px}
- .orbit-core{width:132px;height:132px}
- .orbit-a{width:85%;height:75%}.orbit-b{height:85%}
- .film-copy h2{font-size:3.25rem}
- .film-copy>p:last-child,.interlude-text>p{font-size:.92rem}
- .floating-book{height:260px}
- .book-object{scale:.78}
- .book-ring{width:250px}
- .ring-two{width:275px}
- #offer .feat{min-height:0}
-}
-@media(hover:none){
- #offer .feat{transform:none!important}
- #offer .feat:active{transform:scale(.985)!important}
-}
-@media(prefers-reduced-motion:reduce){
- .orbit-a,.orbit-b,.orbit-c,.orbit-core,.book-object,.book-shadow,.book-ring{animation:none!important}
- .js .reveal-scene{opacity:1;transform:none;transition:none}
- #offer .feat,#offer .feat i{transition:none}
-}
-
-
-/* ADVANCED CINEMATIC PASS — logo, Qur'an photography and heritage library */
-.logo-core{
-  width:clamp(190px,22vw,270px);height:clamp(190px,22vw,270px);
-  border-radius:34px!important;background:linear-gradient(145deg,rgba(12,44,34,.92),rgba(4,19,15,.98))!important;
-  border:1px solid rgba(231,199,126,.85)!important;overflow:visible!important;
-  transform:translateZ(70px) rotateY(-12deg) rotateX(7deg);
-  box-shadow:0 35px 90px rgba(0,0,0,.5),0 0 65px rgba(53,178,134,.2)!important;
-  animation:logoLevitate 5.5s ease-in-out infinite!important;
-}
-.logo-core img{
-  display:block;width:76%;height:76%;object-fit:contain;position:relative;z-index:2;
-  filter:drop-shadow(0 14px 22px rgba(0,0,0,.35));
-  animation:logoBreath 4s ease-in-out infinite;
-}
-.logo-halo{position:absolute;inset:-15px;border:1px solid rgba(231,199,126,.55);border-radius:42px;transform:translateZ(-20px);box-shadow:0 0 45px rgba(231,199,126,.12),inset 0 0 28px rgba(53,178,134,.08)}
-@keyframes logoLevitate{0%,100%{translate:0 0;rotate:-2deg}50%{translate:0 -17px;rotate:2deg}}
-@keyframes logoBreath{0%,100%{scale:1}50%{scale:1.045}}
-.book-gallery{height:480px!important;min-height:420px;display:flex!important;align-items:center;justify-content:center;gap:20px;isolation:isolate}
-.quran-photo-wrap{
-  position:relative;width:min(56%,320px);height:390px;border-radius:170px 170px 22px 22px;
-  overflow:hidden;border:1px solid rgba(231,199,126,.72);
-  transform:perspective(1000px) rotateY(-13deg) rotateX(4deg) rotateZ(-3deg);
-  box-shadow:0 35px 80px rgba(0,0,0,.45),0 0 45px rgba(27,139,101,.16);
-  animation:quranFloat 7s ease-in-out infinite;
-}
-.quran-photo{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.82) contrast(1.08)}
-.photo-vignette{position:absolute;inset:0;background:linear-gradient(0deg,rgba(3,18,13,.86),transparent 48%),linear-gradient(120deg,rgba(9,78,57,.18),transparent 60%)}
-.photo-label{position:absolute;bottom:18px;right:12px;left:12px;text-align:center;color:#f2d99d;font:700 1.05rem 'Amiri',serif;text-shadow:0 2px 10px #000}
-.heritage-stack{position:absolute;left:0;bottom:38px;display:grid;gap:10px;z-index:3;transform:perspective(900px) rotateY(18deg) rotateZ(-7deg)}
-.heritage-book{
-  width:150px;min-height:67px;padding:12px 13px;display:flex;flex-direction:column;justify-content:center;
-  border:1px solid rgba(235,203,137,.72);border-right:7px solid rgba(0,0,0,.22);
-  border-radius:5px 10px 10px 5px;color:#f8edcf;
-  box-shadow:12px 14px 24px rgba(0,0,0,.35),inset 0 0 0 3px rgba(255,255,255,.07);
-  transform-style:preserve-3d;animation:heritageFloat 6s ease-in-out infinite;
-}
-.heritage-book span{font:700 1.1rem 'Amiri',serif}.heritage-book small{font-size:.68rem;opacity:.78}
-.book-bukhari{background:linear-gradient(135deg,#98713a,#49341b)}
-.book-muslim{background:linear-gradient(135deg,#176d55,#07382c);animation-delay:-2s}
-.book-nawawi{background:linear-gradient(135deg,#315f78,#172f43);animation-delay:-4s}
-@keyframes quranFloat{0%,100%{transform:perspective(1000px) rotateY(-13deg) rotateX(4deg) rotateZ(-3deg) translateY(0)}50%{transform:perspective(1000px) rotateY(9deg) rotateX(-3deg) rotateZ(2deg) translateY(-13px)}}
-@keyframes heritageFloat{0%,100%{translate:0 0;rotate:0deg}50%{translate:0 -8px;rotate:2deg}}
-.film-scene{overflow:hidden;isolation:isolate}
-.film-scene::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(ellipse at 72% 45%,rgba(31,145,116,.18),transparent 42%),linear-gradient(115deg,transparent 25%,rgba(226,190,111,.045) 50%,transparent 72%);background-size:100% 100%,220% 100%;animation:cinemaLight 12s ease-in-out infinite}
-@keyframes cinemaLight{0%,100%{background-position:center,-120% 0}50%{background-position:center,120% 0}}
-.film-index{letter-spacing:.22em}
-.film-copy h2{ text-shadow:0 12px 35px rgba(0,0,0,.35)}
-#offer .feat{position:relative;isolation:isolate}
-#offer .feat::after{content:"";position:absolute;inset:-1px;z-index:-1;opacity:0;background:linear-gradient(115deg,transparent 25%,rgba(232,199,126,.16) 48%,transparent 70%);background-size:220% 100%;transition:opacity .35s}
-#offer .feat:hover::after{opacity:1;animation:cardShine 1.2s ease}
-@keyframes cardShine{from{background-position:120% 0}to{background-position:-120% 0}}
-@media(max-width:860px){
- .logo-core{width:155px;height:155px;border-radius:25px!important}
- .logo-halo{border-radius:32px}
- .book-gallery{height:350px!important;min-height:330px}
- .quran-photo-wrap{height:285px;width:55%}
- .heritage-book{width:120px;min-height:57px;padding:8px}
- .heritage-book span{font-size:.94rem}
- .heritage-stack{bottom:22px}
-}
-@media(max-width:520px){
- .book-gallery{height:300px!important;min-height:290px;gap:8px}
- .quran-photo-wrap{height:245px;width:57%;border-radius:125px 125px 16px 16px}
- .heritage-book{width:104px;min-height:51px}
- .heritage-book span{font-size:.82rem}.heritage-book small{font-size:.6rem}
- .heritage-stack{left:-4px;bottom:22px;gap:7px}
- .logo-core{width:136px;height:136px}
-}
-@media(prefers-reduced-motion:reduce){
- .logo-core,.logo-core img,.quran-photo-wrap,.heritage-book,.film-scene::before{animation:none!important}
-}
-
-
-/* ZAD OUBAIDA — SIGNATURE VISUAL EDITION */
-.orbit-art{min-height:530px;perspective:1300px}
-.orbit-core.logo-core{width:clamp(205px,24vw,290px);height:clamp(205px,24vw,290px);border-radius:38px!important;display:flex;flex-direction:column;gap:10px;background:linear-gradient(145deg,#123d30,#071c16 72%)!important;border:1px solid rgba(232,198,126,.9)!important;box-shadow:0 35px 90px rgba(0,0,0,.55),0 0 75px rgba(31,145,116,.24),inset 0 0 0 8px rgba(231,199,126,.07)!important;transform-style:preserve-3d;animation:signatureLogo 7s ease-in-out infinite!important;overflow:visible!important}
-.orbit-core.logo-core::before{inset:10px!important;border-radius:29px!important;border-color:rgba(231,199,126,.35)!important}
-.logo-core img{width:76%;height:76%;object-fit:contain;position:relative;z-index:2;filter:drop-shadow(0 14px 20px rgba(0,0,0,.42));animation:logoBreath 5s ease-in-out infinite}
-.logo-caption{font:700 1.2rem 'Amiri',serif;color:#f2d99d;letter-spacing:.06em}
-.logo-halo{position:absolute;inset:-18px;border:1px solid rgba(231,199,126,.32);border-radius:48px;box-shadow:0 0 55px rgba(227,173,63,.1);pointer-events:none}
-@keyframes signatureLogo{0%,100%{transform:translateY(0) rotateY(-12deg) rotateX(7deg)}50%{transform:translateY(-16px) rotateY(12deg) rotateX(-5deg)}}
-@keyframes logoBreath{0%,100%{scale:1}50%{scale:1.045}}
-.premium-library{height:470px!important;min-height:430px;display:flex!important;align-items:center;justify-content:center;perspective:1400px;isolation:isolate}
-.library-aura{position:absolute;width:75%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(31,145,116,.26),rgba(227,173,63,.08) 42%,transparent 70%);filter:blur(12px)}
-.mushaf-frame{position:relative;z-index:2;width:min(58%,330px);height:390px;margin:0;overflow:hidden;border-radius:190px 190px 22px 22px;padding:9px;border:1px solid rgba(232,198,126,.9);background:linear-gradient(145deg,#e5c98d,#76572b 28%,#102f25 65%,#061711);box-shadow:0 35px 75px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.18);transform:rotateY(-12deg) rotateZ(-3deg);animation:mushafFloat 7s ease-in-out infinite}
-.mushaf-frame::before{content:"";position:absolute;inset:5px;border:1px solid rgba(255,236,187,.52);border-radius:185px 185px 17px 17px;z-index:3;pointer-events:none}
-.mushaf-frame img{width:100%;height:100%;object-fit:cover;display:block;border-radius:180px 180px 15px 15px;filter:saturate(.82) contrast(1.08)}
-.mushaf-frame figcaption{position:absolute;z-index:4;bottom:10px;right:10px;left:10px;padding:35px 12px 14px;text-align:center;color:#fff;background:linear-gradient(transparent,rgba(3,19,14,.94));display:flex;flex-direction:column;gap:3px}
-.mushaf-frame figcaption span{font:700 1.45rem 'Amiri',serif;color:#f4d99b}.mushaf-frame figcaption small{font-size:.72rem;color:#e6e0d0}
-.library-books{position:absolute;z-index:4;left:-1%;bottom:18px;display:flex;flex-direction:column;gap:9px;transform:perspective(900px) rotateY(18deg) rotateZ(-7deg)}
-.library-book{width:156px;min-height:62px;padding:9px 12px;display:flex;flex-direction:column;justify-content:center;border:1px solid rgba(244,218,164,.8);border-right:8px solid rgba(0,0,0,.28);border-radius:4px 9px 9px 4px;color:#fff5dc;box-shadow:10px 13px 25px rgba(0,0,0,.4),inset 0 0 0 3px rgba(255,255,255,.07);transform-style:preserve-3d;animation:libraryDrift 6s ease-in-out infinite}
-.library-book span{font:700 1.15rem 'Amiri',serif}.library-book small{font-size:.67rem;opacity:.8}
-.library-book.bukhari{background:linear-gradient(125deg,#a17b40,#533a1c)}.library-book.muslim{background:linear-gradient(125deg,#197457,#073a2c);animation-delay:-2s}.library-book.riyad{background:linear-gradient(125deg,#345e79,#172e42);animation-delay:-4s}
-.library-orbit{position:absolute;z-index:1;width:92%;height:44%;border:1px solid rgba(231,199,126,.4);border-radius:50%;pointer-events:none}
-.orbit-gold{transform:rotateX(66deg) rotateZ(22deg);animation:libraryOrbit 20s linear infinite}.orbit-mint{border-color:rgba(155,232,201,.35);transform:rotateY(64deg) rotateZ(-28deg);animation:libraryOrbit 26s linear infinite reverse}
-@keyframes mushafFloat{0%,100%{transform:translateY(0) rotateY(-12deg) rotateZ(-3deg)}50%{transform:translateY(-14px) rotateY(9deg) rotateZ(2deg)}}
-@keyframes libraryDrift{0%,100%{translate:0 0;rotate:0deg}50%{translate:0 -9px;rotate:1.5deg}}
-@keyframes libraryOrbit{to{rotate:360deg}}
-#story .founder-showcase{border:1px solid rgba(227,173,63,.5);background:radial-gradient(ellipse at 5% 10%,rgba(31,145,116,.15),transparent 40%),linear-gradient(135deg,var(--card2),var(--card));box-shadow:0 24px 65px rgba(0,0,0,.22)}
-.founder-frame{padding:8px!important;border-radius:26px!important;background:linear-gradient(135deg,#e3ad3f,#145c46,#e3ad3f)!important;box-shadow:0 22px 55px rgba(0,0,0,.4)!important}
-.founder-frame img{border-radius:19px;object-fit:cover}
-#offer .feat{border:1px solid color-mix(in srgb,var(--gold) 35%,var(--line));background:linear-gradient(145deg,var(--card),color-mix(in srgb,var(--card2) 65%,var(--card)));box-shadow:0 12px 30px rgba(0,0,0,.1);transform-style:preserve-3d;will-change:transform}
-#offer .feat::before{content:"";position:absolute;inset:7px;border:1px solid color-mix(in srgb,var(--gold) 18%,transparent);border-radius:calc(var(--r) - 6px);pointer-events:none}
-#offer .feat:hover{box-shadow:0 25px 48px rgba(0,0,0,.25),0 0 0 1px rgba(227,173,63,.24)}
-@media(max-width:860px){.orbit-art{min-height:370px}.orbit-core.logo-core{width:170px!important;height:170px!important;border-radius:28px!important}.premium-library{height:355px!important;min-height:335px}.mushaf-frame{height:290px;width:56%;border-radius:145px 145px 17px 17px}.library-book{width:119px;min-height:53px;padding:7px 9px}.library-book span{font-size:.94rem}.library-books{bottom:15px;left:-2%}}
-@media(max-width:520px){.orbit-art{min-height:310px}.orbit-core.logo-core{width:142px!important;height:142px!important;border-radius:24px!important}.premium-library{height:300px!important;min-height:285px}.mushaf-frame{height:245px;width:57%;border-radius:125px 125px 15px 15px;padding:6px}.library-book{width:100px;min-height:47px;padding:6px 7px}.library-book span{font-size:.79rem}.library-book small{font-size:.58rem}.library-books{left:-4%;bottom:12px;gap:6px}.mushaf-frame figcaption span{font-size:1.12rem}}
-@media(prefers-reduced-motion:reduce){.brand-orbit,.logo-core img,.mushaf-frame,.library-book,.library-orbit{animation:none!important}}
-
 </style>
 </head>
 <body>
 <a href="#main" class="skip">تخطَّ إلى المحتوى</a>
 <div id="bar" aria-hidden="true"></div>
-
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-<g id="orn" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="100" cy="100" r="96"/><circle cx="100" cy="100" r="30"/><rect x="40" y="40" width="120" height="120"/><rect x="40" y="40" width="120" height="120" transform="rotate(45 100 100)"/><rect x="62" y="62" width="76" height="76"/></g>
-</defs></svg>
 
 <nav class="nav" aria-label="التنقل الرئيسي">
   <div class="wrap nav-in">
@@ -591,49 +489,64 @@ footer p{color:var(--muted);font-size:.92rem;line-height:1.9}
       <a href="./sahihayn.html">الصحيحان</a>
       <a href="./about.html" aria-current="page">عن الموقع</a>
       <a href="./opinions.html">آراؤكم</a>
-      <div class="dropdown"><button type="button" class="dropdown-trigger" aria-haspopup="true">أذكار المسلم <span class="caret">⌄</span></button><div class="dropdown-content"><a href="./adhkar.html">الأذكار العامة</a><a href="./azkar-morning.html">أذكار الصباح</a><a href="./azkar-evening.html">أذكار المساء</a><a href="./azkar-sleep.html">أذكار النوم</a></div></div>
+      <div class="dropdown">
+        <button type="button" class="dropdown-trigger" aria-haspopup="true">أذكار المسلم <span class="caret">⌄</span></button>
+        <div class="dropdown-content">
+          <a href="./adhkar.html">الأذكار العامة</a>
+          <a href="./azkar-morning.html">أذكار الصباح</a>
+          <a href="./azkar-evening.html">أذكار المساء</a>
+          <a href="./azkar-sleep.html">أذكار النوم</a>
+        </div>
+      </div>
     </div>
-    <div class="tools"><button class="ibtn" id="theme" type="button" aria-label="تبديل المظهر">◐</button><button class="ibtn" id="menu" type="button" aria-label="القائمة" aria-expanded="false">☰</button></div>
+    <div class="tools">
+      <button class="ibtn" id="theme" type="button" aria-label="تبديل المظهر">◐</button>
+      <button class="ibtn" id="menu" type="button" aria-label="القائمة" aria-expanded="false">☰</button>
+    </div>
   </div>
 </nav>
 
-<header class="hero">
-  <svg class="orn o1" viewBox="0 0 200 200" aria-hidden="true"><use href="#orn"/></svg>
-  <svg class="orn o2" viewBox="0 0 200 200" aria-hidden="true"><use href="#orn"/></svg>
-  <div class="wrap">
-    <p class="bism">بسم الله الرحمن الرحيم</p>
-    <h1>زادٌ من الخير، وأثرٌ نرجو أن يبقى</h1>
-    <p class="lead">حكاية بدأت من قلب طفل في السادسة عشرة: مساحة إسلامية مجانية تجمع الفائدة والبساطة، وتقرّب المسلم من دينه.</p>
-    <div class="cta">
-      <a class="btn" href="#story">اقرأ الحكاية <span aria-hidden="true">←</span></a>
-      <a class="ghost" href="#offer">استكشف جميع الأقسام</a>
+<header class="hero-stage">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">✦ ZAD OUBAIDA · EDITION</span>
+      <h1>زادٌ من الخير، <em>وأثرٌ نرجو أن يبقى</em></h1>
+      <p class="lead">حكاية بدأت من قلب طفل في السادسة عشرة: مساحة إسلامية مجانية تجمع الفائدة والبساطة، وتقرّب المسلم من دينه.</p>
+      <div class="cta">
+        <a class="btn" href="#story">اقرأ الحكاية <span aria-hidden="true">←</span></a>
+        <a class="ghost" href="#offer">استكشف جميع الأقسام</a>
+      </div>
+      <div class="checks">
+        <span>مجاني للجميع</span>
+        <span>مصادر إسلامية موثوقة</span>
+        <span>مشروع قابل للتطوير</span>
+      </div>
     </div>
-    <div class="checks"><span>مجاني للجميع</span><span>مصادر إسلامية موثوقة</span><span>مشروع قابل للتطوير</span></div>
+
+    <div class="scroll-canvas canvas-crosshair" aria-label="مشهد تفاعلي مرتبط بالتمرير">
+      <div class="emblem-split" aria-hidden="true">
+        <div class="emblem-half left"></div>
+        <div class="emblem-half right"></div>
+        <div class="emblem-center">
+          <img src="./logo-zad-almuslim.webp.png" alt="شعار زاد عبيدة">
+        </div>
+      </div>
+      <div class="floating-tag">
+        <span>01 / SCROLL TO REVEAL</span>
+        <span>زاد عبيدة</span>
+      </div>
+    </div>
   </div>
 </header>
-
-<section class="film-scene scene-one" aria-label="رسالة زاد عبيدة">
-  <div class="film-noise" aria-hidden="true"></div>
-  <div class="film-inner wrap">
-    <div class="film-copy reveal-scene">
-      <span class="film-index">01 — THE BEGINNING</span>
-      <p class="film-overline">من فكرة… إلى أثر</p>
-      <h2>حين تتحوّل<br><i>النية إلى عمل</i></h2>
-      <p>كل مشروع عظيم يبدأ بخطوة، وكل أثر طيب قد يبدأ بفكرة صغيرة.</p>
-    </div>
-    <div class="orbit-art" aria-hidden="true">
-      <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="orbit orbit-c"></div>
-      <div class="orbit-core logo-core"><img src="./logo-zad-almuslim.webp.png" alt="الشعار الرسمي لمنصة زاد عبيدة" loading="eager"><span class="logo-halo"></span><span class="logo-caption">زاد عبيدة</span></div>
-      <span class="orbit-dot dot-a"></span><span class="orbit-dot dot-b"></span><span class="orbit-dot dot-c"></span>
-    </div>
-  </div>
-  <span class="scene-foot">ZAD OUBAIDA · A JOURNEY OF GOODNESS</span>
-</section>
 
 <main id="main" class="wrap" tabindex="-1">
 
   <section id="story">
-    <div class="head rv"><span class="chip">عن زاد عبيدة</span><h2>كيف بدأت الحكاية؟</h2><p>حكاية بدأت من قلب طفل في السادسة عشرة</p></div>
+    <div class="head rv">
+      <span class="chip">عن زاد عبيدة</span>
+      <h2>كيف بدأت الحكاية؟</h2>
+      <p>حكاية بدأت من قلب طفل في السادسة عشرة</p>
+    </div>
 
     <div class="founder-showcase rv">
       <div class="founder-frame">
@@ -667,45 +580,49 @@ footer p{color:var(--muted);font-size:.92rem;line-height:1.9}
         <h3>ولادة المشروع</h3>
         <p>ومن هنا بدأت الفكرة...</p>
         <p>فتحت حاسوبي، وبدأت أتعلم شيئًا لم أكن أعرف عنه الكثير: البرمجة وتصميم المواقع. واجهت صعوبات كثيرة، وأخطاء لم أفهمها، وأيامًا كنت أظن فيها أن المشروع لن يكتمل. لم يكن لدي فريق يساعدني، ولا إمكانيات كبيرة، لكنني كنت أعود في كل مرة وأحاول من جديد.</p>
-        <p>وهكذا وُلد مشروع <strong style="color:var(--gold)">«زاد عبيدة»</strong>.</p>
+        <p>وهكذا وُلد مشروع <strong style="color:var(--accent)">«زاد عبيدة»</strong>.</p>
         <p>لم يكن الهدف إنشاء موقع آخر على الإنترنت، ولم تكن الغاية الشهرة أو جمع المتابعين، بل أردت إنشاء مساحة إسلامية مجانية تجمع بين الفائدة والبساطة، وتساعد المسلم على الاقتراب من دينه.</p>
       </article>
       <blockquote class="quote full rv">لماذا لا أصنع مكانًا يجمع للمسلم ما يحتاجه من أمور دينه، بطريقة بسيطة ومنظمة ومجانية؟</blockquote>
     </div>
   </section>
 
-  <section class="visual-interlude" aria-label="قيم زاد عبيدة">
-    <div class="interlude-backdrop" aria-hidden="true"></div>
-    <div class="interlude-content wrap">
-      <div class="floating-book premium-library" aria-label="مصحف وكتب إسلامية">
-        <div class="library-aura"></div>
-        <figure class="mushaf-frame">
-          <img src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&w=1200&q=88" alt="مصحف مفتوح في مشهد هادئ" loading="lazy">
-          <figcaption><span>القرآن الكريم</span><small>كتاب الله وهداية القلوب</small></figcaption>
-        </figure>
-        <div class="library-books">
-          <div class="library-book bukhari"><span>صحيح البخاري</span><small>الإمام البخاري</small></div>
-          <div class="library-book muslim"><span>صحيح مسلم</span><small>الإمام مسلم</small></div>
-          <div class="library-book riyad"><span>رياض الصالحين</span><small>الإمام النووي</small></div>
+  <section id="constellation" class="rv">
+    <div class="head">
+      <span class="chip">02 — THE PURPOSE</span>
+      <h2>العلم النافع، بأسلوب أقرب إليك</h2>
+      <p>قرآن، وذكر، وسنة، ومحتوى نافع… في مساحة واحدة صُممت لتكون بسيطة وهادئة. اختر نقطة لعرض معناها:</p>
+    </div>
+    <div class="constellation-box">
+      <div class="constellation-layout">
+        <div class="sky-field" aria-label="خريطة قيم المنصة">
+          <svg class="sky-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            <line x1="24" y1="24" x2="66" y2="20"></line>
+            <line x1="66" y1="20" x2="45" y2="54"></line>
+            <line x1="24" y1="24" x2="45" y2="54"></line>
+            <line x1="45" y1="54" x2="26" y2="76"></line>
+            <line x1="45" y1="54" x2="72" y2="74"></line>
+          </svg>
+          <button type="button" class="star-node n1 active" data-pillar="quran">✦ القرآن الكريم</button>
+          <button type="button" class="star-node n2" data-pillar="adhkar">✦ الأذكار والورد</button>
+          <button type="button" class="star-node n3" data-pillar="sunnah">✦ السنة الموثوقة</button>
+          <button type="button" class="star-node n4" data-pillar="free">✦ مجاني للجميع</button>
+          <button type="button" class="star-node n5" data-pillar="growth">✦ قابل للتطوير</button>
         </div>
-        <span class="library-orbit orbit-gold"></span><span class="library-orbit orbit-mint"></span>
-      </div>
-          <div class="heritage-book book-muslim"><span>صحيح مسلم</span><small>الإمام مسلم</small></div>
-          <div class="heritage-book book-nawawi"><span>رياض الصالحين</span><small>الإمام النووي</small></div>
+        <div class="pillar-panel" id="pillarPanel" aria-live="polite">
+          <h3>القرآن الكريم</h3>
+          <p>أن يبقى كتاب الله حاضرًا في يوم المسلم بتصفح مريح وواضح يبعث على السكينة والتدبر دون تعقيد.</p>
         </div>
-        <span class="book-ring ring-one"></span><span class="book-ring ring-two"></span>
-      </div>
-      <div class="interlude-text reveal-scene">
-        <span class="film-index">02 — THE PURPOSE</span>
-        <h2>العلم النافع،<br><i>بأسلوب أقرب إليك</i></h2>
-        <p>قرآن، وذكر، وسنة، ومحتوى نافع… في مساحة واحدة صُممت لتكون بسيطة وهادئة.</p>
-        <a href="#offer" class="interlude-link">اكتشف ما يقدمه زاد عبيدة <span>↗</span></a>
       </div>
     </div>
   </section>
 
   <section id="offer">
-    <div class="head rv"><span class="chip">أقسام ومميزات المنصة</span><h2>ماذا أردت أن أقدم من خلال زاد عبيدة؟</h2><p>جميع صفحات ومميزات الموقع في مكان واحد منظم ومجاني:</p></div>
+    <div class="head rv">
+      <span class="chip">أقسام ومميزات المنصة</span>
+      <h2>ماذا أردت أن أقدم من خلال زاد عبيدة؟</h2>
+      <p>جميع صفحات ومميزات الموقع في مكان واحد منظم ومجاني:</p>
+    </div>
     <div class="grid">
       <a class="feat rv" href="./index.html"><div class="feat-top"><i aria-hidden="true">🏠</i><em>الواجهة</em></div><b>الصفحة الرئيسية</b><span>مدخل شامل يجمع أهم الأقسام اليومية ومواقيت الصلاة في واجهة هادئة.</span></a>
       <a class="feat rv" href="./quran.html"><div class="feat-top"><i aria-hidden="true">📖</i><em>تلاوة</em></div><b>القرآن الكريم</b><span>ليكون كتاب الله قريبًا من المسلم في يومه بتصفح مريح وواضح.</span></a>
@@ -770,25 +687,22 @@ footer p{color:var(--muted);font-size:.92rem;line-height:1.9}
 (function(){
   var d=document,root=d.documentElement,$=function(i){return d.getElementById(i)};
   root.classList.add('js');
-  d.getElementById('year').textContent=new Date().getFullYear();
+  $('year').textContent=new Date().getFullYear();
 
-  /* محاولة ذكية لتحميل صورة المؤسس بأكثر من امتداد شائع وإخفاء أي أيقونة مكسورة عند عدم توفرها */
+  /* محاولة ذكية لتحميل صورة المؤسس */
   var fImg=$('founderImg');
   if(fImg){
     var candidates=['./founder-photo.jpg','./founder-photo.png','./founder-photo.webp','./founder-photo.jpeg','./assets/founder-photo.jpg','./images/founder-photo.jpg'];
     var idx=0;
     fImg.onerror=function(){
       idx++;
-      if(idx<candidates.length){
-        fImg.src=candidates[idx];
-      }else{
-        fImg.style.display='none';
-      }
+      if(idx<candidates.length){fImg.src=candidates[idx];}
+      else{fImg.style.display='none';}
     };
   }
 
   /* الثيم */
-  function meta(){var m=d.querySelector('meta[name=theme-color]');if(m)m.content=root.getAttribute('data-theme')==='light'?'#f5f8f4':'#081410'}
+  function meta(){var m=d.querySelector('meta[name=theme-color]');if(m)m.content=root.getAttribute('data-theme')==='light'?'#eef6ff':'#0c6ac4'}
   meta();
   $('theme').onclick=function(){
     var n=root.getAttribute('data-theme')==='light'?'dark':'light';
@@ -803,11 +717,13 @@ footer p{color:var(--muted);font-size:.92rem;line-height:1.9}
   ln.addEventListener('click',function(e){if(e.target.tagName==='A')close()});
   d.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
 
-  /* شريط التقدم وزر الأعلى */
+  /* شريط التقدم + حركة مرتبطة بالتمرير على غرار الفيديو */
   var bar=$('bar'),top=$('top');
   function sc(){
     var h=root.scrollHeight-innerHeight,y=scrollY;
-    bar.style.transform='scaleX('+(h>0?y/h:0)+')';
+    var p=h>0?Math.min(1,Math.max(0,y/h)):0;
+    bar.style.transform='scaleX('+p+')';
+    root.style.setProperty('--scroll',p.toFixed(4));
     top.classList.toggle('on',y>600);
   }
   addEventListener('scroll',sc,{passive:true});sc();
@@ -820,26 +736,25 @@ footer p{color:var(--muted);font-size:.92rem;line-height:1.9}
     els.forEach(function(el){io.observe(el)});
   }else els.forEach(function(el){el.classList.add('in')});
 
-  /* Cinematic scroll reveals + gentle 3D card tilt (desktop only) */
-  var scenes=d.querySelectorAll('.reveal-scene');
-  if('IntersectionObserver' in window){
-    var sceneObserver=new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){entry.target.classList.add('scene-in');sceneObserver.unobserve(entry.target)}
-      });
-    },{threshold:.16});
-    scenes.forEach(function(el){sceneObserver.observe(el)});
-  }else scenes.forEach(function(el){el.classList.add('scene-in')});
-
-  if(window.matchMedia('(hover:hover) and (pointer:fine)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-    d.querySelectorAll('#offer .feat').forEach(function(card){
-      card.addEventListener('pointermove',function(e){
-        var r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
-        card.style.transform='perspective(850px) rotateX('+((.5-y)*9)+'deg) rotateY('+((x-.5)*11)+'deg) translateY(-7px)';
-      });
-      card.addEventListener('pointerleave',function(){card.style.transform=''});
+  /* كوكبة القيم التفاعلية */
+  var pillars={
+    quran:{t:'القرآن الكريم',p:'أن يبقى كتاب الله حاضرًا في يوم المسلم بتصفح مريح وواضح يبعث على السكينة والتدبر دون تعقيد.'},
+    adhkar:{t:'الأذكار والورد',p:'تنظيم أذكار الصباح والمساء والنوم والورد اليومي لتصير عادة يومية ثابتة وميسّرة.'},
+    sunnah:{t:'السنة الموثوقة',p:'تقريب الأحاديث النبوية والصحيحين والأدعية المأثورة بالاعتماد على المصادر الموثوقة.'},
+    free:{t:'مجاني للجميع',p:'مساحة مفتوحة ومجانية بالكامل، الهدف منها نشر الخير والأجر لا القيود أو التعقيد.'},
+    growth:{t:'قابل للتطوير',p:'رحلة مستمرة تتطور بملاحظات الزوار واقتراحاتهم لتبقى تجربة بسيطة ونافعة.'}
+  };
+  var panel=$('pillarPanel');
+  d.querySelectorAll('.star-node').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      d.querySelectorAll('.star-node').forEach(function(b){b.classList.remove('active')});
+      btn.classList.add('active');
+      var item=pillars[btn.getAttribute('data-pillar')];
+      if(item&&panel){
+        panel.innerHTML='<h3>'+item.t+'</h3><p>'+item.p+'</p>';
+      }
     });
-  }
+  });
 
   /* نسخ البريد */
   var t=$('toast'),tm;

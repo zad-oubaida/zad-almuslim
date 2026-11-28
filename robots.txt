@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://zad-oubaida.github.io/zad-almuslim/sitemap.xml

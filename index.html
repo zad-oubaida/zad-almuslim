@@ -226,7 +226,7 @@ h1,h2,h3,.sub{text-wrap:balance}
     <section class="card" aria-labelledby="pth">
             <div class="ch"><h2 id="pth">مواقيت الصلاة</h2><button class="btn s" id="locBtn" type="button"><svg class="i"><use href="#pin"/></svg>تحديد موقعي بدقة</button></div>
       <div class="pt-search"><input id="citySearch" type="search" list="algeriaCities" placeholder="ابحث عن مدينتك الجزائرية…" autocomplete="off" aria-label="ابحث عن مدينة"><datalist id="algeriaCities"></datalist><button class="btn s" id="citySearchBtn" type="button">بحث</button></div>
-      <p class="dt" id="pd">جارٍ حساب المواقيت محليًا…</p>
+      <p class="dt" id="pd">حساب فلكي محلي تقريبي؛ قد يختلف عن الرزنامة الرسمية.</p>
       <ul id="pt"></ul>
       <div class="cd" hidden id="cdb" role="timer"><div><span id="cl"></span><b id="cv">00:00:00</b></div><div class="pb"><i id="pg"></i></div></div>
       <div class="cta"><button class="btn s" id="adhanToggle" type="button">تفعيل الأذان قبل الصلاة بدقيقة</button><button class="btn s" id="adhanTest" type="button">تجربة الأذان</button></div>
@@ -338,7 +338,7 @@ function setNow(){
 }
 setNow();
 
-/* مواقيت الصلاة وفق معيار الحساب الجزائري محليًا */
+/* حساب فلكي محلي تقريبي: فجر 18° وعشاء 17° والعصر القياسي؛ ليس جدول الوزارة الرسمي */
 var N=[['Fajr','الفجر'],['Sunrise','الشروق'],['Dhuhr','الظهر'],['Asr','العصر'],['Maghrib','المغرب'],['Isha','العشاء']],O=['Fajr','Dhuhr','Asr','Maghrib','Isha'];
 var S=null,reload=null,retry=0,tok=0,pt=$('#pt');
 function sec(z){try{var p=new Intl.DateTimeFormat('en-GB',{timeZone:z||undefined,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).formatToParts(new Date()),g=function(k){return+p.filter(function(x){return x.type===k})[0].value};return g('hour')%24*3600+g('minute')*60+g('second')}catch(e){var n=new Date();return n.getHours()*3600+n.getMinutes()*60+n.getSeconds()}}
@@ -424,7 +424,7 @@ var ALGERIAN_CITIES=[
 ];
 var cityList=$('#algeriaCities');
 ALGERIAN_CITIES.forEach(function(x){var o=document.createElement('option');o.value=x[0];cityList.appendChild(o)});
-function offlineLoad(la,lo,label,key){var d={t:est(la,lo,1),tz:'Africa/Algiers',date:ds()};reload=function(){offlineLoad(la,lo,label,key)};use(d,label);ls.set('zad_prayer_location',JSON.stringify({lat:la,lon:lo,label:label,key:key}));}
+function offlineLoad(la,lo,label,key){var d={t:est(la,lo,1),tz:'Africa/Algiers',date:ds()};reload=function(){offlineLoad(la,lo,label,key)};use(d,label+' · حساب محلي تقريبي');ls.set('zad_prayer_location',JSON.stringify({lat:la,lon:lo,label:label,key:key}));}
 function byCity(name){var q=String(name||'').trim().replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/\s+/g,' ');var city=ALGERIAN_CITIES.filter(function(x){var n=x[0].replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي');return n===q})[0];if(!city){toast('لم نعثر على المدينة في القائمة المحلية. جرّب تحديد موقعك بدقة.');return}ls.set('zad_city',city[0]);ls.del('zad_geo');offlineLoad(city[1],city[2],city[0],'city:'+city[0]);}
 function byGeo(la,lo){la=Number(la);lo=Number(lo);if(!isFinite(la)||!isFinite(lo)||Math.abs(la)>90||Math.abs(lo)>180)return toast('تعذّر قراءة إحداثيات الموقع');ls.set('zad_geo',la.toFixed(6)+','+lo.toFixed(6));ls.del('zad_city');offlineLoad(la,lo,'موقعك الحالي','geo:'+la.toFixed(6)+','+lo.toFixed(6));}
 $('#locBtn').onclick=function(){if(!navigator.geolocation)return toast('متصفحك لا يدعم تحديد الموقع');toast('جارٍ طلب موقعك بدقة…');navigator.geolocation.getCurrentPosition(function(p){byGeo(p.coords.latitude,p.coords.longitude);toast('تم تحديد موقعك وحساب المواقيت على جهازك')},function(e){toast(e&&e.code===1?'اسمح للموقع بالوصول إلى موقعك من إعدادات المتصفح':'تعذّر تحديد الموقع. ابحث عن مدينتك يدويًا')},{enableHighAccuracy:true,timeout:20000,maximumAge:0});};

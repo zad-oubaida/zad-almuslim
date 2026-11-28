@@ -20,460 +20,309 @@
 </script>
 <style>
 :root{
-  --sky-deep:#073b73;
-  --sky-mid:#0f6ec8;
-  --sky-bright:#2596f3;
-  --parchment:#f4efe4;
-  --parchment-2:#e8dfc9;
-  --ink-dark:#0b1726;
-  --ink-light:#f7f9fc;
-  --gold:#e8be5a;
-  --gold-soft:rgba(232,190,90,.16);
-  --grid-line:rgba(255,255,255,.11);
-  --card:rgba(8,36,68,.76);
-  --card2:rgba(13,54,102,.86);
-  --line:rgba(255,255,255,.18);
-  --text:#f7faff;
-  --muted:rgba(247,250,255,.78);
-  --accent:#ffd166;
-  --shadow:0 24px 60px rgba(3,21,44,.42);
-  --r:18px;
-  --scroll:0;
+  --sky:#0c6ac4;
+  --sky-top:#1579d6;
+  --sky-bot:#08539e;
+  --fg:#ffffff;
+  --fg-soft:rgba(255,255,255,.84);
+  --line:rgba(255,255,255,.16);
+  --accent:#ffd66b;
+  --p:0;
 }
 [data-theme="light"]{
-  --card:rgba(255,252,245,.9);
-  --card2:rgba(244,237,220,.95);
-  --line:rgba(12,66,120,.18);
-  --text:#0c2238;
-  --muted:#395570;
-  --grid-line:rgba(12,66,120,.1);
-  --shadow:0 18px 45px rgba(10,54,102,.14);
+  --sky:#1b82e0;
+  --sky-top:#3498f0;
+  --sky-bot:#0f63b5;
+  --fg:#ffffff;
+  --fg-soft:rgba(255,255,255,.88);
+  --line:rgba(255,255,255,.22);
+  --accent:#ffe38a;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:80px}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
 body{
   font-family:'Cairo',system-ui,sans-serif;
-  color:var(--text);
-  line-height:1.85;
+  color:var(--fg);
+  line-height:1.9;
   overflow-x:hidden;
-  background:
-    radial-gradient(circle at 75% 18%, rgba(77,175,255,.32), transparent 42%),
-    radial-gradient(circle at 20% 65%, rgba(232,190,90,.14), transparent 45%),
-    linear-gradient(165deg, var(--sky-bright) 0%, var(--sky-mid) 44%, var(--sky-deep) 100%);
+  background:linear-gradient(180deg,var(--sky-top) 0%,var(--sky) 45%,var(--sky-bot) 100%);
   min-height:100vh;
 }
-[data-theme="light"] body{
-  background:
-    radial-gradient(circle at 80% 12%, rgba(37,150,243,.18), transparent 45%),
-    linear-gradient(180deg, #eef6ff 0%, #f6f1e4 55%, #e8eef7 100%);
-}
 
-/* شبكة معمارية دقيقة مستوحاة من الفيديو */
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  z-index:-2;
-  pointer-events:none;
+/* خطوط محاذاة رفيعة مثل الفيديو */
+.guides{
+  position:fixed;inset:0;pointer-events:none;z-index:2;
   background-image:
-    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
-  background-size:64px 64px;
+    linear-gradient(to right, var(--line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+  background-size:25% 180px;
 }
 
-/* غيوم وحبيبات نقطية (Halftone / Star Dust) */
-body::after{
-  content:"";
-  position:fixed;
-  inset:0;
-  z-index:-1;
-  pointer-events:none;
-  opacity:.24;
-  background-image:radial-gradient(rgba(255,255,255,.65) 1.15px, transparent 1.15px);
-  background-size:10px 10px;
-  mask-image:radial-gradient(ellipse at 70% 30%, #000 18%, transparent 72%);
+/* غيوم منقطة (Halftone clouds) تتحرك مع السكرول */
+.halftone{
+  position:fixed;inset:0;pointer-events:none;z-index:1;
+  background-image:radial-gradient(rgba(255,255,255,.55) 1.3px, transparent 1.3px);
+  background-size:9px 9px;
+  opacity:.32;
+  mask-image:
+    radial-gradient(ellipse 340px 130px at 76% 24%, #000 20%, transparent 75%),
+    radial-gradient(ellipse 380px 150px at 26% 62%, #000 18%, transparent 75%),
+    radial-gradient(ellipse 300px 120px at 82% 82%, #000 15%, transparent 75%);
+  transform:translateX(calc((var(--p) - .5) * -90px));
 }
 
 a{color:inherit}
-.wrap{width:min(1160px,92%);margin-inline:auto}
-:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
-.skip{position:absolute;top:-60px;inset-inline-start:12px;z-index:1000;background:#072a52;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none}
+.wrap{width:min(1140px,92%);margin-inline:auto;position:relative;z-index:4}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;top:-60px;inset-inline-start:12px;z-index:1000;background:#063b73;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none}
 .skip:focus{top:12px}
-#bar{position:fixed;top:0;inset-inline:0;height:3px;z-index:220;background:linear-gradient(90deg,var(--accent),#ffffff,var(--gold));transform-origin:right;transform:scaleX(0)}
+#bar{position:fixed;top:0;inset-inline:0;height:3px;z-index:200;background:var(--accent);transform-origin:right;transform:scaleX(0)}
 
-/* الشريط العلوي البسيط على نمط الفيديو */
+/* شريط علوي شفاف وبسيط */
 .nav{
   position:sticky;top:0;z-index:120;
-  background:color-mix(in srgb, var(--sky-deep) 78%, transparent);
-  backdrop-filter:blur(14px);
+  background:rgba(10,94,176,.35);
+  backdrop-filter:blur(10px);
   border-bottom:1px solid var(--line);
 }
-[data-theme="light"] .nav{background:rgba(246,241,228,.84)}
-.nav-in{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:66px;flex-wrap:nowrap}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:62px;flex-wrap:nowrap}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
-.brand img{width:38px;height:38px;border-radius:50%;object-fit:cover;border:1.5px solid var(--accent)}
-.brand b{font-family:'Amiri',serif;font-size:1.35rem;letter-spacing:.2px}
+.brand img{width:34px;height:34px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,.6)}
+.brand b{font-family:'Amiri',serif;font-size:1.3rem}
 .links{display:flex;align-items:center;flex-wrap:nowrap;white-space:nowrap;gap:2px}
-.links>a,.links>.dropdown>.dropdown-trigger{padding:6px 8px;border-radius:8px;text-decoration:none;font-size:.82rem;font-weight:600;transition:background .2s,color .2s}
-.links>a:hover,.links>.dropdown>.dropdown-trigger:hover{background:rgba(255,255,255,.12);color:var(--accent)}
-.links>a[aria-current]{background:rgba(255,255,255,.16);color:var(--accent);border:1px solid rgba(255,209,102,.4)}
+.links>a,.links>.dropdown>.dropdown-trigger{padding:5px 8px;border-radius:6px;text-decoration:none;font-size:.82rem;font-weight:600;transition:opacity .2s,background .2s}
+.links>a:hover,.links>.dropdown>.dropdown-trigger:hover{background:rgba(255,255,255,.12)}
+.links>a[aria-current]{background:rgba(255,255,255,.18);color:var(--accent)}
 .dropdown{position:relative}
 .dropdown-trigger{display:block;border:0;background:transparent;color:inherit;font:inherit;font-weight:600;cursor:pointer}
-.dropdown-content{display:none;position:absolute;top:100%;right:0;z-index:25;min-width:190px;padding:8px;background:var(--card2);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
-.dropdown-content a{display:block;padding:8px 14px;border-radius:8px;text-align:right;text-decoration:none;font-size:.86rem;font-weight:600}
-.dropdown-content a:hover{background:rgba(255,255,255,.1);color:var(--accent)}
+.dropdown-content{display:none;position:absolute;top:100%;right:0;z-index:25;min-width:185px;padding:6px;background:#0855a3;border:1px solid var(--line);border-radius:10px}
+.dropdown-content a{display:block;padding:8px 12px;border-radius:6px;text-align:right;text-decoration:none;font-size:.86rem}
+.dropdown-content a:hover{background:rgba(255,255,255,.14)}
 .dropdown:focus-within .dropdown-content,.dropdown.open .dropdown-content{display:block}
 @media(hover:hover){.dropdown:hover .dropdown-content{display:block}}
-.tools{display:flex;gap:8px;flex-shrink:0}
-.ibtn{width:38px;height:38px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--text);cursor:pointer;font-size:1.05rem;transition:.2s}
-.ibtn:hover{border-color:var(--accent);background:rgba(255,255,255,.14)}
+.tools{display:flex;gap:6px;flex-shrink:0}
+.ibtn{width:36px;height:36px;display:grid;place-items:center;border-radius:8px;border:1px solid var(--line);background:rgba(255,255,255,.08);color:#fff;cursor:pointer;font-size:1rem}
+.ibtn:hover{border-color:var(--accent)}
 #menu{display:none}
 
-/* الواجهة الافتتاحية المستوحاة من مشاهد الفيديو */
-.hero-stage{
+/* مشاهد مفتوحة بدون بطاقات على السماء الزرقاء */
+.scene{
   position:relative;
-  padding:56px 0 74px;
-  border-bottom:1px solid var(--line);
-  overflow:hidden;
-}
-.hero-grid{
-  display:grid;
-  grid-template-columns:1.05fr .95fr;
-  gap:40px;
+  min-height:88svh;
+  padding:84px 0;
+  display:flex;
   align-items:center;
-  min-height:540px;
+  border-bottom:1px solid var(--line);
 }
-.eyebrow{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--accent);border:1px solid rgba(255,209,102,.4);
-  padding:4px 14px;border-radius:99px;margin-bottom:14px;
-  background:rgba(7,35,68,.35);
+.scene-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:48px;
+  align-items:center;
 }
-h1{
+.hero-title{
   font-family:'Amiri',serif;
   font-weight:700;
-  font-size:clamp(2.5rem,6vw,4.5rem);
+  font-size:clamp(2.4rem,5.6vw,4.3rem);
   line-height:1.18;
-  margin-bottom:16px;
-  text-wrap:balance;
+  margin-bottom:18px;
 }
-h1 em{font-style:normal;color:var(--accent)}
-.lead{font-size:1.06rem;color:var(--muted);max-width:560px;margin-bottom:26px}
+.hero-sub{font-size:1.08rem;color:var(--fg-soft);max-width:540px;margin-bottom:26px}
 .cta{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
-.btn{
-  display:inline-flex;align-items:center;gap:10px;
-  padding:12px 24px;border-radius:999px;
-  background:var(--accent);color:#08182b;font-weight:800;text-decoration:none;
-  box-shadow:0 12px 28px rgba(0,0,0,.25);transition:transform .25s,filter .25s;
-}
-.btn:hover{transform:translateY(-2px);filter:brightness(1.05)}
-.ghost{
+.btn-pill{
   display:inline-flex;align-items:center;gap:8px;
-  padding:11px 20px;border-radius:999px;text-decoration:none;font-weight:700;
-  border:1px solid var(--line);background:rgba(255,255,255,.06);transition:.25s;
+  padding:10px 22px;border-radius:999px;
+  background:#fff;color:#084b8f;font-weight:800;font-size:.9rem;text-decoration:none;
+  transition:transform .25s;
 }
-.ghost:hover{border-color:var(--accent);color:var(--accent)}
-.checks{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;font-size:.86rem;color:var(--muted)}
-.checks span{border:1px solid var(--line);background:rgba(255,255,255,.05);padding:4px 13px;border-radius:999px}
+.btn-pill:hover{transform:translateY(-2px)}
+.link-line{text-decoration:none;border-bottom:1px solid rgba(255,255,255,.65);padding-bottom:2px;font-weight:600;font-size:.92rem}
 
-/* لوحة العرض التفاعلية المرتبطة بالـ Scroll مثل حركة الفاكهة/الرمز في الفيديو */
-.scroll-canvas{
+/* عنصر يتشطر ويتحرك مع السكرول مثل المشهد الثاني في الفيديو */
+.stage-visual{
   position:relative;
-  height:470px;
-  border-radius:22px;
-  border:1px solid var(--line);
-  background:
-    radial-gradient(circle at 50% 42%, rgba(255,255,255,.16), transparent 60%),
-    linear-gradient(180deg, rgba(255,255,255,.08), rgba(6,28,54,.38));
+  min-height:420px;
   display:grid;
   place-items:center;
-  overflow:hidden;
-  box-shadow:var(--shadow);
-  perspective:1100px;
 }
-.canvas-crosshair::before,.canvas-crosshair::after{
-  content:"";position:absolute;background:rgba(255,255,255,.14);pointer-events:none;
-}
-.canvas-crosshair::before{inset-block:0;left:50%;width:1px}
-.canvas-crosshair::after{inset-inline:0;top:50%;height:1px}
-
-.emblem-split{
+.split-disc{
   position:relative;
   width:210px;
   height:210px;
   display:grid;
   place-items:center;
-  transform-style:preserve-3d;
-  transform:
-    translateY(calc(var(--scroll) * -36px))
-    rotateY(calc(var(--scroll) * 42deg))
-    rotateZ(calc(var(--scroll) * -14deg));
-  transition:transform .12s ease-out;
 }
-.emblem-half{
+.disc-half{
   position:absolute;
-  inset:0;
-  border-radius:42px;
-  border:1.5px solid rgba(255,209,102,.85);
-  background:linear-gradient(145deg, rgba(255,255,255,.2), rgba(7,46,89,.78));
-  backdrop-filter:blur(10px);
-  display:grid;
-  place-items:center;
-  box-shadow:0 20px 45px rgba(0,0,0,.32);
-}
-.emblem-half.left{
-  clip-path:polygon(0 0, 50% 0, 50% 100%, 0 100%);
-  transform:translateX(calc(var(--scroll) * -28px)) rotate(calc(var(--scroll) * -8deg));
-}
-.emblem-half.right{
-  clip-path:polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
-  transform:translateX(calc(var(--scroll) * 28px)) rotate(calc(var(--scroll) * 8deg));
-}
-.emblem-center{
-  position:relative;
-  z-index:3;
-  width:136px;
-  height:136px;
+  width:100%;
+  height:100%;
   border-radius:50%;
-  border:1.5px solid var(--accent);
-  background:radial-gradient(circle at 30% 25%, #fff2c6, #d49b27 65%, #6a4708 100%);
-  display:grid;
-  place-items:center;
-  box-shadow:0 0 40px rgba(255,209,102,.38);
-  transform:scale(calc(1 + var(--scroll) * .12));
+  border:1.5px solid rgba(255,255,255,.78);
+  background:radial-gradient(circle at 35% 30%, rgba(255,255,255,.28), rgba(6,68,132,.45));
+  backdrop-filter:blur(4px);
 }
-.emblem-center img{width:84px;height:84px;object-fit:contain}
-.floating-tag{
-  position:absolute;
-  bottom:16px;
-  inset-inline:16px;
-  display:flex;
-  justify-content:space-between;
-  font-size:.76rem;
-  color:var(--muted);
-  border-top:1px solid var(--line);
-  padding-top:10px;
+.disc-half.a{
+  clip-path:polygon(0 0, 50% 0, 50% 100%, 0 100%);
+  transform:translateX(calc(var(--p) * -36px)) rotate(calc(var(--p) * -14deg));
 }
-
-/* الأقسام العامة */
-section{padding:72px 0 0}
-.head{margin-bottom:26px}
-.head h2{font-family:'Amiri',serif;font-size:clamp(1.9rem,4vw,2.7rem);line-height:1.3}
-.head p{color:var(--muted);margin-top:4px}
-.chip{
-  display:inline-flex;align-items:center;gap:6px;
-  background:var(--gold-soft);color:var(--accent);
-  border:1px solid rgba(255,209,102,.38);
-  padding:3px 14px;border-radius:999px;font-size:.78rem;font-weight:700;margin-bottom:8px;
+.disc-half.b{
+  clip-path:polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
+  transform:translateX(calc(var(--p) * 36px)) rotate(calc(var(--p) * 14deg));
+}
+.disc-logo{
+  position:relative;z-index:2;
+  width:118px;height:118px;border-radius:50%;
+  object-fit:contain;
+  filter:drop-shadow(0 14px 24px rgba(0,0,0,.25));
+  transform:translateY(calc((var(--p) - .35) * -45px));
 }
 
-/* بطاقة المؤسس بإطار كلاسيكي ومخطط هندسي */
-.founder-showcase{
+/* صورة المؤسس تندمج مباشرة بدون إطار ثقيل ولا بطاقة */
+.founder-inline{
   display:grid;
-  grid-template-columns:minmax(220px,280px) 1fr;
-  gap:28px;
+  grid-template-columns:260px 1fr;
+  gap:40px;
   align-items:center;
-  padding:28px;
-  border-radius:var(--r);
-  border:1px solid var(--line);
-  background:var(--card);
-  backdrop-filter:blur(12px);
-  box-shadow:var(--shadow);
-  margin-bottom:24px;
+  margin-bottom:56px;
 }
-.founder-frame{
+.founder-cutout{
   position:relative;
   aspect-ratio:4/5;
-  border-radius:16px;
-  padding:8px;
-  border:1.5px solid rgba(255,209,102,.7);
-  background:linear-gradient(145deg, rgba(255,209,102,.28), rgba(255,255,255,.04));
-  overflow:hidden;
   display:grid;
   place-items:center;
+  overflow:hidden;
+  mask-image:radial-gradient(ellipse 82% 88% at 50% 48%, #000 68%, transparent 100%);
 }
-.founder-frame img{
+.founder-cutout img{
   width:100%;height:100%;object-fit:cover;object-position:top center;
-  border-radius:11px;position:relative;z-index:2;
+  position:relative;z-index:2;
 }
-.founder-fallback{
+.founder-monogram{
   position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  color:var(--accent);z-index:1;
+  color:#fff;z-index:1;
 }
-.founder-fallback span{
-  width:78px;height:78px;border-radius:50%;border:1.5px solid var(--accent);
-  display:grid;place-items:center;font-family:'Amiri',serif;font-size:2.4rem;margin-bottom:8px;
+.founder-monogram span{
+  width:86px;height:86px;border-radius:50%;border:1px solid rgba(255,255,255,.55);
+  display:grid;place-items:center;font-family:'Amiri',serif;font-size:2.6rem;margin-bottom:6px;
 }
-.founder-info h3{font-family:'Amiri',serif;font-size:2rem;line-height:1.3}
-.founder-role{color:var(--accent);font-weight:700;font-size:.92rem;margin-bottom:10px}
-.founder-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.founder-tags span{
-  font-size:.78rem;font-weight:600;padding:4px 12px;border-radius:999px;
-  border:1px solid var(--line);background:rgba(255,255,255,.06);
-}
+.founder-copy h2{font-family:'Amiri',serif;font-size:clamp(2rem,4vw,3rem);line-height:1.25;margin-bottom:6px}
+.founder-sub{color:var(--accent);font-weight:700;margin-bottom:14px}
+.founder-copy p{color:var(--fg-soft);max-width:62ch}
 
-/* بطاقات الحكاية */
-.card{
-  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
-  padding:28px;box-shadow:var(--shadow);backdrop-filter:blur(12px);
-}
-.prose{max-width:72ch}
-.prose p+p{margin-top:12px}
-.story{display:grid;gap:22px;grid-template-columns:1fr 1fr}
-.story h3{font-family:'Amiri',serif;font-size:1.55rem;color:var(--accent);margin-bottom:10px}
-.quote{
-  margin-top:18px;padding:22px 26px;border-radius:var(--r);
-  background:var(--card2);border:1px solid var(--line);border-inline-start:4px solid var(--accent);
-  font-family:'Amiri',serif;font-size:1.35rem;font-weight:700;line-height:1.95;
-}
-.full{grid-column:1/-1}
-.full .quote{margin-top:0}
-
-/* مشهد الكوكبة والربط التفاعلي (مستوحى من مشهد النجوم والشجرة في الفيديو) */
-.constellation-box{
-  position:relative;
-  border-radius:var(--r);
-  border:1px solid var(--line);
-  background:
-    radial-gradient(circle at 65% 35%, rgba(255,255,255,.15), transparent 55%),
-    rgba(6,31,61,.78);
-  padding:28px;
-  overflow:hidden;
-  box-shadow:var(--shadow);
-}
-.constellation-layout{
+/* نصوص السرد المفتوحة بلا حدود بطاقات */
+.story-columns{
   display:grid;
-  grid-template-columns:1.1fr .9fr;
-  gap:28px;
-  align-items:center;
+  grid-template-columns:1fr 1fr;
+  gap:48px;
+  align-items:start;
 }
-.sky-field{
-  position:relative;
-  min-height:290px;
-  border-radius:14px;
-  border:1px dashed rgba(255,255,255,.22);
-  background:
-    radial-gradient(circle at 25% 25%, rgba(255,255,255,.14), transparent 32%),
-    radial-gradient(circle at 78% 65%, rgba(255,209,102,.12), transparent 40%);
-  overflow:hidden;
+.story-block h3{
+  font-family:'Amiri',serif;font-size:1.75rem;color:var(--accent);
+  margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--line);
 }
-.sky-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.sky-lines line{stroke:rgba(255,255,255,.32);stroke-width:1.3;stroke-dasharray:4 4}
-.star-node{
-  position:absolute;
-  transform:translate(-50%,-50%);
-  border:1px solid rgba(255,209,102,.7);
-  background:rgba(7,35,68,.88);
-  color:#fff;
-  padding:6px 12px;
-  border-radius:999px;
-  font:700 .78rem 'Cairo',sans-serif;
-  cursor:pointer;
-  transition:.25s;
-  box-shadow:0 0 18px rgba(255,209,102,.22);
-}
-.star-node:hover,.star-node.active{
-  background:var(--accent);color:#08182b;transform:translate(-50%,-50%) scale(1.08);
-}
-.n1{top:24%;left:24%}
-.n2{top:20%;left:66%}
-.n3{top:54%;left:45%}
-.n4{top:76%;left:26%}
-.n5{top:74%;left:72%}
-.pillar-panel{
-  padding:22px;border-radius:14px;border:1px solid var(--line);background:var(--card2);
-}
-.pillar-panel h3{font-family:'Amiri',serif;font-size:1.7rem;color:var(--accent);margin-bottom:8px}
-.pillar-panel p{color:var(--muted);font-size:.98rem}
+.story-block p+p{margin-top:14px}
+.story-block p{color:var(--fg-soft)}
 
-/* شبكة الأقسام والمميزات */
-.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));perspective:1100px}
-.feat{
-  position:relative;display:flex;flex-direction:column;text-decoration:none;
-  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
-  padding:22px;transition:transform .35s ease,border-color .25s,box-shadow .25s;
-  backdrop-filter:blur(10px);
+.big-quote{
+  font-family:'Amiri',serif;
+  font-size:clamp(1.6rem,3.4vw,2.5rem);
+  font-weight:700;
+  line-height:1.65;
+  margin-top:52px;
+  padding-top:28px;
+  border-top:1px solid var(--line);
+  max-width:26ch;
 }
-.feat:hover{transform:translateY(-5px);border-color:var(--accent);box-shadow:var(--shadow)}
-.feat-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.feat i{
-  display:grid;place-items:center;width:44px;height:44px;border-radius:12px;
-  background:rgba(255,255,255,.08);border:1px solid var(--line);font-style:normal;font-size:1.35rem;
-}
-.feat em{
-  font-style:normal;font-size:.72rem;font-weight:700;color:var(--accent);
-  background:var(--gold-soft);padding:3px 10px;border-radius:999px;
-}
-.feat b{display:block;font-size:1.05rem;margin-bottom:4px}
-.feat span{color:var(--muted);font-size:.9rem;line-height:1.7}
 
-/* الدعاء والتواصل والتذييل */
-.dua{
-  margin-top:24px;padding-top:20px;border-top:1px dashed rgba(255,209,102,.45);
-  text-align:center;font-family:'Amiri',serif;line-height:2;
+/* فهرس الأقسام والمميزات كقائمة تحريرية نظيفة بدون بطاقات */
+.index-list{
+  list-style:none;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  column-gap:48px;
+  border-top:1px solid var(--line);
+  margin-top:24px;
 }
-.dua strong{display:block;color:var(--accent);font-size:1.5rem}
-.dua span{color:var(--muted);font-size:1.15rem}
-.contact{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-.c{
-  display:flex;align-items:center;gap:14px;padding:20px;
-  background:var(--card);border:1px solid var(--line);border-radius:var(--r);backdrop-filter:blur(10px);
+.index-list li{
+  border-bottom:1px solid var(--line);
 }
-.c i{display:grid;place-items:center;width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.08);font-style:normal;font-size:1.4rem;flex-shrink:0}
-.c div{flex:1;min-width:0}
-.c small{display:block;color:var(--muted);font-size:.8rem}
-.c a{font-weight:700;text-decoration:none;overflow-wrap:anywhere;unicode-bidi:plaintext}
-.c a:hover{text-decoration:underline;color:var(--accent)}
-.cp{border:1px solid var(--line);background:rgba(255,255,255,.08);color:var(--text);border-radius:10px;padding:7px 14px;cursor:pointer;font:600 .82rem 'Cairo',sans-serif}
-.cp:hover{border-color:var(--accent);color:var(--accent)}
+.index-list a{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:16px;
+  padding:16px 4px;
+  text-decoration:none;
+  transition:transform .2s,color .2s;
+}
+.index-list a:hover{transform:translateX(-6px);color:var(--accent)}
+.index-list b{font-size:1.05rem;font-weight:700}
+.index-list span{font-size:.88rem;color:var(--fg-soft);text-align:left}
 
-footer{margin-top:76px;border-top:1px solid var(--line);background:rgba(5,24,48,.82);backdrop-filter:blur(12px);padding:42px 0 22px}
-[data-theme="light"] footer{background:rgba(240,234,220,.9)}
-.fi{display:grid;gap:26px;grid-template-columns:1.3fr 1fr 1fr 1fr}
-footer h4{color:var(--accent);font-family:'Amiri',serif;font-size:1.25rem;margin-bottom:8px}
-footer p{color:var(--muted);font-size:.9rem}
+/* عنوان نهائي ضخم على طريقة نهاية الفيديو */
+.finale{
+  padding:96px 0 64px;
+  text-align:center;
+  border-bottom:1px solid var(--line);
+}
+.finale-word{
+  font-family:'Amiri',serif;
+  font-weight:700;
+  font-size:clamp(4rem,13vw,9.5rem);
+  line-height:1.05;
+  letter-spacing:-.02em;
+  transform:scale(calc(.92 + var(--p) * .12));
+}
+.finale p{max-width:58ch;margin:18px auto 0;color:var(--fg-soft);font-size:1.05rem}
+.finale .dua-line{
+  font-family:'Amiri',serif;font-size:1.45rem;color:var(--accent);margin-top:24px;
+}
+
+/* التواصل والتذييل بدون بطاقات */
+.contact-row{
+  display:flex;flex-wrap:wrap;gap:28px;align-items:center;
+  padding:24px 0;border-bottom:1px solid var(--line);
+}
+.contact-item{display:flex;align-items:center;gap:12px}
+.contact-item a{font-weight:700;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.5);unicode-bidi:plaintext}
+.cp{border:1px solid var(--line);background:rgba(255,255,255,.1);color:#fff;border-radius:8px;padding:5px 12px;cursor:pointer;font:600 .8rem 'Cairo',sans-serif}
+
+footer{padding:44px 0 24px}
+.fi{display:grid;gap:28px;grid-template-columns:1.3fr 1fr 1fr 1fr}
+footer h4{font-family:'Amiri',serif;font-size:1.25rem;color:var(--accent);margin-bottom:8px}
+footer p{color:var(--fg-soft);font-size:.9rem}
 .flist{list-style:none;display:grid;gap:6px}
-.flist a{text-decoration:none;color:var(--muted);font-size:.88rem}
+.flist a{text-decoration:none;color:var(--fg-soft);font-size:.88rem}
 .flist a:hover{color:var(--accent)}
-.fb{text-align:center;margin-top:28px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.84rem}
+.fb{text-align:center;margin-top:28px;padding-top:16px;border-top:1px solid var(--line);color:var(--fg-soft);font-size:.84rem}
 
-#top{position:fixed;bottom:20px;inset-inline-start:20px;opacity:0;pointer-events:none;transition:opacity .25s;background:var(--accent);color:#08182b;border:0;font-size:1.2rem;font-weight:800;box-shadow:var(--shadow)}
+#top{position:fixed;bottom:20px;inset-inline-start:20px;opacity:0;pointer-events:none;transition:opacity .25s;background:#fff;color:#084b8f;border:0;font-size:1.2rem;font-weight:800;z-index:150}
 #top.on{opacity:1;pointer-events:auto}
-#toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,30px);background:#072a52;color:#fff;border:1px solid var(--accent);padding:10px 22px;border-radius:12px;opacity:0;transition:.3s;z-index:300;pointer-events:none;font-weight:600}
+#toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,30px);background:#063b73;color:#fff;padding:10px 22px;border-radius:10px;opacity:0;transition:.3s;z-index:300;pointer-events:none;font-weight:600}
 #toast.on{opacity:1;transform:translate(-50%,0)}
 
-.js .rv{opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s}
-.js .rv.in{opacity:1;transform:none}
-
-@media(max-width:920px){
-  .hero-grid,.constellation-layout{grid-template-columns:1fr}
-  .hero-stage{min-height:auto;padding:42px 0 56px}
-  .scroll-canvas{height:340px}
-}
 @media(max-width:860px){
   #menu{display:grid}
-  .links{display:none;position:absolute;top:66px;inset-inline:0;flex-direction:column;white-space:normal;align-items:stretch;gap:4px;padding:14px 4%;background:var(--sky-deep);border-bottom:1px solid var(--line)}
+  .links{display:none;position:absolute;top:62px;inset-inline:0;flex-direction:column;white-space:normal;align-items:stretch;gap:4px;padding:12px 4%;background:#0855a3;border-bottom:1px solid var(--line)}
   .links.open{display:flex}
-  .links>a,.links>.dropdown>.dropdown-trigger{padding:11px 14px;font-size:.95rem}
-  .dropdown-content{position:static;box-shadow:none;border:0;background:rgba(255,255,255,.06);margin-top:4px}
-  .founder-showcase{grid-template-columns:1fr;text-align:center}
-  .founder-frame{max-width:230px;margin-inline:auto}
-  .founder-tags{justify-content:center}
-  .story{grid-template-columns:1fr}
+  .links>a,.links>.dropdown>.dropdown-trigger{padding:10px 14px;font-size:.95rem}
+  .dropdown-content{position:static;border:0;background:rgba(255,255,255,.08)}
+  .scene-grid,.founder-inline,.story-columns,.index-list{grid-template-columns:1fr;gap:28px}
+  .founder-cutout{max-width:240px;margin-inline:auto}
   .fi{grid-template-columns:1fr 1fr}
 }
 @media(max-width:520px){.fi{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){
   *{transition:none!important;scroll-behavior:auto!important}
-  .js .rv{opacity:1;transform:none}
-  .emblem-split,.emblem-half,.emblem-center{transform:none!important}
+  .halftone,.disc-half,.disc-logo,.finale-word{transform:none!important}
 }
 </style>
 </head>
 <body>
 <a href="#main" class="skip">تخطَّ إلى المحتوى</a>
 <div id="bar" aria-hidden="true"></div>
+<div class="halftone" aria-hidden="true"></div>
+<div class="guides" aria-hidden="true"></div>
 
 <nav class="nav" aria-label="التنقل الرئيسي">
   <div class="wrap nav-in">
@@ -506,34 +355,21 @@ footer p{color:var(--muted);font-size:.9rem}
   </div>
 </nav>
 
-<header class="hero-stage">
-  <div class="wrap hero-grid">
+<header class="scene">
+  <div class="wrap scene-grid">
     <div>
-      <span class="eyebrow">✦ ZAD OUBAIDA · EDITION</span>
-      <h1>زادٌ من الخير، <em>وأثرٌ نرجو أن يبقى</em></h1>
-      <p class="lead">حكاية بدأت من قلب طفل في السادسة عشرة: مساحة إسلامية مجانية تجمع الفائدة والبساطة، وتقرّب المسلم من دينه.</p>
+      <h1 class="hero-title">زادٌ من الخير، وأثرٌ نرجو أن يبقى</h1>
+      <p class="hero-sub">حكاية بدأت من قلب طفل في السادسة عشرة: مساحة إسلامية مجانية تجمع الفائدة والبساطة، وتقرّب المسلم من دينه.</p>
       <div class="cta">
-        <a class="btn" href="#story">اقرأ الحكاية <span aria-hidden="true">←</span></a>
-        <a class="ghost" href="#offer">استكشف جميع الأقسام</a>
-      </div>
-      <div class="checks">
-        <span>مجاني للجميع</span>
-        <span>مصادر إسلامية موثوقة</span>
-        <span>مشروع قابل للتطوير</span>
+        <a class="btn-pill" href="#story">اقرأ الحكاية ←</a>
+        <a class="link-line" href="#offer">استكشف جميع الأقسام</a>
       </div>
     </div>
-
-    <div class="scroll-canvas canvas-crosshair" aria-label="مشهد تفاعلي مرتبط بالتمرير">
-      <div class="emblem-split" aria-hidden="true">
-        <div class="emblem-half left"></div>
-        <div class="emblem-half right"></div>
-        <div class="emblem-center">
-          <img src="./logo-zad-almuslim.webp.png" alt="شعار زاد عبيدة">
-        </div>
-      </div>
-      <div class="floating-tag">
-        <span>01 / SCROLL TO REVEAL</span>
-        <span>زاد عبيدة</span>
+    <div class="stage-visual" aria-hidden="true">
+      <div class="split-disc">
+        <div class="disc-half a"></div>
+        <div class="disc-half b"></div>
+        <img class="disc-logo" src="./logo-zad-almuslim.webp.png" alt="">
       </div>
     </div>
   </div>
@@ -541,129 +377,81 @@ footer p{color:var(--muted);font-size:.9rem}
 
 <main id="main" class="wrap" tabindex="-1">
 
-  <section id="story">
-    <div class="head rv">
-      <span class="chip">عن زاد عبيدة</span>
-      <h2>كيف بدأت الحكاية؟</h2>
-      <p>حكاية بدأت من قلب طفل في السادسة عشرة</p>
-    </div>
-
-    <div class="founder-showcase rv">
-      <div class="founder-frame">
+  <section id="story" class="scene" style="display:block">
+    <div class="founder-inline">
+      <div class="founder-cutout">
         <img id="founderImg" src="./founder-photo.jpg" alt="صورة المؤسس السيد عبيدة قولال" loading="lazy">
-        <div class="founder-fallback" aria-hidden="true">
+        <div class="founder-monogram" aria-hidden="true">
           <span>ع</span>
           <small>السيد عبيدة قولال</small>
         </div>
       </div>
-      <div class="founder-info">
-        <span class="founder-badge">✦ مؤسس المشروع</span>
-        <h3>السيد عبيدة قولال</h3>
-        <p class="founder-role">مؤسس منصة زاد عبيدة الإسلامية</p>
+      <div class="founder-copy">
+        <p class="founder-sub">مؤسس منصة زاد عبيدة الإسلامية</p>
+        <h2>السيد عبيدة قولال</h2>
         <p>بدأ هذا المشروع بخطوة فردية صادقة ومجانية لتقريب القرآن الكريم والأذكار والأحاديث النبوية والعلم النافع إلى كل مسلم بأسلوب بسيط وهادئ، مع الحرص الدائم على الاعتماد على المصادر الإسلامية الموثوقة.</p>
-        <div class="founder-tags">
-          <span>📖 القرآن والأذكار</span>
-          <span>📜 السنة النبوية الموثوقة</span>
-          <span>🤍 مجاني لوجه الله</span>
-        </div>
       </div>
     </div>
 
-    <div class="story">
-      <article class="card prose rv">
+    <div class="story-columns">
+      <article class="story-block">
         <h3>البداية</h3>
         <p>لم أكن أملك شركة، ولا فريق عمل، ولا ميزانية ضخمة، ولم أكن خبيرًا في البرمجة أو التكنولوجيا... كنت مجرد طفل في السادسة عشرة من عمري، يحمل في قلبه فكرة، وفي عقله حلمًا، وفي نفسه رغبة صادقة في أن يترك أثرًا طيبًا.</p>
         <p>بدأت الحكاية عندما أصبحت ألاحظ شيئًا يتكرر أمامي؛ كثير من الناس يريدون معرفة أمور دينهم، لكنهم لا يعرفون من أين يبدأون. هناك من لا يعرف أذكار الصباح والمساء، ومن يبحث عن حديث فلا يعرف مدى صحته، ومن يريد قراءة القرآن لكنه لا يجد وسيلة بسيطة تجمع له ما يحتاجه. رأيت كيف يمكن لقلة المعرفة أن تجعل الإنسان بعيدًا عن أمور كان من الممكن أن يتعلمها بسهولة.</p>
         <p>لم أكن أقول إنني أفضل من أحد، فأنا نفسي ما زلت أتعلم، وما زلت أبحث وأسأل وأخطئ وأصحح. لكن سؤالًا ظل يرافقني:</p>
       </article>
-      <article class="card prose rv">
+      <article class="story-block">
         <h3>ولادة المشروع</h3>
         <p>ومن هنا بدأت الفكرة...</p>
         <p>فتحت حاسوبي، وبدأت أتعلم شيئًا لم أكن أعرف عنه الكثير: البرمجة وتصميم المواقع. واجهت صعوبات كثيرة، وأخطاء لم أفهمها، وأيامًا كنت أظن فيها أن المشروع لن يكتمل. لم يكن لدي فريق يساعدني، ولا إمكانيات كبيرة، لكنني كنت أعود في كل مرة وأحاول من جديد.</p>
-        <p>وهكذا وُلد مشروع <strong style="color:var(--accent)">«زاد عبيدة»</strong>.</p>
+        <p>وهكذا وُلد مشروع «زاد عبيدة».</p>
         <p>لم يكن الهدف إنشاء موقع آخر على الإنترنت، ولم تكن الغاية الشهرة أو جمع المتابعين، بل أردت إنشاء مساحة إسلامية مجانية تجمع بين الفائدة والبساطة، وتساعد المسلم على الاقتراب من دينه.</p>
       </article>
-      <blockquote class="quote full rv">لماذا لا أصنع مكانًا يجمع للمسلم ما يحتاجه من أمور دينه، بطريقة بسيطة ومنظمة ومجانية؟</blockquote>
     </div>
+
+    <p class="big-quote">لماذا لا أصنع مكانًا يجمع للمسلم ما يحتاجه من أمور دينه، بطريقة بسيطة ومنظمة ومجانية؟</p>
   </section>
 
-  <section id="constellation" class="rv">
-    <div class="head">
-      <span class="chip">02 — THE PURPOSE</span>
-      <h2>العلم النافع، بأسلوب أقرب إليك</h2>
-      <p>قرآن، وذكر، وسنة، ومحتوى نافع… في مساحة واحدة صُممت لتكون بسيطة وهادئة. اختر نقطة لعرض معناها:</p>
-    </div>
-    <div class="constellation-box">
-      <div class="constellation-layout">
-        <div class="sky-field" aria-label="خريطة قيم المنصة">
-          <svg class="sky-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-            <line x1="24" y1="24" x2="66" y2="20"></line>
-            <line x1="66" y1="20" x2="45" y2="54"></line>
-            <line x1="24" y1="24" x2="45" y2="54"></line>
-            <line x1="45" y1="54" x2="26" y2="76"></line>
-            <line x1="45" y1="54" x2="72" y2="74"></line>
-          </svg>
-          <button type="button" class="star-node n1 active" data-pillar="quran">✦ القرآن الكريم</button>
-          <button type="button" class="star-node n2" data-pillar="adhkar">✦ الأذكار والورد</button>
-          <button type="button" class="star-node n3" data-pillar="sunnah">✦ السنة الموثوقة</button>
-          <button type="button" class="star-node n4" data-pillar="free">✦ مجاني للجميع</button>
-          <button type="button" class="star-node n5" data-pillar="growth">✦ قابل للتطوير</button>
-        </div>
-        <div class="pillar-panel" id="pillarPanel" aria-live="polite">
-          <h3>القرآن الكريم</h3>
-          <p>أن يبقى كتاب الله حاضرًا في يوم المسلم بتصفح مريح وواضح يبعث على السكينة والتدبر دون تعقيد.</p>
-        </div>
-      </div>
-    </div>
+  <section id="offer" class="scene" style="display:block">
+    <h2 style="font-family:'Amiri',serif;font-size:clamp(2rem,4vw,3rem);margin-bottom:8px">ماذا أردت أن أقدم من خلال زاد عبيدة؟</h2>
+    <p style="color:var(--fg-soft)">جميع صفحات ومميزات الموقع في مكان واحد منظم ومجاني:</p>
+
+    <ul class="index-list">
+      <li><a href="./index.html"><b>الصفحة الرئيسية</b><span>مدخل شامل يجمع أهم الأقسام اليومية ومواقيت الصلاة.</span></a></li>
+      <li><a href="./quran.html"><b>القرآن الكريم</b><span>ليكون كتاب الله قريبًا من المسلم في يومه بتصفح مريح وواضح.</span></a></li>
+      <li><a href="./adhkar.html"><b>الأذكار العامة</b><span>مجموعة شاملة من الأذكار اليومية والمأثورة بوضوح وسهولة.</span></a></li>
+      <li><a href="./azkar-morning.html"><b>أذكار الصباح</b><span>أذكار الصباح كاملة مع عداد تفاعلي وميزة المواظبة.</span></a></li>
+      <li><a href="./azkar-evening.html"><b>أذكار المساء</b><span>أذكار المساء مرتبة بوضوح وسلاسة لتعين المسلم مساءً.</span></a></li>
+      <li><a href="./azkar-sleep.html"><b>أذكار النوم</b><span>أذكار ما قبل النوم وآدابه لتطمئن النفس قبل المبيت.</span></a></li>
+      <li><a href="./nawawi.html"><b>الأحاديث النبوية (الأربعون النووية)</b><span>جوامع الكلم من سنة رسول الله ﷺ من مصادر موثوقة.</span></a></li>
+      <li><a href="./sahihayn.html"><b>مختارات الصحيحين</b><span>أحاديث منتقاة من صحيحي البخاري ومسلم مع التخريج والفائدة.</span></a></li>
+      <li><a href="./duas.html"><b>الأدعية المأثورة</b><span>أدعية من القرآن الكريم والسنة النبوية لمختلف الأحوال.</span></a></li>
+      <li><a href="./articles.html"><b>المقالات الإسلامية</b><span>لنشر العلم والمعرفة والتذكير بأسلوب واضح ومبسط.</span></a></li>
+      <li><a href="./wird.html"><b>الورد اليومي</b><span>لمساعدة المستخدم على تنظيم عباداته ومتابعة إنجازه.</span></a></li>
+      <li><a href="./index.html#prayer"><b>مواقيت الصلاة</b><span>لمساعدة المسلم على المحافظة على صلاته في أوقاتها.</span></a></li>
+      <li><a href="./adhkar.html#my-adhkar"><b>أذكاري الخاصة</b><span>مساحة شخصية لحفظ الأذكار الخاصة والعودة إليها.</span></a></li>
+      <li><a href="./opinions.html"><b>آراؤكم واقتراحاتكم</b><span>مساحة مفتوحة لسماع ملاحظات الزوار وتطوير المنصة.</span></a></li>
+    </ul>
+
+    <p style="margin-top:22px;color:var(--fg-soft)">وما زال المشروع قابلًا للتطوير، فكل فكرة جديدة يمكن أن تجعل تجربة الزائر أفضل وأكثر فائدة.</p>
   </section>
 
-  <section id="offer">
-    <div class="head rv">
-      <span class="chip">أقسام ومميزات المنصة</span>
-      <h2>ماذا أردت أن أقدم من خلال زاد عبيدة؟</h2>
-      <p>جميع صفحات ومميزات الموقع في مكان واحد منظم ومجاني:</p>
-    </div>
-    <div class="grid">
-      <a class="feat rv" href="./index.html"><div class="feat-top"><i aria-hidden="true">🏠</i><em>الواجهة</em></div><b>الصفحة الرئيسية</b><span>مدخل شامل يجمع أهم الأقسام اليومية ومواقيت الصلاة في واجهة هادئة.</span></a>
-      <a class="feat rv" href="./quran.html"><div class="feat-top"><i aria-hidden="true">📖</i><em>تلاوة</em></div><b>القرآن الكريم</b><span>ليكون كتاب الله قريبًا من المسلم في يومه بتصفح مريح وواضح.</span></a>
-      <a class="feat rv" href="./adhkar.html"><div class="feat-top"><i aria-hidden="true">📿</i><em>حصن المسلم</em></div><b>الأذكار العامة</b><span>مجموعة شاملة من الأذكار اليومية والمأثورة بتصميم يسهل القراءة والتسبيح.</span></a>
-      <a class="feat rv" href="./azkar-morning.html"><div class="feat-top"><i aria-hidden="true">🌅</i><em>بداية اليوم</em></div><b>أذكار الصباح</b><span>أذكار الصباح كاملة مع عداد تفاعلي وميزة المواظبة وتركيز النص.</span></a>
-      <a class="feat rv" href="./azkar-evening.html"><div class="feat-top"><i aria-hidden="true">🌇</i><em>ختام النهار</em></div><b>أذكار المساء</b><span>أذكار المساء مرتبة بوضوح وسلاسة لتعين المسلم على ذكر الله مساءً.</span></a>
-      <a class="feat rv" href="./azkar-sleep.html"><div class="feat-top"><i aria-hidden="true">🌙</i><em>السكينة</em></div><b>أذكار النوم</b><span>أذكار ما قبل النوم وآدابه لتطمئن النفس قبل المبيت.</span></a>
-      <a class="feat rv" href="./nawawi.html"><div class="feat-top"><i aria-hidden="true">📜</i><em>السنة</em></div><b>الأحاديث النبوية (الأربعون النووية)</b><span>للتعرف على جوامع الكلم من سنة رسول الله ﷺ من مصادر موثوقة.</span></a>
-      <a class="feat rv" href="./sahihayn.html"><div class="feat-top"><i aria-hidden="true">📚</i><em>أصح الكتب</em></div><b>مختارات الصحيحين</b><span>أحاديث منتقاة من صحيحي البخاري ومسلم مع بيان التخريج والفائدة.</span></a>
-      <a class="feat rv" href="./duas.html"><div class="feat-top"><i aria-hidden="true">🤲</i><em>مناجاة</em></div><b>الأدعية المأثورة</b><span>أدعية من القرآن الكريم والسنة النبوية لمختلف أحوال المسلم.</span></a>
-      <a class="feat rv" href="./articles.html"><div class="feat-top"><i aria-hidden="true">✍️</i><em>فوائد</em></div><b>المقالات الإسلامية</b><span>لنشر العلم والمعرفة والتذكير بأسلوب واضح ومبسط للجميع.</span></a>
-      <a class="feat rv" href="./wird.html"><div class="feat-top"><i aria-hidden="true">✅</i><em>متابعة</em></div><b>الورد اليومي</b><span>لمساعدة المستخدم على تنظيم عباداته اليومية ومتابعة إنجازه باستمرار.</span></a>
-      <a class="feat rv" href="./index.html#prayer"><div class="feat-top"><i aria-hidden="true">🕌</i><em>الصلوات</em></div><b>مواقيت الصلاة</b><span>لمساعدة المسلم على المحافظة على صلاته في أوقاتها بدقة.</span></a>
-      <a class="feat rv" href="./adhkar.html#my-adhkar"><div class="feat-top"><i aria-hidden="true">🔖</i><em>مساحتك</em></div><b>أذكاري الخاصة</b><span>مساحة شخصية يستطيع فيها المستخدم حفظ أذكاره الخاصة والعودة إليها.</span></a>
-      <a class="feat rv" href="./opinions.html"><div class="feat-top"><i aria-hidden="true">💬</i><em>مشاركتكم</em></div><b>آراؤكم واقتراحاتكم</b><span>مساحة مفتوحة لسماع ملاحظات الزوار وتطوير المنصة بأفكارهم النافعة.</span></a>
-    </div>
-    <p class="rv" style="margin-top:20px;color:var(--muted)">وما زال المشروع قابلًا للتطوير، فكل فكرة جديدة يمكن أن تجعل تجربة الزائر أفضل وأكثر فائدة.</p>
-  </section>
+  <section id="dream" class="finale">
+    <h2 style="font-family:'Amiri',serif;font-size:clamp(1.8rem,3.5vw,2.6rem);color:var(--accent);margin-bottom:14px">حلم أكبر من مجرد موقع</h2>
+    <p>أنا لا أدّعي أنني عالم أو طالب علم متخصص، ولا أريد أن أقدم نفسي على أنني صاحب علم واسع. أنا شاب مسلم ما زلت في بداية الطريق، أحاول أن أتعلم وأستفيد وأشارك ما أستطيع تقديمه، مع الحرص على الاعتماد على المصادر الإسلامية الموثوقة.</p>
+    <p>أؤمن أن نشر الخير لا يحتاج دائمًا إلى إمكانيات كبيرة، وأن الإنسان يستطيع أن يبدأ بما يملكه، مهما كان بسيطًا. قد يكون زاد عبيدة اليوم مجرد موقع إلكتروني، لكنه بالنسبة إليّ مشروع يحمل رسالة أتمنى أن تصل إلى أبعد مدى.</p>
+    <p class="big-quote" style="margin-inline:auto;text-align:center">رسالتي بسيطة: أن نجعل الوصول إلى الخير والعلم الشرعي أسهل، وأن نساهم في نشر الوعي الديني، وأن يكون هذا العمل سببًا في نفع الناس بإذن الله.</p>
+    <p style="margin-top:20px">وفي النهاية، لست صاحب هذه الحكاية لأقول إنني حققت إنجازًا عظيمًا، بل لأقول لكل شاب لديه فكرة نافعة: لا تنتظر أن تصبح كبيرًا، ولا تنتظر أن تمتلك كل الإمكانيات. ابدأ بما تستطيع، وتعلم في طريقك، واجعل نيتك صادقة. فربما تبدأ بخطوة صغيرة، ولا تعلم إلى أين يمكن أن تصل.</p>
 
-  <section id="dream">
-    <div class="head rv"><span class="chip">الرسالة والرؤية</span><h2>حلم أكبر من مجرد موقع</h2></div>
-    <div class="card prose rv" style="max-width:none">
-      <div class="prose">
-        <p>أنا لا أدّعي أنني عالم أو طالب علم متخصص، ولا أريد أن أقدم نفسي على أنني صاحب علم واسع. أنا شاب مسلم ما زلت في بداية الطريق، أحاول أن أتعلم وأستفيد وأشارك ما أستطيع تقديمه، مع الحرص على الاعتماد على المصادر الإسلامية الموثوقة.</p>
-        <p>أؤمن أن نشر الخير لا يحتاج دائمًا إلى إمكانيات كبيرة، وأن الإنسان يستطيع أن يبدأ بما يملكه، مهما كان بسيطًا.</p>
-        <p>قد يكون زاد عبيدة اليوم مجرد موقع إلكتروني، لكنه بالنسبة إليّ مشروع يحمل رسالة أتمنى أن تصل إلى أبعد مدى.</p>
-      </div>
-      <blockquote class="quote">رسالتي بسيطة: أن نجعل الوصول إلى الخير والعلم الشرعي أسهل، وأن نساهم في نشر الوعي الديني، وأن يكون هذا العمل سببًا في نفع الناس بإذن الله.</blockquote>
-      <div class="prose" style="margin-top:22px">
-        <p>وفي النهاية، لست صاحب هذه الحكاية لأقول إنني حققت إنجازًا عظيمًا، بل لأقول لكل شاب لديه فكرة نافعة: لا تنتظر أن تصبح كبيرًا، ولا تنتظر أن تمتلك كل الإمكانيات. ابدأ بما تستطيع، وتعلم في طريقك، واجعل نيتك صادقة.</p>
-        <p>فربما تبدأ بخطوة صغيرة، ولا تعلم إلى أين يمكن أن تصل.</p>
-      </div>
-      <p class="dua"><strong>زاد عبيدة | زادٌ من الخير، وأثرٌ نرجو أن يبقى.</strong><span>نسأل الله الإخلاص والقبول، وأن يجعل هذا المشروع علمًا نافعًا وصدقة جارية، وأن ينفع به كل من زاره أو استفاد منه.</span></p>
-    </div>
+    <div class="finale-word">زاد عبيدة.</div>
+    <p class="dua-line">زادٌ من الخير، وأثرٌ نرجو أن يبقى.</p>
+    <p>نسأل الله الإخلاص والقبول، وأن يجعل هذا المشروع علمًا نافعًا وصدقة جارية، وأن ينفع به كل من زاره أو استفاد منه.</p>
   </section>
 
   <section id="contact">
-    <div class="head rv"><span class="chip">ابقَ على تواصل</span><h2>تواصل معنا</h2><p>يمكنك التواصل معنا مباشرة عبر:</p></div>
-    <div class="contact">
-      <div class="c rv"><i aria-hidden="true">📸</i><div><small>إنستغرام</small><a dir="ltr" href="https://www.instagram.com/zad_oubaida/" target="_blank" rel="noopener noreferrer">@zad_oubaida</a></div></div>
-      <div class="c rv"><i aria-hidden="true">✉️</i><div><small>البريد الإلكتروني</small><a dir="ltr" href="mailto:zadoubaida@gmail.com">zadoubaida@gmail.com</a></div><button class="cp" type="button" data-copy="zadoubaida@gmail.com">نسخ</button></div>
+    <div class="contact-row">
+      <div class="contact-item"><span>📸</span><span>إنستغرام:</span><a dir="ltr" href="https://www.instagram.com/zad_oubaida/" target="_blank" rel="noopener noreferrer">@zad_oubaida</a></div>
+      <div class="contact-item"><span>✉️</span><span>البريد:</span><a dir="ltr" href="mailto:zadoubaida@gmail.com">zadoubaida@gmail.com</a><button class="cp" type="button" data-copy="zadoubaida@gmail.com">نسخ</button></div>
     </div>
   </section>
 </main>
@@ -686,10 +474,8 @@ footer p{color:var(--muted);font-size:.9rem}
 <script>
 (function(){
   var d=document,root=d.documentElement,$=function(i){return d.getElementById(i)};
-  root.classList.add('js');
   $('year').textContent=new Date().getFullYear();
 
-  /* محاولة ذكية لتحميل صورة المؤسس */
   var fImg=$('founderImg');
   if(fImg){
     var candidates=['./founder-photo.jpg','./founder-photo.png','./founder-photo.webp','./founder-photo.jpeg','./assets/founder-photo.jpg','./images/founder-photo.jpg'];
@@ -701,8 +487,7 @@ footer p{color:var(--muted);font-size:.9rem}
     };
   }
 
-  /* الثيم */
-  function meta(){var m=d.querySelector('meta[name=theme-color]');if(m)m.content=root.getAttribute('data-theme')==='light'?'#eef6ff':'#0c6ac4'}
+  function meta(){var m=d.querySelector('meta[name=theme-color]');if(m)m.content=root.getAttribute('data-theme')==='light'?'#1b82e0':'#0c6ac4'}
   meta();
   $('theme').onclick=function(){
     var n=root.getAttribute('data-theme')==='light'?'dark':'light';
@@ -710,53 +495,23 @@ footer p{color:var(--muted);font-size:.9rem}
     try{localStorage.setItem('theme',n)}catch(e){}
   };
 
-  /* قائمة الجوال */
   var mb=$('menu'),ln=$('links');
   function close(){ln.classList.remove('open');mb.setAttribute('aria-expanded','false')}
   mb.onclick=function(){var o=ln.classList.toggle('open');mb.setAttribute('aria-expanded',o)};
   ln.addEventListener('click',function(e){if(e.target.tagName==='A')close()});
   d.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
 
-  /* شريط التقدم + حركة مرتبطة بالتمرير على غرار الفيديو */
   var bar=$('bar'),top=$('top');
   function sc(){
     var h=root.scrollHeight-innerHeight,y=scrollY;
     var p=h>0?Math.min(1,Math.max(0,y/h)):0;
     bar.style.transform='scaleX('+p+')';
-    root.style.setProperty('--scroll',p.toFixed(4));
+    root.style.setProperty('--p',p.toFixed(4));
     top.classList.toggle('on',y>600);
   }
   addEventListener('scroll',sc,{passive:true});sc();
   top.onclick=function(){scrollTo({top:0})};
 
-  /* الظهور عند التمرير */
-  var els=d.querySelectorAll('.rv');
-  if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
-    els.forEach(function(el){io.observe(el)});
-  }else els.forEach(function(el){el.classList.add('in')});
-
-  /* كوكبة القيم التفاعلية */
-  var pillars={
-    quran:{t:'القرآن الكريم',p:'أن يبقى كتاب الله حاضرًا في يوم المسلم بتصفح مريح وواضح يبعث على السكينة والتدبر دون تعقيد.'},
-    adhkar:{t:'الأذكار والورد',p:'تنظيم أذكار الصباح والمساء والنوم والورد اليومي لتصير عادة يومية ثابتة وميسّرة.'},
-    sunnah:{t:'السنة الموثوقة',p:'تقريب الأحاديث النبوية والصحيحين والأدعية المأثورة بالاعتماد على المصادر الموثوقة.'},
-    free:{t:'مجاني للجميع',p:'مساحة مفتوحة ومجانية بالكامل، الهدف منها نشر الخير والأجر لا القيود أو التعقيد.'},
-    growth:{t:'قابل للتطوير',p:'رحلة مستمرة تتطور بملاحظات الزوار واقتراحاتهم لتبقى تجربة بسيطة ونافعة.'}
-  };
-  var panel=$('pillarPanel');
-  d.querySelectorAll('.star-node').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      d.querySelectorAll('.star-node').forEach(function(b){b.classList.remove('active')});
-      btn.classList.add('active');
-      var item=pillars[btn.getAttribute('data-pillar')];
-      if(item&&panel){
-        panel.innerHTML='<h3>'+item.t+'</h3><p>'+item.p+'</p>';
-      }
-    });
-  });
-
-  /* نسخ البريد */
   var t=$('toast'),tm;
   function toast(s){t.textContent=s;t.classList.add('on');clearTimeout(tm);tm=setTimeout(function(){t.classList.remove('on')},2000)}
   d.querySelectorAll('[data-copy]').forEach(function(b){

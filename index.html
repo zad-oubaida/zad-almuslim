@@ -163,6 +163,10 @@ h1,h2,h3,.sub{text-wrap:balance}
 .ck span{background:var(--sf);border:1px solid var(--ln);border-radius:99px;padding:6px 14px}
 #pt li{transition:background-color .25s,color .25s,box-shadow .25s}
 #pt li.on{box-shadow:0 8px 18px rgba(11,107,80,.28)}
+.pt-search{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;margin:0 0 14px}
+.pt-search input{min-width:0;width:100%;height:44px;padding:8px 12px;border:1px solid var(--ln);border-radius:12px;background:var(--sf2);color:var(--ink);font:inherit}
+.pt-search input:focus{outline:2px solid var(--link);outline-offset:2px}
+@media(max-width:520px){.pt-search{grid-template-columns:1fr}.pt-search button{width:100%}}
 .de button.x{width:32px;height:32px;font-size:1.3rem}
 
 </style>
@@ -220,8 +224,9 @@ h1,h2,h3,.sub{text-wrap:balance}
       <div class="cta"><a class="btn" id="nb" href="./azkar-evening.html">افتح أذكار المساء <svg class="i ar"><use href="#arr"/></svg></a><a class="ul" id="no" href="./azkar-morning.html">أذكار الصباح</a></div>
     </section>
     <section class="card" aria-labelledby="pth">
-            <div class="ch"><h2 id="pth">مواقيت الصلاة</h2><button class="btn s" id="ct"><svg class="i"><use href="#pin"/></svg>تغيير المدينة</button></div>
-      <p class="dt" id="pd">جارٍ تحميل المواقيت…</p>
+            <div class="ch"><h2 id="pth">مواقيت الصلاة</h2><button class="btn s" id="locBtn" type="button"><svg class="i"><use href="#pin"/></svg>تحديد موقعي بدقة</button></div>
+      <div class="pt-search"><input id="citySearch" type="search" list="algeriaCities" placeholder="ابحث عن مدينتك الجزائرية…" autocomplete="off" aria-label="ابحث عن مدينة"><datalist id="algeriaCities"></datalist><button class="btn s" id="citySearchBtn" type="button">بحث</button></div>
+      <p class="dt" id="pd">جارٍ حساب المواقيت محليًا…</p>
       <ul id="pt"></ul>
       <div class="cd" hidden id="cdb" role="timer"><div><span id="cl"></span><b id="cv">00:00:00</b></div><div class="pb"><i id="pg"></i></div></div>
       <div class="cta"><button class="btn s" id="adhanToggle" type="button">تفعيل الأذان قبل الصلاة بدقيقة</button><button class="btn s" id="adhanTest" type="button">تجربة الأذان</button></div>
@@ -333,23 +338,26 @@ function setNow(){
 }
 setNow();
 
-/* مواقيت الصلاة (طريقة 19: وزارة الشؤون الدينية الجزائرية) */
-var API='https://api.aladhan.com/v1/',N=[['Fajr','الفجر'],['Sunrise','الشروق'],['Dhuhr','الظهر'],['Asr','العصر'],['Maghrib','المغرب'],['Isha','العشاء']],O=['Fajr','Dhuhr','Asr','Maghrib','Isha'];
+/* مواقيت الصلاة وفق معيار الحساب الجزائري محليًا */
+var N=[['Fajr','الفجر'],['Sunrise','الشروق'],['Dhuhr','الظهر'],['Asr','العصر'],['Maghrib','المغرب'],['Isha','العشاء']],O=['Fajr','Dhuhr','Asr','Maghrib','Isha'];
 var S=null,reload=null,retry=0,tok=0,pt=$('#pt');
 function sec(z){try{var p=new Intl.DateTimeFormat('en-GB',{timeZone:z||undefined,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).formatToParts(new Date()),g=function(k){return+p.filter(function(x){return x.type===k})[0].value};return g('hour')%24*3600+g('minute')*60+g('second')}catch(e){var n=new Date();return n.getHours()*3600+n.getMinutes()*60+n.getSeconds()}}
 function ts(s){var m=/(\d{1,2}):(\d{2})/.exec(s);return m?m[1]*3600+m[2]*60:0}
 function f12(s){var m=/(\d{1,2}):(\d{2})/.exec(s);if(!m)return'--';var h=+m[1];return(h%12||12)+':'+m[2]+' '+(h>=12?'م':'ص')}
 function nm(k){return N.filter(function(n){return n[0]===k})[0][1]}
 function jul(y,m,d){if(m<=2){y-=1;m+=12}var A=Math.floor(y/100),B=2-A+Math.floor(A/4);return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+d+B-1524.5}
-function est(lat,lng,tz,D){D=D||new Date();var R=Math.PI/180,jd=jul(D.getFullYear(),D.getMonth()+1,D.getDate())-lng/360,
+function est(lat,lng,tz,D){
+D=D||new Date();
+var R=Math.PI/180,jd=jul(D.getFullYear(),D.getMonth()+1,D.getDate())-lng/360,
 sn=function(x){return Math.sin(x*R)},cs=function(x){return Math.cos(x*R)},tn=function(x){return Math.tan(x*R)},
 fa=function(a){a-=360*Math.floor(a/360);return a},fh=function(h){h-=24*Math.floor(h/24);return h};
 function sp(j){var d=j-2451545,g=fa(357.529+.98560028*d),q=fa(280.459+.98564736*d),L=fa(q+1.915*sn(g)+.02*sn(2*g)),e=23.439-3.6e-7*d,ra=fh(Math.atan2(cs(e)*sn(L),cs(L))/R/15);return{dec:Math.asin(sn(e)*sn(L))/R,eq:q/15-ra}}
 function mid(t){return fh(12-sp(jd+t).eq)}
-function sat(a,t,ccw){var dec=sp(jd+t).dec,v=(-sn(a)-sn(dec)*sn(lat))/(cs(dec)*cs(lat));v=Math.max(-1,Math.min(1,v));var x=Math.acos(v)/R/15;return mid(t)+(ccw?-x:x)}
-function asr(t){var dec=sp(jd+t).dec;return sat(-Math.atan(1/(1+tn(Math.abs(lat-dec))))/R,t,0)}
+function hour(alt,t,morning){var dec=sp(jd+t).dec,v=(sn(alt)-sn(dec)*sn(lat))/(cs(dec)*cs(lat));v=Math.max(-1,Math.min(1,v));var x=Math.acos(v)/R/15;return mid(t)+(morning?-x:x)}
+function asr(t){var dec=sp(jd+t).dec,alt=Math.atan(1/(1+tn(Math.abs(lat-dec))))/R;return hour(alt,t,false)}
 var a=tz-lng/15,p2=function(n){return(n<10?'0':'')+n},hm=function(h){h=fh(h+a+.5/60);var H=Math.floor(h);return p2(H)+':'+p2(Math.floor((h-H)*60))};
-return{Fajr:hm(sat(18,5/24,1)),Sunrise:hm(sat(.833,6/24,1)),Dhuhr:hm(mid(.5)),Asr:hm(asr(13/24)),Maghrib:hm(sat(.833,18/24,0)),Isha:hm(sat(17,18/24,0))}}
+return{Fajr:hm(hour(-18,5/24,true)),Sunrise:hm(hour(-.833,6/24,true)),Dhuhr:hm(mid(.5)),Asr:hm(asr(13/24)),Maghrib:hm(hour(-.833,18/24,false)),Isha:hm(hour(-17,18/24,false))}
+}
 function draw(){pt.textContent='';N.forEach(function(n){var li=document.createElement('li'),a=document.createElement('span'),b=document.createElement('b'),t=document.createElement('i');li.dataset.k=n[0];a.textContent=n[1];t.className='tag';t.textContent='القادمة';a.appendChild(t);b.textContent=f12(S.t[n[0]]);li.appendChild(a);li.appendChild(b);pt.appendChild(li)})}
 function tick(){if(!S)return;
 if(ds()!==S.date&&reload&&Date.now()>retry){retry=Date.now()+6e4;reload()}
@@ -410,19 +418,19 @@ adhanAudio.addEventListener('error',function(){$('#adhanStatus').textContent='ت
 adhanAudio.addEventListener('loadedmetadata',adhanStatus);
 adhanStatus();
 setInterval(tick,1000);document.addEventListener('visibilitychange',function(){if(!document.hidden){tick();setNow()}});
-function estData(){var g=ls.get('zad_geo'),la=36.7538,lo=3.0588,tz=1,z='Africa/Algiers';if(g&&/^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/.test(g)){g=g.split(',');la=+g[0];lo=+g[1];tz=-new Date().getTimezoneOffset()/60;z=null}return{t:est(la,lo,tz),tz:z,date:ds()}}
-function load(url,label,key,silent,eo){var t=++tok;reload=function(){load(url,label,key,true,eo)};
-if(!silent){S=null;pt.textContent='';$('#cdb').hidden=true;var c=null;try{c=JSON.parse(ls.get('zad_pt_'+key)||'null')}catch(e){}
-if(c&&c.t&&c.date===ds())use(c,label);else if(eo)use(estData(),label+' · تقديري');else $('#pd').textContent='جارٍ تحميل المواقيت…'}
-gj(url(),7000).then(function(j){if(t!==tok)return;if(!j||j.code!==200||!j.data||!j.data.timings)throw 0;var d={t:j.data.timings,tz:j.data.meta&&j.data.meta.timezone,date:ds()};ls.set('zad_pt_'+key,JSON.stringify(d));use(d,label)}).catch(function(){
-if(t!==tok)return;if(S&&(S.date===ds()||!eo))return;if(eo)return use(estData(),label+' · تقديري');
-var c=null;try{c=JSON.parse(ls.get('zad_pt_'+key)||'null')}catch(e){}
-if(c&&c.t)use(c,label+' · آخر بيانات محفوظة');else $('#pd').textContent='تعذّر تحميل المواقيت. اضغط «تغيير» وجرّب مدينة أخرى.'})}
-function byCity(c,keep){if(!keep){ls.set('zad_city',c);ls.del('zad_geo')}load(function(){return API+'timingsByAddress/'+ds()+'?method=19&address='+encodeURIComponent(c)},keep?'الجزائر العاصمة':c,'c:'+c.toLowerCase(),false,keep)}
-function byGeo(la,lo){ls.set('zad_geo',la+','+lo);load(function(){return API+'timings/'+ds()+'?method=19&latitude='+la+'&longitude='+lo},'موقعك الحالي','g:'+la+','+lo,false,true)}
-$('#ct').onclick=function(){var v=prompt('اكتب اسم مدينتك، أو اتركه فارغًا لاستخدام موقعك الحالي',ls.get('zad_city')||'');if(v===null)return;v=v.trim().slice(0,80);
-if(v)return byCity(v);if(!navigator.geolocation)return toast('متصفحك لا يدعم تحديد الموقع');toast('جارٍ تحديد موقعك…');
-navigator.geolocation.getCurrentPosition(function(p){byGeo(p.coords.latitude.toFixed(2),p.coords.longitude.toFixed(2))},function(){toast('تعذّر تحديد موقعك. اكتب اسم مدينتك.')},{timeout:8000,maximumAge:6e5})};
+/* حساب المواقيت محليًا: لا API ولا اتصال إنترنت */
+var ALGERIAN_CITIES=[
+['الجزائر العاصمة',36.7538,3.0588],['الدويرة',36.67,2.94],['وهران',35.6971,-0.6308],['قسنطينة',36.365,6.6147],['عنابة',36.9,7.7667],['البليدة',36.47,2.83],['تيبازة',36.5897,2.4475],['المدية',36.2674,2.75],['تيزي وزو',36.7169,4.0497],['بجاية',36.7509,5.0567],['سطيف',36.1911,5.4137],['باتنة',35.5559,6.1741],['بسكرة',34.8504,5.7281],['الجلفة',34.6728,3.263],['الأغواط',33.8,2.865],['غرداية',32.4909,3.6735],['ورقلة',31.9493,5.325],['أدرار',27.8743,-0.2939],['تلمسان',34.8828,-1.3167],['سيدي بلعباس',35.1899,-0.6309],['مستغانم',35.9311,0.0892],['الشلف',36.1653,1.3345],['البويرة',36.3749,3.902],['جيجل',36.8206,5.7667],['سكيكدة',36.8667,6.9],['قالمة',36.4621,7.4261],['سوق أهراس',36.2864,7.9511],['تبسة',35.4042,8.1242],['المسيلة',35.7058,4.5419],['برج بوعريريج',36.0739,4.7611],['تيارت',35.371,1.3169],['سعيدة',34.8303,0.1517],['معسكر',35.3966,0.1403],['غليزان',35.7373,0.5559],['عين الدفلى',36.2641,1.9679],['خنشلة',35.4358,7.1433],['أم البواقي',35.8754,7.1135],['الوادي',33.3561,6.8632],['تمنراست',22.785,5.5228],['بشار',31.6167,-2.2167],['تندوف',27.6711,-8.1474],['إليزي',26.4833,8.4667],['البيض',33.6832,1.0193],['ميلة',36.4503,6.2644],['عين تموشنت',35.2975,-1.1404],['بومرداس',36.7664,3.4772],['النعامة',33.2667,-0.3167],['تيسمسيلت',35.6072,1.8108],['عين صالح',27.2,2.4667],['تقرت',33.1,6.0667]
+];
+var cityList=$('#algeriaCities');
+ALGERIAN_CITIES.forEach(function(x){var o=document.createElement('option');o.value=x[0];cityList.appendChild(o)});
+function offlineLoad(la,lo,label,key){var d={t:est(la,lo,1),tz:'Africa/Algiers',date:ds()};reload=function(){offlineLoad(la,lo,label,key)};use(d,label);ls.set('zad_prayer_location',JSON.stringify({lat:la,lon:lo,label:label,key:key}));}
+function byCity(name){var q=String(name||'').trim().replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/\s+/g,' ');var city=ALGERIAN_CITIES.filter(function(x){var n=x[0].replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي');return n===q})[0];if(!city){toast('لم نعثر على المدينة في القائمة المحلية. جرّب تحديد موقعك بدقة.');return}ls.set('zad_city',city[0]);ls.del('zad_geo');offlineLoad(city[1],city[2],city[0],'city:'+city[0]);}
+function byGeo(la,lo){la=Number(la);lo=Number(lo);if(!isFinite(la)||!isFinite(lo)||Math.abs(la)>90||Math.abs(lo)>180)return toast('تعذّر قراءة إحداثيات الموقع');ls.set('zad_geo',la.toFixed(6)+','+lo.toFixed(6));ls.del('zad_city');offlineLoad(la,lo,'موقعك الحالي','geo:'+la.toFixed(6)+','+lo.toFixed(6));}
+$('#locBtn').onclick=function(){if(!navigator.geolocation)return toast('متصفحك لا يدعم تحديد الموقع');toast('جارٍ طلب موقعك بدقة…');navigator.geolocation.getCurrentPosition(function(p){byGeo(p.coords.latitude,p.coords.longitude);toast('تم تحديد موقعك وحساب المواقيت على جهازك')},function(e){toast(e&&e.code===1?'اسمح للموقع بالوصول إلى موقعك من إعدادات المتصفح':'تعذّر تحديد الموقع. ابحث عن مدينتك يدويًا')},{enableHighAccuracy:true,timeout:20000,maximumAge:0});};
+function searchCity(){var v=$('#citySearch').value.trim();if(!v)return toast('اكتب اسم المدينة أولًا');byCity(v)}
+$('#citySearchBtn').onclick=searchCity;$('#citySearch').addEventListener('keydown',function(e){if(e.key==='Enter')searchCity()});
+(function(){var g=ls.get('zad_geo'),c=ls.get('zad_city');if(g&&/^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/.test(g)){g=g.split(',');byGeo(g[0],g[1])}else if(c){byCity(c)}else{byCity('الجزائر العاصمة')}})();
 window.addEventListener('online',function(){reload&&reload()});
 (function(){var g=ls.get('zad_geo'),c=ls.get('zad_city');if(g&&/^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/.test(g)){g=g.split(',');byGeo(g[0],g[1])}else byCity(c||'Algiers',!c)})();
 

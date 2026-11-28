@@ -401,11 +401,11 @@ ul{list-style:none}
 .section{padding:50px 0}
 .section-alt{background:var(--card)}
 .section-head{text-align:center;margin-bottom:36px}
-.section-head h2{
+.section-head h1, .section-head h2{
   font-size:2rem;color:var(--ink);margin-bottom:10px;
   position:relative;display:inline-block;
 }
-.section-head h2::after{
+.section-head h1, .section-head h2::after{
   content:"";position:absolute;bottom:-8px;left:20%;right:20%;
   height:2px;background:var(--accent);border-radius:2px;
 }
@@ -695,7 +695,7 @@ body.dark .back-to-top{background:var(--accent);color:#1a1a1a}
   .dashboard{grid-template-columns:1fr}
   .hadith-grid{grid-template-columns:1fr}
   .section{padding:30px 0}
-  .section-head h2{font-size:1.7rem}
+  .section-head h1, .section-head h2{font-size:1.7rem}
   .azkar-text{font-size:1.05rem}
   .quran-reader{font-size:1.15rem;padding:20px}
 }

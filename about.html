@@ -567,6 +567,13 @@ footer p{color:var(--muted);font-size:.92rem;line-height:1.9}
 @media(max-width:520px){.orbit-art{min-height:310px}.orbit-core.logo-core{width:142px!important;height:142px!important;border-radius:24px!important}.premium-library{height:300px!important;min-height:285px}.mushaf-frame{height:245px;width:57%;border-radius:125px 125px 15px 15px;padding:6px}.library-book{width:100px;min-height:47px;padding:6px 7px}.library-book span{font-size:.79rem}.library-book small{font-size:.58rem}.library-books{left:-4%;bottom:12px;gap:6px}.mushaf-frame figcaption span{font-size:1.12rem}}
 @media(prefers-reduced-motion:reduce){.brand-orbit,.logo-core img,.mushaf-frame,.library-book,.library-orbit{animation:none!important}}
 
+
+/* إطارات موحّدة لصور البطاقات المختارة في صفحة عن الموقع */
+#offer .about-photo-frame{width:100%;height:148px;flex:0 0 148px;overflow:hidden;border-radius:15px;border:1px solid color-mix(in srgb,var(--gold) 38%,var(--line));background:var(--card2);margin-bottom:18px;position:relative}
+#offer .about-photo-frame img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+#offer .feat{height:100%;min-height:390px}
+@media(max-width:860px){#offer .about-photo-frame{height:138px;flex-basis:138px}#offer .feat{min-height:370px}}
+@media(max-width:520px){#offer .about-photo-frame{height:132px;flex-basis:132px}}
 </style>
 </head>
 <body>
@@ -703,17 +710,17 @@ footer p{color:var(--muted);font-size:.92rem;line-height:1.9}
     <div class="head rv"><span class="chip">أقسام ومميزات المنصة</span><h2>ماذا أردت أن أقدم من خلال زاد عبيدة؟</h2><p>جميع صفحات ومميزات الموقع في مكان واحد منظم ومجاني:</p></div>
     <div class="grid">
       <a class="feat rv" href="./index.html"><div class="feat-top"><i aria-hidden="true">🏠</i><em>الواجهة</em></div><b>الصفحة الرئيسية</b><span>مدخل شامل يجمع أهم الأقسام اليومية ومواقيت الصلاة في واجهة هادئة.</span></a>
-      <a class="feat rv" href="./quran.html"><div class="feat-top"><i aria-hidden="true">📖</i><em>تلاوة</em></div><b>القرآن الكريم</b><span>ليكون كتاب الله قريبًا من المسلم في يومه بتصفح مريح وواضح.</span></a>
+      <a class="feat rv" href="./quran.html"><div class="about-photo-frame"><img src="./assets/images%20(2).jpeg" alt="صفحات من القرآن الكريم" loading="lazy"></div><div class="feat-top"><i aria-hidden="true">📖</i><em>تلاوة</em></div><b>القرآن الكريم</b><span>ليكون كتاب الله قريبًا من المسلم في يومه بتصفح مريح وواضح.</span></a>
       <a class="feat rv" href="./adhkar.html"><div class="feat-top"><i aria-hidden="true">📿</i><em>حصن المسلم</em></div><b>الأذكار العامة</b><span>مجموعة شاملة من الأذكار اليومية والمأثورة بتصميم يسهل القراءة والتسبيح.</span></a>
-      <a class="feat rv" href="./azkar-morning.html"><div class="feat-top"><i aria-hidden="true">🌅</i><em>بداية اليوم</em></div><b>أذكار الصباح</b><span>أذكار الصباح كاملة مع عداد تفاعلي وميزة المواظبة وتركيز النص.</span></a>
-      <a class="feat rv" href="./azkar-evening.html"><div class="feat-top"><i aria-hidden="true">🌇</i><em>ختام النهار</em></div><b>أذكار المساء</b><span>أذكار المساء مرتبة بوضوح وسلاسة لتعين المسلم على ذكر الله مساءً.</span></a>
-      <a class="feat rv" href="./azkar-sleep.html"><div class="feat-top"><i aria-hidden="true">🌙</i><em>السكينة</em></div><b>أذكار النوم</b><span>أذكار ما قبل النوم وآدابه لتطمئن النفس قبل المبيت.</span></a>
+      <a class="feat rv" href="./azkar-morning.html"><div class="about-photo-frame"><img src="./assets/images%20(3).jpeg" alt="سماء الصباح" loading="lazy"></div><div class="feat-top"><i aria-hidden="true">🌅</i><em>بداية اليوم</em></div><b>أذكار الصباح</b><span>أذكار الصباح كاملة مع عداد تفاعلي وميزة المواظبة وتركيز النص.</span></a>
+      <a class="feat rv" href="./azkar-evening.html"><div class="about-photo-frame"><img src="./assets/139160274_15928917215981n.jpg" alt="غروب الشمس" loading="lazy"></div><div class="feat-top"><i aria-hidden="true">🌇</i><em>ختام النهار</em></div><b>أذكار المساء</b><span>أذكار المساء مرتبة بوضوح وسلاسة لتعين المسلم على ذكر الله مساءً.</span></a>
+      <a class="feat rv" href="./azkar-sleep.html"><div class="about-photo-frame"><img src="./assets/images%20(4).jpeg" alt="هلال أذكار النوم" loading="lazy"></div><div class="feat-top"><i aria-hidden="true">🌙</i><em>السكينة</em></div><b>أذكار النوم</b><span>أذكار ما قبل النوم وآدابه لتطمئن النفس قبل المبيت.</span></a>
       <a class="feat rv" href="./nawawi.html"><div class="feat-top"><i aria-hidden="true">📜</i><em>السنة</em></div><b>الأحاديث النبوية (الأربعون النووية)</b><span>للتعرف على جوامع الكلم من سنة رسول الله ﷺ من مصادر موثوقة.</span></a>
       <a class="feat rv" href="./sahihayn.html"><div class="feat-top"><i aria-hidden="true">📚</i><em>أصح الكتب</em></div><b>مختارات الصحيحين</b><span>أحاديث منتقاة من صحيحي البخاري ومسلم مع بيان التخريج والفائدة.</span></a>
       <a class="feat rv" href="./duas.html"><div class="feat-top"><i aria-hidden="true">🤲</i><em>مناجاة</em></div><b>الأدعية المأثورة</b><span>أدعية من القرآن الكريم والسنة النبوية لمختلف أحوال المسلم.</span></a>
       <a class="feat rv" href="./articles.html"><div class="feat-top"><i aria-hidden="true">✍️</i><em>فوائد</em></div><b>المقالات الإسلامية</b><span>لنشر العلم والمعرفة والتذكير بأسلوب واضح ومبسط للجميع.</span></a>
       <a class="feat rv" href="./wird.html"><div class="feat-top"><i aria-hidden="true">✅</i><em>متابعة</em></div><b>الورد اليومي</b><span>لمساعدة المستخدم على تنظيم عباداته اليومية ومتابعة إنجازه باستمرار.</span></a>
-      <a class="feat rv" href="./index.html#prayer"><div class="feat-top"><i aria-hidden="true">🕌</i><em>الصلوات</em></div><b>مواقيت الصلاة</b><span>لمساعدة المسلم على المحافظة على صلاته في أوقاتها بدقة.</span></a>
+      <a class="feat rv" href="./index.html#prayer"><div class="about-photo-frame"><img src="./assets/images%20(1).jpeg" alt="المسجد النبوي" loading="lazy"></div><div class="feat-top"><i aria-hidden="true">🕌</i><em>الصلوات</em></div><b>مواقيت الصلاة</b><span>لمساعدة المسلم على المحافظة على صلاته في أوقاتها بدقة.</span></a>
       <a class="feat rv" href="./adhkar.html#my-adhkar"><div class="feat-top"><i aria-hidden="true">🔖</i><em>مساحتك</em></div><b>أذكاري الخاصة</b><span>مساحة شخصية يستطيع فيها المستخدم حفظ أذكاره الخاصة والعودة إليها.</span></a>
       <a class="feat rv" href="./opinions.html"><div class="feat-top"><i aria-hidden="true">💬</i><em>مشاركتكم</em></div><b>آراؤكم واقتراحاتكم</b><span>مساحة مفتوحة لسماع ملاحظات الزوار وتطوير المنصة بأفكارهم النافعة.</span></a>
     </div>

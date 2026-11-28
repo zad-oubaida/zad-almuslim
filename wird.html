@@ -493,7 +493,17 @@ document.getElementById('year').textContent = new Date().getFullYear();
   const parse = s => { const p = s.split('-').map(Number); return new Date(p[0], p[1] - 1, p[2]); };
   const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
   const load = (k, def) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : def; } catch (e) { return def; } };
-  const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+  // لا نعتبر الحفظ ناجحًا إلا بعد قراءة القيمة والتحقق منها.
+  const save = (k, v) => {
+    try {
+      const raw = JSON.stringify(v);
+      localStorage.setItem(k, raw);
+      return localStorage.getItem(k) === raw;
+    } catch (e) {
+      console.warn('[Wird] تعذّر حفظ البيانات:', k, e);
+      return false;
+    }
+  };
   const reduceMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const now = new Date();
@@ -770,9 +780,9 @@ document.getElementById('year').textContent = new Date().getFullYear();
     const cs = challengeStatus();
     if (cs.status === 'active') return;
     ch = { startDate: todayKey, celebrated: false };
-    save(KEYS.ch, ch);
+    const saved = save(KEYS.ch, ch);
     renderChallenge();
-    toast('بدأ التحدي! 🏆 بالتوفيق');
+    toast(saved ? 'بدأ التحدي! 🏆 بالتوفيق' : 'تعذّر حفظ التحدي على هذا الجهاز.');
   });
 
   /* التقويم */
@@ -850,8 +860,14 @@ document.getElementById('year').textContent = new Date().getFullYear();
     const was = hist.has(todayKey);
     const nowAll = allDone();
     if (nowAll) hist.add(todayKey); else hist.delete(todayKey);
-    save(KEYS.day, state); save(KEYS.counts, counts); persistHist();
+    const savedDay = save(KEYS.day, state);
+    const savedCounts = save(KEYS.counts, counts);
+    const savedHistory = persistHist();
     renderAll();
+    if (!savedDay || !savedCounts || !savedHistory) {
+      toast('تنبيه: تعذّر تأكيد حفظ التقدم على هذا الجهاز. تحقق من مساحة التخزين أو إعدادات المتصفح.');
+      return;
+    }
     if (nowAll && !was) {
       confetti(); buzz([30, 40, 30]);
       toast('تقبّل الله طاعتك 🤍 أتممت ورد اليوم');

@@ -49,8 +49,14 @@ const CORE_ASSETS = [
   './articles.html',
   './about.html',
   './opinions.html',
+  './quran-audio.html',
+  './sahihayn.html',
+  './privacy.html',
+  './quran.json',
 
   './assets/style.css',
+  './assets/style.css?v=20261128-2',
+  './assets/style.css?v=20261128-3',
   './assets/zad-redesign.css',
 
   './assets/data.js',
@@ -58,6 +64,8 @@ const CORE_ASSETS = [
   './assets/zad-redesign.js',
   './assets/install-modal.js',
   './assets/mobile-menu.js?v=20261123-2',
+  './assets/mobile-menu.js?v=20261128-1',
+  './assets/app.js?v=20261128-3',
 
   './logo-zad-almuslim.webp.png',
   './manifest.json'
@@ -378,6 +386,12 @@ self.addEventListener('fetch', event => {
   /* صفحات HTML */
   if (req.mode === 'navigate') {
     event.respondWith(handleNavigation(event));
+    return;
+  }
+
+  /* بيانات القرآن: تُخزّن مسبقًا في STATIC_CACHE وتُقدّم منه دون اتصال */
+  if (/\\/quran\\.json$/.test(url.pathname)) {
+    event.respondWith(cacheFirst(event, STATIC_CACHE));
     return;
   }
 
